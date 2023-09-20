@@ -2,7 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples</groupId>
-	<artifactId>spring-petclinic</artifactId>
+	<artifactId>G1-05</artifactId>
 	<version>2.2.0.BUILD-SNAPSHOT</version>
 
 	<parent>
@@ -10,7 +10,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.1</version>
 	</parent>
-	<name>PetClinic React</name>
+	<name>DP1--2023-2024-L1-5</name>
 
 	<properties>
 
@@ -35,6 +35,36 @@
 	</properties>
 
 	<developers>
+	<developer>
+			<id>Nicolás </id>
+			<name>Nicolás Herrera Lobo</name>
+			<email>nicherlob@alum.us.es</email>
+	</developer>
+	<developer>
+			<id>Alvaro </id>
+			<name>Alvaro Jesús Bernal </name>
+			<email>albvercau@alum.us.es</email>
+	</developer>
+	<developer>
+			<id>Ronald </id>
+			<name>Ronald Alexander Montoya Albitres</name>
+			<email>ronmonalb@alum.us.es</email>
+	</developer>
+	<developer>
+			<id>Lucas </id>
+			<name>Lucas Antoñanzas  del Villar</name>
+			<email>lucantdel@alum.us.es</email>
+	</developer>
+	<developer>
+			<id>Guillermo </id>
+			<name>Guillermo Gómez Romero</name>
+			<email>guigomrom@alum.us.es</email>
+	</developer>
+	<developer>
+			<id>Manuel</id>
+			<name>Manuel Orta Perez</name>
+			<email>manortper@alum.us.es</email>
+	</developer>
 		<developer>
 			<name>JAParejo</name>
 			<email>japarejo@gmail.com</email>
