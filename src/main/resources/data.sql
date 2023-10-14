@@ -143,3 +143,19 @@ INSERT INTO consultation_tickets(id,description,creation_date, user_id, consulta
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (6, 'Try to give him some tuna to check if he eats that.', '2023-04-11 15:20', 15, 3);
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (7, 'My lovebird doesn''t sing as my neighbour''s one.', '2023-02-24 12:30', 5, 4);
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (8, 'Lovebirds do not sing.', '2023-02-24 18:30', 16, 4);
+
+-- Inserta un registro de PlayerStatistic
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
+VALUES (1, 10, 5, 5, 0, 250, 120, 10);
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration) 
+VALUES (3, 100, 80, 20, 1000, 320, 400, 180);
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration)
+VALUES (2, 15, 10, 5, 50, 280, 150, 20);
+
+
+
+-- Inserta un registro de GameStatistic
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (1, 'alvarobernal2412', 120, 14);
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (2, 'ronaldDinamita', 150, 22);
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nicherlob', 180, 12);
+
