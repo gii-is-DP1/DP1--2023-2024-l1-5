@@ -44,6 +44,20 @@ INSERT INTO appusers(id,username,password,authority) VALUES (17,'vet4','$2a$10$a
 INSERT INTO appusers(id,username,password,authority) VALUES (18,'vet5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
 INSERT INTO appusers(id,username,password,authority) VALUES (19,'vet6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
 
+INSERT INTO authorities(id,authority) VALUES(5,'PLAYER');
+INSERT INTO appusers(id,username,password,authority) VALUES (200,'player0','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (201,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (202,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+
+
+INSERT INTO players(id,user_id) VALUES(1,200);
+INSERT INTO players(id,user_id) VALUES(2,201);
+INSERT INTO players(id,user_id) VALUES(3,202);
+
+INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
+INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
+
+
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (3, 'Linda', 'Douglas','Sevilla', 2, 16);
