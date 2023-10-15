@@ -176,3 +176,7 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (1, 'alva
 INSERT INTO game_statistics (id, result, game_duration, points) VALUES (2, 'ronaldDinamita', 150, 22);
 INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nicherlob', 180, 12);
 
+-- Inserta un registro de Deck
+
+INSERT INTO deck(id, number_of_cards) VALUES (1, 16);
+INSERT INTO deck(id, number_of_cards) VALUES (2, 44);
