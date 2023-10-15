@@ -57,6 +57,9 @@ INSERT INTO players(id,user_id) VALUES(3,202);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(1,2,3,'00:02:30','PIT');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(3,4,5,'00:01:15','PIT');
 
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
