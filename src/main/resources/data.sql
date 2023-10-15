@@ -57,6 +57,14 @@ INSERT INTO players(id,user_id) VALUES(3,202);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
+INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
+
+INSERT INTO symbol(name) VALUES('DOG');
+INSERT INTO symbol(name) VALUES('IGLOO');
+INSERT INTO symbol(name) VALUES('CLOWN');
+
+INSERT INTO hand(id,num_cartas) VALUES(1,6);
+
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,3,80,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,4,93,'WAITING');
