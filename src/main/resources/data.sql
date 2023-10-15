@@ -57,6 +57,14 @@ INSERT INTO players(id,user_id) VALUES(3,202);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
+INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
+
+INSERT INTO symbol(name) VALUES('DOG');
+INSERT INTO symbol(name) VALUES('IGLOO');
+INSERT INTO symbol(name) VALUES('CLOWN');
+
+INSERT INTO hand(num_cartas) VALUES(6);
+
 
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
