@@ -63,7 +63,7 @@ INSERT INTO symbol(name) VALUES('DOG');
 INSERT INTO symbol(name) VALUES('IGLOO');
 INSERT INTO symbol(name) VALUES('CLOWN');
 
-INSERT INTO hand(num_cartas) VALUES(6);
+INSERT INTO hand(id,num_cartas) VALUES(1,6);
 
 
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
