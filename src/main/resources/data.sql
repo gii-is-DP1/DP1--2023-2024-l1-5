@@ -75,6 +75,11 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(2,3,4,'00
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(3,4,5,'00:01:15','PIT');
 
 
+INSERT INTO round_player(player_id,round_id) VALUES(3,1);
+INSERT INTO round_player(player_id,round_id) VALUES(2,1);
+INSERT INTO round_player(player_id,round_id) VALUES(1,1);
+
+
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (3, 'Linda', 'Douglas','Sevilla', 2, 16);

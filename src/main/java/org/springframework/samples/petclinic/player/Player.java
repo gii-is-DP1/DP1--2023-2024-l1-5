@@ -15,10 +15,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set; 
 import java.util.HashSet;
+import java.util.List;
+import org.springframework.samples.petclinic.round.Round;
 
 
 @Getter
@@ -42,6 +45,10 @@ public class Player extends BaseEntity{
 
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
+
+	@ManyToMany(mappedBy = "players")
+	@Size(min = 1, max = 5)
+	private List<Round> rounds;
 
 
 }
