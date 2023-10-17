@@ -164,6 +164,11 @@ INSERT INTO consultation_tickets(id,description,creation_date, user_id, consulta
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (7, 'My lovebird doesn''t sing as my neighbour''s one.', '2023-02-24 12:30', 5, 4);
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (8, 'Lovebirds do not sing.', '2023-02-24 18:30', 16, 4);
 
+
+INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (1, 'Guille8', 'Lucas24', 'ACCEPTED');
+INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
+INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
+
 INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME', 'LOCKED');
 INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES', 'UNLOCKED');
 -- Inserta un registro de PlayerStatistic
@@ -185,6 +190,5 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nich
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);
 INSERT INTO chats (id) VALUES (3);
-
 
 
