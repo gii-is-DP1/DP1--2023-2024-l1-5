@@ -179,3 +179,10 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (1, 'alva
 INSERT INTO game_statistics (id, result, game_duration, points) VALUES (2, 'ronaldDinamita', 150, 22);
 INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nicherlob', 180, 12);
 
+
+INSERT INTO chats (id) VALUES (1);
+INSERT INTO chats (id) VALUES (2);
+INSERT INTO chats (id) VALUES (3);
+
+
+
