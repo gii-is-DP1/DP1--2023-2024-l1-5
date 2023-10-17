@@ -70,9 +70,9 @@ INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_s
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,4,93,'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,2,135,'FINALIZED');
 
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(1,2,3,'00:02:30','PIT');
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER');
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(3,4,5,'00:01:15','PIT');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'00:02:30','PIT',1);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER',2);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'00:01:15','PIT',1);
 
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
