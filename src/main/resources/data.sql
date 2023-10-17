@@ -164,6 +164,8 @@ INSERT INTO consultation_tickets(id,description,creation_date, user_id, consulta
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (7, 'My lovebird doesn''t sing as my neighbour''s one.', '2023-02-24 12:30', 5, 4);
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (8, 'Lovebirds do not sing.', '2023-02-24 18:30', 16, 4);
 
+INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME', 'LOCKED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES', 'UNLOCKED');
 -- Inserta un registro de PlayerStatistic
 INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
 VALUES (1, 10, 5, 5, 0, 250, 120, 10);
