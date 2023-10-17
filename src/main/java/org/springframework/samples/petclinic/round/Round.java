@@ -3,11 +3,14 @@ package org.springframework.samples.petclinic.round;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Temporal;
+import org.springframework.samples.petclinic.game.Game;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 
@@ -39,5 +42,11 @@ public class Round extends BaseEntity{
     @NotNull
     @Column(name = "round_mode", columnDefinition = "varchar(20)")
     private RoundMode roundMode;
+    
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "game_id")
+    private Game game;
+
 
 }
