@@ -57,6 +57,26 @@ INSERT INTO players(id,user_id) VALUES(3,202);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
+INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
+
+INSERT INTO symbol(name) VALUES('DOG');
+INSERT INTO symbol(name) VALUES('IGLOO');
+INSERT INTO symbol(name) VALUES('CLOWN');
+
+INSERT INTO hand(id,num_cartas) VALUES(1,6);
+
+
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,3,80,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,4,93,'WAITING');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,2,135,'FINALIZED');
+
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(1,2,3,'00:02:30','PIT');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(3,4,5,'00:01:15','PIT');
+
+INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
+INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
+INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
 
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
@@ -144,6 +164,31 @@ INSERT INTO consultation_tickets(id,description,creation_date, user_id, consulta
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (7, 'My lovebird doesn''t sing as my neighbour''s one.', '2023-02-24 12:30', 5, 4);
 INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (8, 'Lovebirds do not sing.', '2023-02-24 18:30', 16, 4);
 
+
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (1, 'Guille8', 'Lucas24', 'ACCEPTED');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
+
+INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME', 'LOCKED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES', 'UNLOCKED');
+-- Inserta un registro de PlayerStatistic
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
+VALUES (1, 10, 5, 5, 0, 250, 120, 10);
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration) 
+VALUES (3, 100, 80, 20, 1000, 320, 400, 180);
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration)
+VALUES (2, 15, 10, 5, 50, 280, 150, 20);
+
+
+
+-- Inserta un registro de GameStatistic
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (1, 'alvarobernal2412', 120, 14);
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (2, 'ronaldDinamita', 150, 22);
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nicherlob', 180, 12);
+
+
+INSERT INTO chats (id) VALUES (1);
+INSERT INTO chats (id) VALUES (2);
+INSERT INTO chats (id) VALUES (3);
+
+
