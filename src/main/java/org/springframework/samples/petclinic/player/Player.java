@@ -12,15 +12,14 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set; 
 import java.util.HashSet;
-import java.util.List;
 import org.springframework.samples.petclinic.round.Round;
 
 
@@ -46,9 +45,9 @@ public class Player extends BaseEntity{
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
 
-	@ManyToMany(mappedBy = "players")
-	@Size(min = 1, max = 5)
-	private List<Round> rounds;
+	@ManyToOne
+	@JoinColumn(name = "round_id")
+	private Round round;
 
 
 }
