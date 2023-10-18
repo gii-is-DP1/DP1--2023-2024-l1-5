@@ -62,6 +62,10 @@ INSERT INTO players(id,user_id) VALUES(1,200);
 INSERT INTO players(id,user_id) VALUES(2,201);
 INSERT INTO players(id,user_id,round_id) VALUES(3,202,2);
 
+INSERT INTO player_games(player_id,game_id) VALUES(1,1);
+INSERT INTO player_games(player_id,game_id) VALUES(2,1);
+
+
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
@@ -72,9 +76,6 @@ INSERT INTO symbol(name) VALUES('IGLOO');
 INSERT INTO symbol(name) VALUES('CLOWN');
 
 INSERT INTO hand(id,num_cartas) VALUES(1,6);
-
-
-
 
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
