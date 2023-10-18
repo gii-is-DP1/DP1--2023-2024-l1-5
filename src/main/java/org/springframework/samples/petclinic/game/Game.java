@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.player.Player;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +17,7 @@ import lombok.Setter;
 import org.springframework.samples.petclinic.round.Round;
 import java.util.List;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
 
 @Getter
 @Setter
@@ -53,5 +55,8 @@ public class Game extends BaseEntity{
     @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
     @Size(min = 1, max = 5)
     private List<Round> rounds;
+
+    @ManyToMany(mappedBy = "game_list")
+    private List<Player> players;
 
 }
