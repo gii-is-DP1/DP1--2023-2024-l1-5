@@ -50,9 +50,13 @@ INSERT INTO appusers(id,username,password,authority) VALUES (201,'player1','$2a$
 INSERT INTO appusers(id,username,password,authority) VALUES (202,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(1,2,3,'00:02:30','PIT');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER');
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode) VALUES(3,4,5,'00:01:15','PIT');
+
 INSERT INTO players(id,user_id) VALUES(1,200);
 INSERT INTO players(id,user_id) VALUES(2,201);
-INSERT INTO players(id,user_id) VALUES(3,202);
+INSERT INTO players(id,user_id,round_id) VALUES(3,202,2);
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
@@ -70,6 +74,7 @@ INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_s
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,4,93,'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,2,135,'FINALIZED');
 
+
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'00:02:30','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER',2);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'00:01:15','PIT',1);
@@ -77,6 +82,7 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
+
 
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
 INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
