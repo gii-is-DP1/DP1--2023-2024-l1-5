@@ -69,13 +69,15 @@ INSERT INTO player_games(player_id,game_id) VALUES(2,1);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
-INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
+
+INSERT INTO hand(id,num_cartas) VALUES(1,6);
+
+INSERT INTO card(id,image, hand_id) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png',1);
 
 INSERT INTO symbol(name) VALUES('DOG');
 INSERT INTO symbol(name) VALUES('IGLOO');
 INSERT INTO symbol(name) VALUES('CLOWN');
 
-INSERT INTO hand(id,num_cartas) VALUES(1,6);
 
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
