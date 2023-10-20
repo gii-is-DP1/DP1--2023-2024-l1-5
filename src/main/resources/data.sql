@@ -70,10 +70,35 @@ INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
 INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO card(id,image) VALUES(2,'https://i.imgur.com/1Q2Qj1M.png');
 
+INSERT INTO symbol(name) VALUES('DOLPHIN');
+INSERT INTO symbol(name) VALUES('GLASSES');
+INSERT INTO symbol(name) VALUES('THUNDER');
+INSERT INTO symbol(name) VALUES('GHOST');
+INSERT INTO symbol(name) VALUES('SNOWMAN');
 INSERT INTO symbol(name) VALUES('DOG');
 INSERT INTO symbol(name) VALUES('IGLOO');
 INSERT INTO symbol(name) VALUES('CLOWN');
+
+
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'DOLPHIN');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'GLASSES');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'THUNDER');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'GHOST');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'SNOWMAN');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'DOG');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'IGLOO');
+INSERT INTO card_symbol(card_id, symbol) VALUES(1,'CLOWN');
+
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'DOLPHIN');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'GLASSES');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'THUNDER');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'GHOST');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'SNOWMAN');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'DOG');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'IGLOO');
+INSERT INTO card_symbol(card_id, symbol) VALUES(2,'CLOWN');
 
 INSERT INTO hand(id,num_cartas) VALUES(1,6);
 
