@@ -5,6 +5,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +49,7 @@ public class Player extends BaseEntity{
 
 	@ManyToOne
 	@JoinColumn(name = "round_id")
+	@JsonIgnore
 	private Round round;
 
 

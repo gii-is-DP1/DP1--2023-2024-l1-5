@@ -14,8 +14,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.round.Round;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -29,11 +33,9 @@ public class Game extends BaseEntity{
     private GameMode gameMode;
 
     @Column(name = "num_players")
-    @NotNull
     private Integer numPlayers;
 
     @Column(name = "winner_id")
-    @NotNull
     private Integer winner;
 
     @Column(name = "creator_id")
@@ -41,7 +43,6 @@ public class Game extends BaseEntity{
     private Integer creator;
 
     @Column(name = "game_time")
-    @NotNull
     private Integer gameTime;
 
     @Enumerated(EnumType.STRING)
@@ -49,9 +50,15 @@ public class Game extends BaseEntity{
 	@Column(name = "game_status", columnDefinition = "varchar(20)")
 	private GameStatus status;
 
+    // @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
+    // @Size(min = 1, max = 5)
+    // private List<Round> rounds;
 
-    @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
-    @Size(min = 1, max = 5)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA
     private List<Round> rounds;
 
+    public void setGameStatus(GameStatus status) {
+        this.status = status;
+    }
 }

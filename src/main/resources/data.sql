@@ -57,7 +57,6 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER',2);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'00:01:15','PIT',1);
 
-
 INSERT INTO players(id,user_id) VALUES(1,200);
 INSERT INTO players(id,user_id) VALUES(2,201);
 INSERT INTO players(id,user_id,round_id) VALUES(3,202,2);

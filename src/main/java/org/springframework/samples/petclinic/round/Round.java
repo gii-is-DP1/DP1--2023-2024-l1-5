@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.round;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Temporal;
 import java.util.List;
 import org.springframework.samples.petclinic.player.Player;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.OneToMany;
 import org.springframework.samples.petclinic.game.Game;
 
@@ -48,14 +52,17 @@ public class Round extends BaseEntity{
     @Column(name = "round_mode", columnDefinition = "varchar(20)")
     private RoundMode roundMode;
     
+    
     @ManyToOne
     @NotNull
     @JoinColumn(name = "game_id")
+    @JsonIgnore
     private Game game;
 
 
     @OneToMany(mappedBy = "round", fetch = FetchType.EAGER)
     @Size(min = 2, max = 8)
+    // @JsonIgnore
     private List<Player> players;
 
 }
