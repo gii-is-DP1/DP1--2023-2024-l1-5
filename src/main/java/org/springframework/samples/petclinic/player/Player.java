@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.player;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
 
@@ -12,16 +13,21 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set; 
 import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.samples.petclinic.round.Round;
 
 
@@ -47,10 +53,15 @@ public class Player extends BaseEntity{
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
 
-	@ManyToOne
-	@JoinColumn(name = "round_id")
-	@JsonIgnore
-	private Round round;
+	// @ManyToOne
+	// @JoinColumn(name = "round_id")
+	// @JsonIgnore
+	// private Round round;
+
+	//IMPORTANTE: COMPROBAR QUE FUNCIONA ESTA RELACIÓN
+	
+	// @ManyToMany(mappedBy = "players")
+    // private List<Hand> hands;
 
 
 }

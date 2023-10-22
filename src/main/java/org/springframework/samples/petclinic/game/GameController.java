@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
+import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +25,8 @@ import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.http.HttpStatus;
 
-
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -59,9 +63,14 @@ public class GameController {
         return new ResponseEntity<>(g.get(), HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Partida creada exitosamente"),
+        @ApiResponse(responseCode = "409", description ="El jugador ya tiene una partida activa",content = @io.swagger.v3.oas.annotations.media.Content)
+    })
     @PostMapping()
     public ResponseEntity<Game> createGame(@Valid @RequestBody GameRequest gameRequest) throws DataAccessException{ 
-        // IMPORTANTE: Se debe comprobar antes que el usuario no tiene una partida en curso ni en espera creada
+        // IMPORTANTE: Pensar cuando se crea la ronda (creo que aquí)
+        
         User user = userService.findCurrentUser();
         Game newGame = new Game();
         
@@ -70,13 +79,20 @@ public class GameController {
 
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
-            // Establecer los valores predeterminados para los atributos
-            newGame.setGameMode(gameRequest.getGameMode());
-            newGame.setCreator(player.getId());
-            newGame.setGameStatus(GameStatus.WAITING);
-            newGame.setNumPlayers(0);
-            newGame.setGameTime(0);
-            savedGame = this.gameService.saveGame(newGame);
+            boolean hasActiveGame = gameService.hasActiveGame(player);
+
+            if (hasActiveGame) {
+                throw new ActiveGameException("El jugador ya tiene una partida activa");
+            }else{
+                // Establecer los valores predeterminados para los atributos
+                newGame.setGameMode(gameRequest.getGameMode());
+                newGame.setCreator(player);
+                newGame.setGameStatus(GameStatus.WAITING);
+                newGame.setNumPlayers(0);
+                newGame.setGameTime(0);
+                savedGame = this.gameService.saveGame(newGame);
+
+            }
         } else {
 			savedGame = this.gameService.saveGame(newGame);
 		}

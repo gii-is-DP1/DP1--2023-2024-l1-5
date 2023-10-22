@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.OneToMany;
 import org.springframework.samples.petclinic.game.Game;
-
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
@@ -59,10 +59,13 @@ public class Round extends BaseEntity{
     @JsonIgnore
     private Game game;
 
+    // IMPORTANTE: COMPROBAR
+    // @OneToMany(mappedBy = "round", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // private List<Hand> hands;
 
-    @OneToMany(mappedBy = "round", fetch = FetchType.EAGER)
-    @Size(min = 2, max = 8)
-    // @JsonIgnore
-    private List<Player> players;
+    // @OneToMany(mappedBy = "round", fetch = FetchType.EAGER)
+    // @Size(min = 2, max = 8)
+    // // @JsonIgnore
+    // private List<Player> players;
 
 }

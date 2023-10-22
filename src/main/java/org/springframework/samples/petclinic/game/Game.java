@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.player.Player;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Getter
@@ -38,9 +40,15 @@ public class Game extends BaseEntity{
     @Column(name = "winner_id")
     private Integer winner;
 
-    @Column(name = "creator_id")
+    // @Column(name = "creator_id")
+    // @NotNull
+    // private Integer creator;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
-    private Integer creator;
+    @JsonIgnore
+    private Player creator;
 
     @Column(name = "game_time")
     private Integer gameTime;
@@ -55,7 +63,7 @@ public class Game extends BaseEntity{
     // private List<Round> rounds;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA
+    // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
 
     public void setGameStatus(GameStatus status) {
