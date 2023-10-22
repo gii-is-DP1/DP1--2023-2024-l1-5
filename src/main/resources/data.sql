@@ -69,8 +69,6 @@ INSERT INTO player_games(player_id,game_id) VALUES(2,1);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
-INSERT INTO card(id,image) VALUES(1,'https://i.imgur.com/1Q2Qj1M.png');
-
 INSERT INTO symbol(name) VALUES('DOG');
 INSERT INTO symbol(name) VALUES('IGLOO');
 INSERT INTO symbol(name) VALUES('CLOWN');
@@ -193,9 +191,11 @@ INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola B
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
 -- Inserta un registro de Deck
-INSERT INTO deck(id, number_of_cards) VALUES (1, 16);
-INSERT INTO deck(id, number_of_cards) VALUES (2, 44);
+INSERT INTO decks(id, number_of_cards) VALUES (1, 16);
+INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
 
+INSERT INTO cards(id,image,deck_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1);
+INSERT INTO cards(id,image,deck_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1);
 
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);
