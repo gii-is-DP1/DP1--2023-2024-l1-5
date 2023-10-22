@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorContro
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
+import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -33,6 +34,10 @@ public class ExceptionHandlerConfiguration
     //EXCEPTION HANDLER FOR ACTIVE GAME EXCEPTION
     @ExceptionHandler(ActiveGameException.class)
     public ResponseEntity<String> handleActiveGameException(ActiveGameException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(WaitingGameException.class)
+    public ResponseEntity<String> handleWaitingGameException(WaitingGameException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

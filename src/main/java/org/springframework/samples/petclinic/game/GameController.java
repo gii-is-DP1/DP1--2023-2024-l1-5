@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,12 +63,13 @@ public class GameController {
 
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Partida creada exitosamente"),
+        // Añado un nuevo código de estado sin documentar en swagger
         @ApiResponse(responseCode = "409", description ="El jugador ya tiene una partida activa",content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @PostMapping()
-    public ResponseEntity<Game> createGame(@Valid @RequestBody GameRequest gameRequest) throws DataAccessException{ 
-        // IMPORTANTE: Pensar cuando se crea la ronda (creo que aquí)
-        
+    public ResponseEntity<Game> createGame(@Valid @RequestBody GameRequest gameRequest) throws DataAccessException{
+        //POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO
+
         User user = userService.findCurrentUser();
         Game newGame = new Game();
         

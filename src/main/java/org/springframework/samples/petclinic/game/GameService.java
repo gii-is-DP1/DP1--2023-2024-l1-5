@@ -38,4 +38,16 @@ public class GameService {
         }
         return result;
     }
+    @Transactional(readOnly=true)
+    public Optional<Game> getWaitingGame(Player player){
+        List<Game> playerGames = gameRepository.findPlayerCreatedGames(player.getId());
+        Optional<Game> result = null;
+        for(Game game: playerGames){
+            if(game.getStatus().equals(GameStatus.WAITING)){
+                result = Optional.of(game);
+                break;
+            }
+        }
+        return result;
+    }
 }

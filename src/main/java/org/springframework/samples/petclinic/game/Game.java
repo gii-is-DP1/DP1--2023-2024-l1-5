@@ -40,10 +40,6 @@ public class Game extends BaseEntity{
     @Column(name = "winner_id")
     private Integer winner;
 
-    // @Column(name = "creator_id")
-    // @NotNull
-    // private Integer creator;
-
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
@@ -58,11 +54,8 @@ public class Game extends BaseEntity{
 	@Column(name = "game_status", columnDefinition = "varchar(20)")
 	private GameStatus status;
 
-    // @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
-    // @Size(min = 1, max = 5)
-    // private List<Round> rounds;
-
     @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @Size(min = 1, max = 5)
     // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
 
