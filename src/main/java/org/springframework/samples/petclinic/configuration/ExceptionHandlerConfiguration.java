@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -38,6 +39,10 @@ public class ExceptionHandlerConfiguration
     }
     @ExceptionHandler(WaitingGameException.class)
     public ResponseEntity<String> handleWaitingGameException(WaitingGameException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(WaitingGamesNotFoundException.class)
+    public ResponseEntity<String> handleWaitingGamesNotFoundException(WaitingGamesNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

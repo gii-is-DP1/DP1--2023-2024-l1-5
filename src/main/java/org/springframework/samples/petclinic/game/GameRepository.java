@@ -14,4 +14,11 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g WHERE g.creator.id = :creator")
     List<Game> findPlayerCreatedGames(Integer creator) throws DataAccessException;
+
+    @Query("SELECT g FROM Game g WHERE g.status = 'WAITING' AND g.gameMode = 'QUICK_PLAY' AND g.numPlayers < 8")
+    List<Game> findWaitingQuickGames() throws DataAccessException;
+
+    @Query("SELECT g FROM Game g WHERE g.status = 'WAITING' AND g.gameMode = 'COMPETITIVE' AND g.numPlayers < 8")
+    List<Game> findWaitingCompetitiveGames() throws DataAccessException;
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,24 @@ public class GameService {
         }
         return result;
     }
+
+    @Transactional(readOnly=true)
+    public Optional<Game> getRandomGame(String gameMode){
+        List<Game> games = null;
+        Optional<Game> result = null;
+        if(gameMode.equals("QUICK_START")){
+            games = gameRepository.findWaitingQuickGames();
+        }else if(gameMode.equals("COMPETITIVE")){
+            games = gameRepository.findWaitingCompetitiveGames();
+        }else{
+            throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
+        }
+        if(games.size() > 0){
+            result = Optional.of(games.get(0));
+        }
+        return result;
+    }
+
     @Transactional(readOnly=true)
     public Optional<Game> getWaitingGame(Player player){
         List<Game> playerGames = gameRepository.findPlayerCreatedGames(player.getId());

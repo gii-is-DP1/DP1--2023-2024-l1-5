@@ -59,6 +59,7 @@ public class RoundController {
             throw new ResourceNotFoundException("Round", "id", id);
         return new ResponseEntity<>(r.get(), HttpStatus.OK);
     }
+    
     @PostMapping
     public ResponseEntity<Round> createRound(@Valid @RequestBody RoundRequest roundRequest) throws DataAccessException{
         //POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO

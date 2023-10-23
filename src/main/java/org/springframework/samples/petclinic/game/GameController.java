@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,8 @@ public class GameController {
     private final UserService userService;
     private final PlayerService playerService;
     private static final String PLAYER_AUTH = "PLAYER";
+    private static final String QUICK_START = "QUICK_START";
+    private static final String COMPETITIVE = "COMPETITIVE";
     
     @Autowired
 	public GameController(GameService gameService, UserService userService, PlayerService playerService) {
@@ -58,6 +61,25 @@ public class GameController {
         Optional<Game> g=gameService.getGameById(id);
         if(!g.isPresent())
             throw new ResourceNotFoundException("Game", "id", id);
+        return new ResponseEntity<>(g.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/quick/joinRandom")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Game> getRandomQuickGame(){
+        Optional<Game> g=gameService.getRandomGame(QUICK_START);
+        if(!g.isPresent()){
+            throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
+        }
+        return new ResponseEntity<>(g.get(), HttpStatus.OK);
+    }
+    @GetMapping("/competitive/joinRandom")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Game> getRandomCompGame(){
+        Optional<Game> g=gameService.getRandomGame(COMPETITIVE);
+        if(!g.isPresent()){
+            throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
+        }
         return new ResponseEntity<>(g.get(), HttpStatus.OK);
     }
 
