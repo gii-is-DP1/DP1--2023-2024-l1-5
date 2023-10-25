@@ -69,8 +69,6 @@ INSERT INTO player_games(player_id,game_id) VALUES(2,1);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
-INSERT INTO hand(id,num_cartas) VALUES(1,6);
-
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
@@ -190,8 +188,11 @@ INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que cal
 INSERT INTO decks(id, number_of_cards) VALUES (1, 16);
 INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
 
-INSERT INTO cards(id,image,deck_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1);
-INSERT INTO cards(id,image,deck_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1);
+INSERT INTO hands(id,num_cards) VALUES(1,6);
+INSERT INTO hands(id,num_cards) VALUES(2,4);
+
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1,2);
 
 INSERT INTO symbols(name) VALUES('DOLPHIN');
 INSERT INTO symbols(name) VALUES('GLASSES');

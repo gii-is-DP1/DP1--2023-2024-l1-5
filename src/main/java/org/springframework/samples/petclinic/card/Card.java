@@ -13,6 +13,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.symbol.Symbol;
 import java.util.List;
@@ -27,6 +30,11 @@ public class Card extends BaseEntity {
     @NotBlank
     @NotNull
     private String image;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "hand_id")
+    private Hand hand;
  
     @ManyToMany
     @NotBlank
