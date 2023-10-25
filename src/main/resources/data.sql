@@ -69,10 +69,6 @@ INSERT INTO player_games(player_id,game_id) VALUES(2,1);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
-INSERT INTO symbol(name) VALUES('DOG');
-INSERT INTO symbol(name) VALUES('IGLOO');
-INSERT INTO symbol(name) VALUES('CLOWN');
-
 INSERT INTO hand(id,num_cartas) VALUES(1,6);
 
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
@@ -196,6 +192,33 @@ INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
 
 INSERT INTO cards(id,image,deck_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1);
 INSERT INTO cards(id,image,deck_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1);
+
+INSERT INTO symbols(name) VALUES('DOLPHIN');
+INSERT INTO symbols(name) VALUES('GLASSES');
+INSERT INTO symbols(name) VALUES('THUNDER');
+INSERT INTO symbols(name) VALUES('GHOST');
+INSERT INTO symbols(name) VALUES('SNOWMAN');
+INSERT INTO symbols(name) VALUES('DOG');
+INSERT INTO symbols(name) VALUES('IGLOO');
+INSERT INTO symbols(name) VALUES('CLOWN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOLPHIN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GHOST');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'IGLOO');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'CLOWN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOLPHIN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'GHOST');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'IGLOO');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'CLOWN');
 
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);
