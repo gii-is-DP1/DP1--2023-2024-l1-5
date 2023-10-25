@@ -19,9 +19,9 @@ import org.springframework.samples.petclinic.card.Card;
 @Entity
 @Getter
 @Setter
-@Table(name = "hand")
+@Table(name = "hands")
 public class Hand extends BaseEntity {
-    @Column(name = "num_cartas")
+    @Column(name = "num_cards")
     @NotBlank
     private Integer numCartas;
 

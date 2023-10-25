@@ -188,10 +188,11 @@ INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que cal
 INSERT INTO decks(id, number_of_cards) VALUES (1, 16);
 INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
 
-INSERT INTO cards(id,image,deck_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1);
-INSERT INTO cards(id,image,deck_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1);
+INSERT INTO hands(id,num_cards) VALUES(1,6);
+INSERT INTO hands(id,num_cards) VALUES(2,4);
 
-INSERT INTO hand(id,num_cartas) VALUES(1,6);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1,2);
 
 INSERT INTO symbols(name) VALUES('DOLPHIN');
 INSERT INTO symbols(name) VALUES('GLASSES');
