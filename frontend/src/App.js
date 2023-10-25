@@ -47,6 +47,7 @@ import ConsultationListClinicOwner from "./clinicOwner/consultations/Consultatio
 import ConsultationEditClinicOwner from "./clinicOwner/consultations/ConsultationEditClinicOwner";
 import VetListClinicOwner from "./clinicOwner/vets/VetListClinicOwner";
 import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
+import NewGame from "./player/newGame";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -74,6 +75,7 @@ function App() {
   let userRoutes = <></>;
   let vetRoutes = <></>;
   let publicRoutes = <></>;
+  let playerRoutes = <></>;
 
   roles.forEach((role) => {
     if (role === "ADMIN") {
@@ -135,6 +137,14 @@ function App() {
           <Route path="/vets/:id" exact={true} element={<PrivateRoute><VetEditClinicOwner /></PrivateRoute>} />
         </>)
     }
+    if(role==="PLAYER"){
+      playerRoutes = (
+        <>
+          <Route path="/newGame" exact={true} element={<PrivateRoute><NewGame/></PrivateRoute>} />	
+        </>)
+
+
+    }
   })
   if (!jwt) {
     publicRoutes = (
@@ -166,6 +176,7 @@ function App() {
           {adminRoutes}
           {ownerRoutes}
           {vetRoutes}
+          {playerRoutes}
         </Routes>
       </ErrorBoundary>
     </div>

@@ -79,6 +79,17 @@ function AppNavbar() {
             )
         }
 
+        if( role === "PLAYER"){
+            ownerLinks = (
+                <>
+                <NavItem>
+                    <NavLink style={{color: "white"}} tag={Link} to="/newGame"> New Game</NavLink>
+                </NavItem>
+                
+                </>
+            )
+        } 
+
         if (role === "CLINIC_OWNER") {
             ownerLinks = (
                 <>
