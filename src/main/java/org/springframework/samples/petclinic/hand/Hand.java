@@ -25,7 +25,7 @@ public class Hand extends BaseEntity {
     @NotBlank
     private Integer numCartas;
 
-    @OneToMany
+    @OneToMany(mappedBy = "hand")
     @NotNull
     @Size(min = 1)
     private List<Card> cards;
