@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@Table(name="symbol")
+@Table(name="symbols")
 public class Symbol {
     @NotBlank
     @Id
