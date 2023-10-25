@@ -4,7 +4,6 @@ import { Button, Col, Container, Input, Row, Table } from 'reactstrap';
 
 
 export default function GameListAdmin(){
-
     return(
         <div>
             <Container fluid style={{ marginTop: "15px" }}>
