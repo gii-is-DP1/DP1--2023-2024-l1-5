@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "card")
+@Table(name = "cards")
 public class Card extends BaseEntity {
 
     @Column(name = "image")
@@ -34,5 +35,9 @@ public class Card extends BaseEntity {
 			@UniqueConstraint(columnNames = { "card_id", "symbol" }) })
     @Size(min = 8, max = 8)
     private List<Symbol> symbols;
+    
+    @ManyToOne
+    @JoinColumn(name = "deck_id")
+    private Deck deck;
 
 }
