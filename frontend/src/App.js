@@ -47,7 +47,8 @@ import ConsultationListClinicOwner from "./clinicOwner/consultations/Consultatio
 import ConsultationEditClinicOwner from "./clinicOwner/consultations/ConsultationEditClinicOwner";
 import VetListClinicOwner from "./clinicOwner/vets/VetListClinicOwner";
 import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
-import NewGame from "./player/newGame";
+import QuickPlay from "./player/quickPlay";
+import Game from "./player/Game";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -140,7 +141,8 @@ function App() {
     if(role==="PLAYER"){
       playerRoutes = (
         <>
-          <Route path="/newGame" exact={true} element={<PrivateRoute><NewGame/></PrivateRoute>} />	
+          <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
+          <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
         </>)
 
 
