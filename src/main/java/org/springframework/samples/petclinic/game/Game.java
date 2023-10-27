@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.player.Player;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,8 +15,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.round.Round;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -29,19 +35,18 @@ public class Game extends BaseEntity{
     private GameMode gameMode;
 
     @Column(name = "num_players")
-    @NotNull
     private Integer numPlayers;
 
     @Column(name = "winner_id")
-    @NotNull
     private Integer winner;
 
-    @Column(name = "creator_id")
+    @ManyToOne
+    @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
-    private Integer creator;
+    @JsonIgnore
+    private Player creator;
 
     @Column(name = "game_time")
-    @NotNull
     private Integer gameTime;
 
     @Enumerated(EnumType.STRING)
@@ -49,9 +54,12 @@ public class Game extends BaseEntity{
 	@Column(name = "game_status", columnDefinition = "varchar(20)")
 	private GameStatus status;
 
-
-    @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Size(min = 1, max = 5)
+    // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
 
+    public void setGameStatus(GameStatus status) {
+        this.status = status;
+    }
 }
