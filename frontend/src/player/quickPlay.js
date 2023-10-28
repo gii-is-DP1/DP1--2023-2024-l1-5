@@ -3,12 +3,106 @@ import '../App.css';
 import "../static/css/player/newGame.css"
 import { Link } from "react-router-dom";
 
-export default function quickPlay() {
+export default function QuickPlay() {
+
+
+    const createThePit = async () => {
+        const requestBody1 = {
+            gameMode: "QUICK_PLAY",
+        }
+        const requestBody2 = {
+            roundMode: "PIT",
+        }
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+
+            const response1 = await fetch('/api/v1/games',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                    body: JSON.stringify(requestBody1),
+                });
+                if(response1.ok){
+                    const data = await response1.json();
+                    window.location.href = `/game/quickPlay/${data.id}`;
+                    const response2 = await fetch('/api/v1/rounds',
+                    {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                        body: JSON.stringify(requestBody2),
+                    });
+                    if (!(response2.ok)) {
+                        console.error("Error al crear la ronda", response2.statusText);
+                    }
+                }else{
+                    console.error("Error al crear la partida", response1.statusText);
+                }
+
+        }
+        catch (error) {
+            console.error("Error al crear la partida", error);
+        }
+
+    }
+    const createInfernalTower = async () => {
+        const requestBody1 = {
+            gameMode: "QUICK_PLAY",
+        }
+        const requestBody2 = {
+            roundMode: "INFERNAL_TOWER",
+        }
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+
+            const response1 = await fetch('/api/v1/games',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                    body: JSON.stringify(requestBody1),
+                });
+                if(response1.ok){
+                    const data = await response1.json();
+                    window.location.href = `/game/quickPlay/${data.id}`;
+                    const response2 = await fetch('/api/v1/rounds',
+                    {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                        body: JSON.stringify(requestBody2),
+                    });
+                    if (!(response2.ok)) {
+                        console.error("Error al crear la ronda", response2.statusText);
+                     }
+
+        }else{
+            console.error("Error al crear la partida", response1.statusText);
+        }
+    }
+        catch (error) {
+            console.error("Error al crear la partida", error);
+        }
+
+    }
+
+
+
+
     return (
         <div className="wallpaper   ">
             <div className='buttonQP'>
                 <div className="inButton">
-                    <Link to="" className="button">The Pit</Link>
+                    <Link className='button' onClick={createThePit}>The Pit</Link>
                     <div className="blockText">
                         <span className="text">
                             On go, the players flip their draw pile face-up.
@@ -22,7 +116,7 @@ export default function quickPlay() {
                     </div>
                 </div>
                 <div className="inButton">
-                    <Link to="" className="button">Infernal Tower</Link>
+                    <Link className="button" onClick={createInfernalTower}>Infernal Tower</Link>
                     <div className="blockText">
                         <span className="text">
                             On go, the players flip their
