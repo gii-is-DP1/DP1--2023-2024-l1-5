@@ -7,6 +7,14 @@
     display: flex;
     justify-content: center;    
 }
+
+.error{
+    color: red;
+    font-size: 12pt;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
 .buttonQP{
     display: flex;
     margin-right: 600px;

@@ -20,6 +20,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.Set; 
 import java.util.HashSet;
+import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+import org.springframework.samples.petclinic.game.Game;
 
 
 @Getter
@@ -44,11 +48,10 @@ public class Player extends BaseEntity{
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
 
-	// @ManyToOne
-	// @JoinColumn(name = "round_id")
-	// @JsonIgnore
-	// private Round round;
-
+	 @ManyToMany(mappedBy = "players")
+	 @JsonIgnore
+	 private List<Game> game;
+  
 	//IMPORTANTE: COMPROBAR QUE FUNCIONA ESTA RELACIÓN
 	
 	// @ManyToMany(mappedBy = "players")

@@ -1,0 +1,33 @@
+.title{
+    color:rgb(0, 0, 0);
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.text2{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color:darkslategrey;
+    font-size: 2rem;
+}
+
+.distr{
+    display: grid;
+    margin-bottom: 400px;
+    grid-gap: 50px;
+    margin-right: 600px;
+}
+
+.distrPlay{
+    display: grid;
+    grid-gap: 10px;
+}
+.horizontal{
+    display:flex;
+    flex-direction: row;
+}
+.vertical{
+    margin-top:300px;
+    margin-right:200px;
+}
+
+

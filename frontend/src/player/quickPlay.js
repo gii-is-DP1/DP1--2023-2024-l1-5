@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import "../static/css/player/newGame.css"
 import { Link } from "react-router-dom";
 
 export default function QuickPlay() {
+    const[error,setError]=useState(null);
+    const [error2,setError2]=useState(null);
+    const CreateThePit = async () => {
 
-
-    const createThePit = async () => {
         const requestBody1 = {
             gameMode: "QUICK_PLAY",
         }
         const requestBody2 = {
             roundMode: "PIT",
         }
+ 
         try {
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
@@ -41,16 +43,18 @@ export default function QuickPlay() {
                         console.error("Error al crear la ronda", response2.statusText);
                     }
                 }else{
-                    console.error("Error al crear la partida", response1.statusText);
+                    console.error("Error: Ya perteneces a una partida", response1.statusText);
+                    setError("Error al crear la partida: Ya perteneces a una partida");
                 }
 
         }
         catch (error) {
-            console.error("Error al crear la partida", error);
+            console.error("Error:Ya perteneces a una partida", error);
         }
 
     }
     const createInfernalTower = async () => {
+
         const requestBody1 = {
             gameMode: "QUICK_PLAY",
         }
@@ -87,10 +91,12 @@ export default function QuickPlay() {
 
         }else{
             console.error("Error al crear la partida", response1.statusText);
+            setError2("Error al crear la partida. Ya perteneces a una partida");
+
         }
     }
         catch (error) {
-            console.error("Error al crear la partida", error);
+            console.error("Error:Ya perteneces a una partida", error);
         }
 
     }
@@ -102,7 +108,7 @@ export default function QuickPlay() {
         <div className="wallpaper   ">
             <div className='buttonQP'>
                 <div className="inButton">
-                    <Link className='button' onClick={createThePit}>The Pit</Link>
+                    <Link className='button' onClick={CreateThePit}>The Pit</Link>
                     <div className="blockText">
                         <span className="text">
                             On go, the players flip their draw pile face-up.
@@ -112,8 +118,9 @@ export default function QuickPlay() {
                             the top card of their draw pile and the card in the middle.
                             As the middle card changes as soon as a player places one
                             of his or her cards on top of it, players must be quick
-                        </span>
+                        </span>                        
                     </div>
+                    <p className='error'>{error}</p>
                 </div>
                 <div className="inButton">
                     <Link className="button" onClick={createInfernalTower}>Infernal Tower</Link>
@@ -134,7 +141,7 @@ export default function QuickPlay() {
                             draw pile have been drawn.
                         </span>
                     </div>
-
+                    <p className='error'>{error2}</p>
                 </div>
 
                 <div className="inButton">
