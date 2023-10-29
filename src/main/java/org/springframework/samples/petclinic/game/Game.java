@@ -22,6 +22,7 @@ import java.util.List;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 
 @Getter
 @Setter
@@ -62,4 +63,8 @@ public class Game extends BaseEntity{
     public void setGameStatus(GameStatus status) {
         this.status = status;
     }
+  
+    @ManyToMany(mappedBy = "game_list")
+    private List<Player> players;
+
 }
