@@ -6,6 +6,7 @@ import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.game.Game;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -25,7 +25,6 @@ import lombok.Setter;
 import java.util.Set; 
 import java.util.List;
 import java.util.HashSet;
-import org.springframework.samples.petclinic.round.Round;
 
 
 @Getter
@@ -50,9 +49,15 @@ public class Player extends BaseEntity{
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
 
-	@ManyToOne
-	@JoinColumn(name = "round_id")
-	private Round round;
+	// @ManyToOne
+	// @JoinColumn(name = "round_id")
+	// @JsonIgnore
+	// private Round round;
+
+	//IMPORTANTE: COMPROBAR QUE FUNCIONA ESTA RELACIÓN
+	
+	// @ManyToMany(mappedBy = "players")
+    // private List<Hand> hands;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
