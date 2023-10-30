@@ -1,16 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import "../static/css/player/newGame.css"
 import { Link } from "react-router-dom";
+import tokenService from '../services/token.service';
 
 export default function QuickPlay() {
     const[error,setError]=useState(null);
     const [error2,setError2]=useState(null);
+    const [playerId,setPlayerId]=useState(null);
+    const requestBody1={
+        gameMode:"QUICK_PLAY"
+    }
+    const user = tokenService.getUser();
+    useEffect(()=>{ setUp();},[]);
+
+    async function setUp(){
+        const myplayer = await (
+            await fetch(`/api/v1/players`, 
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${user.jwt}`,
+                },
+            })
+    ).json();
+    if(myplayer.ok){
+        const playerList = await myplayer.json();
+        playerList.forEach((player)=>{
+            if(player.user.id===user.id){
+                setPlayerId(player);
+                console.log("todo bien")
+                
+            }
+
+        })
+    }else{
+        console.error("Error al obtener el jugador", myplayer.statusText);
+    }
+
+    }
+
+
+
     const CreateThePit = async () => {
 
-        const requestBody1 = {
-            gameMode: "QUICK_PLAY",
-        }
         const requestBody2 = {
             roundMode: "PIT",
         }
@@ -54,10 +87,6 @@ export default function QuickPlay() {
 
     }
     const createInfernalTower = async () => {
-
-        const requestBody1 = {
-            gameMode: "QUICK_PLAY",
-        }
         const requestBody2 = {
             roundMode: "INFERNAL_TOWER",
         }
@@ -73,10 +102,10 @@ export default function QuickPlay() {
                     },
                     body: JSON.stringify(requestBody1),
                 });
-                if(response1.ok){
-                    const data = await response1.json();
-                    window.location.href = `/game/quickPlay/${data.id}`;
-                    const response2 = await fetch('/api/v1/rounds',
+            if (response1.ok) {
+                const data = await response1.json();
+                window.location.href = `/game/quickPlay/${data.id}`;
+                const response2 = await fetch('/api/v1/rounds',
                     {
                         method: 'POST',
                         headers: {
@@ -85,11 +114,11 @@ export default function QuickPlay() {
                         },
                         body: JSON.stringify(requestBody2),
                     });
-                    if (!(response2.ok)) {
-                        console.error("Error al crear la ronda", response2.statusText);
-                     }
+                if (!(response2.ok)) {
+                    console.error("Error al crear la ronda", response2.statusText);
+                }
 
-        }else{
+            } else {
             console.error("Error al crear la partida", response1.statusText);
             setError2("Error al crear la partida. Ya perteneces a una partida");
 
@@ -100,6 +129,18 @@ export default function QuickPlay() {
         }
 
     }
+    // const joinGame = async () =>{
+    //     try{
+    //         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+    //         const requestBody3={
+
+    //         }
+
+
+    //     }catch{
+
+    //     }
+    // }
 
 
 
@@ -118,6 +159,7 @@ export default function QuickPlay() {
                             the top card of their draw pile and the card in the middle.
                             As the middle card changes as soon as a player places one
                             of his or her cards on top of it, players must be quick
+                            
                         </span>                        
                     </div>
                     <p className='error'>{error}</p>
@@ -139,6 +181,7 @@ export default function QuickPlay() {
                             revealed. The game continues
                             until all the cards from the
                             draw pile have been drawn.
+                            {playerId}
                         </span>
                     </div>
                     <p className='error'>{error2}</p>
@@ -146,6 +189,10 @@ export default function QuickPlay() {
 
                 <div className="inButton">
                     <Link to="" className="button">Join Game</Link>
+                    <div className="blockText">
+                        <span className="text">
+                        </span>
+                    </div>
                 </div>
             </div>
 

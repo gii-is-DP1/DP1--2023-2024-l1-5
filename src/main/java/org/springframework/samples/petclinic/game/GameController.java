@@ -98,15 +98,12 @@ public class GameController {
 
         User user = userService.findCurrentUser();
         Game newGame = new Game();
-       
-        
         Game savedGame;
         BeanUtils.copyProperties(gameRequest, newGame, "id");
 
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
             boolean hasActiveGame = gameService.hasActiveGame(player);
-
             if (hasActiveGame) {
                 throw new ActiveGameException("El jugador ya tiene una partida activa");
             }else{
@@ -119,10 +116,7 @@ public class GameController {
                 players.add(player);
                 newGame.setPlayers(players);
                 newGame.setNumPlayers(players.size());
-
                 savedGame = this.gameService.saveGame(newGame);
-
-
             }
         } else {
 			savedGame = this.gameService.saveGame(newGame);
@@ -132,8 +126,17 @@ public class GameController {
         return new ResponseEntity<>(savedGame, HttpStatus.CREATED);
     }
 
-    {
-
+    @PutMapping("/quick/joinRandom")
+    public ResponseEntity<Game> joinGame(@RequestBody @Valid int id,@RequestBody @Valid GameRequest gameRequest){
+        User user = userService.findCurrentUser();
+        Game aux = gameService.getRandomGame(COMPETITIVE).get();
+        int gameId=aux.getId();
+        if(user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
+            Game savedGame=this.gameService.updateGame(id,gameId);
+            return new ResponseEntity<>(savedGame, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
     }
 
