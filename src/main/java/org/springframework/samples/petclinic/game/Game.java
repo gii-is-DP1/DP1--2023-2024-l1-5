@@ -23,6 +23,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 
 @Getter
 @Setter
@@ -65,5 +66,7 @@ public class Game extends BaseEntity{
 
     public void setGameStatus(GameStatus status) {
         this.status = status;
-    } 
-}
+
+
+        }
+        }
