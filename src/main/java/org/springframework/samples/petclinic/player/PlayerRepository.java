@@ -13,4 +13,5 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
     List<Player> findAll() throws DataAccessException;
     public Optional<Player> findByUser(User user);
+    public Optional<Player> findByUserId(int id);
 }
