@@ -8,7 +8,7 @@ export default function GameView() {
 
  
 
-        <div className="fondo">
+        <div className="wallpaper">
             <div className='contenedor'>
                 <div className="row">
                     <div className='col-4'>

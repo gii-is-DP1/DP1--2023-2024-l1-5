@@ -49,7 +49,7 @@ import VetListClinicOwner from "./clinicOwner/vets/VetListClinicOwner";
 import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import QuickPlay from "./player/quickPlay";
 import WaitingRoom from "./player/waitingRoom";
-import Game from "./player/game";
+import Game from "./player/Game";
 import GameView from "./player/gameView";
 
 
