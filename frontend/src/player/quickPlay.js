@@ -141,4 +141,6 @@ export default function QuickPlay() {
                     <Link to="" className="button">Join Game</Link>
                 </div>
             </div>
+        </div>
+    )
 }
