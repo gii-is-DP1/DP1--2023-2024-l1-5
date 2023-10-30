@@ -18,6 +18,9 @@ import lombok.Setter;
 import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.symbol.Symbol;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 @Entity
@@ -34,6 +37,7 @@ public class Card extends BaseEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "hand_id")
+    @JsonIgnore
     private Hand hand;
  
     @ManyToMany
@@ -46,6 +50,7 @@ public class Card extends BaseEntity {
     
     @ManyToOne
     @JoinColumn(name = "deck_id")
+    @JsonIgnore
     private Deck deck;
 
 }

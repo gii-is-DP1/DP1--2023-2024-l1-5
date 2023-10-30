@@ -193,6 +193,7 @@ INSERT INTO hands(id,num_cards) VALUES(2,4);
 
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1,1);
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1,2);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (3,'https://i.imgur.com/1Q2Qj1M.png',1,1);
 
 INSERT INTO symbols(name) VALUES('DOLPHIN');
 INSERT INTO symbols(name) VALUES('GLASSES');
@@ -220,6 +221,15 @@ INSERT INTO card_symbols(card_id, symbol) VALUES(2,'SNOWMAN');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOG');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'IGLOO');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'CLOWN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOLPHIN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GHOST');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'IGLOO');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'CLOWN');
 
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);

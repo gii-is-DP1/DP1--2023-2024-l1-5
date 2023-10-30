@@ -14,6 +14,9 @@ import java.util.List;
 
 
 import org.springframework.samples.petclinic.model.BaseEntity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.samples.petclinic.card.Card;
 
 @Entity

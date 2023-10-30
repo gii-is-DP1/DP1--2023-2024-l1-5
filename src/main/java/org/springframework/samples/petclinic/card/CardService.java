@@ -1,0 +1,34 @@
+package org.springframework.samples.petclinic.card;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class CardService {
+    
+    CardRepository cardRepository;
+
+    @Autowired
+    public CardService(CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
+    }
+
+    @Transactional
+    public Card saveCard(Card card) {
+        return cardRepository.save(card);
+    }
+
+    @Transactional
+    public List<Card> getAllCards() {
+        return cardRepository.findAll();
+    }
+    
+    @Transactional(readOnly = true)
+    public Optional<Card> getCardById(Integer id) {
+        return cardRepository.findById(id);
+    }
+}
