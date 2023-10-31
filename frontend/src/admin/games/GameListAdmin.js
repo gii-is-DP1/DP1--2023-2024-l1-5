@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Button, Col, Container, Row, Table } from 'reactstrap';
 import useFetchState from '../../util/useFetchState';
 import getErrorModal from '../../util/getErrorModal';
@@ -15,43 +15,61 @@ export default function GameListAdmin(){
     const [filtered, setFiltered] = useState([]);
 
     function handleSearch(event) {
+
         // Obtenemos el valor ingresado en el campo de búsqueda
         const value = event.target.value;
-    
         // Inicializamos una variable para almacenar las consultas filtradas
         let filteredGames;
 
         if(value ===""){
             filteredGames = games;
         }else{
-            filteredGames = games.filter((i) => i.status === value);
+            filteredGames = [...games].filter((i) => i.status === value);
         }
-    
         // Actualizamos el estado "filtered" con las consultas filtradas
-        setFiltered(filteredGames);
+        setFiltered(filteredGames)
+        setFilter(value)
     }
 
-    function handleClear() {
-        setFiltered(games);
-        setFilter("");
-    }
-
-    let gameList;
-    if (filtered.length === 0 && filter !== "" ) gameList =
-        <tr>
-            <td>There are no games with those filter parameters.</td>
-        </tr>
+    function getGamesList(game){
+    if (game.length === 0 && filter !== "" )
+        return(
+            <tr>
+                <td>There are no games with those filter parameters.{filter}</td>
+            </tr>);
     else{
-        gameList = games.map((game) => {
+        return( game.map((game) => {
             return (
               <tr key={game.id}>
-                <td>{game.status}</td>
+                <td>{game.gameMode}</td>
                 <td>{game.status}</td>
                 <td>{game.creator}</td>
              </tr>
             );
-        });
+        }));
     } 
+    }
+
+    async function setUp() {
+        const games = await (
+          await fetch(`/api/v1/games`, {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "application/json",
+            },
+          })
+        ).json();
+    
+        setGames(games);
+        setFiltered(games);
+      }
+    
+      useEffect(() => {
+        setUp();
+      }, []);
+    
+      useEffect(() => {}, [filtered]);
+
     const modal = getErrorModal(setVisible, visible, message);
 
     return(
@@ -62,15 +80,12 @@ export default function GameListAdmin(){
                 <Row className="row-cols-auto g-3 align-items-center">
                     <Col>
                         <Button aria-label='waiting-filter' color="link" onClick={handleSearch} value="WAITING">Waiting</Button>
-                        <Button aria-label='in-prigress-filter' color="link" onClick={handleSearch} value="IN_PROGRESS">In Progress</Button>
-                        <Button aria-label='finalized-filter' color="link" onClick={handleSearch} value="FINALIZED">Finalized</Button>
-                        <Button aria-label='all-filter' color="link" onClick={handleSearch} value="">All</Button>
-                    </Col>
-                    <Col className="col-sm-3">
-                        <Button aria-label='clear-all' color="link" onClick={handleClear} >Clear All</Button>
+                        <Button aria-label='in-prigress-filter' color="link" onClick={handleSearch}  value="IN_PROGRESS">In Progress</Button>
+                        <Button aria-label='finalized-filter' color="link" onClick={handleSearch}  value="FINALIZED">Finalized</Button>
+                        <Button aria-label='all-filter' color="link" onClick={handleSearch}  value="">All</Button>
                     </Col>
                 </Row>
-                <Table aria-label='consultations' className="mt-4">
+                <Table aria-label='games' className="mt-4">
                     <thead>
                         <tr>
                             <th>Mode</th>
@@ -78,10 +93,13 @@ export default function GameListAdmin(){
                             <th>Owner</th>
                         </tr>
                     </thead>
-                   <tbody>{gameList}</tbody>
+                   <tbody>{filtered
+                   ? getGamesList(filtered)
+                   : getGamesList(games)}
+                   </tbody>
                 </Table>
             </Container>
         </div>
 
     );
-}
+}   

@@ -15,6 +15,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.round.Round;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
@@ -54,9 +57,11 @@ public class Game extends BaseEntity{
 
     @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
     @Size(min = 1, max = 5)
+    @JsonIgnore
     private List<Round> rounds;
 
     @ManyToMany(mappedBy = "game_list")
+    @JsonIgnore
     private List<Player> players;
 
 }
