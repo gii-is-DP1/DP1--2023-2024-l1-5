@@ -32,6 +32,9 @@ public class SignupRequest {
 	private String city;
 	//Owner
 
+	@NotBlank
+	private String playerUsername;
+
 	private String address;
 	private String telephone;
 	private Clinic clinic;
