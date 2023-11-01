@@ -4,6 +4,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.samples.petclinic.game.Game;
 
 import jakarta.persistence.CascadeType;
@@ -57,6 +60,7 @@ public class Player extends BaseEntity{
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
+	@JsonIgnore
 	private List<Game> game_list;
 
 	public void removeAllGames() {

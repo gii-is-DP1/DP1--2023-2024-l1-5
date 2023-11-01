@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { Button, Col, Container, Row, Table } from 'reactstrap';
+import { Button, Col, Container, Row, Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
 import useFetchState from '../../util/useFetchState';
 import getErrorModal from '../../util/getErrorModal';
 import tokenService from '../../services/token.service';
@@ -13,22 +13,27 @@ export default function GameListAdmin(){
     const [games, setGames] = useFetchState([], `/api/v1/games`, jwt, setMessage, setVisible);
     const [filter, setFilter] = useState("");
     const [filtered, setFiltered] = useState([]);
+    const [dropDownStates, setDropDownStates] = useState({});
 
     function handleSearch(event) {
 
-        // Obtenemos el valor ingresado en el campo de búsqueda
         const value = event.target.value;
-        // Inicializamos una variable para almacenar las consultas filtradas
-        let filteredGames;
+        let filteredGames;                              
 
         if(value ===""){
             filteredGames = games;
         }else{
             filteredGames = [...games].filter((i) => i.status === value);
         }
-        // Actualizamos el estado "filtered" con las consultas filtradas
         setFiltered(filteredGames)
         setFilter(value)
+    }
+
+    const toggleDropDown = (gameId) => {
+        setDropDownStates({
+            ...dropDownStates,
+            [gameId]: !dropDownStates[gameId]
+        });     
     }
 
     function getGamesList(game){
@@ -43,7 +48,19 @@ export default function GameListAdmin(){
               <tr key={game.id}>
                 <td>{game.gameMode}</td>
                 <td>{game.status}</td>
-                <td>{game.creator}</td>
+                <td>{game.players.filter((x) => x.id === game.creator).map((x) => x.playerUsername)}</td>
+                <td>
+                    <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
+                        <DropdownToggle caret>
+                            <p> &#128065;</p>
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            {game.players.map((x)=> (
+                                        <DropdownItem text>{x.playerUsername}</DropdownItem>
+                                    ))}
+                        </DropdownMenu>
+                    </Dropdown>
+                </td>
              </tr>
             );
         }));
@@ -91,13 +108,14 @@ export default function GameListAdmin(){
                             <th>Mode</th>
                             <th>Status</th>
                             <th>Owner</th>
+                            <th>Players</th>
                         </tr>
                     </thead>
                    <tbody>{filtered
                    ? getGamesList(filtered)
                    : getGamesList(games)}
                    </tbody>
-                </Table>
+                </Table>    
             </Container>
         </div>
 

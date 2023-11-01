@@ -61,7 +61,6 @@ public class Game extends BaseEntity{
     private List<Round> rounds;
 
     @ManyToMany(mappedBy = "game_list")
-    @JsonIgnore
     private List<Player> players;
 
 }
