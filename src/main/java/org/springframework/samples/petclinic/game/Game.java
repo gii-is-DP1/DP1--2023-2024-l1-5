@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;;
 
 @Getter
 @Setter
@@ -59,7 +60,12 @@ public class Game extends BaseEntity{
     // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
 
+    @ManyToMany
+    private List<Player> players;
+
     public void setGameStatus(GameStatus status) {
         this.status = status;
-    }
-}
+
+
+        }
+        }

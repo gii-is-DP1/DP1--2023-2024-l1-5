@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.game;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,6 +16,7 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,6 +25,7 @@ import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.http.HttpStatus;
+import java.util.ArrayList;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -94,29 +97,47 @@ public class GameController {
 
         User user = userService.findCurrentUser();
         Game newGame = new Game();
-        
         Game savedGame;
         BeanUtils.copyProperties(gameRequest, newGame, "id");
 
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
             boolean hasActiveGame = gameService.hasActiveGame(player);
-
             if (hasActiveGame) {
                 throw new ActiveGameException("El jugador ya tiene una partida activa");
             }else{
                 // Establecer los valores predeterminados para los atributos
+                List<Player> players = new ArrayList<>();
                 newGame.setGameMode(gameRequest.getGameMode());
                 newGame.setCreator(player);
                 newGame.setGameStatus(GameStatus.WAITING);
-                newGame.setNumPlayers(0);
                 newGame.setGameTime(0);
+                players.add(player);
+                newGame.setPlayers(players);
+                newGame.setNumPlayers(players.size());
                 savedGame = this.gameService.saveGame(newGame);
-
             }
         } else {
 			savedGame = this.gameService.saveGame(newGame);
+            
 		}
+        
         return new ResponseEntity<>(savedGame, HttpStatus.CREATED);
     }
+
+    @PutMapping("/quick/joinRandom")
+    public ResponseEntity<Game> joinQuickGame(@RequestBody @Valid int id){
+        User user = userService.findCurrentUser();
+        Game aux = gameService.getRandomGame("QUICK_PLAY").get();
+        int gameId=aux.getId();
+        if(user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
+            Game savedGame=this.gameService.updateGame(id,gameId);
+            return new ResponseEntity<>(savedGame, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+    }
+
+    
 }
