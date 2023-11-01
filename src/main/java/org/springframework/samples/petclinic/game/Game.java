@@ -22,8 +22,7 @@ import java.util.List;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;;
 
 @Getter
 @Setter

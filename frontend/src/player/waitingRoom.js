@@ -8,6 +8,7 @@ import { useParams,Link } from 'react-router-dom';
 export default function WaitingRoom(){
     const {id} = useParams();    
     const[game,setGame]=useState({});   
+    const [players,setPlayers]=useState([]);
 
     useEffect(() => {
         const getGame = async () => {
@@ -24,6 +25,7 @@ export default function WaitingRoom(){
                 if (response.ok) {
                     const data = await response.json();
                     setGame(data);
+                    setPlayers(data.players);
                 } else {
                     console.error("Error al obtener la partida", response.statusText);
                 }
@@ -42,20 +44,18 @@ export default function WaitingRoom(){
                     <span className="title">{game.gameMode} WAITING ROOM </span>
                     <div className='distrPlay'>
                         <span className='text2'>  Players  {game.numPlayers} / 8 </span>
-                        {/* <ul>
-                    {game.players.map((player,index) => {
+                        <ul>
+                    {players.map((player,index) => {
                         return(<li key={index}> {player.playerUsername} </li>)
                     } )}
-                  </ul> */}
+                  </ul>
                     </div>
                 </div>  
                 <div className='vertical'>
                     <div className="inButton">
                         <Link className='button'>The Pit </Link>
-                    </div>
+                    </div>  
                 </div>
-
-
 
             </div>
         </div>

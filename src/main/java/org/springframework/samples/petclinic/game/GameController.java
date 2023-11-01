@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.game;
 import java.util.List;
 import java.util.Optional;
 
-import javax.management.monitor.GaugeMonitor;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,9 +126,9 @@ public class GameController {
     }
 
     @PutMapping("/quick/joinRandom")
-    public ResponseEntity<Game> joinGame(@RequestBody @Valid int id,@RequestBody @Valid GameRequest gameRequest){
+    public ResponseEntity<Game> joinQuickGame(@RequestBody @Valid int id){
         User user = userService.findCurrentUser();
-        Game aux = gameService.getRandomGame(COMPETITIVE).get();
+        Game aux = gameService.getRandomGame("QUICK_PLAY").get();
         int gameId=aux.getId();
         if(user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Game savedGame=this.gameService.updateGame(id,gameId);

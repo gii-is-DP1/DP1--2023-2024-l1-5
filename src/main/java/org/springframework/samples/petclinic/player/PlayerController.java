@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
-import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +41,12 @@ public class PlayerController {
             throw new ResourceNotFoundException("Player", "id", id);
         return new ResponseEntity<>(p.get(), HttpStatus.OK);
     }
+    @GetMapping("/user/{id}") 
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Player> getPlayerByUserId(@PathVariable("id")Integer id){
+        Player p=playerService.getPlayerByUserId(id);
+        return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
 
 }
