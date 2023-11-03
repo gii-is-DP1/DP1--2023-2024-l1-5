@@ -48,10 +48,19 @@ INSERT INTO authorities(id,authority) VALUES(5,'PLAYER');
 INSERT INTO appusers(id,username,password,authority) VALUES (200,'player0','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (201,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (202,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (203,'player3','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (204,'player4','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (205,'player5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (206,'player6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,1,135,'FINALIZED');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',4,3,7,200,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
+
+
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'00:02:30','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'00:01:48','INFERNAL_TOWER',2);
@@ -60,16 +69,33 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3
 
 INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(1,'guille1',200);
 INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(2,'lucas2',201);
-INSERT INTO players(id,user_id,round_id) VALUES(3,202,2);
+INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(4,'nico828',203);
+INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(5,'alvaro15',204);
+INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(6,'manu69',205);
+INSERT INTO players(id,PLAYERUSERNAME,user_id) VALUES(7,'ronald777',206);
+INSERT INTO players(id,PLAYERUSERNAME,user_id,round_id) VALUES(3,'random15',202,2);
 
 INSERT INTO player_games(player_id,game_id) VALUES(1,1);
 INSERT INTO player_games(player_id,game_id) VALUES(2,1);
+INSERT INTO player_games(player_id,game_id) VALUES(5,1);
+INSERT INTO player_games(player_id,game_id) VALUES(6,1);
 
 INSERT INTO player_games(player_id,game_id) VALUES(1,2);
 INSERT INTO player_games(player_id,game_id) VALUES(2,2);
+INSERT INTO player_games(player_id,game_id) VALUES(4,2);
 
 INSERT INTO player_games(player_id,game_id) VALUES(1,3);
-INSERT INTO player_games(player_id,game_id) VALUES(2,3);
+INSERT INTO player_games(player_id,game_id) VALUES(6,3);
+INSERT INTO player_games(player_id,game_id) VALUES(7,3);
+INSERT INTO player_games(player_id,game_id) VALUES(5,3);
+
+INSERT INTO player_games(player_id,game_id) VALUES(7,4);
+INSERT INTO player_games(player_id,game_id) VALUES(1,4);
+
+INSERT INTO player_games(player_id,game_id) VALUES(5,5);
+INSERT INTO player_games(player_id,game_id) VALUES(2,5);
+INSERT INTO player_games(player_id,game_id) VALUES(6,5);
+
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);

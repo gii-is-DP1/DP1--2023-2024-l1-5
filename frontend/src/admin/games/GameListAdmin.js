@@ -11,23 +11,10 @@ export default function GameListAdmin(){
     const [message, setMessage] = useState(null);
     const [visible, setVisible] = useState(false);
     const [games, setGames] = useFetchState([], `/api/v1/games`, jwt, setMessage, setVisible);
-    const [filter, setFilter] = useState("");
-    const [filtered, setFiltered] = useState([]);
+    const [waitingGames, setWaitingGames] = useState([]);
+    const [inProgressgGames, setInProgressGames] = useState([]);
+    const [finalizedGames, setFinalizedGames] = useState([]);
     const [dropDownStates, setDropDownStates] = useState({});
-
-    function handleSearch(event) {
-
-        const value = event.target.value;
-        let filteredGames;                              
-
-        if(value ===""){
-            filteredGames = games;
-        }else{
-            filteredGames = [...games].filter((i) => i.status === value);
-        }
-        setFiltered(filteredGames)
-        setFilter(value)
-    }
 
     const toggleDropDown = (gameId) => {
         setDropDownStates({
@@ -36,21 +23,21 @@ export default function GameListAdmin(){
         });     
     }
 
-    function getGamesList(game){
-    if (game.length === 0 && filter !== "" )
+    function getGamesList(games){
+    if (games.length === 0)
         return(
             <tr>
-                <td>There are no games with those filter parameters.{filter}</td>
+                <td>There are no games in this status.</td>
             </tr>);
     else{
-        return( game.map((game) => {
+        return( games.map((game) => {
             return (
               <tr key={game.id}>
                 <td>{game.gameMode}</td>
                 <td>{game.players.filter((x) => x.id === game.creator).map((x) => x.playerUsername)}</td>
                 <td>
                     <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
-                        <DropdownToggle caret>
+                        <DropdownToggle>
                             <p> &#128065;</p>
                         </DropdownToggle>
                         <DropdownMenu>
@@ -77,14 +64,22 @@ export default function GameListAdmin(){
         ).json();
     
         setGames(games);
-        setFiltered(games);
+
+        let lsWaiting = [...games].filter((i) => i.status === "WAITING");
+        setWaitingGames(lsWaiting)
+
+        let lsProgress = [...games].filter((i) => i.status === "IN_PROGRESS");
+        setInProgressGames(lsProgress)
+
+        let lsFinalized = [...games].filter((i) => i.status === "FINALIZED");
+        setFinalizedGames(lsFinalized)
       }
     
       useEffect(() => {
         setUp();
       }, []);
     
-      useEffect(() => {}, [filtered]);
+      useEffect(() => {}, [games]);
 
     const modal = getErrorModal(setVisible, visible, message);
 
@@ -93,25 +88,24 @@ export default function GameListAdmin(){
             <Container fluid style={{ marginTop: "15px" }}>
                 {modal} 
                 <div class="containerGames">  
-                    <div class="half-width">
+                    <div class="half-width mt-4">
                         <h1 className="text-center">Waiting Games</h1>
-                        <Table >
+                        <Table class='mt-4'>
                         <thead>
                                 <tr>
                                     <th>Mode</th>
-                                    <th>Owner</th>
+                                    <th>Creator</th>
                                     <th>Players</th>
                                 </tr>
                             </thead>
-                            <tbody>{filtered
-                                ? getGamesList(filtered)
-                                : getGamesList(games)}
+                            <tbody>
+                                {getGamesList(waitingGames)}
                             </tbody>
                         </Table>
                     </div>  
-                    <div class="half-width">
+                    <div class="half-width mt-4">
                         <h1 className="text-center">Current Games</h1>
-                        <Table>
+                        <Table class='mt-4'>
                             <thead>
                                 <tr>
                                     <th>Mode</th>
@@ -119,15 +113,14 @@ export default function GameListAdmin(){
                                     <th>Players</th>
                                 </tr>
                             </thead>
-                            <tbody>{filtered
-                                ? getGamesList(filtered)
-                                : getGamesList(games)}
+                            <tbody>
+                                {getGamesList(inProgressgGames)}
                             </tbody>
                         </Table>
                     </div>
-                    <div class="half-width">
+                    <div class="half-width mt-4">
                         <h1 className="text-center">Finalized Games</h1>
-                        <Table >
+                        <Table className='mt-4'>
                         <thead>
                                 <tr>
                                     <th>Mode</th>
@@ -135,13 +128,12 @@ export default function GameListAdmin(){
                                     <th>Players</th>
                                 </tr>
                             </thead>
-                            <tbody>{filtered
-                                ? getGamesList(filtered)
-                                : getGamesList(games)}
+                            <tbody>
+                                {getGamesList(finalizedGames)}
                             </tbody>
                         </Table>
                     </div>
-                </div> 
+                </div>  
             </Container>
         </div>
 
