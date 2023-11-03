@@ -47,7 +47,6 @@ export default function GameListAdmin(){
             return (
               <tr key={game.id}>
                 <td>{game.gameMode}</td>
-                <td>{game.status}</td>
                 <td>{game.players.filter((x) => x.id === game.creator).map((x) => x.playerUsername)}</td>
                 <td>
                     <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
@@ -92,30 +91,57 @@ export default function GameListAdmin(){
     return(
         <div>
             <Container fluid style={{ marginTop: "15px" }}>
-                <h1 className="text-center">Games</h1>
-                {modal}
-                <Row className="row-cols-auto g-3 align-items-center">
-                    <Col>
-                        <Button aria-label='waiting-filter' color="link" onClick={handleSearch} value="WAITING">Waiting</Button>
-                        <Button aria-label='in-prigress-filter' color="link" onClick={handleSearch}  value="IN_PROGRESS">In Progress</Button>
-                        <Button aria-label='finalized-filter' color="link" onClick={handleSearch}  value="FINALIZED">Finalized</Button>
-                        <Button aria-label='all-filter' color="link" onClick={handleSearch}  value="">All</Button>
-                    </Col>
-                </Row>
-                <Table aria-label='games' className="mt-4">
-                    <thead>
-                        <tr>
-                            <th>Mode</th>
-                            <th>Status</th>
-                            <th>Owner</th>
-                            <th>Players</th>
-                        </tr>
-                    </thead>
-                   <tbody>{filtered
-                   ? getGamesList(filtered)
-                   : getGamesList(games)}
-                   </tbody>
-                </Table>    
+                {modal} 
+                <div class="containerGames">  
+                    <div class="half-width">
+                        <h1 className="text-center">Waiting Games</h1>
+                        <Table >
+                        <thead>
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Owner</th>
+                                    <th>Players</th>
+                                </tr>
+                            </thead>
+                            <tbody>{filtered
+                                ? getGamesList(filtered)
+                                : getGamesList(games)}
+                            </tbody>
+                        </Table>
+                    </div>  
+                    <div class="half-width">
+                        <h1 className="text-center">Current Games</h1>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Owner</th>
+                                    <th>Players</th>
+                                </tr>
+                            </thead>
+                            <tbody>{filtered
+                                ? getGamesList(filtered)
+                                : getGamesList(games)}
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div class="half-width">
+                        <h1 className="text-center">Finalized Games</h1>
+                        <Table >
+                        <thead>
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Owner</th>
+                                    <th>Players</th>
+                                </tr>
+                            </thead>
+                            <tbody>{filtered
+                                ? getGamesList(filtered)
+                                : getGamesList(games)}
+                            </tbody>
+                        </Table>
+                    </div>
+                </div> 
             </Container>
         </div>
 
