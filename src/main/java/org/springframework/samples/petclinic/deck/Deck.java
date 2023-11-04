@@ -1,7 +1,8 @@
-package org.springframework.samples.petclinic.card;
+package org.springframework.samples.petclinic.deck;
 
 import java.util.List;
 
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
