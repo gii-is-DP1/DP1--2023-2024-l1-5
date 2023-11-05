@@ -196,43 +196,167 @@ INSERT INTO hands(id,num_cards, round_id) VALUES(2,4,1);
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1,1);
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1,2);
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (3,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (4,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (5,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (6,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (7,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (8,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (9,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (10,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (11,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (12,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (13,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (14,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (15,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (16,'https://i.imgur.com/1Q2Qj1M.png',1,1);
 
+--Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES('DOLPHIN');
 INSERT INTO symbols(name) VALUES('GLASSES');
 INSERT INTO symbols(name) VALUES('THUNDER');
 INSERT INTO symbols(name) VALUES('GHOST');
 INSERT INTO symbols(name) VALUES('SNOWMAN');
-INSERT INTO symbols(name) VALUES('DOG');
+INSERT INTO symbols(name) VALUES('SHOT');
+INSERT INTO symbols(name) VALUES('EXCLAMATION');
+INSERT INTO symbols(name) VALUES('ZEBRA');
+INSERT INTO symbols(name) VALUES('PENCIL');
+INSERT INTO symbols(name) VALUES('HAMMER');
+INSERT INTO symbols(name) VALUES('CACTUS');
+INSERT INTO symbols(name) VALUES('CAT');
+INSERT INTO symbols(name) VALUES('TURTLE');
+INSERT INTO symbols(name) VALUES('APPLE');
+INSERT INTO symbols(name) VALUES('BABY_BOTTLE');
+INSERT INTO symbols(name) VALUES('SPIDER');
+INSERT INTO symbols(name) VALUES('YIN_YAN');
+INSERT INTO symbols(name) VALUES('LADYBUG');
 INSERT INTO symbols(name) VALUES('IGLOO');
+INSERT INTO symbols(name) VALUES('INTERROGATION');
+INSERT INTO symbols(name) VALUES('CLOVER');
+INSERT INTO symbols(name) VALUES('SCISSORS');
+INSERT INTO symbols(name) VALUES('KEY');
+INSERT INTO symbols(name) VALUES('CHEESE');
+INSERT INTO symbols(name) VALUES('EYE');
+INSERT INTO symbols(name) VALUES('MUSIC');
+INSERT INTO symbols(name) VALUES('DOG');
+INSERT INTO symbols(name) VALUES('HEART');
 INSERT INTO symbols(name) VALUES('CLOWN');
+INSERT INTO symbols(name) VALUES('BIRD');
+INSERT INTO symbols(name) VALUES('WATER');
 
+--Se declaran las relaciones de card y symbol
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOLPHIN');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GLASSES');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'THUNDER');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GHOST');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'SNOWMAN');
-INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOG');
-INSERT INTO card_symbols(card_id, symbol) VALUES(1,'IGLOO');
-INSERT INTO card_symbols(card_id, symbol) VALUES(1,'CLOWN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'SHOT');
 
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOLPHIN');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'GLASSES');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'EXCLAMATION');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'GHOST');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'SNOWMAN');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOG');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'IGLOO');
-INSERT INTO card_symbols(card_id, symbol) VALUES(2,'CLOWN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'HAMMER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'ZEBRA');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'CACTUS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(2,'PENCIL');
 
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOLPHIN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'APPLE');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GLASSES');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'THUNDER');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GHOST');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'SNOWMAN');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOG');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'IGLOO');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'CLOWN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'BABY_BOTTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'CAT');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'PENCIL');
+INSERT INTO card_symbols(card_id, symbol) VALUES(3,'TURTLE');
 
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'BABY_BOTTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'LADYBUG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'HAMMER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'SPIDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'YIN_YAN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'CLOVER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'INTERROGATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'EXCLAMATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'IGLOO');
+INSERT INTO card_symbols(card_id, symbol) VALUES(5,'SPIDER');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'SCISSORS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'ZEBRA');
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'APPLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'LADYBUG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'SHOT');
+INSERT INTO card_symbols(card_id, symbol) VALUES(6,'IGLOO');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'KEY');
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'INTERROGATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'TURTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'HAMMER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'CHEESE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(7,'SHOT');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'CACTUS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'LADYBUG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'EYE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'MUSIC');
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(8,'CHEESE');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'TURTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'CLOVER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'ZEBRA');
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'MUSIC');
+INSERT INTO card_symbols(card_id, symbol) VALUES(9,'DOG');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'CACTUS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'APPLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'INTERROGATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'HEART');
+INSERT INTO card_symbols(card_id, symbol) VALUES(10,'CLOWN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'EXCLAMATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'TURTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'BIRD');
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'HEART');
+INSERT INTO card_symbols(card_id, symbol) VALUES(11,'LADYBUG');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'WATER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'CLOVER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'APPLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'HAMMER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(12,'EYE');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'INTERROGATION');
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'EYE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'BIRD');
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'ZEBRA');
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'BABY_BOTTLE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(13,'DOLPHIN');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'CACTUS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'BIRD');
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'CAT');
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'SHOT');
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'YIN_YAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(14,'CLOVER');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'KEY');
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'SCISSORS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'EYE');
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'CAT');
+INSERT INTO card_symbols(card_id, symbol) VALUES(15,'EXCLAMATION');
+
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'BIRD');
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'SCISSORS');
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'CLOWN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(16,'HAMMER');
+
+--Se declaran los registros de chats
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);
 INSERT INTO chats (id) VALUES (3);
