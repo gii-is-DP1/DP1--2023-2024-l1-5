@@ -31,7 +31,6 @@ public class Deck extends BaseEntity {
     private List<Card> cards;
 
     @OneToOne(mappedBy = "deck", fetch = FetchType.EAGER)
-    @JsonIgnore
     private Round round;
 
 }

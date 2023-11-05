@@ -45,7 +45,7 @@ public class Card extends BaseEntity {
     @NotNull 
     @JoinTable(name = "card_symbols", joinColumns = @JoinColumn(name = "card_id"), inverseJoinColumns = @JoinColumn(name = "symbol"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "card_id", "symbol" }) })
-    @Size(min = 8, max = 8)
+    @Size(min = 6, max = 6)
     private List<Symbol> symbols;
     
     @ManyToOne

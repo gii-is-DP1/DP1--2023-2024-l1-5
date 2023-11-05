@@ -38,6 +38,7 @@ public class Hand extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "round_id")
+    //@JsonIgnore
     private Round round;
 
 }

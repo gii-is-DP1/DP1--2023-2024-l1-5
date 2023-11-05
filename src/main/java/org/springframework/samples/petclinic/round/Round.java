@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.samples.petclinic.card.Deck;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.hand.Hand;
 
 import java.util.List;
@@ -55,11 +53,13 @@ public class Round extends BaseEntity{
 
     @OneToMany(mappedBy = "round", fetch = FetchType.EAGER)
     @Size(min = 2, max = 8)
+    @JsonIgnore
     private List<Hand> hands;
     
     @OneToOne
     @NotNull
     @JoinColumn(name = "deck_id")
+    @JsonIgnore
     private Deck deck;
 
 }
