@@ -189,12 +189,13 @@ INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que cal
 INSERT INTO decks(id, number_of_cards) VALUES (1, 16);
 INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
 
-INSERT INTO hands(id,num_cards) VALUES(1,6);
+INSERT INTO hands(id,num_cards) VALUES(1,3);
 INSERT INTO hands(id,num_cards) VALUES(2,4);
 
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://emoji.discadia.com/emojis/720c0409-a70e-4b1c-92ba-9d72a55ef9b1.PNG',2,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://play-lh.googleusercontent.com/wTKtFBaVnmageqELvoFZRE-bu8yVPuTuEBX07PC68gOvJ1M5BZKJzLu6YQQC_hy6MgQ=s256-rw',1,2);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg',1,2);
 INSERT INTO cards(id,image,deck_id, hand_id) VALUES (3,'https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/3cefaffbe41441a1bd0c018abb97a64b~tplv-xv4ileqgde-cspdq:256:256:q30.image',1,1);
+INSERT INTO cards(id,image,deck_id, hand_id) VALUES (4,'https://i.pinimg.com/474x/2b/48/2d/2b482d48993f6499ac8a1b1df26ea793.jpg',1,1);
 
 INSERT INTO symbols(name) VALUES('DOLPHIN');
 INSERT INTO symbols(name) VALUES('GLASSES');
@@ -210,8 +211,8 @@ INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GLASSES');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'THUNDER');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'GHOST');
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'SNOWMAN');
-INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOG');
--- INSERT INTO card_symbols(card_id, symbol) VALUES(1,'IGLOO');
+--INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(1,'IGLOO');
 -- INSERT INTO card_symbols(card_id, symbol) VALUES(1,'CLOWN');
 
 --  INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOLPHIN');
@@ -223,14 +224,25 @@ INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOG');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'IGLOO');
 INSERT INTO card_symbols(card_id, symbol) VALUES(2,'CLOWN');
 
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOLPHIN');
+
+--INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOLPHIN');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GLASSES');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'THUNDER');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'GHOST');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'SNOWMAN');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'DOG');
 INSERT INTO card_symbols(card_id, symbol) VALUES(3,'IGLOO');
-INSERT INTO card_symbols(card_id, symbol) VALUES(3,'CLOWN');
+--INSERT INTO card_symbols(card_id, symbol) VALUES(3,'CLOWN');
+
+
+--  INSERT INTO card_symbols(card_id, symbol) VALUES(2,'DOLPHIN');
+-- INSERT INTO card_symbols(card_id, symbol) VALUES(2,'GLASSES');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'THUNDER');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'GHOST');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'SNOWMAN');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'DOG');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'IGLOO');
+INSERT INTO card_symbols(card_id, symbol) VALUES(4,'CLOWN');
 
 INSERT INTO chats (id) VALUES (1);
 INSERT INTO chats (id) VALUES (2);
