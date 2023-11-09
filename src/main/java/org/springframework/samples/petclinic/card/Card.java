@@ -34,11 +34,11 @@ public class Card extends BaseEntity {
     @NotNull
     private String image;
 
-    @ManyToOne
+    @ManyToMany
     @NotNull
     @JoinColumn(name = "hand_id")
     @JsonIgnore
-    private Hand hand;
+    private List<Hand> hand;
  
     @ManyToMany
     @NotBlank
@@ -48,9 +48,9 @@ public class Card extends BaseEntity {
     @Size(min = 6, max = 6)
     private List<Symbol> symbols;
     
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "deck_id")
     @JsonIgnore
-    private Deck deck;
+    private List<Deck> deck;
 
 }

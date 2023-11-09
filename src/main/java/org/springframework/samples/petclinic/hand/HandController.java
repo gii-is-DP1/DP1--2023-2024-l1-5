@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @RestController
@@ -29,10 +30,20 @@ public class HandController {
         this.handService = handService;
     }
 
+    // @GetMapping
+    // @ResponseStatus(HttpStatus.OK)
+    // public ResponseEntity<List<Hand>> getAllHands() {
+    // return new ResponseEntity<>(handService.getAllHands(), HttpStatus.OK);
+    // }
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Hand>> getAllHands() {
-        return new ResponseEntity<>(handService.getAllHands(), HttpStatus.OK);
+    public ResponseEntity<List<HandDTO>> getAllHands() {
+        List<Hand> hands = handService.getAllHands(); // Obtener la lista de objetos Hand
+        List<HandDTO> handDTOs = hands.stream()
+                .map(HandDTO::new) // Utilizar el constructor de HandDTO
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(handDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

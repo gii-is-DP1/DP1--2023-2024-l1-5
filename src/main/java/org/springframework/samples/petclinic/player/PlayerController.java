@@ -2,10 +2,14 @@ package org.springframework.samples.petclinic.player;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameDTO;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,17 +32,28 @@ public class PlayerController {
 	public PlayerController(PlayerService playerService) {
 		this.playerService = playerService;
 	}
+    // @GetMapping
+    // @ResponseStatus(HttpStatus.OK)
+    // public ResponseEntity<List<Player>>getAllPlayers(){
+    // return new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK);
+    // }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Player>>getAllPlayers(){
-        return  new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK);
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
+        List<Player> players = playerService.getAllPlayers(); // Obtener la lista de objetos Player
+        List<PlayerDTO> playerDTOs = players.stream()
+                .map(player -> new PlayerDTO(player)) // Utilizar el constructor de PlayerDTO
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(playerDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Player> getPlayerById(@PathVariable("id")Integer id){
-        Optional<Player> p=playerService.getPlayerById(id);
-        if(!p.isPresent())
+    public ResponseEntity<Player> getPlayerById(@PathVariable("id") Integer id) {
+        Optional<Player> p = playerService.getPlayerById(id);
+        if (!p.isPresent())
             throw new ResourceNotFoundException("Player", "id", id);
         return new ResponseEntity<>(p.get(), HttpStatus.OK);
     }

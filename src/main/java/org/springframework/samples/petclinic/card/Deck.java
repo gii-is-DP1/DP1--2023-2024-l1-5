@@ -2,15 +2,19 @@ package org.springframework.samples.petclinic.card;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.round.Round;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -27,10 +31,12 @@ public class Deck extends BaseEntity {
     @NotNull
     private Integer numberOfCards;
 
-    @OneToMany(mappedBy = "deck", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "deck", fetch = FetchType.EAGER)
     private List<Card> cards;
 
-    @OneToOne(mappedBy = "deck", fetch = FetchType.EAGER)
+    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
+	@JoinColumn(name = "round_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Round round;
 
 }

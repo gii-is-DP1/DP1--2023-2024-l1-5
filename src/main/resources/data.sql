@@ -58,14 +58,19 @@ INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_s
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,1,135,'FINALIZED');
 
--- Inserta un registro de Deck
-INSERT INTO decks(id, number_of_cards) VALUES (1, 16);
-INSERT INTO decks(id, number_of_cards) VALUES (2, 44);
-INSERT INTO decks(id, number_of_cards) VALUES (3, 44);
 
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id,deck_id) VALUES(1,2,3,'80','PIT',1,1);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id,deck_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3,2);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id,deck_id) VALUES(3,4,5,'120','PIT',1,3);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'120','PIT',1);
+
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
+
+
+-- Inserta un registro de Deck
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
 
 
 INSERT INTO player_games(player_id,game_id) VALUES(1,1);
@@ -190,25 +195,35 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nich
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
-INSERT INTO hands(id,num_cards, round_id) VALUES(1,6,1);
-INSERT INTO hands(id,num_cards, round_id) VALUES(2,4,1);
 
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (1,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (2,'https://i.imgur.com/1Q2Qj1M.png',1,2);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (3,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (4,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (5,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (6,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (7,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (8,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (9,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (10,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (11,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (12,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (13,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (14,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (15,'https://i.imgur.com/1Q2Qj1M.png',1,1);
-INSERT INTO cards(id,image,deck_id, hand_id) VALUES (16,'https://i.imgur.com/1Q2Qj1M.png',1,1);
+--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (2, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (3, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (4, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (5, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (6, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (7, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (8, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (9, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (10, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (11, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (12, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (13, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (14, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (15, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/1Q2Qj1M.png');
+
+
+INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
+INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
+INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
+
+INSERT INTO cards_hand(cards_id, hand_id) VALUES(1, 1);
+INSERT INTO cards_hand(cards_id, hand_id) VALUES(2, 1);
+INSERT INTO cards_hand(cards_id, hand_id) VALUES(3, 1);
 
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES('DOLPHIN');
