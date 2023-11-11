@@ -1,9 +1,10 @@
-package org.springframework.samples.petclinic.card;
+package org.springframework.samples.petclinic.deck;
 
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.round.Round;
 

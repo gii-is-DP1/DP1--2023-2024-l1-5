@@ -4,17 +4,29 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.card.Card;
+import org.springframework.samples.petclinic.card.CardService;
+import org.springframework.samples.petclinic.clinicowner.ClinicOwner;
+import org.springframework.samples.petclinic.deck.Deck;
+import org.springframework.samples.petclinic.deck.DeckService;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameDTO;
+import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.samples.petclinic.hand.Hand;
+import org.springframework.samples.petclinic.hand.HandService;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 
@@ -25,7 +37,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,14 +51,20 @@ public class RoundController {
     private final UserService userService;
     private final PlayerService playerService;
     private final RoundService roundService;
+    private final DeckService deckService;
+    private final CardService cardService;
+    private final HandService handService;
     private static final String PLAYER_AUTH = "PLAYER";
 
     @Autowired
-    public RoundController(RoundService roundService, UserService userService, GameService gameService, PlayerService playerService) {
+    public RoundController(RoundService roundService, UserService userService, GameService gameService, PlayerService playerService, DeckService deckService, CardService cardService, HandService handService) {
         this.roundService = roundService;
         this.userService = userService;
         this.gameService = gameService;
         this.playerService = playerService;
+        this.deckService = deckService;
+        this.cardService = cardService;
+        this.handService = handService;
     }
 
     @GetMapping
@@ -87,6 +107,56 @@ public class RoundController {
             savedRound = roundService.saveRound(newRound);
         }
         return new ResponseEntity<>(savedRound, HttpStatus.CREATED);
+    }   
+
+    @PutMapping("/shuffle")
+    public void create(@Valid @RequestParam(required = true) int round_id) throws Exception {
+
+        User user = userService.findCurrentUser();
+        Player player = playerService.findPlayerByUser(user);
+        boolean hasWaitingGame = gameService.getWaitingGame(player) != null;
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && hasWaitingGame) {
+            Optional<Round> optionalRound = roundService.getRoundById(round_id);
+            if (optionalRound.isPresent()) {
+                Round round = optionalRound.get();
+                Integer roundId = round.getId();
+                RoundMode roundMode = round.getRoundMode();
+                Game game = round.getGame();
+                GameMode gameMode = game.getGameMode();
+                GameDTO gameDTO = new GameDTO(game);
+                List<Integer> ls = gameDTO.getPlayerList();
+                List<Card> cards = cardService.getAllCards();
+                Map<Integer, List<Card>> hands = roundService.distribute(cards, gameMode, roundMode, ls);
+                for(Integer key: hands.keySet()){
+                    if(key == 0){
+                        Deck deck = deckService.getDeckByRoundId(roundId);
+                        if(deck != null){
+                            List<Card> deckCards = hands.get(key);
+                            if(deckCards != null){
+                                this.deckService.updateDeck(deck, round_id, deckCards, round);
+                            }
+                           
+                        }else{
+                            throw new Exception("no existe deck");
+                        }
+                        
+                        
+                    }else{
+                        Integer playerId = key;
+                        Hand hand = handService.getHandByPlayerId(playerId);
+                        if(hand != null){
+                            List<Card> handCards = hands.get(key);
+                            this.handService.updateHand(hand, playerId, handCards, round);
+                        }else{
+                            throw new Exception("no existe hand");
+                        }
+
+                    }
+                }
+
+            }
+        }
+
     }
 
 }

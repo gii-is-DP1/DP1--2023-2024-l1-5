@@ -16,7 +16,7 @@ import jakarta.persistence.EnumType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.springframework.samples.petclinic.card.Deck;
+import org.springframework.samples.petclinic.deck.Deck;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.hand.Hand;
