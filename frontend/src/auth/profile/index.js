@@ -1,6 +1,7 @@
 import tokenService from "../../services/token.service";
 import "../../static/css/auth/authPage.css";
 import "../../static/css/auth/authButton.css";
+import "../../static/css/owner/petList.css";
 import {Container} from "reactstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import getErrorModal from '../../util/getErrorModal';
 
 const user = tokenService.getUser();
 const jwt = tokenService.getLocalAccessToken();
-const imgPrueba = "https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt438b6e48a7a5b929/6210e104364542764d38b91e/fekir-ear.jpg?auto=webp&format=pjpg&width=3840&quality=60"
+const imgPrueba = 'https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg'
 
 export default function Profile() {
     
@@ -23,25 +24,39 @@ export default function Profile() {
     function visualizarUser(u){
       if(String(user.roles) === 'ADMIN'|| String(user.roles) === 'CLINIC_OWNER'){
         return(
-          <div>
-            <h1>You are {String(user.roles).toLowerCase().replace("_", " ")}</h1>
+          <div className="pet-list-page-container">
+            <h1>You are {String(user.roles).toLowerCase().replace("_", " ")} so you dont have profile</h1>
           </div>
         )
       }else{
         const usuario = u.filter((x)=> x.user.id === user.id)
         return(
-          <div>
+          <div className="pet-list-page-container">
             {usuario.map(item => (
-              <div className="profile-container">
-                <div className="profile-container">
-                  <img src={imgPrueba} style={{ height: 300, width: 400 }} alt="img not found"></img>
-                 <div className="profile-details">
-                    <p>{item.firstName || item.playerUsername}</p>
-                 </div>
+              <div className="profile-row">
+                <div className="pet-options">
+                  <h1 className="text-center">My Profile</h1>
                 </div>
-                  <div className="button-container">
+                <div className="container-image">
+                    <img src={item.image || imgPrueba} className="profile-image" alt="img not found"></img>
+                </div>
+                <div className="profile-data">
+                  <span>
+                    <h4>Username: {user.username}</h4>
+                  </span>
+                  <span>
+                    <h4>First Name: {item.firstName}</h4>
+                  </span>
+                  <span>
+                    <h4>Last Name: {item.lastName}</h4>
+                  </span>
+                </div>
+                <div className="button-container-edit">
+                  <Link to={"/profile/edit"} className="auth-button blue" style={{ textDecoration: "none" }}>Edit</Link>
+                </div>
+                <div className="button-container-back">
                   <Link className="auth-button" to="/" style={{textDecoration: "none"}}>Back</Link>
-                  </div>
+                </div>
               </div>
               )
             )}
@@ -71,7 +86,6 @@ export default function Profile() {
     
     return(
             <Container style={{ marginTop: "15px" }} fluid>
-                <h1 className="text-center">My Profile</h1>
                 {alerts.map((a) => a.alert)}
                 {modal} 
                 {visualizarUser(userInfo)}    
