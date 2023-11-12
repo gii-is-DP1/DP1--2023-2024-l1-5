@@ -48,7 +48,7 @@ public class DeckController {
 
 
     @GetMapping("/round/{roundId}")
-    public ResponseEntity<Deck> getDeckByRoundId(@PathVariable Integer roundId) {
+    public ResponseEntity<Deck> getDeckByRoundId(@PathVariable("roundId") Integer roundId) {
         Deck deck = deckService.getDeckByRoundId(roundId);
         return ResponseEntity.ok(deck);
     }

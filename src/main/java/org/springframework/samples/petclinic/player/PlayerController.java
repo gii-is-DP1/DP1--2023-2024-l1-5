@@ -49,13 +49,14 @@ public class PlayerController {
         return new ResponseEntity<>(playerDTOs, HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Player> getPlayerById(@PathVariable("id") Integer id) {
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Integer id) {
         Optional<Player> p = playerService.getPlayerById(id);
         if (!p.isPresent())
             throw new ResourceNotFoundException("Player", "id", id);
-        return new ResponseEntity<>(p.get(), HttpStatus.OK);
+        return new ResponseEntity<>(new PlayerDTO(p.get()) , HttpStatus.OK);
     }
 
 }
