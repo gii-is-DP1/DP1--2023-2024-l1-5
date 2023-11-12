@@ -5,6 +5,7 @@ import FormGenerator from "../../components/formGenerator/formGenerator";
 import { registerFormOwnerInputs } from "./form/registerFormOwnerInputs";
 import { registerFormVetInputs } from "./form/registerFormVetInputs";
 import { registerFormClinicOwnerInputs } from "./form/registerFormClinicOwnerInputs";
+import { registerFormPlayerInputs } from "./form/registerFormPlayerInputs";
 import { useEffect, useRef, useState } from "react";
 
 export default function Register() {
@@ -23,57 +24,53 @@ export default function Register() {
   }
 
   function handleSubmit({ values }) {
-
-    if(!registerFormRef.current.validate()) return;
-
+    if (!registerFormRef.current.validate()) return;
+  
     const request = values;
-    request.clinic = clinics.filter((clinic) => clinic.name === request.clinic)[0];
-    request["authority"] = authority;
-    let state = "";
-
+    request.clinic = clinics.find((clinic) => clinic.name === request.clinic);
+    request.authority = authority;
+  
     fetch("/api/v1/auth/signup", {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: JSON.stringify(request),
     })
-      .then(function (response) {
-        if (response.status === 200) {
+      .then(async (response) => {
+        if (response.ok) {
+          // Signup successful, proceed with login
           const loginRequest = {
             username: request.username,
             password: request.password,
           };
-
-          fetch("/api/v1/auth/signin", {
+  
+          const loginResponse = await fetch("/api/v1/auth/signin", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify(loginRequest),
-          })
-            .then(function (response) {
-              if (response.status === 200) {
-                state = "200";
-                return response.json();
-              } else {
-                state = "";
-                return response.json();
-              }
-            })
-            .then(function (data) {
-              if (state !== "200") alert(data.message);
-              else {
-                tokenService.setUser(data);
-                tokenService.updateLocalAccessToken(data.token);
-                window.location.href = "/dashboard";
-              }
-            })
-            .catch((message) => {
-              alert(message);
-            });
+          });
+  
+          if (loginResponse.ok) {
+            // Login successful
+            const data = await loginResponse.json();
+            tokenService.setUser(data);
+            tokenService.updateLocalAccessToken(data.token);
+            window.location.href = "/dashboard";
+          } else {
+            // Login failed
+            const loginErrorData = await loginResponse.json();
+            alert(loginErrorData.message);
+          }
+        } else {
+          // Signup failed
+          const signupErrorData = await response.json();
+          alert(signupErrorData.message);
         }
       })
-      .catch((message) => {
-        alert(message);
+      .catch((error) => {
+        alert(error.message || "An error occurred during signup");
       });
   }
+  
 
   useEffect(() => {
     if (type === "Owner" || type === "Vet") {
@@ -113,6 +110,7 @@ export default function Register() {
             inputs={
               type === "Owner" ? registerFormOwnerInputs 
               : type === "Vet" ? registerFormVetInputs
+              : type === "PLAYER" ? registerFormPlayerInputs
               : registerFormClinicOwnerInputs
             }
             onSubmit={handleSubmit}
@@ -153,6 +151,13 @@ export default function Register() {
               onClick={handleButtonClick}
             >
               Clinic Owner
+            </button>
+            <button
+              className="auth-button"
+              value="PLAYER"
+              onClick={handleButtonClick}
+            >
+              Player
             </button>
           </div>
         </div>
