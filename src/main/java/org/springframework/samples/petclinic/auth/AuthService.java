@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.auth;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -13,9 +12,6 @@ import org.springframework.samples.petclinic.clinicowner.ClinicOwner;
 import org.springframework.samples.petclinic.clinicowner.ClinicOwnerService;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
-import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.samples.petclinic.player.State;
 import org.springframework.samples.petclinic.user.Authorities;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.User;
@@ -36,11 +32,10 @@ public class AuthService {
 	private final VetService vetService;
 	private final ClinicOwnerService clinicOwnerService;
 	private final ClinicService clinicService;
-	private final PlayerService playerService;
 
 	@Autowired
 	public AuthService(PasswordEncoder encoder, AuthoritiesService authoritiesService, UserService userService,
-			OwnerService ownerService, VetService vetService, ClinicOwnerService clinicOwnerService, ClinicService clinicService, PlayerService playerService) {
+			OwnerService ownerService, VetService vetService, ClinicOwnerService clinicOwnerService, ClinicService clinicService) {
 		this.encoder = encoder;
 		this.authoritiesService = authoritiesService;
 		this.userService = userService;
@@ -48,7 +43,6 @@ public class AuthService {
 		this.vetService = vetService;
 		this.clinicOwnerService = clinicOwnerService;
 		this.clinicService = clinicService;
-		this.playerService = playerService;
 	}
 
 	@Transactional
@@ -88,18 +82,6 @@ public class AuthService {
 			clinicOwner.setUser(user);
 			clinicOwnerService.saveClinicOwner(clinicOwner);
 			break;
-		case "player":
-			role = authoritiesService.findByAuthority("PLAYER");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			Player player = new Player();
-			player.setState(State.ACTIVE);
-			player.setUser(user);
-			player.setFriendsList(new HashSet<>());
-			player.setPlayerUsername(request.getPlayerUsername());
-			playerService.savePlayer(player);
-			break;
-
 		default:
 			role = authoritiesService.findByAuthority("OWNER");
 			user.setAuthority(role);

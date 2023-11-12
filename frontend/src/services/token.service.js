@@ -37,7 +37,6 @@ class TokenService {
         window.localStorage.removeItem("jwt");
     }
 
-
 }
 const tokenService = new TokenService();
 
