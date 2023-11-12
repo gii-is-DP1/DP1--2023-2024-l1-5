@@ -48,9 +48,6 @@ import ConsultationEditClinicOwner from "./clinicOwner/consultations/Consultatio
 import VetListClinicOwner from "./clinicOwner/vets/VetListClinicOwner";
 import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import GamesListAdmin from "./admin/games/GameListAdmin";
-import QuickPlay from "./player/quickPlay";
-import Game from "./player/Game";
-import WaitingRoom from "./player/waitingRoom";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -78,7 +75,6 @@ function App() {
   let userRoutes = <></>;
   let vetRoutes = <></>;
   let publicRoutes = <></>;
-  let playerRoutes = <></>;
 
   roles.forEach((role) => {
     if (role === "ADMIN") {
@@ -141,16 +137,6 @@ function App() {
           <Route path="/vets/:id" exact={true} element={<PrivateRoute><VetEditClinicOwner /></PrivateRoute>} />
         </>)
     }
-    if(role==="PLAYER"){
-      playerRoutes = (
-        <>
-          <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
-          <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
-        </>)
-
-
-    }
   })
   if (!jwt) {
     publicRoutes = (
@@ -182,7 +168,6 @@ function App() {
           {adminRoutes}
           {ownerRoutes}
           {vetRoutes}
-          {playerRoutes}
         </Routes>
       </ErrorBoundary>
     </div>

@@ -20,9 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;;
 
 @Getter
 @Setter
@@ -36,36 +34,33 @@ public class Game extends BaseEntity{
     private GameMode gameMode;
 
     @Column(name = "num_players")
+    @NotNull
     private Integer numPlayers;
 
     @Column(name = "winner_id")
+    @NotNull
     private Integer winner;
 
-    @ManyToOne
-    @JoinColumn(name = "creator_id", referencedColumnName = "id")
+    @Column(name = "creator_id")
     @NotNull
-    @JsonIgnore
-    private Player creator;
+    private Integer creator;
 
     @Column(name = "game_time")
+    @NotNull
     private Integer gameTime;
 
     @Enumerated(EnumType.STRING)
-	  @NotNull
-	  @Column(name = "game_status", columnDefinition = "varchar(20)")
-	  private GameStatus status;
+	@NotNull
+	@Column(name = "game_status", columnDefinition = "varchar(20)")
+	private GameStatus status;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "game", cascade= CascadeType.REMOVE,fetch = FetchType.EAGER)
     @Size(min = 1, max = 5)
     @JsonIgnore
     private List<Round> rounds;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "game_list")
     private List<Player> players;
 
-    public void setGameStatus(GameStatus status) {
-        this.status = status;
-
-
-        }
-        }
+}
