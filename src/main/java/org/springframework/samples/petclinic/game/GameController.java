@@ -119,7 +119,7 @@ public class GameController {
                 // Establecer los valores predeterminados para los atributos
                 newGame.setGameMode(gameRequest.getGameMode());
                 newGame.setCreator(player);
-                newGame.setGameStatus(GameStatus.WAITING);
+                newGame.setStatus(GameStatus.WAITING);
                 newGame.setNumPlayers(0);
                 newGame.setGameTime(0);
                 savedGame = this.gameService.saveGame(newGame);

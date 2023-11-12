@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class HandDTO {
 
+    Integer id;
     Integer numCartas;
     List<Integer> cards;
     Integer round;
@@ -23,6 +24,7 @@ public class HandDTO {
 
     public HandDTO(Hand h){
 
+        this.id = h.getId();
         this.numCartas = h.getNumCartas();
         List<Card> cLs  = h.getCards();
         List<Integer> cardList = new ArrayList<>();

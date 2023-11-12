@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 public class PlayerDTO {
 
+    Integer id;
     String playerUsername;
     State state;
     Set<Integer> friendsList;// ESto un Set de id no?
@@ -25,6 +26,8 @@ public class PlayerDTO {
     public PlayerDTO(){}
 
     public PlayerDTO(Player p){
+        
+        this.id = p.getId();
         this.playerUsername = p.getPlayerUsername();
         this.state = p.getState();
         Set<Player> pSet  = p.getFriendsList();

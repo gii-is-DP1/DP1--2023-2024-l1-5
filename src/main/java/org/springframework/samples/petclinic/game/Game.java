@@ -59,10 +59,6 @@ public class Game extends BaseEntity{
     @Size(min = 1, max = 5)
     // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
-
-    public void setGameStatus(GameStatus status) {
-        this.status = status;
-    }
   
     @ManyToMany(mappedBy = "game_list")
     private List<Player> players;
