@@ -1,9 +1,11 @@
 package org.springframework.samples.petclinic.hand;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.samples.petclinic.card.Card;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +15,7 @@ import lombok.Setter;
 public class HandDTO {
 
     Integer numCartas;
-    List<Card> cards;
+    List<Integer> cards;
     Integer round;
     Integer player;
 
@@ -22,7 +24,12 @@ public class HandDTO {
     public HandDTO(Hand h){
 
         this.numCartas = h.getNumCartas();
-        this.cards = h.getCards();
+        List<Card> cLs  = h.getCards();
+        List<Integer> cardList = new ArrayList<>();
+        for(Card c: cLs){
+            cardList.add(c.getId());
+        }
+        this.cards = cardList;
         this.round = h.getRound().getId();
         this.player = h.getPlayer().getId();
     }

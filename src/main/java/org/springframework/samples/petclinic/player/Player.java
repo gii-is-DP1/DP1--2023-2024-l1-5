@@ -55,8 +55,6 @@ public class Player extends BaseEntity{
 			@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
 	private List<Game> game_list;
 
-
-	
 	// @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
 	// @JoinColumn(name = "hand_id", referencedColumnName = "id")
 	// @OnDelete(action = OnDeleteAction.CASCADE)

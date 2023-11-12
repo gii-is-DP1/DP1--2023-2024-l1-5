@@ -43,31 +43,30 @@ public class RoundService {
     public Map<Integer, List<Card>> distribute(List<Card> lsCards, GameMode gameMode, RoundMode roundMode,
             List<Integer> lsPlayers) {
         Map<Integer, List<Card>> hands = new HashMap<>();
-        //Integer numCards = lsCards.size();
+        // Integer numCards = lsCards.size();
         Integer numPlayer = lsPlayers.size();
-
+        List<Card> cartasAleatorias = new ArrayList<>(lsCards);
+        Collections.shuffle(cartasAleatorias);
         if ("COMPETITIVE" == gameMode.toString()) {
             if ("PIT" == roundMode.toString()) {
+                // List<Card> deckCard = cartasAleatorias.subList(0, 1);
+                List<Card> deckCard = new ArrayList<>(cartasAleatorias.subList(0, 1));
 
-                List<Card> cartasAleatorias = new ArrayList<>(lsCards);
-                Collections.shuffle(cartasAleatorias);
-                List<Card> deckCard = cartasAleatorias.subList(0, 1);
                 hands.put(0, deckCard);
                 cartasAleatorias.removeAll(deckCard);
                 Integer numCards = cartasAleatorias.size();
-                int cartasPorJugador = numCards / numPlayer;
+                Integer cartasPorJugador = numCards / numPlayer;
 
                 for (Integer i = 0; i < numPlayer; i++) {
-                    List<Card> playerCards = cartasAleatorias.subList(0, cartasPorJugador);
+                    // List<Card> playerCards = cartasAleatorias.subList(0, cartasPorJugador);
+                    List<Card> playerCards = new ArrayList<>(cartasAleatorias.subList(0, cartasPorJugador));
+
                     Integer idPlayer = lsPlayers.get(i);
                     cartasAleatorias.removeAll(playerCards);
                     hands.put(idPlayer, playerCards);
                 }
                 return hands;
             } else {
-                List<Card> cartasAleatorias = new ArrayList<>(lsCards);
-                Collections.shuffle(cartasAleatorias);
-
                 for (Integer i = 0; i < numPlayer; i++) {
                     List<Card> playerCards = cartasAleatorias.subList(0, 1);
                     Integer idPlayer = lsPlayers.get(i);
@@ -80,26 +79,21 @@ public class RoundService {
             }
         } else {
             if ("PIT" == roundMode.toString()) {
-                List<Card> cartasAleatorias = new ArrayList<>(lsCards);
-                Collections.shuffle(cartasAleatorias);
-                List<Card> deckCard = cartasAleatorias.subList(0, 1);
+                List<Card> deckCard = new ArrayList<>(cartasAleatorias.subList(0, 1));
                 hands.put(0, deckCard);
                 cartasAleatorias.removeAll(deckCard);
-                 Integer numCards = cartasAleatorias.size();
+                Integer numCards = cartasAleatorias.size();
                 int cartasPorJugador = numCards / numPlayer;
                 int cartasRestantes = numCards % numPlayer;
                 for (Integer i = 0; i < numPlayer; i++) {
                     Integer cartasParaEstePlayer = cartasPorJugador + (cartasRestantes > 0 ? 1 : 0);
-                    List<Card> playerCards = cartasAleatorias.subList(0, cartasParaEstePlayer);
+                    List<Card> playerCards = new ArrayList<>(cartasAleatorias.subList(0, cartasParaEstePlayer));
                     Integer idPlayer = lsPlayers.get(i);
                     cartasAleatorias.removeAll(playerCards);
                     hands.put(idPlayer, playerCards);
                 }
                 return hands;
             } else {
-                List<Card> cartasAleatorias = new ArrayList<>(lsCards);
-                Collections.shuffle(cartasAleatorias);
-
                 for (Integer i = 0; i < numPlayer; i++) {
                     List<Card> playerCards = cartasAleatorias.subList(0, 1);
                     Integer idPlayer = lsPlayers.get(i);
@@ -114,7 +108,7 @@ public class RoundService {
         }
     }
 
-     public Map<Integer, List<Card>> repartir2(List<Card> lsCards, GameMode gameMode, RoundMode roundMode,
+    public Map<Integer, List<Card>> repartir2(List<Card> lsCards, GameMode gameMode, RoundMode roundMode,
             List<Integer> lsPlayers) {
         Map<Integer, List<Card>> hands = new HashMap<>();
         Integer numCards = lsCards.size();

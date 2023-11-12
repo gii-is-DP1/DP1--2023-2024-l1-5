@@ -51,10 +51,7 @@ public class Round extends BaseEntity{
     @JsonIgnore
     private Game game;
 
-    @OneToOne(mappedBy = "round", fetch = FetchType.EAGER)
-    @Size(min = 2, max = 8)
-    @JsonIgnore
-    private Hand hands;
+
     
 ;
 

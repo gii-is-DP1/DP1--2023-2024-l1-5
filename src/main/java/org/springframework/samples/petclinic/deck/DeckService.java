@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 
-
-
 @Service
 public class DeckService {
-    
+
     DeckRepository deckRepository;
 
     @Autowired
@@ -42,32 +40,25 @@ public class DeckService {
         return deckRepository.findById(id);
     }
 
-    @PostMapping
+    @Transactional
     public Deck createDeck(Deck deck) {
         return deckRepository.save(deck);
     }
 
-
-    @GetMapping
+    @Transactional(readOnly = true)
     public Deck getDeckByRoundId(Integer roundId) {
         return deckRepository.findByRoundId(roundId);
     }
 
-    
     @Transactional
-	public Deck updateDeck(@Valid Deck deck, Integer idToUpdate,List<Card> ls, Round round) {
-        System.out.println(ls);
+    public Deck updateDeck(@Valid Deck deck, Integer idToUpdate, List<Card> ls, Round round) {
         Integer numCards = ls.size();
-		Deck deckToUpdate = getDeckByRoundId(idToUpdate);
+        Deck deckToUpdate = getDeckByRoundId(idToUpdate);
         BeanUtils.copyProperties(deck, deckToUpdate, "id");
         deckToUpdate.setNumberOfCards(numCards);
         deckToUpdate.setCards(ls);
         deckToUpdate.setRound(round);
-        deckRepository.save(deckToUpdate);
-        return deckToUpdate;
-	}
-
-
- 
+        return createDeck(deckToUpdate);
+    }
 
 }

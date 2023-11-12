@@ -41,31 +41,26 @@ public class HandService {
         return handRepository.findById(id);
     }
 
-    @PostMapping
-    public Hand createHand(Hand hand) {
-        return handRepository.save(hand);
-    }
 
-    @GetMapping
+    @Transactional(readOnly = true)
     public Hand getHandByRoundId(Integer roundId) {
         return handRepository.findByRoundId(roundId);
     }
 
-    @GetMapping
-    public Hand getHandByPlayerId(Integer playerId){
+    @Transactional(readOnly = true)
+    public Hand getHandByPlayerId(Integer playerId) {
         return handRepository.findByPlayerId(playerId);
     }
 
-
     @Transactional
-	public Hand updateHand(@Valid Hand hand, Integer idToUpdate,List<Card> ls, Round round) {
+    public Hand updateHand(@Valid Hand hand, Integer idToUpdate, List<Card> ls, Round round) {
         Integer numCards = ls.size();
-		Hand handToUpdate = getHandByPlayerId(idToUpdate);
-        BeanUtils.copyProperties(hand, handToUpdate, "id","Player_id");
+        Hand handToUpdate = getHandByPlayerId(idToUpdate);
+        BeanUtils.copyProperties(hand, handToUpdate, "id", "player_id");
         handToUpdate.setNumCartas(numCards);
         handToUpdate.setCards(ls);
         handToUpdate.setRound(round);
-        handRepository.save(handToUpdate);
-        return handToUpdate;
-	}    
+
+        return saveHand(handToUpdate);
+    }
 }

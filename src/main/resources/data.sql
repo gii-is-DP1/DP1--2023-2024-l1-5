@@ -48,33 +48,43 @@ INSERT INTO authorities(id,authority) VALUES(5,'PLAYER');
 INSERT INTO appusers(id,username,password,authority) VALUES (200,'player0','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (201,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (202,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (203,'playerX','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
 INSERT INTO players(id,user_id) VALUES(1,200);
 INSERT INTO players(id,user_id) VALUES(2,201);
 INSERT INTO players(id,user_id) VALUES(3,202);
+INSERT INTO players(id,user_id) VALUES(4,203);
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'COMPETITIVE',4,2,2,80,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'COMPETITIVE',4,3,1,135,'FINALIZED');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',1, 4, 4, 50, 'WAITING');
+
 
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'120','PIT',1);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4, 4, 4, '10', 'PIT', 4);
+
 
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
+
 
 
 -- Inserta un registro de Deck
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
 
 
 INSERT INTO player_games(player_id,game_id) VALUES(1,1);
 INSERT INTO player_games(player_id,game_id) VALUES(2,1);
+INSERT INTO player_games(player_id,game_id) VALUES(4,4);
 
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
@@ -220,10 +230,12 @@ INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/1Q2Qj1M.png');
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
+INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
 
 INSERT INTO cards_hand(cards_id, hand_id) VALUES(1, 1);
 INSERT INTO cards_hand(cards_id, hand_id) VALUES(2, 1);
 INSERT INTO cards_hand(cards_id, hand_id) VALUES(3, 1);
+INSERT INTO cards_hand(cards_id, hand_id) VALUES(3, 3);
 
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES('DOLPHIN');

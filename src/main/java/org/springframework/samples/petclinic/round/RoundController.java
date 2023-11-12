@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 
-
 import org.springframework.http.HttpStatus;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -57,7 +56,8 @@ public class RoundController {
     private static final String PLAYER_AUTH = "PLAYER";
 
     @Autowired
-    public RoundController(RoundService roundService, UserService userService, GameService gameService, PlayerService playerService, DeckService deckService, CardService cardService, HandService handService) {
+    public RoundController(RoundService roundService, UserService userService, GameService gameService,
+            PlayerService playerService, DeckService deckService, CardService cardService, HandService handService) {
         this.roundService = roundService;
         this.userService = userService;
         this.gameService = gameService;
@@ -79,43 +79,44 @@ public class RoundController {
             throw new ResourceNotFoundException("Round", "id", id);
         return new ResponseEntity<>(r.get(), HttpStatus.OK);
     }
-    
+
     @PostMapping
-    public ResponseEntity<Round> createRound(@Valid @RequestBody RoundRequest roundRequest) throws DataAccessException{
-        //POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO
-        
+    public ResponseEntity<Round> createRound(@Valid @RequestBody RoundRequest roundRequest) throws DataAccessException {
+        // POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO
+
         User user = userService.findCurrentUser();
         Round newRound = new Round();
         Round savedRound;
         BeanUtils.copyProperties(roundRequest, newRound, "id");
-        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
             Player player = playerService.findPlayerByUser(user);
             boolean hasWaitingGame = gameService.getWaitingGame(player) != null;
-            if(!hasWaitingGame){
+            if (!hasWaitingGame) {
                 throw new WaitingGameException("No hay ninguna partida en espera");
-            }else{
+            } else {
                 newRound.setRoundMode(roundRequest.getRoundMode());
                 Optional<Game> waitingGame = gameService.getWaitingGame(player);
-                if(waitingGame.isPresent()){
+                if (waitingGame.isPresent()) {
                     newRound.setGame(waitingGame.get());
                     savedRound = roundService.saveRound(newRound);
-                }else{
+                } else {
                     throw new WaitingGameException("No hay ninguna partida en espera");
                 }
             }
-        }else{
+        } else {
             savedRound = roundService.saveRound(newRound);
         }
         return new ResponseEntity<>(savedRound, HttpStatus.CREATED);
-    }   
+    }
 
     @PutMapping("/shuffle")
     public void create(@Valid @RequestParam(required = true) int round_id) throws Exception {
 
         User user = userService.findCurrentUser();
-        Player player = playerService.findPlayerByUser(user);
-        boolean hasWaitingGame = gameService.getWaitingGame(player) != null;
-        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && hasWaitingGame) {
+        // Player player = playerService.findPlayerByUser(user);
+        // boolean hasWaitingGame = gameService.getWaitingGame(player) != null;
+        // if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && hasWaitingGame) {
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
             Optional<Round> optionalRound = roundService.getRoundById(round_id);
             if (optionalRound.isPresent()) {
                 Round round = optionalRound.get();
@@ -127,27 +128,26 @@ public class RoundController {
                 List<Integer> ls = gameDTO.getPlayerList();
                 List<Card> cards = cardService.getAllCards();
                 Map<Integer, List<Card>> hands = roundService.distribute(cards, gameMode, roundMode, ls);
-                for(Integer key: hands.keySet()){
-                    if(key == 0){
+                for (Integer key : hands.keySet()) {
+                    if (key == 0) {
                         Deck deck = deckService.getDeckByRoundId(roundId);
-                        if(deck != null){
+                        if (deck != null) {
                             List<Card> deckCards = hands.get(key);
-                            if(deckCards != null){
-                                this.deckService.updateDeck(deck, round_id, deckCards, round);
+                            if (deckCards != null) {
+                                Deck newDeck = this.deckService.updateDeck(deck, round_id, deckCards, round);
                             }
-                           
-                        }else{
+
+                        } else {
                             throw new Exception("no existe deck");
                         }
-                        
-                        
-                    }else{
+
+                    } else {
                         Integer playerId = key;
                         Hand hand = handService.getHandByPlayerId(playerId);
-                        if(hand != null){
+                        if (hand != null) {
                             List<Card> handCards = hands.get(key);
                             this.handService.updateHand(hand, playerId, handCards, round);
-                        }else{
+                        } else {
                             throw new Exception("no existe hand");
                         }
 
@@ -155,6 +155,8 @@ public class RoundController {
                 }
 
             }
+        } else {
+            throw new WaitingGameException("No hay ninguna partida en espera");
         }
 
     }
