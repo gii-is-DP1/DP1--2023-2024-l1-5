@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +23,7 @@ public class User extends BaseEntity {
 	@Column(unique = true)
 	String username;
 
+	@JsonIgnore
 	String password;
 
 	@NotNull
