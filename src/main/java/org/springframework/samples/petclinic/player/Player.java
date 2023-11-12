@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.game.Game;
 
 
@@ -49,20 +50,15 @@ public class Player extends BaseEntity{
     @ManyToMany
     private Set<Player> friendsList = new HashSet<>();
 
-	// @ManyToOne
-	// @JoinColumn(name = "round_id")
-	// @JsonIgnore
-	// private Round round;
-
-	//IMPORTANTE: COMPROBAR QUE FUNCIONA ESTA RELACIÓN
-	
-	// @ManyToMany(mappedBy = "players")
-    // private List<Hand> hands;
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
 	private List<Game> game_list;
+
+	// @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
+	// @JoinColumn(name = "hand_id", referencedColumnName = "id")
+	// @OnDelete(action = OnDeleteAction.CASCADE)
+	// private Hand hand;	
 
 	public void removeAllGames() {
 		game_list = null;

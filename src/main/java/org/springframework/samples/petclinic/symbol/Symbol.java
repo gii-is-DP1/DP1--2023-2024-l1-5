@@ -11,6 +11,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.card.Card;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 @Entity
@@ -25,6 +28,7 @@ public class Symbol {
     Name name;
 
     @ManyToMany(mappedBy = "symbols")
+    @JsonIgnore
     private List<Card> cards;
     
 }

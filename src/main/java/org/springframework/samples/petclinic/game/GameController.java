@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.game;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,26 +43,36 @@ public class GameController {
     private static final String PLAYER_AUTH = "PLAYER";
     private static final String QUICK_START = "QUICK_START";
     private static final String COMPETITIVE = "COMPETITIVE";
-    
+
     @Autowired
-	public GameController(GameService gameService, UserService userService, PlayerService playerService) {
-		this.gameService = gameService;
-		this.playerService = playerService;
+    public GameController(GameService gameService, UserService userService, PlayerService playerService) {
+        this.gameService = gameService;
+        this.playerService = playerService;
         this.userService = userService;
-	}
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Game>>getAllGames(){
-        return  new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);
+    public ResponseEntity<List<GameDTO>> getAllGames() {
+        List<Game> games = gameService.getAllGames(); // Obtener la lista de objetos Game
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game)) // Convertir Game a GameDTO
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Game> getGameById(@PathVariable("id")Integer id){
-        Optional<Game> g=gameService.getGameById(id);
-        if(!g.isPresent())
+    public ResponseEntity<GameDTO> getGameById(@PathVariable("id") Integer id) {
+        Optional<Game> g = gameService.getGameById(id);
+        if (!g.isPresent())
             throw new ResourceNotFoundException("Game", "id", id);
-        return new ResponseEntity<>(g.get(), HttpStatus.OK);
+    
+        Game game = g.get();
+        GameDTO gameDTO = new GameDTO(game);
+    
+        return new ResponseEntity<>(gameDTO, HttpStatus.OK);
     }
 
     @GetMapping("/quick/joinRandom")
@@ -108,7 +119,7 @@ public class GameController {
                 // Establecer los valores predeterminados para los atributos
                 newGame.setGameMode(gameRequest.getGameMode());
                 newGame.setCreator(player);
-                newGame.setGameStatus(GameStatus.WAITING);
+                newGame.setStatus(GameStatus.WAITING);
                 newGame.setNumPlayers(0);
                 newGame.setGameTime(0);
                 savedGame = this.gameService.saveGame(newGame);
