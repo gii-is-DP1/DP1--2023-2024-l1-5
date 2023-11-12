@@ -4,6 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
+import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
@@ -11,7 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * responses to [ErrorController], which produces validation response. So we need to fake it in tests.
  * It's not ideal, but at least we can use classic MockMvc tests for testing error response + document it.
  */
-//@ControllerAdvice
+@ControllerAdvice
 public class ExceptionHandlerConfiguration 
 {
 	@SuppressWarnings("unused")
@@ -25,5 +31,18 @@ public class ExceptionHandlerConfiguration
         request.setAttribute("jakarta.servlet.error.status_code", 400);
         request.setAttribute("exeption", ex);
         return "exception";
+    }
+    //EXCEPTION HANDLER FOR ACTIVE GAME EXCEPTION
+    @ExceptionHandler(ActiveGameException.class)
+    public ResponseEntity<String> handleActiveGameException(ActiveGameException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(WaitingGameException.class)
+    public ResponseEntity<String> handleWaitingGameException(WaitingGameException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(WaitingGamesNotFoundException.class)
+    public ResponseEntity<String> handleWaitingGamesNotFoundException(WaitingGamesNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }
