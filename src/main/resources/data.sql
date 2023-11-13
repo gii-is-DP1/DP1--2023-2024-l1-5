@@ -62,11 +62,33 @@ INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(4,'Alvaro','Be
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205);
 
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'COMPETITIVE',4,2,2,80,'IN_PROGRESS');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'COMPETITIVE',4,3,1,135,'FINALIZED');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',1, 4, 4, 50, 'WAITING');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',5, 4, 4, 50, 'WAITING');
+
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',4,3,4,200,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
+
+INSERT INTO players_games(player_id, game_id) VALUES(1, 1);
+INSERT INTO players_games(player_id, game_id) VALUES(2, 1);
+INSERT INTO players_games(player_id, game_id) VALUES(5, 1);
+INSERT INTO players_games(player_id, game_id) VALUES(6, 1);
+
+INSERT INTO players_games(player_id, game_id) VALUES(1, 2);
+INSERT INTO players_games(player_id, game_id) VALUES(2, 2);
+INSERT INTO players_games(player_id, game_id) VALUES(4, 2);
+
+INSERT INTO players_games(player_id, game_id) VALUES(1, 3);
+INSERT INTO players_games(player_id, game_id) VALUES(6, 3);
+INSERT INTO players_games(player_id, game_id) VALUES(4, 3);
+INSERT INTO players_games(player_id, game_id) VALUES(5, 3);
+
+INSERT INTO players_games(player_id, game_id) VALUES(4, 4);
+INSERT INTO players_games(player_id, game_id) VALUES(1, 4);
+
+INSERT INTO players_games(player_id, game_id) VALUES(5, 5);
+INSERT INTO players_games(player_id, game_id) VALUES(2, 5);
+INSERT INTO players_games(player_id, game_id) VALUES(6, 5);
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
@@ -77,6 +99,7 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
+
 
 
 
@@ -192,8 +215,8 @@ INSERT INTO invitations(id, destination_user, source_user, invitation_state) VAL
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
 
-INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME', 'LOCKED');
-INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES', 'UNLOCKED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES');
 -- Inserta un registro de PlayerStatistic
 INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
 VALUES (1, 10, 5, 5, 0, 250, 120, 10);

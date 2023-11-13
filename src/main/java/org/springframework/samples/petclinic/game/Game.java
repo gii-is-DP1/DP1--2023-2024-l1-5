@@ -46,7 +46,6 @@ public class Game extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
-    @JsonIgnore
     private Player creator;
 
     @Column(name = "game_time")
