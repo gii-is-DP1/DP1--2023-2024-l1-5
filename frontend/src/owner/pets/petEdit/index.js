@@ -71,6 +71,7 @@ export default function OwnerPetEdit(){
         }
       }).catch(error => {setMessage(error);setModalShow(true);});
       }
+    console.log(pet)
   }
 
   function handleChange(event) {

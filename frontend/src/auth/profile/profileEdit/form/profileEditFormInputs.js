@@ -5,8 +5,8 @@ export const profileEditFormInputs = [
   {
     tag: "Image",
     name: "Image",
-    type: "date",
-    defaultValue: moment().format('YYYY-MM-DD'),
+    type: "text",
+    defaultValue: "",
     isRequired: true,
     validators: [formValidators.notEmptyValidator],
   },
