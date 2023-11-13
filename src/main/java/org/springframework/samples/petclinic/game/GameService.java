@@ -36,7 +36,6 @@ public class GameService {
     }
     @Transactional(readOnly=true)
     public Optional<Game> getGameById(Integer id) throws DataAccessException{
-        List<Player> jugadores = playerRepository.findPlayersById(id);
         return gameRepository.findById(id);
     }
     @Transactional(readOnly=true)

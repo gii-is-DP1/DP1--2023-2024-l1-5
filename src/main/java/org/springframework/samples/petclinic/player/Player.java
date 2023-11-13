@@ -49,14 +49,11 @@ public class Player extends Person {
 
 	@ManyToMany
 	private Set<Player> friendsList = new HashSet<>();
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
-			@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
-	private List<Game> game_list;
-
-	public void removeAllGames() {
-		game_list = null;
-	}
+	
+	// @JsonIgnore
+	// @ManyToMany(fetch = FetchType.EAGER)
+	// @JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
+	// 		@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
+	// private List<Game> game_list;
 
 }

@@ -52,7 +52,8 @@ public class PlayerController {
         Optional<Player> p = playerService.getPlayerById(id);
         if (!p.isPresent())
             throw new ResourceNotFoundException("Player", "id", id);
-        return new ResponseEntity<>(new PlayerDTO(p.get()), HttpStatus.OK);
+        PlayerDTO playerDTO = new PlayerDTO(p.get());
+        return new ResponseEntity<>(playerDTO, HttpStatus.OK);
     }
     @GetMapping("/user/{id}") 
     @ResponseStatus(HttpStatus.OK)

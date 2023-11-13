@@ -20,7 +20,6 @@ public class PlayerDTO {
     String playerUsername;
     State state;
     Set<Integer> friendsList;// ESto un Set de id no?
-    List<GameDTO> gameDTOList;
     //Integer hand;//esto tmb
 
     public PlayerDTO(){}
@@ -36,12 +35,6 @@ public class PlayerDTO {
             playerSet.add(pAux.getId());
         }
         this.friendsList= playerSet;
-         List<Game> gLs  = p.getGame_list();
-         List<GameDTO> Ls = new ArrayList<>();
-         for(Game g: gLs){
-             Ls.add(new GameDTO(g));
-         }
-         this.gameDTOList = Ls;
          //this.hand = p.getHand().getId();
     }
     

@@ -67,15 +67,14 @@ public class GameController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Game> getGameById(@PathVariable("id") Integer id) {
+    public ResponseEntity<GameDTO> getGameById(@PathVariable("id") Integer id) {
         Optional<Game> g = gameService.getGameById(id);
         if (!g.isPresent())
             throw new ResourceNotFoundException("Game", "id", id);
     
-        Game game = g.get();
-        GameDTO gameDTO = new GameDTO(game);
+        GameDTO gameDTO = new GameDTO(g.get());
     
-        return new ResponseEntity<>(game, HttpStatus.OK);
+        return new ResponseEntity<>(gameDTO, HttpStatus.OK);
     }
 
     @GetMapping("/quick/joinRandom")
