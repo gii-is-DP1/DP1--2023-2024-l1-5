@@ -53,6 +53,7 @@ import QuickPlay from "./player/quickPlay";
 import Game from "./player/Game";
 import WaitingRoom from "./player/waitingRoom";
 import GameRules from "./player/gameRules";
+import GamesListAdmin from "./admin/games/GameListAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -105,6 +106,7 @@ function App() {
           <Route path="/consultations" exact={true} element={<PrivateRoute><ConsultationListAdmin /></PrivateRoute>} />
           <Route path="/consultations/:consultationId" exact={true} element={<PrivateRoute><ConsultationEditAdmin /></PrivateRoute>} />
           <Route path="/consultations/:consultationId/tickets" exact={true} element={<PrivateRoute><TicketListAdmin /></PrivateRoute>} />
+          <Route path="/games" exact={true} element={<PrivateRoute><GamesListAdmin /></PrivateRoute>} />
         </>)
     }
     if (role === "OWNER") {
