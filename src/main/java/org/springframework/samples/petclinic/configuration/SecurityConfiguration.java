@@ -62,6 +62,7 @@ public class SecurityConfiguration {
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/players")).authenticated()
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/owners")).authenticated()
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/clinicOwners")).authenticated()
+			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/users")).authenticated()
 			.requestMatchers("/api/v1/plan").hasAuthority("OWNER")
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/users/**")).hasAuthority(ADMIN)
 			.requestMatchers("/api/v1/clinicOwners/all").hasAuthority(ADMIN)

@@ -1,27 +1,26 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "reactstrap";
+import getErrorModal from "../../../util/getErrorModal";
 import { profileEditFormInputs } from "./form/profileEditFormInputs";
 import FormGenerator from "../../../components/formGenerator/formGenerator";
 import tokenService from "../../../services/token.service";
+import useFetchState from "../../../util/useFetchState";
 
-const user = tokenService.getUser();
+const persona = tokenService.getUser();
 
 export default function ProfileEdit(){
 
-    let pathArray = window.location.pathname.split("/");
-    const emptyItem = {
+    const emptyUser = {
+      id: null,
+      username: "",
+      authority:{}
+    };
+
+    const emptyPlayer = {
         id: null,
         firstname: "",
         lastname: "",
-        username: "",
         image: "",
         state:null,
         user:{},
@@ -29,104 +28,83 @@ export default function ProfileEdit(){
     }; 
     
     const editProfileFormRef=useRef();
-    let rol = String(user.roles).toLowerCase()+'s';
     const jwt = JSON.parse(window.localStorage.getItem("jwt"));
     const [message,setMessage] = useState(null);
-    const [modalShow,setModalShow] = useState(false);
-    const [player,setPlayer] = useState(emptyItem);  
+    const [visible, setVisible] = useState(false);
+    const [player,setPlayer] = useState(emptyPlayer);  
+    const [user,setUser] = useState(emptyUser);  
 
-    useEffect( () => setUpUser(),[]);  
+    async function setUp() {
+      console.log("set up llamado")
+      const playersFetch = await (
+        await fetch(`/api/v1/players`, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+        })
+      ).json();
+      const onePlayer  = playersFetch.filter((x)=> x.user.id === persona.id)
+      setPlayer(onePlayer);
 
-    function setUpUser() {
-        const player =  (
-            fetch(`/api/v1/${rol}`, {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-              "Content-Type": "application/json",
-            },
-          })
-          .then((p) => p.json())
-          .then((p) => {
-            if(p.message){ 
-              setMessage(player.message);
-              setModalShow( true );
-            }else {
-            const usuario = p.filter((x)=> x.user.id === user.id)
-            setPlayer(usuario);
-            }
-          }).catch(m =>{
-            setMessage(m);
-            setModalShow( true );
-          }) 
-        )
-        console.log(player)
-      }
+      const usersFetch = await (
+        await fetch(`/api/v1/users`, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+        })
+      ).json();
+      const oneUser  = usersFetch.filter((x)=> x.id === persona.id)
+      setUser(oneUser);
+    }
 
-      async function handleSubmit({ values }) {
+    useEffect(() => {
+      setUp();
+    }, []);
+
+      function handleSubmit({ values }) {
 
         if (!editProfileFormRef.current.validate()) return;
-        const actPlayer = {
-          id: player.id,
-          firstname: player.firstname,
-          lastname: player.lastname,
+
+        const editUser = {
+          id: user.id,
           username: values["username"],
+          authority: user.authority
+        }
+
+        const editPlayer = {
+          id: player.id,
+          firstname: values["firstName"],
+          lastname: values["lastName"],
           image: values["image"],
           state: player.state,
-          user: player.user,
+          user: editUser,
           friendList: player.friendList
         };
-        const submit = await (await fetch("/api/v1/pets" + (actPlayer.id ? "/" + actPlayer : ""), 
+
+
+        fetch("/api/v1/players" + (editPlayer.id ? "/" + editPlayer.id : ""), 
           {
-            method: actPlayer.id ? "PUT" : "POST",
+            method: editPlayer.id ? "PUT" : "POST",
             headers: {
               Authorization: `Bearer ${jwt}`,
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(actPlayer),
-          }
-        )).json();
-        if (submit.message){
-          setMessage(submit.message);
-          setModalShow(true);
-        }
-        else window.location.href = `/profile`;
+            body: JSON.stringify(editPlayer),
+          }).then((response) => response.json())
+          .then((json) => {
+            if (json.message) {
+              setMessage(json.message);
+              setVisible(true);
+            } else window.location.href = "/profile";
+          })
+          .catch((message) => alert(message));
+          console.log(editPlayer)
       }
 
-    function handleShow() {
-        setModalShow(false);
-        setMessage(null);
-      }
-
-    let modal = <></>;
-    if (message) {
-      const show = modalShow;
-      const closeBtn = (
-        <button className="close" onClick={handleShow} type="button">
-          &times;
-        </button>
-      );
-      const cond = message.includes("limit");
-      modal = (
-        <div>
-          <Modal isOpen={show} toggle={handleShow} keyboard={false}>
-            {cond ? (
-              <ModalHeader>Warning!</ModalHeader>
-            ) : (
-              <ModalHeader toggle={handleShow} close={closeBtn}>
-                Error!
-              </ModalHeader>
-            )}
-            <ModalBody>{message || ""}</ModalBody>
-            <ModalFooter>
-              <Button color="primary" tag={Link} to={`/myPets`}>
-                Back
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </div>
-      );
-    }
+    const modal = getErrorModal(setVisible, visible, message);
 
     return (
         <div className="edit-pet-page-container">
@@ -139,11 +117,11 @@ export default function ProfileEdit(){
                 buttonText="Save"
                 buttonClassName="auth-button"
                 />
+            <div className="button-container-back">
+                <Link className="auth-button" to="/profile" style={{textDecoration: "none"}}>Back</Link>
+            </div>
           </div>
           {modal}
-            <div className="button-container-back">
-                  <Link className="auth-button" to="/profile" style={{textDecoration: "none"}}>Back</Link>
-            </div>
         </div>
       );
 
