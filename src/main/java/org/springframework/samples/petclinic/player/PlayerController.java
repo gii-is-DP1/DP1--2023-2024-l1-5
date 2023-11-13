@@ -54,5 +54,12 @@ public class PlayerController {
             throw new ResourceNotFoundException("Player", "id", id);
         return new ResponseEntity<>(new PlayerDTO(p.get()), HttpStatus.OK);
     }
+    @GetMapping("/user/{id}") 
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Player> getPlayerByUserId(@PathVariable("id")Integer id){
+        Player p=playerService.getPlayerByUserId(id);
+        return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
 
 }

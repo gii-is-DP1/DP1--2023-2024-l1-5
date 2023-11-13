@@ -34,11 +34,11 @@ public class GameDTO {
         this.gameTime = g.getGameTime();
         this.status = g.getStatus();
         List<Player> pLs  = g.getPlayers();
-        List<Integer> playerList = new ArrayList<>();
+        List<Integer> playerList2 = new ArrayList<>();
         for(Player p: pLs){
-            playerList.add(p.getId());
+            playerList2.add(p.getId());
         }
-        this.playerList = playerList;
+        this.playerList = playerList2;
         List<Round> rLs  = g.getRounds();
         List<Integer> roundList = new ArrayList<>();
         for(Round r: rLs){

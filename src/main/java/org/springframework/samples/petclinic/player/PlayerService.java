@@ -35,4 +35,8 @@ public class PlayerService {
     public Player findPlayerByUser(User user) throws DataAccessException{
         return playerRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Player", "ID", user.getId()));
     }
+    @Transactional(readOnly=true)
+    public Player getPlayerByUserId(Integer id) throws DataAccessException{
+        return playerRepository.findByUserId(id).orElseThrow(() -> new ResourceNotFoundException("Player", "ID", id));
+    }
 }

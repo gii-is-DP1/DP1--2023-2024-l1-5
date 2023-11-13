@@ -45,10 +45,14 @@ INSERT INTO appusers(id,username,password,authority) VALUES (18,'vet5','$2a$10$a
 INSERT INTO appusers(id,username,password,authority) VALUES (19,'vet6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
 
 INSERT INTO authorities(id,authority) VALUES(5,'PLAYER');
-INSERT INTO appusers(id,username,password,authority) VALUES (200,'player0','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
-INSERT INTO appusers(id,username,password,authority) VALUES (201,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
-INSERT INTO appusers(id,username,password,authority) VALUES (202,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
-INSERT INTO appusers(id,username,password,authority) VALUES (203,'playerX','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+
+INSERT INTO appusers(id,username,password,authority) VALUES (200,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (201,'player2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (202,'player3','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (203,'player4','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (204,'player5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (205,'player6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+
 
 
 INSERT INTO players(id,user_id) VALUES(1,200);
@@ -56,12 +60,14 @@ INSERT INTO players(id,user_id) VALUES(2,201);
 INSERT INTO players(id,user_id) VALUES(3,202);
 INSERT INTO players(id,user_id) VALUES(4,203);
 
+INSERT INTO players(id,user_id) VALUES(5,204);
+INSERT INTO players(id,user_id) VALUES(6,205);
+
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'COMPETITIVE',4,2,2,80,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'COMPETITIVE',4,3,1,135,'FINALIZED');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',1, 4, 4, 50, 'WAITING');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',5, 4, 4, 50, 'WAITING');
-
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
@@ -86,9 +92,10 @@ INSERT INTO player_games(player_id,game_id) VALUES(1,1);
 INSERT INTO player_games(player_id,game_id) VALUES(2,1);
 INSERT INTO player_games(player_id,game_id) VALUES(4,4);
 
-
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
+
+
 
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
@@ -204,9 +211,6 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nich
 -- Inserta un registro de Message
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
-
-
---AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/1Q2Qj1M.png');

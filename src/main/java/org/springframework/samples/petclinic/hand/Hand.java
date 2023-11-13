@@ -7,14 +7,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.round.Round;
+
 
 @Entity
 @Getter
@@ -51,5 +51,4 @@ public class Hand extends BaseEntity {
     @JoinColumn(name = "player_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Player player;
-
 }

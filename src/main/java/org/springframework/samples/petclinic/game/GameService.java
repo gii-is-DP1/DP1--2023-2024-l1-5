@@ -3,20 +3,28 @@ package org.springframework.samples.petclinic.game;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
 
 @Service
 public class GameService {
 
+    PlayerRepository playerRepository;
     GameRepository gameRepository;
 	@Autowired
-	public GameService(GameRepository gameRepository) {
+	public GameService(GameRepository gameRepository,PlayerRepository playerRepository) {
 		this.gameRepository = gameRepository;
-	}
+        this.playerRepository = playerRepository;
+    }
+
 	@Transactional
     public Game saveGame(Game game) {
         gameRepository.save(game);
@@ -27,7 +35,8 @@ public class GameService {
         return gameRepository.findAll();
     }
     @Transactional(readOnly=true)
-    public Optional<Game> getGameById(Integer id){
+    public Optional<Game> getGameById(Integer id) throws DataAccessException{
+        List<Player> jugadores = playerRepository.findPlayersById(id);
         return gameRepository.findById(id);
     }
     @Transactional(readOnly=true)
@@ -40,11 +49,21 @@ public class GameService {
         return result;
     }
 
+    @Transactional()
+    public Game updateGame(int idPlayer, int idGame){
+        Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
+        Game toUpdate= getGameById(idGame).get();
+        toUpdate.getPlayers().add(toAddPlayer);
+        return saveGame(toUpdate);
+    } 
+
+    
+
     @Transactional(readOnly=true)
     public Optional<Game> getRandomGame(String gameMode){
         List<Game> games = null;
         Optional<Game> result = null;
-        if(gameMode.equals("QUICK_START")){
+        if(gameMode.equals("QUICK_PLAY")){
             games = gameRepository.findWaitingQuickGames();
         }else if(gameMode.equals("COMPETITIVE")){
             games = gameRepository.findWaitingCompetitiveGames();

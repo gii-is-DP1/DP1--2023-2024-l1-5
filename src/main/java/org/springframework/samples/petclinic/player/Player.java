@@ -2,13 +2,11 @@ package org.springframework.samples.petclinic.player;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.user.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.game.Game;
 
 import jakarta.persistence.CascadeType;
@@ -16,19 +14,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.UniqueConstraint;
 
 @Getter
 @Setter
