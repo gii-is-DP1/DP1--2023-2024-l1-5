@@ -3,14 +3,6 @@ import moment from 'moment';
 
 export const profileEditFormInputs = [
   {
-    tag: "Username",
-    name: "username",
-    type: "text",
-    defaultValue: "",
-    isRequired: true,
-    validators: [formValidators.notEmptyValidator],
-  },
-  {
     tag: "First Name",
     name: "firstName",
     type: "text",
@@ -28,7 +20,7 @@ export const profileEditFormInputs = [
   },
   {
     tag: "Image",
-    name: "Image",
+    name: "image",
     type: "text",
     defaultValue: "",
     isRequired: true,

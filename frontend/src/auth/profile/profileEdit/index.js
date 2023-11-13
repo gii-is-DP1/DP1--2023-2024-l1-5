@@ -1,13 +1,13 @@
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import getErrorModal from "../../../util/getErrorModal";
 import { profileEditFormInputs } from "./form/profileEditFormInputs";
 import FormGenerator from "../../../components/formGenerator/formGenerator";
 import tokenService from "../../../services/token.service";
-import useFetchState from "../../../util/useFetchState";
 
 const persona = tokenService.getUser();
+const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
 export default function ProfileEdit(){
 
@@ -27,15 +27,13 @@ export default function ProfileEdit(){
         friendList:{}
     }; 
     
-    const editProfileFormRef=useRef();
-    const jwt = JSON.parse(window.localStorage.getItem("jwt"));
     const [message,setMessage] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [player,setPlayer] = useState(emptyPlayer);  
-    const [user,setUser] = useState(emptyUser);  
+    const [player, setPlayer] = useState(emptyPlayer);  
+    const [user, setUser] = useState(emptyUser);
 
-    async function setUp() {
-      console.log("set up llamado")
+
+    async function setUpPlayerUser() {
       const playersFetch = await (
         await fetch(`/api/v1/players`, {
           headers: {
@@ -44,8 +42,9 @@ export default function ProfileEdit(){
           },
         })
       ).json();
-      const onePlayer  = playersFetch.filter((x)=> x.user.id === persona.id)
+      const onePlayer  = playersFetch.filter((x)=> x.user.id === persona.id)[0]
       setPlayer(onePlayer);
+      console.log(player);
 
       const usersFetch = await (
         await fetch(`/api/v1/users`, {
@@ -55,34 +54,35 @@ export default function ProfileEdit(){
           },
         })
       ).json();
-      const oneUser  = usersFetch.filter((x)=> x.id === persona.id)
+      const oneUser  = usersFetch.filter((x)=> x.id === persona.id)[0];
       setUser(oneUser);
+      console.log(user);
     }
 
     useEffect(() => {
-      setUp();
+      setUpPlayerUser()
     }, []);
+
+    useEffect(() => {}, [user, player]);
+
 
       function handleSubmit({ values }) {
 
-        if (!editProfileFormRef.current.validate()) return;
-
         const editUser = {
           id: user.id,
-          username: values["username"],
+          username: user.username,
           authority: user.authority
         }
 
         const editPlayer = {
           id: player.id,
-          firstname: values["firstName"],
-          lastname: values["lastName"],
+          firstName: values["firstName"],
+          lastName: values["lastName"],
           image: values["image"],
           state: player.state,
           user: editUser,
-          friendList: player.friendList
+          friendsList: player.friendsList
         };
-
 
         fetch("/api/v1/players" + (editPlayer.id ? "/" + editPlayer.id : ""), 
           {
@@ -101,7 +101,6 @@ export default function ProfileEdit(){
             } else window.location.href = "/profile";
           })
           .catch((message) => alert(message));
-          console.log(editPlayer)
       }
 
     const modal = getErrorModal(setVisible, visible, message);
@@ -111,7 +110,6 @@ export default function ProfileEdit(){
           <div className="edit-pet-form-container">
             <h2 className="text-center">Edit Profile</h2>
                 <FormGenerator
-                ref={editProfileFormRef}
                 inputs={profileEditFormInputs}
                 onSubmit={handleSubmit}
                 buttonText="Save"
