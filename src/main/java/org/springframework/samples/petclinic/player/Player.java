@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.player;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.user.User;
 
@@ -18,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +39,12 @@ public class Player extends Person {
 	@Column(name = "PLAYERUSERNAME", columnDefinition = "varchar(50) default 'exampleName'")
 	private String playerUsername;
 
+
+	@Column(name = "image")
+    @NotBlank
+    @NotNull
+    private String image;
+
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	@Column(columnDefinition = "varchar(20) default 'ACTIVE'")
@@ -49,6 +57,7 @@ public class Player extends Person {
 
 	@ManyToMany
 	private Set<Player> friendsList = new HashSet<>();
+
 	
 	// @JsonIgnore
 	// @ManyToMany(fetch = FetchType.EAGER)

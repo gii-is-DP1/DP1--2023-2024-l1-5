@@ -33,7 +33,7 @@ INSERT INTO appusers(id,username,password,authority) VALUES (23,'manortper1','$2
 INSERT INTO appusers(id,username,password,authority) VALUES (24,'lucantdel','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
 INSERT INTO appusers(id,username,password,authority) VALUES (25,'guigonron','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
 
--- One vet user, named vet1 with passwor v3t
+-- One user, named vet1 with passwor v3t
 /*INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (12,'vet1','veterinarian');*/
 INSERT INTO authorities(id,authority) VALUES (4,'VET');
@@ -55,13 +55,12 @@ INSERT INTO appusers(id,username,password,authority) VALUES (205,'player6','$2a$
 
 
 
-INSERT INTO players(id,user_id) VALUES(1,200);
-INSERT INTO players(id,user_id) VALUES(2,201);
-INSERT INTO players(id,user_id) VALUES(3,202);
-INSERT INTO players(id,user_id) VALUES(4,203);
-
-INSERT INTO players(id,user_id) VALUES(5,204);
-INSERT INTO players(id,user_id) VALUES(6,205);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(1,'Guillermo','Gomez Romero','https://s.hs-data.com/bilder/spieler/gross/246031.jpg',200);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(2,'Lucas','Antoñanzas','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',201);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(3,'Nicolas','Herrera','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',202);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(4,'Alvaro','Bernal','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',203);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205);
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'COMPETITIVE',4,2,2,80,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
