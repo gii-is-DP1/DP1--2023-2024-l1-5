@@ -199,8 +199,8 @@ INSERT INTO invitations(id, destination_user, source_user, invitation_state) VAL
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
 
-INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME', 'LOCKED');
-INSERT INTO achievements(id,name,description,image_url,threshold,metric,status) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES', 'UNLOCKED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES');
 -- Inserta un registro de PlayerStatistic
 INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
 VALUES (1, 10, 5, 5, 0, 250, 120, 10);
