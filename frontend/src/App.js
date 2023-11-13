@@ -9,6 +9,8 @@ import PricingPlan from "./owner/plan";
 import Register from "./auth/register";
 import Login from "./auth/login";
 import Logout from "./auth/logout";
+import Profile from "./auth/profile";
+import ProfileEdit from"./auth/profile/profileEdit"
 import OwnerPetList from "./owner/pets/petList";
 import OwnerPetEdit from "./owner/pets/petEdit";
 import OwnerVisitEdit from "./owner/visits/visitEdit";
@@ -52,7 +54,8 @@ import Game from "./player/Game";
 import WaitingRoom from "./player/waitingRoom";
 import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
 import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
-
+import GameRules from "./player/gameRules";
+import GamesListAdmin from "./admin/games/GameListAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -107,7 +110,7 @@ function App() {
           <Route path="/consultations/:consultationId/tickets" exact={true} element={<PrivateRoute><TicketListAdmin /></PrivateRoute>} />
           <Route path="/achievements/" exact={true} element={<PrivateRoute><AchievementListAdmin /></PrivateRoute>} />
           <Route path="/achievements/:achievementId" exact={true} element={<PrivateRoute><AchievementEditAdmin /></PrivateRoute>} />
-
+          <Route path="/games" exact={true} element={<PrivateRoute><GamesListAdmin /></PrivateRoute>} />
         </>)
     }
     if (role === "OWNER") {
@@ -151,6 +154,7 @@ function App() {
           <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
           <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
+          <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
         </>)
 
 
@@ -169,6 +173,8 @@ function App() {
         {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} /> */}        
         <Route path="/logout" element={<Logout />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<ProfileEdit />} />
       </>
     )
   }

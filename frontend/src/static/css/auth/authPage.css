@@ -38,3 +38,56 @@
     margin: 10px 0;
   }
 }
+
+.button-container-back {
+  position: absolute;
+  bottom: 100px;
+  right: 250px;
+}
+
+.button-container-edit {
+  position: absolute;
+  bottom: 100px;
+  left: 250px;
+}
+
+
+.profile-image{
+  height: auto;
+  width: 350px;
+  border-radius: 75px;
+}
+
+.container-image{
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
+
+.profile-row{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--main-green-color);
+  border-radius: 2.25rem;
+  padding: 2rem;
+  background-color: rgb(245, 245, 245);
+  margin: 25px 0;
+}
+
+.profile-data{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+

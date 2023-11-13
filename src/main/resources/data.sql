@@ -33,7 +33,7 @@ INSERT INTO appusers(id,username,password,authority) VALUES (23,'manortper1','$2
 INSERT INTO appusers(id,username,password,authority) VALUES (24,'lucantdel','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
 INSERT INTO appusers(id,username,password,authority) VALUES (25,'guigonron','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
 
--- One vet user, named vet1 with passwor v3t
+-- One user, named vet1 with passwor v3t
 /*INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (12,'vet1','veterinarian');*/
 INSERT INTO authorities(id,authority) VALUES (4,'VET');
@@ -53,22 +53,43 @@ INSERT INTO appusers(id,username,password,authority) VALUES (204,'player5','$2a$
 INSERT INTO appusers(id,username,password,authority) VALUES (205,'player6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
-INSERT INTO players(id,user_id) VALUES(1,200);
-INSERT INTO players(id,user_id) VALUES(2,201);
-INSERT INTO players(id,user_id) VALUES(3,202);
-INSERT INTO players(id,user_id) VALUES(4,203);
-INSERT INTO players(id,user_id) VALUES(5,204);
-INSERT INTO players(id,user_id) VALUES(6,205);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(1,'Guillermo','Gomez Romero','https://s.hs-data.com/bilder/spieler/gross/246031.jpg',200);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(2,'Lucas','Antoñanzas','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',201);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(3,'Nicolas','Herrera','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',202);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(4,'Alvaro','Bernal','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',203);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205);
 
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,2,80,'IN_PROGRESS');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,1,93,'WAITING');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,1,135,'FINALIZED');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'QUICK_PLAY',4,3,1,135,'WAITING');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',4,3,4,200,'IN_PROGRESS');
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
+
+INSERT INTO games_players(players_id,game_id) VALUES(1,1);
+INSERT INTO games_players(players_id,game_id) VALUES(2,1);
+INSERT INTO games_players(players_id,game_id) VALUES(5,1);
+INSERT INTO games_players(players_id,game_id) VALUES(6,1);
+
+INSERT INTO games_players(players_id,game_id) VALUES(1,2);
+INSERT INTO games_players(players_id,game_id) VALUES(2,2);
+INSERT INTO games_players(players_id,game_id) VALUES(4,2);
+
+INSERT INTO games_players(players_id,game_id) VALUES(1,3);
+INSERT INTO games_players(players_id,game_id) VALUES(6,3);
+INSERT INTO games_players(players_id,game_id) VALUES(4,3);
+INSERT INTO games_players(players_id,game_id) VALUES(5,3);
+
+INSERT INTO games_players(players_id,game_id) VALUES(4,4);
+INSERT INTO games_players(players_id,game_id) VALUES(1,4);
+
+INSERT INTO games_players(players_id,game_id) VALUES(5,5);
+INSERT INTO games_players(players_id,game_id) VALUES(2,5);
+INSERT INTO games_players(players_id,game_id) VALUES(6,5);
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'120','PIT',1);
-
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);

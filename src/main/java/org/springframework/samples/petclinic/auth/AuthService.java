@@ -96,7 +96,8 @@ public class AuthService {
 			player.setState(State.ACTIVE);
 			player.setUser(user);
 			player.setFriendsList(new HashSet<>());
-			player.setPlayerUsername(request.getPlayerUsername());
+			player.setFirstName(request.getFirstName());
+			player.setLastName(request.getLastName());
 			playerService.savePlayer(player);
 			break;
 

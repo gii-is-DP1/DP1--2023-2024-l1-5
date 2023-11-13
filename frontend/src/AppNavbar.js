@@ -54,6 +54,9 @@ function AppNavbar() {
                     <NavItem>
                         <NavLink style={{ color: "white" }} tag={Link} to="/achievements">Achievements</NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/games">Games</NavLink>
+                    </NavItem>
                 </>
             )
         }
@@ -88,7 +91,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{color: "white"}} tag={Link} to="/game"> New Game</NavLink>
                 </NavItem>
-                
+                <NavItem>
+                    <NavLink style={{color: "white"}} tag={Link} to="/gameRules"> Game Rules</NavLink>
+                </NavItem>
                 </>
             )
         } 
@@ -146,7 +151,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="plans" tag={Link} to="/plans">Pricing Plans</NavLink>
                 </NavItem>
-                <NavbarText style={{ color: "white" }} className="justify-content-end">{username}</NavbarText>
+                <NavItem>
+                    <NavLink style={{ color: "white" }} id="profile" tag={Link} to="/profile" className="justify-content-end">{username}</NavLink>
+                </NavItem>
                 <NavItem className="d-flex">
                     <NavLink style={{ color: "white" }} id="logout" tag={Link} to="/logout">Logout</NavLink>
                 </NavItem>
