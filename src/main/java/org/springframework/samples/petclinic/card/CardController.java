@@ -17,11 +17,11 @@ import java.util.Optional;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/api/v1/cards")
+@RequestMapping("/api/v1/cards")
 @Tag(name = "Cards", description = "The Cards management API")
 @SecurityRequirement(name = "bearerAuth")
 public class CardController {
-    
+
     private final CardService cardService;
 
     @Autowired
@@ -37,13 +37,9 @@ public class CardController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Card> getCardById(@PathVariable("id")Integer id) {
-        Optional<Card> card = cardService.getCardById(id);
-        if (!card.isPresent()) {
-            throw new ResourceNotFoundException("Card" , "id" , id );
-        }
-        return new ResponseEntity<>(card.get(), HttpStatus.OK);
+    public ResponseEntity<Card> getCardById(@PathVariable("id") Integer id) {
+        Card card = cardService.getCardById(id);
+        return new ResponseEntity<>(card, HttpStatus.OK);
     }
-    
 
 }

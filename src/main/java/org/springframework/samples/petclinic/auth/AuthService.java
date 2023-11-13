@@ -40,7 +40,8 @@ public class AuthService {
 
 	@Autowired
 	public AuthService(PasswordEncoder encoder, AuthoritiesService authoritiesService, UserService userService,
-			OwnerService ownerService, VetService vetService, ClinicOwnerService clinicOwnerService, ClinicService clinicService, PlayerService playerService) {
+			OwnerService ownerService, VetService vetService, ClinicOwnerService clinicOwnerService,
+			ClinicService clinicService, PlayerService playerService) {
 		this.encoder = encoder;
 		this.authoritiesService = authoritiesService;
 		this.userService = userService;
@@ -60,59 +61,61 @@ public class AuthService {
 		Authorities role;
 
 		switch (strRoles.toLowerCase()) {
-		case "admin":
-			role = authoritiesService.findByAuthority("ADMIN");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			break;
-		case "vet":
-			role = authoritiesService.findByAuthority("VET");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			Vet vet = new Vet();
-			vet.setFirstName(request.getFirstName());
-			vet.setLastName(request.getLastName());
-			vet.setCity(request.getCity());
-			vet.setSpecialties(new ArrayList<Specialty>());
-			vet.setClinic(clinicService.findClinicById(request.getClinic().getId()));
-			vet.setUser(user);
-			vetService.saveVet(vet);
-			break;
-		case "clinic owner":
-			role = authoritiesService.findByAuthority("CLINIC_OWNER");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			ClinicOwner clinicOwner = new ClinicOwner();
-			clinicOwner.setFirstName(request.getFirstName());
-			clinicOwner.setLastName(request.getLastName());
-			clinicOwner.setUser(user);
-			clinicOwnerService.saveClinicOwner(clinicOwner);
-			break;
-		case "player":
-			role = authoritiesService.findByAuthority("PLAYER");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			Player player = new Player();
-			player.setState(State.ACTIVE);
-			player.setUser(user);
-			player.setFriendsList(new HashSet<>());
-			player.setPlayerUsername(request.getPlayerUsername());
-			playerService.savePlayer(player);
-			break;
+			case "admin":
+				role = authoritiesService.findByAuthority("ADMIN");
+				user.setAuthority(role);
+				userService.saveUser(user);
+				break;
+			case "vet":
+				role = authoritiesService.findByAuthority("VET");
+				user.setAuthority(role);
+				userService.saveUser(user);
+				Vet vet = new Vet();
+				vet.setFirstName(request.getFirstName());
+				vet.setLastName(request.getLastName());
+				vet.setCity(request.getCity());
+				vet.setSpecialties(new ArrayList<Specialty>());
+				vet.setClinic(clinicService.findClinicById(request.getClinic().getId()));
+				vet.setUser(user);
+				vetService.saveVet(vet);
+				break;
+			case "clinic owner":
+				role = authoritiesService.findByAuthority("CLINIC_OWNER");
+				user.setAuthority(role);
+				userService.saveUser(user);
+				ClinicOwner clinicOwner = new ClinicOwner();
+				clinicOwner.setFirstName(request.getFirstName());
+				clinicOwner.setLastName(request.getLastName());
+				clinicOwner.setUser(user);
+				clinicOwnerService.saveClinicOwner(clinicOwner);
+				break;
+			case "player":
+				role = authoritiesService.findByAuthority("PLAYER");
+				user.setAuthority(role);
+				userService.saveUser(user);
+				Player player = new Player();
+				player.setState(State.ACTIVE);
+				player.setFirstName(request.getFirstName());
+				player.setLastName(request.getLastName());
+				player.setUser(user);
+				player.setFriendsList(new HashSet<>());
+				player.setPlayerUsername(request.getPlayerUsername());
+				playerService.savePlayer(player);
+				break;
 
-		default:
-			role = authoritiesService.findByAuthority("OWNER");
-			user.setAuthority(role);
-			userService.saveUser(user);
-			Owner owner = new Owner();
-			owner.setFirstName(request.getFirstName());
-			owner.setLastName(request.getLastName());
-			owner.setAddress(request.getAddress());
-			owner.setCity(request.getCity());
-			owner.setTelephone(request.getTelephone());
-			owner.setClinic(clinicService.findClinicById(request.getClinic().getId()));
-			owner.setUser(user);
-			ownerService.saveOwner(owner);
+			default:
+				role = authoritiesService.findByAuthority("OWNER");
+				user.setAuthority(role);
+				userService.saveUser(user);
+				Owner owner = new Owner();
+				owner.setFirstName(request.getFirstName());
+				owner.setLastName(request.getLastName());
+				owner.setAddress(request.getAddress());
+				owner.setCity(request.getCity());
+				owner.setTelephone(request.getTelephone());
+				owner.setClinic(clinicService.findClinicById(request.getClinic().getId()));
+				owner.setUser(user);
+				ownerService.saveOwner(owner);
 
 		}
 	}
