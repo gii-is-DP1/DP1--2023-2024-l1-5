@@ -80,7 +80,7 @@ public class HandController {
         return new ResponseEntity<>(new HandDTO(hand.get()), HttpStatus.OK);
     }
 
-    @GetMapping("/2/{id}")
+    @GetMapping("/detail/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Hand> getHand2ById(@PathVariable("id") Integer id) {
         Optional<Hand> hand = handService.getHandById(id);
