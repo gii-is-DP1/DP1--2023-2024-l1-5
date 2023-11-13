@@ -50,6 +50,7 @@ import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import QuickPlay from "./player/quickPlay";
 import Game from "./player/Game";
 import WaitingRoom from "./player/waitingRoom";
+import GameRules from "./player/gameRules";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -145,6 +146,7 @@ function App() {
           <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
           <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
+          <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
         </>)
 
 
