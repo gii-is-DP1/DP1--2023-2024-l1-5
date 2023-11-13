@@ -50,6 +50,9 @@ import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import QuickPlay from "./player/quickPlay";
 import Game from "./player/Game";
 import WaitingRoom from "./player/waitingRoom";
+import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
+import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
+
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -102,6 +105,9 @@ function App() {
           <Route path="/consultations" exact={true} element={<PrivateRoute><ConsultationListAdmin /></PrivateRoute>} />
           <Route path="/consultations/:consultationId" exact={true} element={<PrivateRoute><ConsultationEditAdmin /></PrivateRoute>} />
           <Route path="/consultations/:consultationId/tickets" exact={true} element={<PrivateRoute><TicketListAdmin /></PrivateRoute>} />
+          <Route path="/achievements/" exact={true} element={<PrivateRoute><AchievementListAdmin /></PrivateRoute>} />
+          <Route path="/achievements/:achievementId" exact={true} element={<PrivateRoute><AchievementEditAdmin /></PrivateRoute>} />
+
         </>)
     }
     if (role === "OWNER") {
