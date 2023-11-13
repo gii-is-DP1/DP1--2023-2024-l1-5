@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.player;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import jakarta.validation.Valid;
 @Tag(name = "Players", description = "The Player management API")
 @SecurityRequirement(name = "bearerAuth")
 public class PlayerController {
-    
+
     private final PlayerService playerService;
     private final UserService userService;
 
@@ -42,17 +44,23 @@ public class PlayerController {
 	}
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Player>>getAllPlayers(){
-        return  new ResponseEntity<>(playerService.getAllPlayers(), HttpStatus.OK);
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
+        List<Player> players = playerService.getAllPlayers(); // Obtener la lista de objetos Player
+        List<PlayerDTO> playerDTOs = players.stream()
+                .map(player -> new PlayerDTO(player)) // Utilizar el constructor de PlayerDTO
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(playerDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Player> getPlayerById(@PathVariable("id")Integer id){
-        Optional<Player> p=playerService.getPlayerById(id);
-        if(!p.isPresent())
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Integer id) {
+        Optional<Player> p = playerService.getPlayerById(id);
+        if (!p.isPresent())
             throw new ResourceNotFoundException("Player", "id", id);
-        return new ResponseEntity<>(p.get(), HttpStatus.OK);
+        PlayerDTO playerDTO = new PlayerDTO(p.get());
+        return new ResponseEntity<>(playerDTO, HttpStatus.OK);
     }
     @GetMapping("/user/{id}") 
     @ResponseStatus(HttpStatus.OK)

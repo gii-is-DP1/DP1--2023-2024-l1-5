@@ -21,8 +21,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.UniqueConstraint;
 
 @Getter
 @Setter
@@ -58,8 +60,10 @@ public class Game extends BaseEntity{
     @Size(min = 1, max = 5)
     // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
-
+  
     @ManyToMany
+    @JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "player_id"), uniqueConstraints = {
+            @UniqueConstraint(columnNames = { "game_id", "player_id" }) })
     private List<Player> players;
 
     public void setGameStatus(GameStatus status) {

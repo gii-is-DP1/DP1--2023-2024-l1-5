@@ -9,6 +9,8 @@ export default function WaitingRoom(){
     const {id} = useParams();    
     const[game,setGame]=useState({});   
     const [players,setPlayers]=useState([]);
+    const [playerNames,setPlayerNames]=useState([]);
+
 
     useEffect(() => {
         const getGame = async () => {
@@ -25,7 +27,7 @@ export default function WaitingRoom(){
                 if (response.ok) {
                     const data = await response.json();
                     setGame(data);
-                    setPlayers(data.players);
+                    setPlayers(data.playerList);
                 } else {
                     console.error("Error al obtener la partida", response.statusText);
                 }
@@ -37,6 +39,31 @@ export default function WaitingRoom(){
         getGame();
     }, [id]);
 
+    useEffect(()=>{
+        const getPlayerName = async() =>{
+            try{
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const playersPromises = players.map(async(playerId)=>{
+                    const response = await fetch(`/api/v1/players/${playerId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    });
+                    const data = await response.json();
+                    return data.playerUsername;
+                });
+                const playerNames = await Promise.all(playersPromises);
+                setPlayerNames(playerNames);
+            }catch(error){
+                console.error("Error al obtener el nombre del jugador", error);
+            }
+        }
+        getPlayerName();
+    },[players])
+
     return(
         <div className="wallpaper">
             <div className="horizontal">
@@ -45,8 +72,8 @@ export default function WaitingRoom(){
                     <div className='distrPlay'>
                         <span className='text2'>  Players  {game.numPlayers} / 8 </span>
                         <ul>
-                    {players.map((player,index) => {
-                        return(<li key={index}> {player.playerUsername} </li>)
+                    {playerNames.map((player,index) => {
+                        return(<li key={index}> {player} </li>)
                     } )}
                   </ul>
                     </div>
