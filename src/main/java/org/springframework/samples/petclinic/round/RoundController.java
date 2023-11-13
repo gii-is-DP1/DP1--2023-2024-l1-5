@@ -109,56 +109,59 @@ public class RoundController {
         return new ResponseEntity<>(savedRound, HttpStatus.CREATED);
     }
 
-    @PutMapping("/shuffle")
-    public void create(@Valid @RequestParam(required = true) int round_id) throws Exception {
+    // @PutMapping("/shuffle")
+    // public void create(@Valid @RequestParam(required = true) int round_id) throws
+    // Exception {
 
-        User user = userService.findCurrentUser();
-        // Player player = playerService.findPlayerByUser(user);
-        // boolean hasWaitingGame = gameService.getWaitingGame(player) != null;
-        // if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && hasWaitingGame) {
-        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
-            Optional<Round> optionalRound = roundService.getRoundById(round_id);
-            if (optionalRound.isPresent()) {
-                Round round = optionalRound.get();
-                Integer roundId = round.getId();
-                RoundMode roundMode = round.getRoundMode();
-                Game game = round.getGame();
-                GameMode gameMode = game.getGameMode();
-                GameDTO gameDTO = new GameDTO(game);
-                List<Integer> ls = gameDTO.getPlayerList();
-                List<Card> cards = cardService.getAllCards();
-                Map<Integer, List<Card>> hands = roundService.distribute(cards, gameMode, roundMode, ls);
-                for (Integer key : hands.keySet()) {
-                    if (key == 0) {
-                        Deck deck = deckService.getDeckByRoundId(roundId);
-                        if (deck != null) {
-                            List<Card> deckCards = hands.get(key);
-                            if (deckCards != null) {
-                                Deck newDeck = this.deckService.updateDeck(deck, round_id, deckCards, round);
-                            }
+    // User user = userService.findCurrentUser();
+    // if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
+    // Optional<Round> optionalRound = roundService.getRoundById(round_id);
+    // if (optionalRound.isPresent()) {
+    // Round round = optionalRound.get();
+    // Integer roundId = round.getId();
+    // RoundMode roundMode = round.getRoundMode();
+    // Game game = round.getGame();
+    // GameMode gameMode = game.getGameMode();
+    // GameDTO gameDTO = new GameDTO(game);
+    // List<Integer> ls = gameDTO.getPlayerList();
+    // List<Card> cards = cardService.getAllCards();
+    // Map<Integer, List<Card>> hands = roundService.distribute(cards, gameMode,
+    // roundMode, ls);
+    // for (Integer key : hands.keySet()) {
+    // if (key == 0) {
+    // Deck deck = deckService.getDeckByRoundId(roundId);
+    // if (deck != null) {
+    // List<Card> deckCards = hands.get(key);
+    // if (deckCards != null) {
+    // this.deckService.updateDeck(deck, round_id, deckCards, round);
+    // }
 
-                        } else {
-                            throw new Exception("no existe deck");
-                        }
+    // } else {
+    // throw new Exception("no existe deck");
+    // }
 
-                    } else {
-                        Integer playerId = key;
-                        Hand hand = handService.getHandByPlayerId(playerId);
-                        if (hand != null) {
-                            List<Card> handCards = hands.get(key);
-                            this.handService.updateHand(hand, playerId, handCards, round);
-                        } else {
-                            throw new Exception("no existe hand");
-                        }
+    // } else {
+    // Integer playerId = key;
+    // Hand hand = handService.getHandByPlayerId(playerId);
+    // if (hand != null) {
+    // List<Card> handCards = hands.get(key);
+    // hand.setCards(handCards);
+    // if (hand.getPlayer().getId() != playerId) {
+    // hand.setPlayer(playerService.getPlayerById(playerId).get());
+    // }
+    // if (hand.getRound().getId() != roundId) {
+    // hand.setRound(round);
+    // }
+    // this.handService.updateHand(hand, hand.getId());
+    // } else {
+    // throw new Exception("no existe hand");
+    // }
 
-                    }
-                }
+    // }
+    // }
 
-            }
-        } else {
-            throw new WaitingGameException("No hay ninguna partida en espera");
-        }
-
-    }
+    // }
+    // }
+    // }
 
 }

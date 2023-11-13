@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.EnumType;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.samples.petclinic.deck.Deck;
@@ -29,7 +28,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "rounds")
-public class Round extends BaseEntity{
+public class Round extends BaseEntity {
 
     @Column(name = "winner_id")
     private Integer winner;
@@ -44,15 +43,11 @@ public class Round extends BaseEntity{
     @NotNull
     @Column(name = "round_mode", columnDefinition = "varchar(20)")
     private RoundMode roundMode;
-    
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "game_id")
     @JsonIgnore
     private Game game;
-
-
-    
-;
 
 }

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CardService {
-    
+
     CardRepository cardRepository;
 
     @Autowired
@@ -26,9 +26,9 @@ public class CardService {
     public List<Card> getAllCards() {
         return cardRepository.findAll();
     }
-    
+
     @Transactional(readOnly = true)
-    public Optional<Card> getCardById(Integer id) {
-        return cardRepository.findById(id);
+    public Card getCardById(Integer id) {
+        return cardRepository.findById(id).orElse(null);
     }
 }

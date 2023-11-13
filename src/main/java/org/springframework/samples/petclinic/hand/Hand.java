@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -24,33 +25,30 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.round.Round;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Getter
 @Setter
 @Table(name = "hands")
 public class Hand extends BaseEntity {
-    
+
     @Column(name = "num_cards")
     @NotBlank
     private Integer numCartas;
 
-    @ManyToMany(mappedBy = "hand")
+    @ManyToMany
+    @JoinTable(name = "hand_cards", joinColumns = @JoinColumn(name = "hand_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
     @NotNull
     @Size(min = 1)
     private List<Card> cards;
 
-    @JsonIgnore
-    @ManyToOne 
+    // @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "round_id")
     private Round round;
 
-
-    
-    @JsonIgnore
+    // @JsonIgnore
     @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
-	@JoinColumn(name = "player_id", referencedColumnName = "id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Player player;
 

@@ -232,10 +232,12 @@ INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
 
-INSERT INTO cards_hand(cards_id, hand_id) VALUES(1, 1);
-INSERT INTO cards_hand(cards_id, hand_id) VALUES(2, 1);
-INSERT INTO cards_hand(cards_id, hand_id) VALUES(3, 1);
-INSERT INTO cards_hand(cards_id, hand_id) VALUES(3, 3);
+-- INSERT para la relación entre Hand y Card
+INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
+INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
+INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
+INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
+
 
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES('DOLPHIN');
