@@ -26,19 +26,19 @@ export default function GameHistory() {
         const juegosP = []
         for(let g in games){
             for(let p in games[g].playerList){
-                if(games[g].playerList[p].user.id === user.id){
+                if(games[g].playerList[p].user.id === user.id /*&& games[g].status === 'FINALIZED'*/){
                     juegosP.push(games[g])
                 }
             }
         }
 
-        if (games.length === 0)
+        if (juegosP.length === 0)
             return(
                 <tr>
                     <td>You havent play any game yet.</td>
                 </tr>);
         else{
-            return( games.map((game) => {
+            return( juegosP.map((game) => {
                 return (
                 <tr key={game.id}>
                     <td>{game.gameMode}</td>
