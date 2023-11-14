@@ -66,9 +66,4 @@ public class Game extends BaseEntity{
             @UniqueConstraint(columnNames = { "game_id", "player_id" }) })
     private List<Player> players;
 
-    public void setGameStatus(GameStatus status) {
-        this.status = status;
-
-
-        }
-        }
+}
