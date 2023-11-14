@@ -35,6 +35,8 @@ public class SignupRequest {
 	@NotBlank
 	private String playerUsername;
 
+	private String image;
+
 	private String address;
 	private String telephone;
 	private Clinic clinic;

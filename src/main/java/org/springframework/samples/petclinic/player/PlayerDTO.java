@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameDTO;
+
+import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +20,10 @@ public class PlayerDTO {
     String playerUsername;
     State state;
     Set<Integer> friendsList;// ESto un Set de id no?
+    String lastName;
+    String firstName;
+    String image;
+    User user;
     //Integer hand;//esto tmb
 
     public PlayerDTO(){}
@@ -35,6 +39,10 @@ public class PlayerDTO {
             playerSet.add(pAux.getId());
         }
         this.friendsList= playerSet;
+        this.lastName = p.getLastName();
+        this.firstName = p.getFirstName();
+        this.image = p.getImage();
+        this.user = p.getUser();
          //this.hand = p.getHand().getId();
     }
     

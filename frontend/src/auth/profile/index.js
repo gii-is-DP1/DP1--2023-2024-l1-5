@@ -7,17 +7,18 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import getErrorModal from '../../util/getErrorModal';
 
-const user = tokenService.getUser();
 const jwt = tokenService.getLocalAccessToken();
 const imgPrueba = 'https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg'
 
 export default function Profile() {
+    const user = tokenService.getUser();
+
     
     let rol = String(user.roles).toLowerCase()+'s';
 
     const [message, setMessage] = useState(null);
     const [visible, setVisible] = useState(false);
-    let[userInfo, setUserInfo] = useState([]);
+    const[userInfo, setUserInfo] = useState([]);
     const [alerts, setAlerts] = useState([]);
 
     
@@ -66,22 +67,21 @@ export default function Profile() {
     }
 
       async function setUp() {
-        const userRolFetch = await (
+        const userRolFetch = 
           await fetch(`/api/v1/${rol}`, {
             headers: {
               Authorization: `Bearer ${jwt}`,
               "Content-Type": "application/json",
             },
           })
-        ).json();
-        setUserInfo(userRolFetch);
+          const data = await userRolFetch.json();
+          setUserInfo(data);
+          console.log(data);
       }
 
       useEffect(() => {
         setUp();
       }, []);
-      useEffect(() => {}, [userInfo]);
-
     const modal = getErrorModal(setVisible, visible, message);
     
     return(

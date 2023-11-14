@@ -69,26 +69,26 @@ INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_s
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',4,3,4,200,'IN_PROGRESS');
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
 
-INSERT INTO players_games(player_id, game_id) VALUES(1, 1);
-INSERT INTO players_games(player_id, game_id) VALUES(2, 1);
-INSERT INTO players_games(player_id, game_id) VALUES(5, 1);
-INSERT INTO players_games(player_id, game_id) VALUES(6, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(2, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(5, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(6, 1);
 
-INSERT INTO players_games(player_id, game_id) VALUES(1, 2);
-INSERT INTO players_games(player_id, game_id) VALUES(2, 2);
-INSERT INTO players_games(player_id, game_id) VALUES(4, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(1, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(4, 2);
 
-INSERT INTO players_games(player_id, game_id) VALUES(1, 3);
-INSERT INTO players_games(player_id, game_id) VALUES(6, 3);
-INSERT INTO players_games(player_id, game_id) VALUES(4, 3);
-INSERT INTO players_games(player_id, game_id) VALUES(5, 3);
+INSERT INTO player_games(player_id, game_id) VALUES(1, 3);
+INSERT INTO player_games(player_id, game_id) VALUES(6, 3);
+INSERT INTO player_games(player_id, game_id) VALUES(4, 3);
+INSERT INTO player_games(player_id, game_id) VALUES(5, 3);
 
-INSERT INTO players_games(player_id, game_id) VALUES(4, 4);
-INSERT INTO players_games(player_id, game_id) VALUES(1, 4);
+INSERT INTO player_games(player_id, game_id) VALUES(4, 4);
+INSERT INTO player_games(player_id, game_id) VALUES(1, 4);
 
-INSERT INTO players_games(player_id, game_id) VALUES(5, 5);
-INSERT INTO players_games(player_id, game_id) VALUES(2, 5);
-INSERT INTO players_games(player_id, game_id) VALUES(6, 5);
+INSERT INTO player_games(player_id, game_id) VALUES(5, 5);
+INSERT INTO player_games(player_id, game_id) VALUES(2, 5);
+INSERT INTO player_games(player_id, game_id) VALUES(6, 5);
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
@@ -108,11 +108,6 @@ INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
 INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
-
-
-INSERT INTO player_games(player_id,game_id) VALUES(1,1);
-INSERT INTO player_games(player_id,game_id) VALUES(2,1);
-INSERT INTO player_games(player_id,game_id) VALUES(4,4);
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
