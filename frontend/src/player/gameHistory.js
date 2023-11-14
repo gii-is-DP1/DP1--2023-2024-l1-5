@@ -22,6 +22,16 @@ export default function GameHistory() {
     }
 
     function getGamesList(games){
+
+        const juegosP = []
+        for(let g in games){
+            for(let p in games[g].playerList){
+                if(games[g].playerList[p].user.id === user.id){
+                    juegosP.push(games[g])
+                }
+            }
+        }
+
         if (games.length === 0)
             return(
                 <tr>
@@ -62,17 +72,6 @@ export default function GameHistory() {
             })
           ).json();
         setGames(partidas);
-
-        const juegosP = []
-        for(let g in games){
-            for(let p in games[g].playerList){
-                if(games[g].playerList[p].user.id === user.id){
-                    juegosP.push(games[g])
-                }
-            }
-        }
-        setPlayerGames(juegosP)
-        console.log(playerGames)
     }
 
     useEffect(() => {
@@ -96,7 +95,7 @@ export default function GameHistory() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {getGamesList(playerGames)}
+                                {getGamesList(games)}
                             </tbody>
                         </Table>
                     </div>  
