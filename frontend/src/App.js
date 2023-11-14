@@ -56,6 +56,7 @@ import GameView from "./player/gameView";
 import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
 import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
 import GameRules from "./player/gameRules";
+import GameHistory from "./player/gameHistory";
 import GamesListAdmin from "./admin/games/GameListAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
@@ -157,7 +158,7 @@ function App() {
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/partida/ronda/gameView" exact={true} element={<PrivateRoute><GameView/></PrivateRoute>} />	
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
-
+          <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
         </>)
 
 
