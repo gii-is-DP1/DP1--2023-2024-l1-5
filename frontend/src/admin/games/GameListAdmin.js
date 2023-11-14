@@ -24,33 +24,33 @@ export default function GameListAdmin(){
     }
 
     function getGamesList(games){
-    if (games.length === 0)
-        return(
-            <tr>
-                <td>There are no games in this status.</td>
-            </tr>);
-    else{
-        return( games.map((game) => {
-            return (
-              <tr key={game.id}>
-                <td>{game.gameMode}</td>
-                <td>{game.playerList.filter((x) => x.id === game.creator).map((x) => x.user.username)}</td>
-                <td>
-                    <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
-                        <DropdownToggle>
-                            <p> &#128065;</p>
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {game.playerList.map((x)=> (
-                                        <DropdownItem text>{x.user.username}</DropdownItem>
-                                    ))}
-                        </DropdownMenu>
-                    </Dropdown>
-                </td>
-             </tr>
-            );
-        }));
-    } 
+        if (games.length === 0)
+            return(
+                <tr>
+                    <td>There are no games in this status.</td>
+                </tr>);
+        else{
+            return( games.map((game) => {
+                return (
+                <tr key={game.id}>
+                    <td>{game.gameMode}</td>
+                    <td>{game.playerList.filter((x) => x.id === game.creator).map((x) => x.user.username)}</td>
+                    <td>
+                        <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
+                            <DropdownToggle>
+                                <p> &#128065;</p>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {game.playerList.map((x)=> (
+                                            <DropdownItem text>{x.user.username}</DropdownItem>
+                                        ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </td>
+                </tr>
+                );
+            }));
+        } 
     }
 
     async function setUp() {
