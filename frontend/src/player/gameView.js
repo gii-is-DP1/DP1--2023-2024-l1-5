@@ -64,13 +64,6 @@ export default function GameView() {
         //console.log(deckSymbols);
     }
 
-    // async function handleButton(event) {
-    //     const symbolaux = event.target.textContent;
-    //     //const lsauxButt = []
-    //     for (let i = 0; i < deckSymbols.length; i++) {
-    //         const decksymbolName = deckSymbols[i].name;
-    //         lsauxButt.push(decksymbolName);
-    //     }
 
     async function handleButton(event) {
 
@@ -105,7 +98,7 @@ export default function GameView() {
                 console.log(updateHandAux);
 
             } else {
-                alert("SIUUUU");
+                alert("WINNER");
             }
         }
     }
