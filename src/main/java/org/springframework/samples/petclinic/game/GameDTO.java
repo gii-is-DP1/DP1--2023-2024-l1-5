@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.round.Round;
+import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class GameDTO {
     Integer creator;
     Integer gameTime;
     GameStatus status;
-    List<Integer> playerList;
+    List<Player> playerList;
     List<Integer> roundList;
 
     public GameDTO(){}
@@ -34,11 +35,11 @@ public class GameDTO {
         this.gameTime = g.getGameTime();
         this.status = g.getStatus();
         List<Player> pLs  = g.getPlayers();
-        List<Integer> playerList2 = new ArrayList<>();
+        List<User> playerList2 = new ArrayList<>();
         for(Player p: pLs){
-            playerList2.add(p.getId());
+            playerList2.add(p.getUser());
         }
-        this.playerList = playerList2;
+        this.playerList = g.getPlayers();
         List<Round> rLs  = g.getRounds();
         List<Integer> roundList = new ArrayList<>();
         for(Round r: rLs){

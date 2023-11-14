@@ -34,14 +34,14 @@ export default function GameListAdmin(){
             return (
               <tr key={game.id}>
                 <td>{game.gameMode}</td>
-                <td>{game.players.filter((x) => x.id === game.creator.id).map((x) => x.user.username)}</td>
+                <td>{game.playerList.filter((x) => x.id === game.creator).map((x) => x.user.username)}</td>
                 <td>
                     <Dropdown isOpen={dropDownStates[game.id]} toggle={() => toggleDropDown(game.id)} direction='right'>
                         <DropdownToggle>
                             <p> &#128065;</p>
                         </DropdownToggle>
                         <DropdownMenu>
-                            {game.players.map((x)=> (
+                            {game.playerList.map((x)=> (
                                         <DropdownItem text>{x.user.username}</DropdownItem>
                                     ))}
                         </DropdownMenu>
@@ -109,7 +109,7 @@ export default function GameListAdmin(){
                             <thead>
                                 <tr>
                                     <th>Mode</th>
-                                    <th>Owner</th>
+                                    <th>Creator</th>
                                     <th>Players</th>
                                 </tr>
                             </thead>
@@ -124,7 +124,7 @@ export default function GameListAdmin(){
                         <thead>
                                 <tr>
                                     <th>Mode</th>
-                                    <th>Owner</th>
+                                    <th>Creator</th>
                                     <th>Players</th>
                                 </tr>
                             </thead>
