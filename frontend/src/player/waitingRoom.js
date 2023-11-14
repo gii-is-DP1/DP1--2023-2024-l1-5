@@ -43,8 +43,8 @@ export default function WaitingRoom(){
         const getPlayerName = async() =>{
             try{
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-                const playersPromises = players.map(async(playerId)=>{
-                    const response = await fetch(`/api/v1/players/${playerId}`,
+                const playersPromises = players.map(async(x)=>{
+                    const response = await fetch(`/api/v1/players/${x.id}`,
                     {
                         method: 'GET',
                         headers: {
@@ -57,6 +57,7 @@ export default function WaitingRoom(){
                 });
                 const playerNames = await Promise.all(playersPromises);
                 setPlayerNames(playerNames);
+                console.log(playerNames)
             }catch(error){
                 console.error("Error al obtener el nombre del jugador", error);
             }
