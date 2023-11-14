@@ -230,10 +230,16 @@ INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola B
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
 
-INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (2, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (3, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (4, 'https://i.imgur.com/1Q2Qj1M.png');
+-- INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/1Q2Qj1M.png');
+-- INSERT INTO cards(id, image) VALUES (2, 'https://i.imgur.com/1Q2Qj1M.png');
+-- INSERT INTO cards(id, image) VALUES (3, 'https://i.imgur.com/1Q2Qj1M.png');
+-- INSERT INTO cards(id, image) VALUES (4, 'https://i.imgur.com/1Q2Qj1M.png');
+INSERT INTO cards(id, image) VALUES (1, 'https://emoji.discadia.com/emojis/720c0409-a70e-4b1c-92ba-9d72a55ef9b1.PNG');
+INSERT INTO cards(id, image) VALUES (2, 'https://i.pinimg.com/280x280_RS/0e/b0/5f/0eb05fd878bbd84eef86552ad1cef71e.jpg');
+INSERT INTO cards(id, image) VALUES (3, 'https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/3cefaffbe41441a1bd0c018abb97a64b~tplv-xv4ileqgde-cspdq:256:256:q30.image');
+INSERT INTO cards(id, image) VALUES (4, 'https://i.pinimg.com/474x/2b/48/2d/2b482d48993f6499ac8a1b1df26ea793.jpg');
+
+
 INSERT INTO cards(id, image) VALUES (5, 'https://i.imgur.com/1Q2Qj1M.png');
 INSERT INTO cards(id, image) VALUES (6, 'https://i.imgur.com/1Q2Qj1M.png');
 INSERT INTO cards(id, image) VALUES (7, 'https://i.imgur.com/1Q2Qj1M.png');
@@ -248,16 +254,17 @@ INSERT INTO cards(id, image) VALUES (15, 'https://i.imgur.com/1Q2Qj1M.png');
 INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/1Q2Qj1M.png');
 
 
+
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
 INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
 
 -- INSERT para la relación entre Hand y Card
-INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
+--INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
 INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
 INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
-INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
+INSERT INTO hand_cards(card_id, hand_id) VALUES (4, 1);
 
 
 --Se han declarado todos los simbolos

@@ -16,7 +16,8 @@ public class HandDTO {
 
     Integer id;
     Integer numCartas;
-    List<Integer> cards;
+    //List<Integer> cards;
+    List<Card> cards;
     Integer round;
     Integer player;
 
@@ -26,12 +27,13 @@ public class HandDTO {
 
         this.id = h.getId();
         this.numCartas = h.getNumCartas();
-        List<Card> cLs  = h.getCards();
-        List<Integer> cardList = new ArrayList<>();
-        for(Card c: cLs){
-            cardList.add(c.getId());
-        }
-        this.cards = cardList;
+        // List<Card> cLs  = h.getCards();
+        // List<Integer> cardList = new ArrayList<>();
+        // for(Card c: cLs){
+        //     cardList.add(c.getId());
+        // }
+        // this.cards = cardList;
+        this.cards = h.getCards();
         this.round = h.getRound().getId();
         this.player = h.getPlayer().getId();
     }
