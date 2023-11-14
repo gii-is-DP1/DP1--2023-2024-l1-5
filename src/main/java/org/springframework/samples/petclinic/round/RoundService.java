@@ -2,7 +2,10 @@ package org.springframework.samples.petclinic.round;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.card.Card;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
+import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +17,30 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+
 @Service
 public class RoundService {
     RoundRepository roundRepository;
+    GameRepository  gameRepository;
 
     @Autowired
-    public RoundService(RoundRepository roundRepository) {
+    public RoundService(RoundRepository roundRepository, GameRepository gameRepository) {
         this.roundRepository = roundRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Transactional
-    public Round saveRound(Round round) {
-        roundRepository.save(round);
+    public Round saveRound(Round round, Game game) {
+        GameMode gameMode = game.getGameMode();
+        if(game.getRounds() == null || game.getRounds().size() == 0){
+            roundRepository.save(round);
+        }else if(gameMode.equals(GameMode.COMPETITIVE) && (game.getRounds().size()<5)){
+            roundRepository.save(round);
+        } else if(gameMode.equals(GameMode.QUICK_PLAY) && (game.getRounds().size()<1)){
+            roundRepository.save(round);
+        } else {
+            throw new WaitingGameException("No puedes crear más rondas para este modo de juego");
+        }
         return round;
     }
 

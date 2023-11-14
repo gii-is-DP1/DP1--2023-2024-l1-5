@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 
@@ -86,6 +87,7 @@ public class RoundController {
 
         User user = userService.findCurrentUser();
         Round newRound = new Round();
+        Game newGame = new Game(); 
         Round savedRound;
         BeanUtils.copyProperties(roundRequest, newRound, "id");
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
@@ -98,15 +100,28 @@ public class RoundController {
                 Optional<Game> waitingGame = gameService.getWaitingGame(player);
                 if (waitingGame.isPresent()) {
                     newRound.setGame(waitingGame.get());
-                    savedRound = roundService.saveRound(newRound);
+                    savedRound = roundService.saveRound(newRound, waitingGame.get());
                 } else {
                     throw new WaitingGameException("No hay ninguna partida en espera");
                 }
             }
         } else {
-            savedRound = roundService.saveRound(newRound);
+            savedRound = roundService.saveRound(newRound, newGame);
         }
         return new ResponseEntity<>(savedRound, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Round> updateRound(@PathVariable("id") Integer id, @Valid @RequestBody RoundRequestPUT roundRequest) {
+        Optional<Round> r = roundService.getRoundById(id);
+        if (!r.isPresent())
+            throw new ResourceNotFoundException("Round", "id", id);
+        Round round = r.get();
+        BeanUtils.copyProperties(roundRequest, round, "id");
+        Round savedRound = this.roundService.saveRound(round, round.getGame());
+        
+        return new ResponseEntity<>(savedRound, HttpStatus.OK);
     }
 
     // @PutMapping("/shuffle")
