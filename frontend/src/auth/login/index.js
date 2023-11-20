@@ -26,7 +26,7 @@ export default function Login() {
       .then(function (data) {
         tokenService.setUser(data);
         tokenService.updateLocalAccessToken(data.token);
-        window.location.href = "/dashboard";
+        history.push("/dashboard")
       })
       .catch((error) => {         
         setMessage(error);
