@@ -5,6 +5,7 @@ import tokenService from "../../services/token.service";
 import "../../static/css/auth/authButton.css";
 import { loginFormInputs } from "./form/loginFormInputs";
 
+
 export default function Login() {
   const [message, setMessage] = useState(null)
   const loginFormRef = React.createRef();      
@@ -26,7 +27,7 @@ export default function Login() {
       .then(function (data) {
         tokenService.setUser(data);
         tokenService.updateLocalAccessToken(data.token);
-        history.push("/dashboard")
+        window.location.href = "/dashboard";
       })
       .catch((error) => {         
         setMessage(error);
