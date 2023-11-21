@@ -77,5 +77,19 @@ public class PlayerServiceTest {
         verify(playerRepository, times(1)).findByUserId(userId);
     }*/
 
+    @Test
+    public void testUpdatePlayer() {
+        Integer playerId = 1;
+        Player player = new Player();
+        when(playerService.getPlayerById(playerId)).thenReturn(Optional.of(player));
+        when(playerRepository.save(any(Player.class))).thenReturn(player);
+
+        Player result = playerService.updatePlayer(player, playerId);
+
+        assertNotNull(result);
+        assertEquals(player, result);
+        verify(playerRepository, times(1)).save(any(Player.class));
+    }
+
     
 }
