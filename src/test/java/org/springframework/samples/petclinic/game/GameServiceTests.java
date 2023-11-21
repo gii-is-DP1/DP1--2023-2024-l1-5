@@ -79,13 +79,13 @@ public class GameServiceTests {
 
         List<Game> playerGames = new ArrayList<>();
 
-        //Caso 1: Comprobar que hay alguna partida activa
+        //Case 1: Check that there is an active game
         playerGames.add(createGame(GameStatus.WAITING));
         playerGames.add(createGame(GameStatus.IN_PROGRESS));
         when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);
         assertTrue(gameService.hasActiveGame(player));
 
-        //Caso 2: Comprobar que no hay ninguna partida activa
+        //Case 2: Check that there is no active game
         playerGames.clear();
         playerGames.add(createGame(GameStatus.FINALIZED));
         when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);

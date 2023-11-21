@@ -26,21 +26,27 @@ public class GameRepositoryTests {
         assertNotNull(games);
         assertTrue(games.size() > 0);
     }
-
+    
+    //Case 1: Checking that player 1 has created games
     @Test
     public void testFindPlayerCreatedGames() {
 
-        //Caso 1: Comprobar que el jugador 1 ha creado partidas
         List<Game> playerCreatedGames1 = gameRepository.findPlayerCreatedGames(1);
         assertNotNull(playerCreatedGames1);
         assertTrue(playerCreatedGames1.size() > 0);
+    }
 
-        //Caso 2: Comprobar que el jugador 3 no ha creado partidas
+    //Case 2: Check that player 3 has not created games
+    @Test
+    public void testGamesCreatedByPlayersIsEmpty(){
         List<Game> playerCreatedGames2 = gameRepository.findPlayerCreatedGames(3);
         assertNotNull(playerCreatedGames2);
         assertEquals(0, playerCreatedGames2.size());
-
-        //Caso 3: Comprobar que se maneja correctamente al brindar un valor null
+    }
+        
+    //Case 3: Checking for correct handling when providing a null value
+    @Test
+    public void testFindGamesCreatedByNullPlayers(){
         List<Game> playerCreatedGames3 = gameRepository.findPlayerCreatedGames(null);
         assertTrue(playerCreatedGames3.isEmpty());
     }
@@ -48,7 +54,7 @@ public class GameRepositoryTests {
     @Test
     public void testFindWaitingQuickGames() {
 
-        // Caso 1: Juegos en espera con modo QUICK_PLAY y menos de 8 jugadores
+        // Case 1: Standby games with QUICK_PLAY mode and less than 8 players
         List<Game> waitingQuickGames1 = gameRepository.findWaitingQuickGames();
         assertNotNull(waitingQuickGames1);
         assertTrue(checkValuesOfGameList(waitingQuickGames1, GameMode.QUICK_PLAY));
@@ -59,7 +65,7 @@ public class GameRepositoryTests {
     @Test
     public void testFindWaitingCompetitiveGames() {
     
-        // Caso 1: Juegos en espera con modo COMPETITIVE y menos de 8 jugadores
+        // Case 1: Games on standby with COMPETITIVE mode and less than 8 players
         List<Game> waitingCompetitiveGames1 = gameRepository.findWaitingCompetitiveGames();
         assertNotNull(waitingCompetitiveGames1);
         assertTrue(checkValuesOfGameList(waitingCompetitiveGames1, GameMode.COMPETITIVE));
