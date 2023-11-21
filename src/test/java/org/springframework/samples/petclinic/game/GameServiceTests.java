@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 
@@ -96,5 +99,23 @@ public class GameServiceTests {
         Game game = new Game();
         game.setStatus(status);
         return game;
+    }
+
+    @Test
+    public void testGetNoRandomGame() {
+        GameMode gm = GameMode.QUICK_PLAY;
+        WaitingGamesNotFoundException exception = assertThrows(WaitingGamesNotFoundException.class, () -> {
+            gameService.getRandomGame(gm.toString());
+        });
+        assertEquals("No se ha encontrado ninguna partida en espera", exception.getMessage());
+    }
+
+
+    @Test
+    public void testGetNoWaitingGame(){
+         Player player = new Player();
+          Optional<Game> result = gameService.getWaitingGame(player);
+          assertNull(result);
+
     }
 }
