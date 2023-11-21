@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,6 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.reset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +21,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
+import org.springframework.security.test.context.support.WithMockUser;
 
+
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class GameServiceTests {
 
@@ -97,4 +107,36 @@ public class GameServiceTests {
         game.setStatus(status);
         return game;
     }
+
+    @Test
+    public void testGetNoRandomGame() {
+        GameMode gm = GameMode.QUICK_PLAY;
+        WaitingGamesNotFoundException exception = assertThrows(WaitingGamesNotFoundException.class, () -> {
+            gameService.getRandomGame(gm.toString());
+        });
+        assertEquals("No se ha encontrado ninguna partida en espera", exception.getMessage());
+    }
+    // @Test
+    // public void testGetRandomGame() {
+    //     GameMode gm = GameMode.QUICK_PLAY;
+    //     Game result = gameService.getRandomGame(gm.toString()).get();
+    //     assertNotNull(result);
+    // }
+
+
+    @Test
+    public void testGetNoWaitingGame(){
+         Player player = new Player();
+          Optional<Game> result = gameService.getWaitingGame(player);
+          assertNull(result);
+
+    }
+
+    // @Test
+    // public void testGetWaitingGame(){
+    //     Player player = new Player();
+    //     player.setId(2);
+    //     Optional<Game> result = gameService.getWaitingGame(player);
+    //     assertNotNull(result);
+    // }
 }

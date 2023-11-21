@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,17 +61,21 @@ public class GameService {
 
     @Transactional(readOnly=true)
     public Optional<Game> getRandomGame(String gameMode){
-        List<Game> games = null;
+        List<Game> games = new ArrayList<>();
         Optional<Game> result = null;
         if(gameMode.equals("QUICK_PLAY")){
             games = gameRepository.findWaitingQuickGames();
         }else if(gameMode.equals("COMPETITIVE")){
-            games = gameRepository.findWaitingCompetitiveGames();
+            List<Game> ls = gameRepository.findWaitingCompetitiveGames();
+            games.addAll(ls);
         }else{
             throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
         }
         if(games.size() > 0){
             result = Optional.of(games.get(0));
+        }
+        else{
+            throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
         }
         return result;
     }
