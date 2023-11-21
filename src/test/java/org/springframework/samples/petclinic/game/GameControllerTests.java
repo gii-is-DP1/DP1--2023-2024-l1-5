@@ -8,10 +8,13 @@ import org.springframework.dao.DataAccessException;
 import static org.mockito.Mockito.reset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
@@ -32,6 +35,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -46,7 +52,7 @@ public class GameControllerTests {
 
     private MockMvc mockMvc;
 
-    @Autowired 
+    @Mock 
     GameService gameService;
     
     @Mock
@@ -101,6 +107,20 @@ public class GameControllerTests {
         .content(asJsonString(gameRequest)))
         .andExpect(status().isConflict());
     }
+    @Test
+    @WithMockUser(username = "player7", authorities = { "PLAYER" })
+    public void testCreatequickGame() throws Exception {
+
+        User user = new User();
+        GameRequest gameRequest = new GameRequest();
+        when(userService.findCurrentUser()).thenReturn(user);
+        gameRequest.setGameMode(GameMode.QUICK_PLAY); 
+        mockMvc.perform(post(BASE_URL)
+        .with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(gameRequest)))
+        .andExpect(status().isCreated());
+    }
 
     @Test
     @WithMockUser(username = "player1", authorities = { "PLAYER" })
@@ -116,6 +136,33 @@ public class GameControllerTests {
         .content(asJsonString(gameRequest)))
         .andExpect(status().isConflict());
     }
+
+    @Test
+    @WithMockUser(username = "player3", authorities = { "PLAYER" })
+    public void testCreateCompetitiveGame() throws Exception {
+
+        User user = new User();
+        GameRequest gameRequest = new GameRequest();
+        when(userService.findCurrentUser()).thenReturn(user);
+        gameRequest.setGameMode(GameMode.COMPETITIVE); 
+        mockMvc.perform(post(BASE_URL)
+        .with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(gameRequest)))
+        .andExpect(status().isCreated());
+    }
+
+    // @Test
+    // @WithMockUser(username = "player3", authorities = { "PLAYER" })
+    // public void testJoinQuickPlay() throws Exception {
+       
+    //     mockMvc.perform(put(BASE_URL+"/quick/joinRandom")
+    //             .contentType(MediaType.APPLICATION_JSON)
+    //             .content("1")) 
+    //             .andExpect(status().isOk());
+    //     verify(gameService, times(1)).getRandomGame("QUICK_PLAY");
+    // }
+
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

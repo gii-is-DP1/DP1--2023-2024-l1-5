@@ -52,6 +52,7 @@ INSERT INTO appusers(id,username,password,authority) VALUES (202,'player3','$2a$
 INSERT INTO appusers(id,username,password,authority) VALUES (203,'player4','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (204,'player5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (205,'player6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (206,'player7','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
 
@@ -61,6 +62,7 @@ INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(3,'Nicolas','H
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(4,'Alvaro','Bernal','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',203);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(7,'Manuel2','Orta2','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',206);
 
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
