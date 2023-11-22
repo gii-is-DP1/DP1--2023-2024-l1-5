@@ -1,49 +1,8 @@
-    -- One admin user, named admin1 with passwor 4dm1n and authority admin
+-- One ADMIN user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO authorities(id,authority) VALUES (1,'ADMIN');
 INSERT INTO appusers(id,username,password,authority) VALUES (1,'admin1','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
 
--- Three clinic owners, with password "clinic_owner"
-INSERT INTO authorities(id,authority) VALUES (2,'CLINIC_OWNER');
-INSERT INTO appusers(id,username,password,authority) VALUES (2,'clinicOwner1','$2a$10$t.I/C4cjUdUWzqlFlSddLeh9SbZ6d8wR7mdbeIRghT355/KRKZPAi',2);
-INSERT INTO appusers(id,username,password,authority) VALUES (3,'clinicOwner2','$2a$10$t.I/C4cjUdUWzqlFlSddLeh9SbZ6d8wR7mdbeIRghT355/KRKZPAi',2);
-
-INSERT INTO clinic_owners(id,first_name,last_name,user_id) VALUES (1, 'John', 'Doe', 2);
-INSERT INTO clinic_owners(id,first_name,last_name,user_id) VALUES (2, 'Jane', 'Doe', 3);
-
-INSERT INTO clinics(id, name, address, telephone, plan, clinic_owner) VALUES (1, 'Clinic 1', 'Av. Palmera, 26', '955684230', 'PLATINUM', 1);
-INSERT INTO clinics(id, name, address, telephone, plan, clinic_owner) VALUES (2, 'Clinic 2', 'Av. Torneo, 52', '955634232', 'GOLD', 2);
-INSERT INTO clinics(id, name, address, telephone, plan, clinic_owner) VALUES (3, 'Clinic 3', 'Av. Reina Mercedes, 70', '955382238', 'BASIC', 2);
-
--- Ten owner user, named owner1 with passwor 0wn3r
-INSERT INTO authorities(id,authority) VALUES (3,'OWNER');
-INSERT INTO appusers(id,username,password,authority) VALUES (4,'owner1','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (5,'owner2','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (6,'owner3','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (7,'owner4','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (8,'owner5','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (9,'owner6','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (10,'owner7','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (11,'owner8','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (12,'owner9','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (13,'owner10','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (20,'alvbercau','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (21,'nicherlob','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (22,'ronmonal','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (23,'manortper1','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (24,'lucantdel','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-INSERT INTO appusers(id,username,password,authority) VALUES (25,'guigonron','$2a$10$DaS6KIEfF5CRTFrxIoGc7emY3BpZZ0.fVjwA3NiJ.BjpGNmocaS3e',3);
-
--- One user, named vet1 with passwor v3t
-/*INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (12,'vet1','veterinarian');*/
-INSERT INTO authorities(id,authority) VALUES (4,'VET');
-INSERT INTO appusers(id,username,password,authority) VALUES (14,'vet1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-INSERT INTO appusers(id,username,password,authority) VALUES (15,'vet2','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-INSERT INTO appusers(id,username,password,authority) VALUES (16,'vet3','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-INSERT INTO appusers(id,username,password,authority) VALUES (17,'vet4','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-INSERT INTO appusers(id,username,password,authority) VALUES (18,'vet5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-INSERT INTO appusers(id,username,password,authority) VALUES (19,'vet6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',4);
-
+-- USER with authority player
 INSERT INTO authorities(id,authority) VALUES(5,'PLAYER');
 
 INSERT INTO appusers(id,username,password,authority) VALUES (200,'player1','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
@@ -53,9 +12,20 @@ INSERT INTO appusers(id,username,password,authority) VALUES (203,'player4','$2a$
 INSERT INTO appusers(id,username,password,authority) VALUES (204,'player5','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (205,'player6','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 INSERT INTO appusers(id,username,password,authority) VALUES (206,'player7','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (207,'player8','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (208,'player9','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (209,'player10','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (210,'player11','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (211,'player12','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (212,'player13','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (213,'player14','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (214,'player15','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (215,'player16','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (216,'player17','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (217,'player18','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+INSERT INTO appusers(id,username,password,authority) VALUES (218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
-
-
+-- Associate PLAYERS with users
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(1,'Guillermo','Gomez Romero','https://s.hs-data.com/bilder/spieler/gross/246031.jpg',200);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(2,'Lucas','Antoñanzas','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',201);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(3,'Nicolas','Herrera','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',202);
@@ -63,150 +33,110 @@ INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(4,'Alvaro','Be
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205);
 INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(7,'Manuel2','Orta2','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',206);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(8,'Ronald2','Montoya2','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',207);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(9,'Manuel3','Orta3','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',208);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(10,'Ronald3','Montoya3','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',209);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(11,'Manuel4','Orta4','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',210);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(12,'Ronald4','Montoya4','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',211);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(13,'Manuel5','Orta5','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',212);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(14,'Ronald5','Montoya5','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',213);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(15,'Manuel6','Orta6','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',214);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(16,'Ronald6','Montoya6','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',215);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(17,'Manuel7','Orta7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',216);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(18,'Ronald7','Montoya7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',217);
+INSERT INTO players(id,first_name,last_name,image,user_id) VALUES(19,'Manuel8','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218);
 
 
+-- GAMES
+
+-- PARTIDA 1
+-- Creador: Player 1
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',4,3,4,200,'IN_PROGRESS');
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
-
+-- Jugadores PARTIDA 1
 INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(2, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(5, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(6, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
+-- RONDA DE LA PARTIDA 1
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
 
-INSERT INTO player_games(player_id, game_id) VALUES(1, 2);
+-- PARTIDA 2
+-- Creador: Player 2
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+-- Jugadores PARTIDA 2
+INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
 INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
-INSERT INTO player_games(player_id, game_id) VALUES(4, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
 
-INSERT INTO player_games(player_id, game_id) VALUES(1, 3);
+--PARTIDA 3
+-- Creador: Player 6
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
+-- Jugadores PARTIDA 3
+INSERT INTO player_games(player_id, game_id) VALUES(7, 3);
 INSERT INTO player_games(player_id, game_id) VALUES(6, 3);
 INSERT INTO player_games(player_id, game_id) VALUES(4, 3);
 INSERT INTO player_games(player_id, game_id) VALUES(5, 3);
+-- RONDA DE LA PARTIDA 3
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,6,4,135,'INFERNAL_TOWER',3);
 
+-- PARTIDA 4
+-- Creador: Player 4
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',2,3,4,200,'IN_PROGRESS');
+--Jugadores PARTIDA 4
 INSERT INTO player_games(player_id, game_id) VALUES(4, 4);
 INSERT INTO player_games(player_id, game_id) VALUES(1, 4);
+-- RONDA DE LA PARTIDA 4
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,1,50,'INFERNAL_TOWER',4);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4,4,1,100,'PIT',4);
 
+-- PARTIDA 5
+-- Creador: Player 5
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
+--Jugadores PARTIDA 5
 INSERT INTO player_games(player_id, game_id) VALUES(5, 5);
-INSERT INTO player_games(player_id, game_id) VALUES(2, 5);
-INSERT INTO player_games(player_id, game_id) VALUES(6, 5);
-
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,2,3,'80','PIT',1);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,3,4,'30','INFERNAL_TOWER',3);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,5,'120','PIT',1);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4, 4, 4, '10', 'PIT', 4);
+INSERT INTO player_games(player_id, game_id) VALUES(14, 5);
+INSERT INTO player_games(player_id, game_id) VALUES(15, 5);
 
 
-INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
-INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
-INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
+-- PARTIDA 6
+-- Creador: Player 9
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (6,'QUICK_PLAY',3,3,9,30,'FINALIZED');
+--Jugadores PARTIDA 6
+INSERT INTO player_games(player_id, game_id) VALUES(9, 6);
+INSERT INTO player_games(player_id, game_id) VALUES(10, 6);
+INSERT INTO player_games(player_id, game_id) VALUES(11, 6);
+-- RONDA DE LA PARTIDA 6
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(5,9,10,30,'INFERNAL_TOWER',6);
+
+-- PARTIDA 7
+-- Creador: Player 10
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (7,'COMPETITIVE',3,3,10,30,'FINALIZED');
+--Jugadores PARTIDA 7
+INSERT INTO player_games(player_id, game_id) VALUES(10, 7);
+INSERT INTO player_games(player_id, game_id) VALUES(11, 7);
+INSERT INTO player_games(player_id, game_id) VALUES(12, 7);
+-- RONDA DE LA PARTIDA 7
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6,10,11,10,'INFERNAL_TOWER',7);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
 
 
-
+-- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
+-- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
+-- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
 
 -- Inserta un registro de Deck
-INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
-INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
-INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
-INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
+-- INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
+-- INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
+-- INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
+-- INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
 
-
-
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
 INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
-
-
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (1, 'James', 'Carter','Sevilla', 1, 14);
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (2, 'Helen', 'Leary','Sevilla', 1, 15);
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (3, 'Linda', 'Douglas','Sevilla', 2, 16);
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (4, 'Rafael', 'Ortega','Badajoz', 2, 17);
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (5, 'Henry', 'Stevens','Badajoz', 3, 18);
-INSERT INTO vets(id, first_name,last_name,city, clinic, user_id) VALUES (6, 'Sharon', 'Jenkins','Cádiz', 3, 19);
-
-INSERT INTO specialties(id,name) VALUES (1, 'radiology');
-INSERT INTO specialties(id,name) VALUES (2, 'surgery');
-INSERT INTO specialties(id,name) VALUES (3, 'dentistry');
-
-INSERT INTO vet_specialties(vet_id,specialty_id) VALUES (2, 1);
-INSERT INTO vet_specialties(vet_id,specialty_id) VALUES (3, 2);
-INSERT INTO vet_specialties(vet_id,specialty_id) VALUES (3, 3);
-INSERT INTO vet_specialties(vet_id,specialty_id) VALUES (4, 2);
-INSERT INTO vet_specialties(vet_id,specialty_id) VALUES (5, 1);
-
-INSERT INTO types(id,name)  VALUES (1, 'cat');
-INSERT INTO types(id,name)  VALUES (2, 'dog');
-INSERT INTO types(id,name)  VALUES (3, 'lizard');
-INSERT INTO types(id,name)  VALUES (4, 'snake');
-INSERT INTO types(id,name)  VALUES (5, 'bird');
-INSERT INTO types(id,name)  VALUES (6, 'hamster');
-INSERT INTO types(id,name)  VALUES (7, 'turtle');
-
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Sevilla', '608555103', 4, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sevilla', '608555174', 5, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'Sevilla', '608558763', 6, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Sevilla', '608555319', 7, 2);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Sevilla', '608555765', 8, 2);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Badajoz', '608555264', 9, 2);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Badajoz', '608555538', 10, 3);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Badajoz', '608557683', 11, 3);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail','Cádiz', '685559435', 12, 3);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Cádiz', '685555487', 13, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (11, 'Álvaro', 'Bernal', '2335 Independence La.', 'Cádiz', '685555487', 20, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (12, 'Nicolas', 'Herrera', '2335 Independence La.', 'Cádiz', '685555487', 21, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (13, 'Ronald', 'Montoya', '2335 Independence La.', 'Cádiz', '685555487', 22, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (14, 'Manuel', 'Orta', '2335 Independence La.', 'Cádiz', '685555487', 23, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (15, 'Lucas', 'Antoñanzas', '2335 Independence La.', 'Cádiz', '685555487', 24, 1);
-INSERT INTO owners(id, first_name, last_name, address, city, telephone, user_id, clinic) VALUES (16, 'Guillermo', 'Gonzalez', '2335 Independence La.', 'Cádiz', '685555487', 25, 1);
-
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (6, 'George', '2010-01-20', 4, 5);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 7);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Carl', '2012-06-08', 1, 11);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Pul', '2012-06-08', 1, 12);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Pel', '2012-06-08', 1, 13);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Pil', '2012-06-08', 1, 14);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Pol', '2012-06-08', 1, 15);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Pal', '2012-06-08', 1, 16);
-
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (1, 7, '2013-01-01 13:00', 'rabies shot', 4);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (2, 8, '2013-01-02 15:30', 'rabies shot', 5);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (3, 8, '2013-01-03 9:45', 'neutered', 5);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (4, 7, '2013-01-04 17:30', 'spayed', 4);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (5, 1, '2013-01-01 13:00', 'rabies shot', 1);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (6, 1, '2020-01-02 15:30', 'rabies shot', 1);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (7, 1, '2020-01-02 15:30', 'rabies shot', 1);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (8, 2, '2013-01-03 9:45', 'neutered', 2);
-INSERT INTO visits(id,pet_id,visit_date_time,description,vet_id) VALUES (9, 3, '2013-01-04 17:30', 'spayed', 3);
-
-INSERT INTO consultations(id,title, is_clinic_comment,status,owner_id,pet_id,creation_date) VALUES (1, 'Consultation about vaccines', 0, 'ANSWERED', 1, 1, '2023-01-04 17:30');
-INSERT INTO consultations(id,title, is_clinic_comment,status,owner_id,pet_id,creation_date) VALUES (2, 'My dog gets really nervous', 0, 'PENDING', 1, 1, '2022-01-02 19:30');
-INSERT INTO consultations(id,title, is_clinic_comment,status,owner_id,pet_id,creation_date) VALUES (3, 'My cat does not eat', 0, 'PENDING', 2, 2, '2023-04-11 11:20');
-INSERT INTO consultations(id,title, is_clinic_comment,status,owner_id,pet_id,creation_date) VALUES (4, 'My lovebird does not sing', 0, 'CLOSED', 2, 2, '2023-02-24 10:30');
-INSERT INTO consultations(id,title, is_clinic_comment,status,owner_id,pet_id,creation_date) VALUES (5, 'My snake has layed eggs', 0, 'PENDING', 10, 12, '2023-04-11 11:20');
-
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (1, 'What vaccine should my dog receive?', '2023-01-04 17:32', 4, 1);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (2, 'Rabies'' one.', '2023-01-04 17:36', 14, 1);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (3, 'My dog gets really nervous during football matches. What should I do?', '2022-01-02 19:31', 4, 2);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (4, 'It also happens with tennis matches.', '2022-01-02 19:33', 4, 2);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (5, 'My cat han''t been eating his fodder.', '2023-04-11 11:30', 5, 3);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (6, 'Try to give him some tuna to check if he eats that.', '2023-04-11 15:20', 15, 3);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (7, 'My lovebird doesn''t sing as my neighbour''s one.', '2023-02-24 12:30', 5, 4);
-INSERT INTO consultation_tickets(id,description,creation_date, user_id, consultation_id) VALUES (8, 'Lovebirds do not sing.', '2023-02-24 18:30', 16, 4);
-
 
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (1, 'Guille8', 'Lucas24', 'ACCEPTED');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
@@ -214,6 +144,8 @@ INSERT INTO invitations(id, destination_user, source_user, invitation_state) VAL
 
 INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME');
 INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES');
+
+
 -- Inserta un registro de PlayerStatistic
 INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
 VALUES (1, 10, 5, 5, 0, 250, 120, 10);
@@ -231,35 +163,34 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nich
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
+INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/pbHhrvm.jpeg');
+INSERT INTO cards(id, image) VALUES (2, 'https://i.imgur.com/I6Id6Ta.jpeg');
+INSERT INTO cards(id, image) VALUES (3, 'https://i.imgur.com/4kI9vYZ.jpeg');
+INSERT INTO cards(id, image) VALUES (4, 'https://i.imgur.com/3fugva3.jpeg');
+INSERT INTO cards(id, image) VALUES (5, 'https://i.imgur.com/Kxl8nZD.jpeg');
+INSERT INTO cards(id, image) VALUES (6, 'https://i.imgur.com/MWUOfw1.jpeg');
+INSERT INTO cards(id, image) VALUES (7, 'https://i.imgur.com/y3hnnjZ.jpeg');
+INSERT INTO cards(id, image) VALUES (8, 'https://i.imgur.com/kx7n6FM.jpeg');
+INSERT INTO cards(id, image) VALUES (9, 'https://i.imgur.com/CasQYx8.jpeg');
+INSERT INTO cards(id, image) VALUES (10, 'https://i.imgur.com/1mC2EW8.jpeg');
+INSERT INTO cards(id, image) VALUES (11, 'https://i.imgur.com/VswRlaY.jpeg');
+INSERT INTO cards(id, image) VALUES (12, 'https://i.imgur.com/AfC2ihF.jpeg');
+INSERT INTO cards(id, image) VALUES (13, 'https://i.imgur.com/ARussRh.jpeg');
+INSERT INTO cards(id, image) VALUES (14, 'https://i.imgur.com/owic8Ou.jpeg');
+INSERT INTO cards(id, image) VALUES (15, 'https://i.imgur.com/Rl8yaMu.jpeg');
+INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/VaXKfLq.jpeg');
 
-INSERT INTO cards(id, image) VALUES (1, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (2, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (3, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (4, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (5, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (6, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (7, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (8, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (9, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (10, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (11, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (12, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (13, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (14, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (15, 'https://i.imgur.com/1Q2Qj1M.png');
-INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/1Q2Qj1M.png');
 
+-- INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
+-- INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
+-- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
+-- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
 
-INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
-INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
-INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
-INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
-
--- INSERT para la relación entre Hand y Card
-INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
-INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
-INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
-INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
+-- -- INSERT para la relación entre Hand y Card
+-- INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
+-- INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
+-- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
+-- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
 
 
 --Se han declarado todos los simbolos
