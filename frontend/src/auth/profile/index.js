@@ -1,95 +1,138 @@
-import tokenService from "../../services/token.service";
-import "../../static/css/auth/authPage.css";
-import "../../static/css/auth/authButton.css";
-import "../../static/css/owner/petList.css";
-import {Container} from "reactstrap";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import tokenService from '../../services/token.service';
 import getErrorModal from '../../util/getErrorModal';
-
-const jwt = tokenService.getLocalAccessToken();
-const imgPrueba = 'https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg'
+import '../../static/css/auth/profile.css'; // Asegúrate de que este CSS esté actualizado
 
 export default function Profile() {
-    const user = tokenService.getUser();
-
-    
-    let rol = String(user.roles).toLowerCase()+'s';
-
+    const [userInfo, setUserInfo] = useState([]);
+    const [alerts, setAlerts] = useState([]);
     const [message, setMessage] = useState(null);
     const [visible, setVisible] = useState(false);
-    const[userInfo, setUserInfo] = useState([]);
-    const [alerts, setAlerts] = useState([]);
+    const [achievements, setAchievements] = useState([]);
+    const [showUnlocked, setShowUnlocked] = useState(true);
 
-    
-    function visualizarUser(u){
-      if(String(user.roles) === 'ADMIN'|| String(user.roles) === 'CLINIC_OWNER'){
-        return(
-          <div className="pet-list-page-container">
-            <h1>You are {String(user.roles).toLowerCase().replace("_", " ")} so you dont have profile</h1>
-          </div>
-        )
-      }else{
-        const usuario = u.filter((x)=> x.user.id === user.id)
-        return(
-          <div className="pet-list-page-container">
-            {usuario.map(item => (
-              <div className="profile-row">
-                <div className="pet-options">
-                  <h1 className="text-center">My Profile</h1>
-                </div>
-                <div className="container-image">
-                    <img src={item.image || imgPrueba} className="profile-image" alt="img not found"></img>
-                </div>
-                <div className="profile-data">
-                  <span>
-                    <h4>Username: {user.username}</h4>
-                  </span>
-                  <span>
-                    <h4>First Name: {item.firstName}</h4>
-                  </span>
-                  <span>
-                    <h4>Last Name: {item.lastName}</h4>
-                  </span>
-                </div>
-                <div className="button-container-edit">
-                  <Link to={"/profile/edit"} className="auth-button blue" style={{ textDecoration: "none" }}>Edit</Link>
-                </div>
-                <div className="button-container-back">
-                  <Link className="auth-button" to="/" style={{textDecoration: "none"}}>Back</Link>
-                </div>
-              </div>
-              )
-            )}
-          </div>
-        )    
-      }
-    }
+    const user = tokenService.getUser();
+    const jwt = tokenService.getLocalAccessToken();
+    const rol = String(user.roles).toLowerCase() + 's';
 
-      async function setUp() {
-        const userRolFetch = 
-          await fetch(`/api/v1/${rol}`, {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-              "Content-Type": "application/json",
-            },
-          })
-          const data = await userRolFetch.json();
-          setUserInfo(data);
-          console.log(data);
-      }
+    useEffect(() => {
+        const setUp = async () => {
+            try {
+                const response = await fetch(`/api/v1/${rol}`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setUserInfo(data);
 
-      useEffect(() => {
+                // Luego de obtener el currentUser, hacemos la llamada a la API de logros
+                const currentUser = data.find((x) => x.user.id === user.id);
+                if (currentUser) {
+                    fetchAchievements(currentUser.id);
+                }
+            } catch (error) {
+                setMessage('Error fetching data: ' + error.message);
+                setVisible(true);
+            }
+        };
+
         setUp();
-      }, []);
+    }, [rol, jwt, user.id, showUnlocked]);
+
+    const fetchAchievements = async (currentUserId) => {
+        const url = `/api/v1/achievements/${showUnlocked ? 'unlocked' : 'locked'}/${currentUserId}`;
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        setAchievements(data);
+    };
+
+    const renderAchievements = () => {
+        return achievements.map((achievement) => (
+            <tr key={achievement.id}>
+                <td className="text-center">
+                    <img src={achievement.imageUrl} alt={achievement.name} width="50px" />
+                </td>
+                <td className="text-center">{achievement.name}</td>
+                <td className="text-center">{achievement.description}</td>
+            </tr>
+        ));
+    };
+
+    const renderUserProfile = (users) => {
+        const currentUser = users.find((x) => x.user.id === user.id);
+        if (!currentUser) {
+            return <p>User not found</p>;
+        }
+
+        return (
+            <div className="profile-container">
+                <div className="profile-section">
+                    <h1 className="text-center">My Profile</h1>
+                    <div className="container-image">
+                        <img src={currentUser.image || 'path/to/default/image.jpg'} className="profile-image" alt="Profile" />
+                    </div>
+                    <div className="profile-data">
+                        <h4>Username: {user.username}</h4>
+                        <h4>First Name: {currentUser.firstName}</h4>
+                        <h4>Last Name: {currentUser.lastName}</h4>
+                        <Link to={"/profile/edit"} className="profile-auth-button blue">Edit</Link>
+                    </div>
+                </div>
+                <div className="achievements-section">
+                    <h1 className="text-center">Achievements</h1>
+                    <div className="toggle-buttons">
+                    <button 
+                        onClick={() => setShowUnlocked(true)}
+                        className={`toggle-button ${showUnlocked ? "active" : ""}`}
+                    >
+                        Unlocked
+                    </button>
+                    <button 
+                        onClick={() => setShowUnlocked(false)}
+                        className={`toggle-button ${!showUnlocked ? "active" : ""}`}
+                    >
+                        Locked
+                    </button>
+                </div>
+                    <table className="achievement-table">
+                        <thead>
+                            <tr>
+                                <th className="text-center">Image</th>
+                                <th className="text-center">Name</th>
+                                <th className="text-center">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {renderAchievements()}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    };
+
     const modal = getErrorModal(setVisible, visible, message);
-    
-    return(
-            <Container style={{ marginTop: "15px" }} fluid>
-                {alerts.map((a) => a.alert)}
-                {modal} 
-                {visualizarUser(userInfo)}    
-            </Container>        
+
+    return (
+        <Container style={{ marginTop: "15px" }} fluid>
+            {alerts.map((a) => a.alert)}
+            {modal}
+            {renderUserProfile(userInfo)}
+            <div className="button-container-back center-bottom">
+                <Link className="profile-auth-button" to="/">Back</Link>
+            </div>
+        </Container>
     );
 }
-

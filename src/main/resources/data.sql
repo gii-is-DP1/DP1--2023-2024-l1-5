@@ -142,9 +142,38 @@ INSERT INTO invitations(id, destination_user, source_user, invitation_state) VAL
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
 
-INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME');
-INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES');
+-- Inserta un registro de Achievement
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'Rookie Player', 'Play your first game!', 'https://i.imgur.com/lu5S0c2.png', 1, 'GAMES_PLAYED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Gaming Enthusiast', 'You´ve played 50 games!', 'https://i.imgur.com/FKUugkt.png', 50, 'GAMES_PLAYED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (3, 'Gaming Veteran', 'Incredible, 250 games played!', 'https://i.imgur.com/qgK74bt.png', 250, 'GAMES_PLAYED');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (4, 'First Victory', 'Congratulations on your first win!', 'https://i.imgur.com/tBHOUtS.png', 1, 'VICTORIES');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (5, 'Established Competitor', '25 wins! You´re a serious competitor.', 'https://i.imgur.com/WKMLUT2.png', 25, 'VICTORIES');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (6, 'Undisputed Champion', '100 wins! You´re a legend in the game', 'https://i.imgur.com/LQp4Eje.png', 100, 'VICTORIES');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (7, 'Time Well Spent', 'You´ve played for 6 hours. What dedication!', 'https://i.imgur.com/ion4RaK.png', 6, 'TOTAL_PLAY_TIME');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (8, 'Dedicated Gamer', '24 hours of gameplay. That´s commitment!', 'https://i.imgur.com/cJoiO2z.png', 24, 'TOTAL_PLAY_TIME');
+INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (9, 'Master of Time', 'You´ve reached 120 hours of gameplay. You´re a master of time!', 'https://i.imgur.com/kGbAaSC.png', 120, 'TOTAL_PLAY_TIME');
 
+-- Logros de player 1
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (1, 1);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (1, 2);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (1, 4);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (1, 5);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (1, 7);
+
+-- Logros de player 2
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (2, 1);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (2, 4);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (2, 7);
+
+-- Logros de player 3
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 1);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 2);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 4);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 5);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 6);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 7);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 8);
+INSERT INTO player_achievements(player_id, achievement_id) VALUES (3, 9);
 
 -- Inserta un registro de PlayerStatistic
 INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
