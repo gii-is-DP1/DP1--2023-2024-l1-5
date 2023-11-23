@@ -84,7 +84,7 @@ public class PlayerController {
     @PutMapping(value = "{playerId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Player> update(@PathVariable("playerId") int playerId, @RequestBody @Valid Player player) {
-		RestPreconditions.checkNotNull(playerService.getPlayerById(playerId), "Vet", "ID", playerId);
+		RestPreconditions.checkNotNull(playerService.getPlayerById(playerId), "Player", "ID", playerId);
 		return new ResponseEntity<>(this.playerService.updatePlayer(player, playerId), HttpStatus.OK);
 	}
 
