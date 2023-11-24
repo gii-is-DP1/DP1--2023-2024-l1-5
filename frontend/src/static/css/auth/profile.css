@@ -1,4 +1,3 @@
-/* Estilos generales para la página de perfil */
 .profile-page-container {
   height: 100%;
   width: 100%;
@@ -47,7 +46,6 @@
   left: 0;
 }
 
-/* Botones - Estilos */
 .profile-auth-button {
   padding: 1.3em 3em;
   font-size: 12px;
@@ -96,7 +94,6 @@
   right: 0;
 }
 
-/* Estilos para la sección de logros */
 .achievement-table {
   width: 100%;
   margin-top: 10px;
@@ -107,7 +104,6 @@
   padding: 5px;
 }
 
-/* Estilos para los botones de alternancia */
 .button-group {
   display: flex;
   justify-content: center;
@@ -123,7 +119,7 @@
 }
 
 .toggle-button.active {
-  background-color: var(--main-green-color); /* O cualquier color que prefieras */
+  background-color: var(--main-green-color); 
   color: white;
   font-weight: bold;
 }
@@ -132,14 +128,12 @@
   outline: none;
 }
 
-/* Estilos para imágenes de logros */
 .achievement-table img {
   width: 50px;
   height: auto;
   border-radius: 50%;
 }
 
-/* Ajustes responsivos */
 @media screen and (max-width: 768px) {
   .profile-container {
     flex-direction: column;

@@ -3,7 +3,7 @@ import { Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import tokenService from '../../services/token.service';
 import getErrorModal from '../../util/getErrorModal';
-import '../../static/css/auth/profile.css'; // Asegúrate de que este CSS esté actualizado
+import '../../static/css/auth/profile.css'; 
 
 export default function Profile() {
     const [userInfo, setUserInfo] = useState([]);
@@ -32,7 +32,6 @@ export default function Profile() {
                 const data = await response.json();
                 setUserInfo(data);
 
-                // Luego de obtener el currentUser, hacemos la llamada a la API de logros
                 const currentUser = data.find((x) => x.user.id === user.id);
                 if (currentUser) {
                     fetchAchievements(currentUser.id);

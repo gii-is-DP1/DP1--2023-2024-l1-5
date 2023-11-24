@@ -16,13 +16,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.achievement.Achievement;
-import org.springframework.samples.petclinic.achievement.AchievementRepository;
-import org.springframework.samples.petclinic.achievement.AchievementService;
 
 @ExtendWith(MockitoExtension.class)
 public class AchievementServiceTest {
 
+    private static final Integer PLAYER_ID = 1;
 
     @Mock
     private AchievementRepository achievementRepository;
@@ -64,6 +62,28 @@ public class AchievementServiceTest {
 
         assertEquals(achievement, result);
         verify(achievementRepository, times(1)).findById(achievementId);
+    }
+
+    @Test
+    public void testGetUnlockedAchievementsByPlayerId() {
+        List<Achievement> mockAchievements = new ArrayList<>();
+        when(achievementRepository.findUnlockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+
+        List<Achievement> result = achievementService.getUnlockedAchievementsByPlayerId(PLAYER_ID);
+
+        assertNotNull(result);
+        verify(achievementRepository, times(1)).findUnlockedAchievementsByPlayerId(PLAYER_ID);
+    }
+
+    @Test
+    public void testGetLockedAchievementsByPlayerId() {
+        List<Achievement> mockAchievements = new ArrayList<>();
+        when(achievementRepository.findLockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+
+        List<Achievement> result = achievementService.getLockedAchievementsByPlayerId(PLAYER_ID);
+
+        assertNotNull(result);
+        verify(achievementRepository, times(1)).findLockedAchievementsByPlayerId(PLAYER_ID);
     }
     
 }
