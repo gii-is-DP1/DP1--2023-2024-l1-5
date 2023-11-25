@@ -120,10 +120,10 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
 
-
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
+-- Inserta una registro de Hand
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
 
 -- Inserta un registro de Deck
 -- INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
@@ -186,11 +186,11 @@ INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/VaXKfLq.jpeg');
 -- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
 -- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
 
--- -- INSERT para la relación entre Hand y Card
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
+-- INSERT para la relación entre Hand y Card
+INSERT INTO hand_cards(hand_id, card_id) VALUES (1, 1);
+INSERT INTO hand_cards(hand_id, card_id) VALUES (1, 2);
+INSERT INTO hand_cards(hand_id, card_id) VALUES (1, 3);
+INSERT INTO hand_cards(hand_id, card_id) VALUES (3, 4);
 
 
 --Se han declarado todos los simbolos

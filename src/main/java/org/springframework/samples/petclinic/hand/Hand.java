@@ -5,8 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +24,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.round.Round;
 
-
 @Entity
 @Getter
 @Setter
@@ -35,7 +34,8 @@ public class Hand extends BaseEntity {
     @NotBlank
     private Integer numCartas;
 
-    @ManyToMany
+    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany()
     @JoinTable(name = "hand_cards", joinColumns = @JoinColumn(name = "hand_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
     @NotNull
     @Size(min = 1)

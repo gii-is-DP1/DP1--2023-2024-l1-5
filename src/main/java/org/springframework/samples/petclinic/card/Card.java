@@ -31,12 +31,6 @@ public class Card extends BaseEntity {
     @NotNull
     private String image;
 
-    // @ManyToMany
-    // @NotNull
-    // @JoinColumn(name = "hand_id")
-    // @JsonIgnore
-    // private List<Hand> hand;
-
     @ManyToMany
     @NotBlank
     @NotNull
