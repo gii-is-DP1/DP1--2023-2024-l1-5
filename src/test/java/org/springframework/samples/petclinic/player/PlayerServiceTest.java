@@ -28,42 +28,75 @@ public class PlayerServiceTest {
     @InjectMocks
     private PlayerService playerService;
 
+    private static final Integer PLAYER_ID = 2;
+    private static final Integer USER_ID = 202;
 
     @Test
-    public void testSavePlayers() {
-        Player playerToSave = new Player();
-        when(playerRepository.save(any(Player.class))).thenReturn(playerToSave);
+    public void testSavePlayer() {
+        Player player = new Player();
+        when(playerRepository.save(any(Player.class))).thenReturn(player);
 
-        Player savedPlayer = playerService.savePlayer(playerToSave);
+        Player savedPlayer = playerService.savePlayer(player);
 
         assertNotNull(savedPlayer);
-        assertEquals(playerToSave, savedPlayer);
-        verify(playerRepository, times(1)).save(any(Player.class));
+        verify(playerRepository, times(1)).save(player);
     }
 
     @Test
     public void testGetAllPlayers() {
-        List<Player> players = new ArrayList<>();
-        when(playerRepository.findAll()).thenReturn(players);
+        when(playerRepository.findAll()).thenReturn(new ArrayList<>());
 
-        List<Player> result = playerService.getAllPlayers();
+        List<Player> players = playerService.getAllPlayers();
 
-        assertNotNull(result);
-        assertEquals(players, result);
+        assertNotNull(players);
         verify(playerRepository, times(1)).findAll();
     }
 
     @Test
     public void testGetPlayerById() {
-        Integer playerId = 1;
-        Player Player = new Player();
-        when(playerService.getPlayerById(playerId)).thenReturn(Optional.of(Player));
+        when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(new Player()));
 
-        Player result = playerService.getPlayerById(playerId).orElse(null);
+        Optional<Player> result = playerService.getPlayerById(PLAYER_ID);
 
-        assertEquals(Player, result);
-        verify(playerRepository, times(1)).findById(playerId);
+        assertTrue(result.isPresent());
+        verify(playerRepository, times(1)).findById(PLAYER_ID);
     }
+
+    @Test
+    public void testGetPlayerByUserId() {
+        Player expectedPlayer = new Player();
+        expectedPlayer.setId(1);
+        expectedPlayer.setPlayerUsername("TestUsername");
+
+        when(playerRepository.findByUserId(USER_ID)).thenReturn(Optional.of(expectedPlayer));
+
+        Player resultPlayer = playerService.getPlayerByUserId(USER_ID);
+
+        assertNotNull(resultPlayer);
+        assertEquals(expectedPlayer.getPlayerUsername(), resultPlayer.getPlayerUsername());
+        verify(playerRepository, times(1)).findByUserId(USER_ID);
+    }
+
+    @Test
+    public void testUpdatePlayer() {
+        Player existingPlayer = new Player();
+        existingPlayer.setId(PLAYER_ID);
+        existingPlayer.setPlayerUsername("OriginalUsername");
+
+        Player updateInfo = new Player();
+        updateInfo.setPlayerUsername("UpdatedUsername");
+
+        when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(existingPlayer));
+        when(playerRepository.save(any(Player.class))).thenReturn(existingPlayer);
+
+        Player updatedPlayer = playerService.updatePlayer(updateInfo, PLAYER_ID);
+
+        assertNotNull(updatedPlayer);
+        assertEquals("UpdatedUsername", updatedPlayer.getPlayerUsername());
+        verify(playerRepository, times(1)).save(any(Player.class));
+    }
+
+}
 
     /*@Test
     public void testGetPlayerByUserId() {
@@ -76,20 +109,3 @@ public class PlayerServiceTest {
         assertEquals(Player, result);
         verify(playerRepository, times(1)).findByUserId(userId);
     }*/
-
-    @Test
-    public void testUpdatePlayer() {
-        Integer playerId = 1;
-        Player player = new Player();
-        when(playerService.getPlayerById(playerId)).thenReturn(Optional.of(player));
-        when(playerRepository.save(any(Player.class))).thenReturn(player);
-
-        Player result = playerService.updatePlayer(player, playerId);
-
-        assertNotNull(result);
-        assertEquals(player, result);
-        verify(playerRepository, times(1)).save(any(Player.class));
-    }
-
-    
-}

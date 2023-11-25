@@ -68,7 +68,7 @@ public class IsolatedPlayerControllerTest {
         javier.setFirstName("UPDATED");
         javier.setLastName("CHANGED");
 
-        when(this.playerService.getPlayerByIdNotOptional(TEST_PLAYER_ID)).thenReturn(javier);
+        when(this.playerService.getPlayerById(TEST_PLAYER_ID).get()).thenReturn(javier);
         when(this.playerService.updatePlayer(any(Player.class), any(Integer.class))).thenReturn(javier);
 
         mockMvc.perform(put(BASE_URL+"/{id}", TEST_PLAYER_ID).with(csrf()).contentType(MediaType.APPLICATION_JSON)

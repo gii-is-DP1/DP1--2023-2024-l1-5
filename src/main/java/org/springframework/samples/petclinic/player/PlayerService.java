@@ -47,13 +47,7 @@ public class PlayerService {
 		Player toUpdate = getPlayerById(id).orElse(null);
 		BeanUtils.copyProperties(player, toUpdate, "id", "user");
 		playerRepository.save(toUpdate);
-
 		return toUpdate;
 	}
-
-    @Transactional(readOnly=true)
-    public Player getPlayerByIdNotOptional(Integer id) throws DataAccessException {
-        return playerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Player", "ID", id));
-    }
 
 }
