@@ -32,13 +32,8 @@ public class AchievementControllerTest {
     private Achievement testing;
     private Achievement pruebas;
 
-
-    @SuppressWarnings("unused")
-	private AchievementController achievementController;
-
     @MockBean
     AchievementService achievementService;
-
 
     @Autowired
     private WebApplicationContext context;
