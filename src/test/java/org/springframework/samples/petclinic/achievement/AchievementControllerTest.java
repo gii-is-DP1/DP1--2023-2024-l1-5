@@ -34,11 +34,9 @@ public class AchievementControllerTest {
 
 
     @SuppressWarnings("unused")
-    @Autowired
 	private AchievementController achievementController;
 
     @MockBean
-    @Autowired
     AchievementService achievementService;
 
 
