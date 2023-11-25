@@ -39,10 +39,10 @@ public class Card extends BaseEntity {
     @Size(min = 6, max = 6)
     private List<Symbol> symbols;
 
-    @ManyToMany
-    @JoinColumn(name = "deck_id")
-    @JsonIgnore
-    private List<Deck> deck;
+    //@ManyToMany
+    //@JoinColumn(name = "deck_id")
+    //@JsonIgnore
+    //private List<Deck> deck;
 
     
 }

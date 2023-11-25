@@ -126,10 +126,10 @@ INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
 INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
 
 -- Inserta un registro de Deck
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
 
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
 INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
@@ -180,11 +180,11 @@ INSERT INTO cards(id, image) VALUES (14, 'https://i.imgur.com/owic8Ou.jpeg');
 INSERT INTO cards(id, image) VALUES (15, 'https://i.imgur.com/Rl8yaMu.jpeg');
 INSERT INTO cards(id, image) VALUES (16, 'https://i.imgur.com/VaXKfLq.jpeg');
 
-
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
+-- INSERT para la relación entre Deck y Card
+INSERT INTO deck_cards(deck_id, card_id) VALUES(1, 1);
+INSERT INTO deck_cards(deck_id, card_id) VALUES(1, 2);
+INSERT INTO deck_cards(deck_id, card_id) VALUES(2, 3);
+INSERT INTO deck_cards(deck_id, card_id) VALUES(3, 4);
 
 -- INSERT para la relación entre Hand y Card
 INSERT INTO hand_cards(hand_id, card_id) VALUES (1, 1);
