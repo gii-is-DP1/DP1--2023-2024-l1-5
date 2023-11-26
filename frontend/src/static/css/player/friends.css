@@ -1,0 +1,36 @@
+.wallpaper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_background.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+.half-width {
+    width: 40%;
+    margin: 0 auto; /* Centra el contenido */
+    text-align: center;
+}
+
+/* Estilo para el input */
+input[type="text"] {
+    width: 40%; /* Anchura reducida */
+    padding: 8px; /* Ajusta el relleno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    display: block; /* Para centrar el input */
+    margin: 0 auto; /* Centrar el input */
+}
+
+/* Estilo para el botón */
+button {
+    width: 20%; /* Anchura más estrecha */
+    padding: 10px; /* Ajusta el relleno */
+    display: block; /* Para centrar el botón */
+    margin: 0 auto; /* Centrar el botón */
+}
