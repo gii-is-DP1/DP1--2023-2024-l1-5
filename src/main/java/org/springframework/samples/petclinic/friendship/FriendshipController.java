@@ -67,7 +67,7 @@ public class FriendshipController {
             Player player = playerService.findPlayerByUser(user);
             if (friendshipService.checkIfInvitationExists(player.getId(), playerDst.getId())) {
                 throw new FriendshipExistsException("Ya existe una invitación entre estos jugadores.");
-            }
+            } else 
             newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
             newFriendship.setUser_dst(playerDst);
             newFriendship.setStatus(FriendshipStatus.WAITING);

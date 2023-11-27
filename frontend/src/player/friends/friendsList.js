@@ -38,6 +38,7 @@ export default function FriendsList() {
             });
             
             if (response.ok) {
+                setModalContent(`Friend request has been sent to ${friendUsername}.`)
                 setModalOpen(true); // Abre el diálogo al enviar la solicitud
                 setFriendUsername(friendUsername);// Limpia el input
             }
@@ -119,7 +120,6 @@ export default function FriendsList() {
                 if (response.ok) {
                     getFriendsList();
                     getFriendRequests();
-                    setModalContent(`Friend request has been sent to ${friendUsername}.`)
                 }
             } catch (error) {
                 console.error('Error accepting friend request:', error);
