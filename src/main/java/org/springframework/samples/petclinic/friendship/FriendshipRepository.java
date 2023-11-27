@@ -14,6 +14,10 @@ public interface FriendshipRepository extends CrudRepository<Friendship, Integer
 
     List<Friendship> findAll() throws DataAccessException;
     
+    @Query("SELECT f FROM Friendship f WHERE (f.user_dst.id = :playerId ) AND f.status = 'WAITING'")
+    List<Friendship> findFriendshipRequests(Integer playerId) throws DataAccessException;
+
+
     @Query("SELECT f FROM Friendship f WHERE (f.user_dst.id = :playerId OR f.user_source.id = :playerId) AND f.status = 'ACCEPTED'")
     List<Friendship> findAcceptedFriendshipsByPlayerId(Integer playerId) throws DataAccessException;
 

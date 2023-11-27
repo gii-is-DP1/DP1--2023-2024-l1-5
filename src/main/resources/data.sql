@@ -141,7 +141,9 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1,18,19,'ACCEPTED'),
 (2,18,17,'WAITING'),
-(3,19,17,'ACCEPTED');
+(3,19,17,'ACCEPTED'),
+(4,19,10,'WAITING'),
+(5,19,9,'WAITING');
 
 
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES 

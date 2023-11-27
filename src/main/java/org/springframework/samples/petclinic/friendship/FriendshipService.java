@@ -36,6 +36,15 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
+    public Friendship getFriendshipById(Integer friendshipId){
+        return friendshipRepository.findById(friendshipId).get();
+    }
+    @Transactional(readOnly = true)
+    public List<Friendship> getFriendshipRequests(Integer playerId){
+        return friendshipRepository.findFriendshipRequests(playerId);
+    }
+
+    @Transactional(readOnly = true)
     public List<Friendship> getAcceptedFriendshipsByPlayerId(Integer playerId){
         return friendshipRepository.findAcceptedFriendshipsByPlayerId(playerId);
     }
