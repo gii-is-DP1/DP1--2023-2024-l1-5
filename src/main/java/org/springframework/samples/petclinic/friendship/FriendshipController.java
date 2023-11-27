@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
@@ -65,9 +64,6 @@ public class FriendshipController {
         Player playerDst = playerService.getPlayerByUsername(username);
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
-            if (friendshipService.checkIfInvitationExists(player.getId(), playerDst.getId())) {
-                throw new FriendshipExistsException("Ya existe una invitación entre estos jugadores.");
-            } else 
             newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
             newFriendship.setUser_dst(playerDst);
             newFriendship.setStatus(FriendshipStatus.WAITING);

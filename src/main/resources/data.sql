@@ -131,13 +131,6 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8
 -- INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
 -- INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
 
--- INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
--- INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
-
--- INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
--- INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
--- INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
-
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1,18,19,'ACCEPTED'),
 (2,18,17,'WAITING'),

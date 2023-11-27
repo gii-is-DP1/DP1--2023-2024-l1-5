@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,16 @@ public class FriendshipService {
         this.playerRepository = playerRepository;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = {FriendshipExistsException.class})
     public Friendship saveFriendship(Friendship friendship){
+        Player playerSource = friendship.getUser_source();
+        Player playerDst = friendship.getUser_dst();
+        List<Friendship> friendships = friendshipRepository.findFriendshipRequestByPlayerId(playerSource.getId());
+        for (Friendship f : friendships) {
+            if (f.getUser_source().getId() == playerDst.getId() ||  f.getUser_dst().getId() == playerDst.getId()) {
+                throw new FriendshipExistsException("Friendship already exists between these two players");
+            }
+        }
         friendshipRepository.save(friendship);
         return friendship;
     }
@@ -74,16 +83,5 @@ public class FriendshipService {
         }
 
         return playerDetails;
-    }
-
-    @Transactional(readOnly = true)
-    public boolean checkIfInvitationExists(Integer playerId, Integer requestedPlayerId){
-        List<Friendship> friendships = friendshipRepository.findFriendshipRequestByPlayerId(playerId);
-        for (Friendship friendship : friendships) {
-            if (friendship.getUser_source().getId() == requestedPlayerId || friendship.getUser_dst().getId() == requestedPlayerId) {
-                return true;
-            }
-        }
-        return false;
     }
 }
