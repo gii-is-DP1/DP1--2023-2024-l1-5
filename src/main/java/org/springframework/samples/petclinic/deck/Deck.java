@@ -30,8 +30,7 @@ public class Deck extends BaseEntity {
     @NotNull
     private Integer numberOfCards;
 
-    @OneToMany()
-    @JoinTable(name = "deck_cards", joinColumns = @JoinColumn(name = "deck_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
+    @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL)
     @NotNull
     private List<Card> cards;
 

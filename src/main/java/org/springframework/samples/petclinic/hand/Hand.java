@@ -34,9 +34,7 @@ public class Hand extends BaseEntity {
     @NotBlank
     private Integer numCartas;
 
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany()
-    @JoinTable(name = "hand_cards", joinColumns = @JoinColumn(name = "hand_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
+    @OneToMany(mappedBy = "hand", cascade = CascadeType.ALL)
     @NotNull
     @Size(min = 1)
     private List<Card> cards;
