@@ -1,5 +1,6 @@
 import React, { useState,useEffect }  from 'react';
 import "../../static/css/player/friends.css";
+import '../../static/css/player/floatingBox.css';
 import tokenService from '../../services/token.service';
 import { Table, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -46,19 +47,21 @@ export default function FriendsList() {
 
     const getFriendRequests = async () => {
         try {
-            const response = await fetch(`/api/v1/friendship/request`, {
+            const response = await fetch(`/api/v1/friendship/requests`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                     "Content-Type": "application/json",
                 },
             });
             if (response.ok) {
-                setRequests(response); // Abre el diálogo al enviar la solicitud
+                const responseBody = await response.json();
+                setRequests(responseBody);
+                console.log(responseBody);
             }
         } catch (error) {
             console.error('Error fetching friend requests:', error);
         }
-    }; // FALTA
+    }; 
 
     const getFriendsList = async () => {
         try {
@@ -72,8 +75,6 @@ export default function FriendsList() {
                 const responseBody = await userIdResponse.json();
                 const playerId = responseBody.id;
 
-                console.log('Player ID:', playerId);
-
                 const friendsResponse = await fetch(`/api/v1/friendship/friends/${playerId}`, {
                     headers: {
                         Authorization: `Bearer ${jwt}`,
@@ -85,7 +86,6 @@ export default function FriendsList() {
                 if (friendsResponse.ok) {
                     const friendsList = await friendsResponse.json();
                     setFriends(friendsList);
-                    console.log('Friends list:', friendsList);
                 }
             }
         } catch (error) {
@@ -93,8 +93,63 @@ export default function FriendsList() {
         }
     };
 
+    const InvitationFloatingBox = ({ invitations }) => {
+        const acceptInvitation = async (invitationId) => {
+            try {
+                const response = await fetch(`/api/v1/friendship/acceptRequest/${invitationId}`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (response.ok) {
+                    getFriendsList();
+                    getFriendRequests();
+                }
+            } catch (error) {
+                console.error('Error accepting friend request:', error);
+            }
+        };
+
+        const rejectInvitation = async (invitationId) => {
+            try {
+                const response = await fetch(`/api/v1/friendship/rejectRequest/${invitationId}`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (response.ok) {
+                    getFriendRequests();
+                }
+            } catch (error) {
+                console.error('Error rejecting friend request:', error);
+            }
+        };
+
+        return (
+            <div className="invitation-box floating-box">
+                <h3>Invitations</h3>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {invitations.map((invitation) => (
+                        <li key={invitation.id}>
+                            {invitation.user_source.user.username}
+                            <Button color="success" onClick={() => acceptInvitation(invitation.id)}>✓</Button>
+                            <Button color="danger" onClick={() => rejectInvitation(invitation.id)}>X</Button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+    };
+
+
+
     useEffect(() => {
         getFriendsList();
+        getFriendRequests();
     }, []);
 
     return (
@@ -140,10 +195,11 @@ export default function FriendsList() {
                             onChange={handleInputChange}
                         />
                         <br />
-                        <Button color="success" onClick={sendFriendRequest}>
+                        <Button color="primary" onClick={sendFriendRequest}>
                             Send Request
                         </Button>
                 </div>
+                {requests.length > 0 && <InvitationFloatingBox invitations={requests} />}
             </div>
         </div>
     );
