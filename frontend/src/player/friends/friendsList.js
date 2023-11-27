@@ -51,6 +51,7 @@ export default function FriendsList() {
                 if (friendsResponse.ok) {
                     const friendsList = await friendsResponse.json();
                     setFriends(friendsList);
+                    console.log('Friends list:', friendsList);
                 }
             }
         } catch (error) {
@@ -79,13 +80,15 @@ export default function FriendsList() {
                         <Table class='mt-4'>
                             <thead>
                                 <tr>
-                                    <th>Friend Username</th>
+                                    <th>Nickname</th>
+                                    <th>Username</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {friends.map((friend) => (
                                     <tr key={friend.id}>
-                                        <td>{friend.username}</td>
+                                        <td>{friend.playerUsername}</td>
+                                        <td>{friend.user.username}</td>
                                     </tr>
                                 ))}
                             </tbody>

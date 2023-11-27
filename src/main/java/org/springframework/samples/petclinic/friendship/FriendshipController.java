@@ -43,8 +43,8 @@ public class FriendshipController {
 
     @GetMapping("/friends/{playerId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Player>> getFriendsByPlayerId(@PathVariable("playerId") Integer playerId){
-        return new ResponseEntity<>(friendshipService.getFriendsByPlayerId(playerId), HttpStatus.OK);
+    public ResponseEntity<List<Player>> getFriends(@PathVariable("playerId") Integer playerId){
+        return new ResponseEntity<>(friendshipService.getFriends(playerId), HttpStatus.OK);
     }
 
 }
