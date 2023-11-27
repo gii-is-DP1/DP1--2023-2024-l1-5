@@ -12,6 +12,7 @@ export default function FriendsList() {
     const [modalOpen, setModalOpen] = useState(false);
     const [friends, setFriends] = useState([]);
     const [requests, setRequests] = useState([]);
+    const [modalContent, setModalContent] = useState(''); // Estado para el contenido del modal
 
     const handleInputChange = (e) => {
         setFriendUsername(e.target.value); // Actualiza el estado con el valor del input
@@ -40,8 +41,21 @@ export default function FriendsList() {
                 setModalOpen(true); // Abre el diálogo al enviar la solicitud
                 setFriendUsername(friendUsername);// Limpia el input
             }
+            else {
+                const errorMessage = await response.text();
+                setModalContent(errorMessage); // Actualiza el mensaje del modal
+                setModalOpen(true); // Abre el modal con el mensaje de error
+                setFriendUsername(''); // Limpia el input
+            }
         } catch (error) {
-            console.error('Error sending friend request:', error);
+            if (error.response && error.response.status === 409) {
+                const errorMessage = await error.response.text();
+                setModalContent(errorMessage); // Actualiza el mensaje del modal
+                setModalOpen(true); // Abre el modal con el mensaje de error
+                setFriendUsername(''); // Limpia el input
+            } else {
+                console.error('Error sending friend request:', error);
+            }
         }
     };
 
@@ -56,7 +70,6 @@ export default function FriendsList() {
             if (response.ok) {
                 const responseBody = await response.json();
                 setRequests(responseBody);
-                console.log(responseBody);
             }
         } catch (error) {
             console.error('Error fetching friend requests:', error);
@@ -106,6 +119,7 @@ export default function FriendsList() {
                 if (response.ok) {
                     getFriendsList();
                     getFriendRequests();
+                    setModalContent(`Friend request has been sent to ${friendUsername}.`)
                 }
             } catch (error) {
                 console.error('Error accepting friend request:', error);
@@ -157,7 +171,7 @@ export default function FriendsList() {
             <Modal isOpen={modalOpen} toggle={toggleModal}>
                 <ModalHeader toggle={toggleModal}></ModalHeader>
                 <ModalBody className="text-center">
-                    Friend request has been sent to {friendUsername}.
+                    {modalContent}
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={closeAndClearInput}>Close</Button>

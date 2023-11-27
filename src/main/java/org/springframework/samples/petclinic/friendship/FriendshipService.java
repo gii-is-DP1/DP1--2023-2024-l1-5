@@ -75,4 +75,15 @@ public class FriendshipService {
 
         return playerDetails;
     }
+
+    @Transactional(readOnly = true)
+    public boolean checkIfInvitationExists(Integer playerId, Integer requestedPlayerId){
+        List<Friendship> friendships = friendshipRepository.findFriendshipRequestByPlayerId(playerId);
+        for (Friendship friendship : friendships) {
+            if (friendship.getUser_source().getId() == requestedPlayerId || friendship.getUser_dst().getId() == requestedPlayerId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
