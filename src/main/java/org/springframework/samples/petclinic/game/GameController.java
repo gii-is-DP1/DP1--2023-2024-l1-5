@@ -66,6 +66,41 @@ public class GameController {
         return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/waiting")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GameDTO>> getWaitingGames() {
+        List<Game> games = gameService.getWaitingGames(); 
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/inProgress")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GameDTO>> getInProgressGames() {
+        List<Game> games = gameService.getInProgressGames(); 
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/finalized")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GameDTO>> getFinalizedGames() {
+        List<Game> games = gameService.getFinalizedGames(); 
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game)) 
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
+    }
+    
+
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<GameDTO> getGameById(@PathVariable("id") Integer id) {

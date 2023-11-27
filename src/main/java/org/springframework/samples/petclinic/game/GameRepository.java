@@ -21,4 +21,13 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT g FROM Game g WHERE g.status = 'WAITING' AND g.gameMode = 'COMPETITIVE' AND g.numPlayers < 8")
     List<Game> findWaitingCompetitiveGames() throws DataAccessException;
 
+    @Query("SELECT g FROM Game g WHERE g.status = 'IN_PROGRESS'")
+    List<Game> findInProgressGames() throws DataAccessException;
+
+    @Query("SELECT g FROM Game g WHERE g.status = 'FINALIZED'")
+    List<Game> findFinalizedGames() throws DataAccessException;
+
+    @Query("SELECT g FROM Game g WHERE g.status = 'WAITING'")
+    List<Game> findWaitingGames() throws DataAccessException;
+
 }

@@ -50,6 +50,22 @@ public class GameService {
     public List<Game> getAllGames(){
         return gameRepository.findAll();
     }
+
+    @Transactional(readOnly=true)
+    public List<Game> getWaitingGames(){
+        return gameRepository.findWaitingGames();
+    }
+
+    @Transactional(readOnly=true)
+    public List<Game> getInProgressGames(){
+        return gameRepository.findInProgressGames();
+    }
+
+    @Transactional
+    public List<Game> getFinalizedGames(){
+        return gameRepository.findFinalizedGames();
+    }
+
     @Transactional(readOnly=true)
     public Optional<Game> getGameById(Integer id) throws DataAccessException{
         return gameRepository.findById(id);
