@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.auth;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

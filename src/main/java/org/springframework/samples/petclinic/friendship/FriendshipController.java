@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,16 +56,16 @@ public class FriendshipController {
         return new ResponseEntity<>(friendshipService.getFriends(playerId), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("{username}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Friendship> createFriendship(@RequestParam("friendId") Integer friendId){
+    public ResponseEntity<Friendship> createFriendship(@PathVariable("username") String username){
         //Es necesario comprobar que no exista ya una amistad entre los dos jugadores
         User user = userService.findCurrentUser();
         Friendship newFriendship = new Friendship();
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
             newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
-            newFriendship.setUser_dst(playerService.getPlayerById(friendId).get());
+            newFriendship.setUser_dst(playerService.getPlayerByUsername(username));
             newFriendship.setStatus(FriendshipStatus.WAITING);
             return new ResponseEntity<>(friendshipService.saveFriendship(newFriendship), HttpStatus.CREATED);
         } else {

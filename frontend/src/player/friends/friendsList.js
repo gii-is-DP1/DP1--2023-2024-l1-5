@@ -10,21 +10,55 @@ export default function FriendsList() {
     const [friendUsername, setFriendUsername] = useState(''); // Estado para almacenar el nombre de usuario del amigo
     const [modalOpen, setModalOpen] = useState(false);
     const [friends, setFriends] = useState([]);
+    const [requests, setRequests] = useState([]);
 
     const handleInputChange = (e) => {
         setFriendUsername(e.target.value); // Actualiza el estado con el valor del input
     };
 
-    const sendFriendRequest = () => {
-        // Lógica para enviar la solicitud...
-        // Comprobar que existe el usuario y que no son amigos ya
-        console.log(`Solicitud de amistad enviada a: ${friendUsername}`);
-        setModalOpen(true); // Abre el diálogo al enviar la solicitud
-    };
-
     const toggleModal = () => {
         setModalOpen(!modalOpen); // Función para alternar la visibilidad del diálogo
     };
+
+    const closeAndClearInput = () => {
+        setModalOpen(false); // Cierra el modal
+        setFriendUsername(''); // Vacía el input al cerrar el modal
+    };
+
+    const sendFriendRequest = async () => {
+        try {
+            const response = await fetch(`/api/v1/friendship/${friendUsername}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            
+            if (response.ok) {
+                setModalOpen(true); // Abre el diálogo al enviar la solicitud
+                setFriendUsername(friendUsername);// Limpia el input
+            }
+        } catch (error) {
+            console.error('Error sending friend request:', error);
+        }
+    };
+
+    const getFriendRequests = async () => {
+        try {
+            const response = await fetch(`/api/v1/friendship/request`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                setRequests(response); // Abre el diálogo al enviar la solicitud
+            }
+        } catch (error) {
+            console.error('Error fetching friend requests:', error);
+        }
+    }; // FALTA
 
     const getFriendsList = async () => {
         try {
@@ -71,7 +105,7 @@ export default function FriendsList() {
                     Friend request has been sent to {friendUsername}.
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={toggleModal}>Close</Button>
+                    <Button color="secondary" onClick={closeAndClearInput}>Close</Button>
                 </ModalFooter>
             </Modal>
             <div className="container">

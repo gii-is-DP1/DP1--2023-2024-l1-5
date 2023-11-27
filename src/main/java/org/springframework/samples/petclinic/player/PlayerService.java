@@ -10,7 +10,6 @@ import org.springframework.samples.petclinic.exceptions.ResourceNotFoundExceptio
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.samples.petclinic.user.User;
-import org.springframework.samples.petclinic.vet.Vet;
 
 @Service
 public class PlayerService {
@@ -40,6 +39,10 @@ public class PlayerService {
     @Transactional(readOnly=true)
     public Player getPlayerByUserId(Integer id) throws DataAccessException{
         return playerRepository.findByUserId(id).orElseThrow(() -> new ResourceNotFoundException("Player", "ID", id));
+    }
+    @Transactional(readOnly=true)
+    public Player getPlayerByUsername(String username) throws DataAccessException{
+        return playerRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Player", "Username", username));
     }
 
     @Transactional
