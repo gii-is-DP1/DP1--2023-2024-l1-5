@@ -99,7 +99,6 @@ public class AuthService {
 				player.setLastName(request.getLastName());
 				player.setUser(user);
 				player.setImage(request.getImage());
-				player.setFriendsList(new HashSet<>());
 				player.setPlayerUsername(request.getPlayerUsername());
 				playerService.savePlayer(player);
 				break;
