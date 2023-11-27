@@ -27,7 +27,7 @@ public class Friendship  extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
 	@NotNull
-	@Column(name = "friend_request_status", columnDefinition = "varchar(20)")
+	@Column(name = "status", columnDefinition = "varchar(20)")
 	private FriendshipStatus status;
     
 }

@@ -83,7 +83,7 @@ public class SecurityConfiguration {
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/cards/**")).hasAnyAuthority(ADMIN, PLAYER)
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/hands/**")).hasAnyAuthority(ADMIN, PLAYER)
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/rounds/**")).hasAnyAuthority(ADMIN, PLAYER)
-			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/friendship")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/friendship/**")).hasAnyAuthority(ADMIN, PLAYER)
 			.anyRequest().authenticated())					
 			
 			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);		

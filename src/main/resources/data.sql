@@ -138,9 +138,10 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8
 -- INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
 -- INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
 
-INSERT INTO friendship(id,user_dst_id,user_source_id,friend_request_status) VALUES
+INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1,18,19,'ACCEPTED'),
-(2,18,17,'WAITING');
+(2,18,17,'WAITING'),
+(3,19,17,'ACCEPTED');
 
 
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES 
