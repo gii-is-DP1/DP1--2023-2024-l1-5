@@ -67,7 +67,7 @@ public class FriendshipController {
             newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
             newFriendship.setUser_dst(playerDst);
             newFriendship.setStatus(FriendshipStatus.WAITING);
-            return new ResponseEntity<>(friendshipService.saveFriendship(newFriendship), HttpStatus.CREATED);
+            return new ResponseEntity<>(friendshipService.saveFriendship(newFriendship, "POST"), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -93,7 +93,7 @@ public class FriendshipController {
         Friendship friendship = friendshipService.getFriendshipById(friendshipId);
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && friendship.getUser_dst() == player ){
             friendship.setStatus(FriendshipStatus.ACCEPTED);
-            return new ResponseEntity<>(friendshipService.saveFriendship(friendship), HttpStatus.OK);
+            return new ResponseEntity<>(friendshipService.saveFriendship(friendship,"PUT"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -107,7 +107,7 @@ public class FriendshipController {
         Friendship friendship = friendshipService.getFriendshipById(friendshipId);
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && friendship.getUser_dst() == player ){
             friendship.setStatus(FriendshipStatus.DENIED);
-            return new ResponseEntity<>(friendshipService.saveFriendship(friendship), HttpStatus.OK);
+            return new ResponseEntity<>(friendshipService.saveFriendship(friendship,"PUT"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

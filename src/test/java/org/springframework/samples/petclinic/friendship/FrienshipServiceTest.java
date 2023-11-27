@@ -21,7 +21,7 @@ public class FrienshipServiceTest {
     public void saveFriendship(){
         Friendship f = createValidFriendship();
         try {
-            fs.saveFriendship(f);
+            fs.saveFriendship(f,"POST");
         } catch (Exception e) {
             fail("No exception should be thrown: "+ e.getMessage());
         }
@@ -31,7 +31,7 @@ public class FrienshipServiceTest {
     public void saveFriendshipExistent(){
         Friendship f = createValidFriendship();
         f.setUser_dst(pr.findById(18).get());
-        assertThrows(FriendshipExistsException.class, () -> fs.saveFriendship(f));
+        assertThrows(FriendshipExistsException.class, () -> fs.saveFriendship(f,"POST"));
     }
 
     private Friendship createValidFriendship(){

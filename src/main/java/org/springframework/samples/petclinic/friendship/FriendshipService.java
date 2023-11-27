@@ -26,13 +26,15 @@ public class FriendshipService {
     }
 
     @Transactional(rollbackFor = {FriendshipExistsException.class})
-    public Friendship saveFriendship(Friendship friendship){
+    public Friendship saveFriendship(Friendship friendship, String type){
         Player playerSource = friendship.getUser_source();
         Player playerDst = friendship.getUser_dst();
         List<Friendship> friendships = friendshipRepository.findFriendshipRequestByPlayerId(playerSource.getId());
-        for (Friendship f : friendships) {
-            if (f.getUser_source().getId() == playerDst.getId() ||  f.getUser_dst().getId() == playerDst.getId()) {
-                throw new FriendshipExistsException("Friendship already exists between these two players");
+        if(type=="POST"){
+            for (Friendship f : friendships) {
+                if (f.getUser_source().getId() == playerDst.getId() ||  f.getUser_dst().getId() == playerDst.getId()) {
+                    throw new FriendshipExistsException("Friendship already exists between these two players");
+                }
             }
         }
         friendshipRepository.save(friendship);
