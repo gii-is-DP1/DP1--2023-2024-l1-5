@@ -78,4 +78,14 @@ public class AchievementController {
 		achievementService.deleteAchievementById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
+	@GetMapping("/unlocked/{playerId}")
+	public ResponseEntity<List<Achievement>> findUnlockedAchievementsByPlayerId(@PathVariable("playerId") Integer id){
+		return new ResponseEntity<>(achievementService.getUnlockedAchievementsByPlayerId(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/locked/{playerId}")
+	public ResponseEntity<List<Achievement>> findLockedAchievementsByPlayerId(@PathVariable("playerId") Integer id){
+		return new ResponseEntity<>(achievementService.getLockedAchievementsByPlayerId(id), HttpStatus.OK);
+	}
 }
