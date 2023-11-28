@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import tokenService from './services/token.service';
 import jwt_decode from "jwt-decode";
 import logo from './static/images/dobble_logo.png' 
+import friendsLogo from './static/images/friends.png'
 
 function AppNavbar() {
     const [roles, setRoles] = useState([]);
@@ -25,6 +26,7 @@ function AppNavbar() {
     let userLinks = <></>;
     let userLogout = <></>;
     let publicLinks = <></>;
+    let friendLogoLink = <></>;
 
     roles.forEach((role) => {
         if (role === "ADMIN") {
@@ -70,6 +72,9 @@ function AppNavbar() {
                         <NavLink style={{ color: "white" }} tag={Link} to="/consultations">Consultations</NavLink>
                     </NavItem>
                     <NavItem>
+                    <NavLink style={{ color: "white" }} id="plans" tag={Link} to="/plans">Pricing Plans</NavLink>
+                    </NavItem>
+                    <NavItem>
                         <NavLink style={{ color: "white" }} tag={Link} to="/plan">Plan</NavLink>
                     </NavItem>
                 </>
@@ -86,6 +91,11 @@ function AppNavbar() {
         }
 
         if( role === "PLAYER"){
+            friendLogoLink = (
+                <NavbarBrand tag={Link} to="/friendsList">
+                    <img alt="Friends logo" src={friendsLogo} style={{ height: 40, width: 40, marginRight: '10px' }} />
+                </NavbarBrand>
+            );
             ownerLinks = (
                 <>
                 <NavItem>
@@ -127,9 +137,7 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="docs" tag={Link} to="/docs">Docs</NavLink>
                 </NavItem>
-                <NavItem>
-                    <NavLink style={{ color: "white" }} id="plans" tag={Link} to="/plans">Pricing Plans</NavLink>
-                </NavItem>
+                
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="register" tag={Link} to="/register">Register</NavLink>
                 </NavItem>
@@ -150,9 +158,6 @@ function AppNavbar() {
             <>
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="docs" tag={Link} to="/docs">Docs</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink style={{ color: "white" }} id="plans" tag={Link} to="/plans">Pricing Plans</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="profile" tag={Link} to="/profile" className="justify-content-end">{username}</NavLink>
@@ -180,6 +185,7 @@ function AppNavbar() {
                         {ownerLinks}
                     </Nav>
                     <Nav className="ms-auto mb-2 mb-lg-0" navbar>
+                        {friendLogoLink}
                         {publicLinks}
                         {userLogout}
                     </Nav>

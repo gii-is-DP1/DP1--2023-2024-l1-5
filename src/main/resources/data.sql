@@ -133,33 +133,34 @@ INSERT INTO decks(id, number_of_cards, round_id) VALUES
 (3, 44, 3),
 (4, 44, 4);
 
-INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,2);
-INSERT INTO players_friends_list(friends_list_id,player_id) VALUES(1,3);
+INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
+(1,18,19,'ACCEPTED'),
+(2,18,17,'WAITING'),
+(3,19,17,'ACCEPTED'),
+(4,19,10,'WAITING'),
+(5,19,9,'WAITING');
 
-INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(1, 'Lucas69', 'xleunam', 'WAITING');
-INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(2, 'Lucas70', 'xleunam2', 'ACCEPTED');
-INSERT INTO friend_requests(id, user_source, user_dst, friend_request_status) VALUES(3, 'Lucas71', 'xleunam1', 'DENIED');
 
-INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (1, 'Guille8', 'Lucas24', 'ACCEPTED');
-INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (2, 'Alvaro2', 'Guille12', 'PENDING');
-INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES (3, 'Lucas2', 'Nico1', 'REFUSED');
+INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES 
+(1, 'Guille8', 'Lucas24', 'ACCEPTED'),
+(2, 'Alvaro2', 'Guille12', 'PENDING'),
+(3, 'Lucas2', 'Nico1', 'REFUSED');
 
 INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (1, 'New hobby', 'Play a total of 3 hours', 'https://i.imgur.com/0Q0M2YV.png', 3, 'TOTAL_PLAY_TIME');
 INSERT INTO achievements(id,name,description,image_url,threshold,metric) VALUES (2, 'Professional', 'Win 5 games', 'https://i.imgur.com/0Q0M2YV.png', 5, 'VICTORIES');
 
 
 -- Inserta un registro de PlayerStatistic
-INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) 
-VALUES (1, 10, 5, 5, 0, 250, 120, 10);
-INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration) 
-VALUES (3, 100, 80, 20, 1000, 320, 400, 180);
-INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, avg_duration, max_duration, min_duration)
-VALUES (2, 15, 10, 5, 50, 280, 150, 20);
+INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points,avg_duration, max_duration, min_duration) VALUES 
+(1, 10, 5, 5, 0, 250, 120, 10),
+(3, 100, 80, 20, 1000, 320, 400, 180),
+(2, 15, 10, 5, 50, 280, 150, 20);
 
 -- Inserta un registro de GameStatistic
-INSERT INTO game_statistics (id, result, game_duration, points) VALUES (1, 'alvarobernal2412', 120, 14);
-INSERT INTO game_statistics (id, result, game_duration, points) VALUES (2, 'ronaldDinamita', 150, 22);
-INSERT INTO game_statistics (id, result, game_duration, points) VALUES (3, 'nicherlob', 180, 12);
+INSERT INTO game_statistics (id, result, game_duration, points) VALUES 
+(1, 'alvarobernal2412', 120, 14),
+(2, 'ronaldDinamita', 150, 22),
+(3, 'nicherlob', 180, 12);
 
 -- Inserta un registro de Message
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
@@ -183,38 +184,40 @@ INSERT INTO cards(id, image, deck_id, hand_id) VALUES
 (15, 'https://i.imgur.com/Rl8yaMu.jpeg',4,null),
 (16, 'https://i.imgur.com/VaXKfLq.jpeg',null,3);
 
+
 --Se han declarado todos los simbolos
-INSERT INTO symbols(name) VALUES('DOLPHIN');
-INSERT INTO symbols(name) VALUES('GLASSES');
-INSERT INTO symbols(name) VALUES('THUNDER');
-INSERT INTO symbols(name) VALUES('GHOST');
-INSERT INTO symbols(name) VALUES('SNOWMAN');
-INSERT INTO symbols(name) VALUES('SHOT');
-INSERT INTO symbols(name) VALUES('EXCLAMATION');
-INSERT INTO symbols(name) VALUES('ZEBRA');
-INSERT INTO symbols(name) VALUES('PENCIL');
-INSERT INTO symbols(name) VALUES('HAMMER');
-INSERT INTO symbols(name) VALUES('CACTUS');
-INSERT INTO symbols(name) VALUES('CAT');
-INSERT INTO symbols(name) VALUES('TURTLE');
-INSERT INTO symbols(name) VALUES('APPLE');
-INSERT INTO symbols(name) VALUES('BABY_BOTTLE');
-INSERT INTO symbols(name) VALUES('SPIDER');
-INSERT INTO symbols(name) VALUES('YIN_YAN');
-INSERT INTO symbols(name) VALUES('LADYBUG');
-INSERT INTO symbols(name) VALUES('IGLOO');
-INSERT INTO symbols(name) VALUES('INTERROGATION');
-INSERT INTO symbols(name) VALUES('CLOVER');
-INSERT INTO symbols(name) VALUES('SCISSORS');
-INSERT INTO symbols(name) VALUES('KEY');
-INSERT INTO symbols(name) VALUES('CHEESE');
-INSERT INTO symbols(name) VALUES('EYE');
-INSERT INTO symbols(name) VALUES('MUSIC');
-INSERT INTO symbols(name) VALUES('DOG');
-INSERT INTO symbols(name) VALUES('HEART');
-INSERT INTO symbols(name) VALUES('CLOWN');
-INSERT INTO symbols(name) VALUES('BIRD');
-INSERT INTO symbols(name) VALUES('WATER');
+INSERT INTO symbols(name) VALUES
+('DOLPHIN'),
+('GLASSES'),
+('THUNDER'),
+('GHOST'),
+('SNOWMAN'),
+('SHOT'),
+('EXCLAMATION'),
+('ZEBRA'),
+('PENCIL'),
+('HAMMER'),
+('CACTUS'),
+('CAT'),
+('TURTLE'),
+('APPLE'),
+('BABY_BOTTLE'),
+('SPIDER'),
+('YIN_YAN'),
+('LADYBUG'),
+('IGLOO'),
+('INTERROGATION'),
+('CLOVER'),
+('SCISSORS'),
+('KEY'),
+('CHEESE'),
+('EYE'),
+('MUSIC'),
+('DOG'),
+('HEART'),
+('CLOWN'),
+('BIRD'),
+('WATER');
 
 --Se declaran las relaciones de card y symbol
 INSERT INTO card_symbols(card_id, symbol) VALUES(1,'DOLPHIN');

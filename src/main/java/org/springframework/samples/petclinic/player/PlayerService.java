@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.samples.petclinic.user.User;
-import org.springframework.samples.petclinic.vet.Vet;
 
 @Service
 public class PlayerService {
@@ -40,6 +40,10 @@ public class PlayerService {
     @Transactional(readOnly=true)
     public Player getPlayerByUserId(Integer id) throws DataAccessException{
         return playerRepository.findByUserId(id).orElseThrow(() -> new ResourceNotFoundException("Player", "ID", id));
+    }
+    @Transactional(readOnly=true)
+    public Player getPlayerByUsername(String username) throws DataAccessException{
+        return playerRepository.findByUsername(username).orElseThrow(() -> new FriendshipExistsException("No se ha encontrado el usuario con username: " + username));
     }
 
     @Transactional
