@@ -22,11 +22,10 @@ public class HandDTO {
 
     public HandDTO(){}
 
-    public HandDTO(Hand h){
+    public HandDTO(Hand h, List<Card> cLs){
 
         this.id = h.getId();
         this.numCartas = h.getNumCartas();
-        List<Card> cLs  = h.getCards();
         List<Integer> cardList = new ArrayList<>();
         for(Card c: cLs){
             cardList.add(c.getId());

@@ -31,4 +31,14 @@ public class CardService {
     public Card getCardById(Integer id) {
         return cardRepository.findById(id).orElse(null);
     }
+
+    @Transactional
+    public List<Card> getCardsByDeckId(Integer deckId) {
+        return cardRepository.findByDeckId(deckId);
+    }
+
+    @Transactional
+    public List<Card> getCardsByHandId(Integer handId) {
+        return cardRepository.findByHandId(handId);
+    }
 }

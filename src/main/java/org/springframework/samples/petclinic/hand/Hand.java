@@ -34,11 +34,6 @@ public class Hand extends BaseEntity {
     @NotBlank
     private Integer numCartas;
 
-    @OneToMany(mappedBy = "hand", cascade = CascadeType.ALL)
-    @NotNull
-    @Size(min = 1)
-    private List<Card> cards;
-
     // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "round_id")

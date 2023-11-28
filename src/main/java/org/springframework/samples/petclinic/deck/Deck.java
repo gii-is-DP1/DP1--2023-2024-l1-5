@@ -30,10 +30,6 @@ public class Deck extends BaseEntity {
     @NotNull
     private Integer numberOfCards;
 
-    @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL)
-    @NotNull
-    private List<Card> cards;
-
     @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
 	@JoinColumn(name = "round_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
