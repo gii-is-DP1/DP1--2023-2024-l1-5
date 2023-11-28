@@ -51,7 +51,7 @@ public class PlayerService {
 		Player toUpdate = getPlayerById(id).orElse(null);
 		BeanUtils.copyProperties(player, toUpdate, "id", "user");
 		playerRepository.save(toUpdate);
-
 		return toUpdate;
 	}
+
 }
