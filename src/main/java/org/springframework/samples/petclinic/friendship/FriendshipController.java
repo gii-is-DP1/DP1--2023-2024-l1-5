@@ -30,6 +30,8 @@ public class FriendshipController {
     PlayerService playerService;
     UserService userService;
     private static final String PLAYER_AUTH = "PLAYER";
+    private static final String stateALL = "ALL";
+    private static final String statePLAYING = "PLAYING";
 
     @Autowired
     public FriendshipController(FriendshipService friendshipService, PlayerService playerService, UserService userService){
@@ -52,8 +54,14 @@ public class FriendshipController {
 
     @GetMapping("/friends/{playerId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Player>> getFriends(@PathVariable("playerId") Integer playerId){
-        return new ResponseEntity<>(friendshipService.getFriends(playerId), HttpStatus.OK);
+    public ResponseEntity<List<Player>> getAllFriends(@PathVariable("playerId") Integer playerId){
+        return new ResponseEntity<>(friendshipService.getFriends(playerId,"ALL"), HttpStatus.OK);
+    }
+
+    @GetMapping("/friends/playing/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Player>> getFriendsPlaying(@PathVariable("playerId") Integer playerId){
+        return new ResponseEntity<>(friendshipService.getFriends(playerId, "PLAYING"), HttpStatus.OK);
     }
 
     @PostMapping("{username}")

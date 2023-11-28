@@ -150,7 +150,7 @@ public class FriendshipControllerTest {
     @WithMockUser(username = "lucas", authorities = "PLAYER")
     public void testGetFriends() throws Exception {
 
-        when(this.fs.getFriends(TEST_PLAYER_ID_LUCAS)).thenReturn(java.util.List.of(guille));
+        when(this.fs.getFriends(TEST_PLAYER_ID_LUCAS,"ALL")).thenReturn(java.util.List.of(guille));
 
         mvc.perform(get(BASE_URL+"/friends/"+TEST_PLAYER_ID_LUCAS))
                 .andExpect(status().isOk())

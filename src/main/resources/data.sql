@@ -84,7 +84,7 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',2,3,4,200,'IN_PROGRESS');
 --Jugadores PARTIDA 4
 INSERT INTO player_games(player_id, game_id) VALUES(4, 4);
-INSERT INTO player_games(player_id, game_id) VALUES(1, 4);
+INSERT INTO player_games(player_id, game_id) VALUES(16, 4);
 -- RONDA DE LA PARTIDA 4
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,1,50,'INFERNAL_TOWER',4);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4,4,1,100,'PIT',4);
@@ -138,7 +138,9 @@ INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (2,18,17,'WAITING'),
 (3,19,17,'ACCEPTED'),
 (4,19,10,'WAITING'),
-(5,19,9,'WAITING');
+(5,19,9,'WAITING'),
+(6,1,19,'ACCEPTED'),
+(7,2,19,'ACCEPTED');
 
 
 INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES 
