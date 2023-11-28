@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../App.css';
 import "../static/css/player/newGame.css"
 import { Link } from "react-router-dom";
@@ -9,6 +9,17 @@ export default function QuickPlay() {
     const [error2, setError2] = useState(null);
     const [error3,setError3] = useState(null);
     const [playerId, setPlayerId] = useState(null);
+    const [tableHeight, setTableHeight] = useState(0);
+    const tableRef = useRef(null);
+
+    useEffect(() => {
+        if (tableRef.current) {
+            const height = tableRef.current.clientHeight;
+            setTableHeight(height);
+        }
+    }, [tableRef]);
+
+
     const requestBody1 = {
         gameMode: "QUICK_PLAY"
     }
@@ -34,6 +45,12 @@ export default function QuickPlay() {
 
     }
 
+
+    const otherGamesFriends = [
+        { id: 1, name: 'Friend 1' },
+        { id: 2, name: 'Friend 2' },
+        { id: 3, name: 'Friend 3' },
+    ];
 
 
     const CreateThePit = async () => {
@@ -204,6 +221,44 @@ export default function QuickPlay() {
                         </span>
                     </div>
                     <p className='error'>{error3}</p>
+                </div>
+
+                <div className="social">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div className="friendsToInvite">
+                        <h5>Invites</h5>
+                        <table ref={tableRef} className="friendsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div className="friendsPlaying">
+                        <h5>Friends Playing</h5>
+                        <table ref={tableRef} className="friendsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {otherGamesFriends.map(friend => (
+                                    <tr key={friend.id}>
+                                        <td>{friend.name}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
