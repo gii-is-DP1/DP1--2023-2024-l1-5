@@ -11,12 +11,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.samples.petclinic.deck.Deck;
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.symbol.Symbol;
 import jakarta.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 import java.util.List;
 
@@ -31,12 +33,6 @@ public class Card extends BaseEntity {
     @NotNull
     private String image;
 
-    // @ManyToMany
-    // @NotNull
-    // @JoinColumn(name = "hand_id")
-    // @JsonIgnore
-    // private List<Hand> hand;
-
     @ManyToMany
     @NotBlank
     @NotNull
@@ -45,10 +41,14 @@ public class Card extends BaseEntity {
     @Size(min = 6, max = 6)
     private List<Symbol> symbols;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "deck_id")
     @JsonIgnore
-    private List<Deck> deck;
+    private Deck deck;
 
+    @ManyToOne
+    @JoinColumn(name = "hand_id")
+    @JsonIgnore
+    private Hand hand;
     
 }

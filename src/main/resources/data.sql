@@ -120,16 +120,18 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
 
-
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(1,6,1,1);
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(2,4,2,2);
--- INSERT INTO hands(id,num_cards, round_id, player_id) VALUES(3,4,4,4);
+-- Inserta una registro de Hand
+INSERT INTO hands(id,num_cards, round_id, player_id) VALUES
+(1,6,1,1),
+(2,4,2,2),
+(3,4,4,4);
 
 -- Inserta un registro de Deck
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (1, 16, 1);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (2, 44, 2);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (3, 44, 3);
--- INSERT INTO decks(id, number_of_cards, round_id) VALUES (4, 44, 4);
+INSERT INTO decks(id, number_of_cards, round_id) VALUES 
+(1, 16, 1),
+(2, 44, 2),
+(3, 44, 3),
+(4, 44, 4);
 
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1,18,19,'ACCEPTED'),
@@ -193,35 +195,23 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
-INSERT INTO cards(id, image) VALUES 
-(1, 'https://i.imgur.com/pbHhrvm.jpeg'),
-(2, 'https://i.imgur.com/I6Id6Ta.jpeg'),
-(3, 'https://i.imgur.com/4kI9vYZ.jpeg'),
-(4, 'https://i.imgur.com/3fugva3.jpeg'),
-(5, 'https://i.imgur.com/Kxl8nZD.jpeg'),
-(6, 'https://i.imgur.com/MWUOfw1.jpeg'),
-(7, 'https://i.imgur.com/y3hnnjZ.jpeg'),
-(8, 'https://i.imgur.com/kx7n6FM.jpeg'),
-(9, 'https://i.imgur.com/CasQYx8.jpeg'),
-(10, 'https://i.imgur.com/1mC2EW8.jpeg'),
-(11, 'https://i.imgur.com/VswRlaY.jpeg'),
-(12, 'https://i.imgur.com/AfC2ihF.jpeg'),
-(13, 'https://i.imgur.com/ARussRh.jpeg'),
-(14, 'https://i.imgur.com/owic8Ou.jpeg'),
-(15, 'https://i.imgur.com/Rl8yaMu.jpeg'),
-(16, 'https://i.imgur.com/VaXKfLq.jpeg');
-
-
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(1, 1);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(2, 1);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 2);
--- INSERT INTO cards_deck(cards_id, deck_id) VALUES(3, 4);
-
--- -- INSERT para la relación entre Hand y Card
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (1, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (2, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 1);
--- INSERT INTO hand_cards(card_id, hand_id) VALUES (3, 3);
+INSERT INTO cards(id, image, deck_id, hand_id) VALUES 
+(1, 'https://i.imgur.com/pbHhrvm.jpeg',1,null),
+(2, 'https://i.imgur.com/I6Id6Ta.jpeg',1,null),
+(3, 'https://i.imgur.com/4kI9vYZ.jpeg',1,null),
+(4, 'https://i.imgur.com/3fugva3.jpeg',null,1),
+(5, 'https://i.imgur.com/Kxl8nZD.jpeg',null,1),
+(6, 'https://i.imgur.com/MWUOfw1.jpeg',null,2),
+(7, 'https://i.imgur.com/y3hnnjZ.jpeg',2,null),
+(8, 'https://i.imgur.com/kx7n6FM.jpeg',2,null),
+(9, 'https://i.imgur.com/CasQYx8.jpeg',3,null),
+(10, 'https://i.imgur.com/1mC2EW8.jpeg',null,2),
+(11, 'https://i.imgur.com/VswRlaY.jpeg',null,3),
+(12, 'https://i.imgur.com/AfC2ihF.jpeg',null,3),
+(13, 'https://i.imgur.com/ARussRh.jpeg',4,null),
+(14, 'https://i.imgur.com/owic8Ou.jpeg',4,null),
+(15, 'https://i.imgur.com/Rl8yaMu.jpeg',4,null),
+(16, 'https://i.imgur.com/VaXKfLq.jpeg',null,3);
 
 
 --Se han declarado todos los simbolos

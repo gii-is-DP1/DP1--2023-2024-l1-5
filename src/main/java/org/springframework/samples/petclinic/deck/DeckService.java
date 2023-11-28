@@ -56,7 +56,6 @@ public class DeckService {
         Deck deckToUpdate = getDeckByRoundId(idToUpdate);
         BeanUtils.copyProperties(deck, deckToUpdate, "id");
         deckToUpdate.setNumberOfCards(numCards);
-        deckToUpdate.setCards(ls);
         deckToUpdate.setRound(round);
         return createDeck(deckToUpdate);
     }
