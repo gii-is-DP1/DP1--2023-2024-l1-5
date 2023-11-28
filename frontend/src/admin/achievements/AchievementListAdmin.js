@@ -5,7 +5,7 @@ import useFetchState from "../../util/useFetchState";
 import deleteFromList from "../../util/deleteFromList";
 import getErrorModal from "../../util/getErrorModal";
 import { Link } from "react-router-dom";
-const imgnotfound = "https://cdn-icons-png.flaticon.com/512/5778/5778223.png";
+
 const jwt = tokenService.getLocalAccessToken();
 export default function AchievementList() {
   const [message, setMessage] = useState(null);
@@ -19,11 +19,11 @@ export default function AchievementList() {
   const achievementList = achievements.map((a) => {
     return (
       <tr key={a.id}>
-        <td className="text-center">{a.name}</td>
+        <td className="text-center"> {a.name} </td>
         <td className="text-center"> {a.description} </td>
         <td className="text-center">
           <img
-            src={a.badgeImage ? a.badgeImage : imgnotfound}
+            src={a.imageUrl}
             alt={a.name}
             width="50px"
           />

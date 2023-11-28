@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.hand;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,10 +64,11 @@ public class HandController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<HandDTO>> getAllHands() {
         List<Hand> hands = handService.getAllHands(); // Obtener la lista de objetos Hand
-        List<HandDTO> handDTOs = hands.stream()
-                .map(HandDTO::new) // Utilizar el constructor de HandDTO
-                .collect(Collectors.toList());
-
+        List<HandDTO> handDTOs = new ArrayList<>(); // Crear una lista de objetos HandDTO
+        for (Hand hand : hands) { // Recorrer la lista de objetos Hand
+            List<Card> cards = cardService.getCardsByHandId(hand.getId()); // Obtener la lista de objetos Card
+            handDTOs.add(new HandDTO(hand, cards)); // Agregar un objeto HandDTO a la lista de objetos HandDTO
+        }
         return new ResponseEntity<>(handDTOs, HttpStatus.OK);
     }
 
@@ -77,7 +79,8 @@ public class HandController {
         if (!hand.isPresent()) {
             throw new ResourceNotFoundException("Hand", "id", id);
         }
-        return new ResponseEntity<>(new HandDTO(hand.get()), HttpStatus.OK);
+        List<Card> cards = cardService.getCardsByHandId(id);
+        return new ResponseEntity<>(new HandDTO(hand.get(), cards), HttpStatus.OK);
     }
 
     @GetMapping("/detail/{id}")

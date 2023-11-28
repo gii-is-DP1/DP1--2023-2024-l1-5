@@ -78,7 +78,7 @@ public class GameControllerTests {
 
         mockMvc.perform(get(BASE_URL))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.size()").value(5));
+            .andExpect(jsonPath("$.size()").value(7));
         
     }
 
