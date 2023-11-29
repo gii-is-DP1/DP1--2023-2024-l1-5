@@ -8,6 +8,9 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameStatus;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class FriendshipService {
     FriendshipRepository friendshipRepository;
     PlayerRepository playerRepository;
+    GameRepository gameRepository;
 
     @Autowired
-    public FriendshipService(FriendshipRepository friendshipRepository, PlayerRepository playerRepository){
+    public FriendshipService(FriendshipRepository friendshipRepository, PlayerRepository playerRepository, GameRepository gameRepository){
         this.friendshipRepository = friendshipRepository;
         this.playerRepository = playerRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Transactional(rollbackFor = {FriendshipExistsException.class})
@@ -61,7 +66,7 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
-    public List<Player> getFriends(Integer playerId){
+    public List<Player> getFriends(Integer playerId, String state){
         List<Friendship> friendships = friendshipRepository.findAcceptedFriendshipsByPlayerId(playerId);
         Set<Integer> playerIds = new HashSet<>();
 
@@ -78,12 +83,19 @@ public class FriendshipService {
         for (int id : playerIds) {
             if (id != playerId) { // Excluir el playerId
                 Player player = playerRepository.findPlayerById(id).get();
-                if (player != null) {
+                if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
                     playerDetails.add(player);
+                } else if (player != null && state.equals("PLAYING")) { //Amigos del playerId que esten jugando
+                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);
+                    if (!games.isEmpty() && !playerDetails.contains(player)) {
+                        playerDetails.add(player);
+                    }
+                    
                 }
             }
         }
 
         return playerDetails;
     }
+
 }
