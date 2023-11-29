@@ -239,24 +239,7 @@ export default function QuickPlay() {
                 </div>
 
                 <div className="social">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div className="friendsToInvite">
-                        <h5>Invites</h5>
-                        <table ref={tableRef} className="friendsTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <br/>
-                    <br/>
-                    <br/>
+                    
                     <div className="friendsPlaying">
                         <h5>Friends Playing</h5>
                         <table ref={tableRef}>
