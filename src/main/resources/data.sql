@@ -236,7 +236,6 @@ INSERT INTO cards(id, image, deck_id, hand_id) VALUES
 (15, 'https://i.imgur.com/Rl8yaMu.jpeg',4,null),
 (16, 'https://i.imgur.com/VaXKfLq.jpeg',null,3);
 
-
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES
 ('DOLPHIN'),
