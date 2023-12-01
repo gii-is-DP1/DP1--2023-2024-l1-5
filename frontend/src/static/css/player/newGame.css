@@ -1,63 +1,110 @@
-.button{
-    background-color:#2f324fc7;
-    padding: 2rem; 
+.button {
+    background-color: #2f324fc7;
+    padding: 2rem;
     border-radius: 300px;
-    color:rgb(245, 245, 245);
+    color: rgb(245, 245, 245);
     cursor: pointer;
     display: flex;
-    justify-content: center;    
+    justify-content: center;
 }
 
-.error{
+.error {
     color: red;
     font-size: 12pt;
     margin-left: 20px;
     margin-top: 10px;
 }
 
-.buttonQP{
+.buttonQP {
     display: flex;
-    margin-right: 600px;
-    column-gap: 80px;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 20px; /* Space between buttons */
+    margin: 20px; /* Adjust overall margin */
 }
-.gameButton{
-    display: flex;
-    column-gap: 80px;
-}
-.inButton{
-            width: 250px; 
-}
-   
-.text{
-    color:rgb(255, 255, 255);
-    margin-top: 40px;
-    width: 200px;
-    margin-left: 20px;
-    font-size: 10pt;
-    position: absolute;
-    z-index: 1;
-}   
 
-.blockText{
-    background-color:#2f324f;
+.gameButton {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 20px; /* Space between buttons */
+}
+
+.inButton {
+    width: calc(33.33% - 20px); /* Three columns with space between */
+    max-width: 250px; /* Maximum width for the buttons */
+}
+
+.blockText {
+    background-color: #2f324f;
     border-radius: 30px;
-    width: 250px ;
-    height: 400px;
+    width: 100%; /* Full width */
+    max-width: 250px; /* Maximum width for the text block */
+    height: auto; /* Adjust height based on content */
     margin-top: 30px;
+    padding: 20px; /* Padding for the text block */
+}
+
+.text {
+    color: rgb(255, 255, 255);
+    margin-top: 20px;
+    font-size: 10pt;
+    position: relative; /* Change to relative position */
+}
+
+.social {
+    display: flex;
+    flex-direction: column; /* Cambiar el ancho según sea necesario */
+    gap: 20px;
+}
+
+.friendsPlaying,
+.friendsToInvite {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.friendsToInvite h5,
+.friendsPlaying h5 {
+    text-align: center;
+}
+
+
+/* Responsive adjustments */
+@media screen and (min-width: 1440px) {
+    .buttonQP,
+    .gameButton {
+        justify-content: space-between; /* Spread buttons across the container */
+    }
+
+    .inButton {
+        width: 250px; /* Set fixed width for larger screens */
+        max-width: none; /* Reset maximum width */
+    }
+
+    .blockText {
+        width: 250px; /* Reset width */
+    }
+
+    .social{
+        width: 350px;
+        justify-content: center;
+    }
 
 }
 
-.wallpaper{
+.wallpaper {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: -1;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_background.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+        url('../../images/dobble_background.jpg');
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-  
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,5 +30,9 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g WHERE g.status = 'WAITING'")
     List<Game> findWaitingGames() throws DataAccessException;
+
+    @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'IN_PROGRESS'")
+    List<Game> findPlayerGamesInProgress(@Param("playerId") Integer playerId) throws DataAccessException;
+
 
 }

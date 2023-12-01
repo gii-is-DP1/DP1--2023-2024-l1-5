@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../App.css';
 import "../static/css/player/newGame.css"
 import { Link } from "react-router-dom";
 import tokenService from '../services/token.service';
+
+const jwt = tokenService.getLocalAccessToken();
+const user = tokenService.getUser();
 
 export default function QuickPlay() {
     const [error, setError] = useState(null);
     const [error2, setError2] = useState(null);
     const [error3,setError3] = useState(null);
     const [playerId, setPlayerId] = useState(null);
+    const tableRef = useRef(null);
+    const [otherGamesFriends, setOtherGamesFriends] = useState([]);
+
     const requestBody1 = {
         gameMode: "QUICK_PLAY"
     }
-    const user = tokenService.getUser();
-    useEffect(() => { setUp(); }, []);
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -33,8 +37,6 @@ export default function QuickPlay() {
 
 
     }
-
-
 
     const CreateThePit = async () => {
 
@@ -144,16 +146,46 @@ export default function QuickPlay() {
             console.error("Error al crear la partida", response3.statusText);
             setError3("Error al crear la partida. Ya perteneces a una partida");
 
-        }
-    }catch(error) {
+        }}
+        catch(error) {
         console.error("Error:Ya perteneces a una partida", error);
+        }
+    };
 
+    const getFriendsPlaying = async () => {
+        try {
+            const userIdResponse = await fetch(`/api/v1/players/user/${user.id}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (userIdResponse.ok) {
+                const responseBody = await userIdResponse.json();
+                const playerId = responseBody.id;
 
-    }
-}
+                const friendsPlayingResponse = await fetch(`/api/v1/friendship/friends/playing/${playerId}`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
 
+                if (friendsPlayingResponse.ok) {
+                    const friendsPlayingList = await friendsPlayingResponse.json();
+                    console.log(friendsPlayingList);
+                    setOtherGamesFriends(friendsPlayingList);
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching friends playing:', error);
+        }
+    };
 
-
+    useEffect(() => {
+        setUp();
+        getFriendsPlaying();
+    }, []);
 
     return (
         <div className="wallpaper   ">
@@ -204,6 +236,27 @@ export default function QuickPlay() {
                         </span>
                     </div>
                     <p className='error'>{error3}</p>
+                </div>
+
+                <div className="social">
+                    
+                    <div className="friendsPlaying">
+                        <h5>Friends Playing</h5>
+                        <table ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {otherGamesFriends.map(friend => (
+                                    <tr key={friend.id}>
+                                        <td>{friend.user.username} <a>- IN GAME </a></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
