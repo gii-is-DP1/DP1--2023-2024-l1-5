@@ -110,7 +110,7 @@ export default function Register() {
             inputs={
               type === "Owner" ? registerFormOwnerInputs 
               : type === "Vet" ? registerFormVetInputs
-              : type === "PLAYER" ? registerFormPlayerInputs
+              : type === "Player" ? registerFormPlayerInputs
               : registerFormClinicOwnerInputs
             }
             onSubmit={handleSubmit}
@@ -154,7 +154,7 @@ export default function Register() {
             </button>
             <button
               className="auth-button"
-              value="PLAYER"
+              value="Player"
               onClick={handleButtonClick}
             >
               Player

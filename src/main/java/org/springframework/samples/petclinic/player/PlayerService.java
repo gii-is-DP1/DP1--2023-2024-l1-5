@@ -54,4 +54,8 @@ public class PlayerService {
 		return toUpdate;
 	}
 
+    public Boolean existsPlayerUser(String playerUsername) {
+		return playerRepository.existsByPlayerUsername(playerUsername);
+	}
+
 }
