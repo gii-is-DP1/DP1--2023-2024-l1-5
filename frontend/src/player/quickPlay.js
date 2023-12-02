@@ -206,9 +206,7 @@ export default function QuickPlay() {
                     <p className='error'>{error3}</p>
                 </div>
             </div>
-
         </div>
+
     );
-
-
 }

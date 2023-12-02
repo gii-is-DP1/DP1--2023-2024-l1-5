@@ -3,7 +3,7 @@ package org.springframework.samples.petclinic.game;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.round.Round;
+import org.springframework.samples.petclinic.round.RoundService;
 import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 
@@ -42,35 +44,46 @@ public class GameController {
     private final GameService gameService;
     private final UserService userService;
     private final PlayerService playerService;
+    private final RoundService roundService;
     private static final String PLAYER_AUTH = "PLAYER";
-    private static final String QUICK_START = "QUICK_START";
+    private static final String QUICK_PLAY = "QUICK_PLAY";
     private static final String COMPETITIVE = "COMPETITIVE";
-    
+
     @Autowired
-	public GameController(GameService gameService, UserService userService, PlayerService playerService) {
-		this.gameService = gameService;
-		this.playerService = playerService;
+    public GameController(GameService gameService, UserService userService, PlayerService playerService, RoundService roundService) {
+        this.gameService = gameService;
+        this.playerService = playerService;
         this.userService = userService;
-	}
+        this.roundService = roundService;
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Game>>getAllGames(){
-        return  new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);
+    public ResponseEntity<List<GameDTO>> getAllGames() {
+        List<Game> games = gameService.getAllGames(); // Obtener la lista de objetos Game
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game)) // Convertir Game a GameDTO
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Game> getGameById(@PathVariable("id")Integer id){
-        Optional<Game> g=gameService.getGameById(id);
-        if(!g.isPresent())
+    public ResponseEntity<GameDTO> getGameById(@PathVariable("id") Integer id) {
+        Optional<Game> g = gameService.getGameById(id);
+        if (!g.isPresent())
             throw new ResourceNotFoundException("Game", "id", id);
-        return new ResponseEntity<>(g.get(), HttpStatus.OK);
+    
+        GameDTO gameDTO = new GameDTO(g.get());
+    
+        return new ResponseEntity<>(gameDTO, HttpStatus.OK);
     }
 
     @GetMapping("/quick/joinRandom")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> getRandomQuickGame(){
-        Optional<Game> g=gameService.getRandomGame(QUICK_START);
+        Optional<Game> g=gameService.getRandomGame(QUICK_PLAY);
         if(!g.isPresent()){
             throw new WaitingGamesNotFoundException("No se ha encontrado ninguna partida en espera");
         }
@@ -108,9 +121,10 @@ public class GameController {
             }else{
                 // Establecer los valores predeterminados para los atributos
                 List<Player> players = new ArrayList<>();
-                newGame.setGameMode(gameRequest.getGameMode());
+                newGame.setGameMode(gameRequest.getGameMode()); 
                 newGame.setCreator(player);
-                newGame.setGameStatus(GameStatus.WAITING);
+                newGame.setStatus(GameStatus.WAITING);
+                newGame.setNumPlayers(0);
                 newGame.setGameTime(0);
                 players.add(player);
                 newGame.setPlayers(players);
@@ -139,5 +153,49 @@ public class GameController {
 
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Game> updateGame(@PathVariable("id") Integer id, @Valid @RequestBody GameRequestPUT gameRequest) {
+        Optional<Game> g = gameService.getGameById(id);
+        if (!g.isPresent())
+            throw new ResourceNotFoundException("Game", "id", id);
+    
+        Game game = g.get();
+        
+        BeanUtils.copyProperties(gameRequest, game, "id", "rounds", "players" );
+        //BeanUtils.copyProperties(gameRequest, game, "id", "status", "rounds", "players" );
+        //game.setStatus(getGameStatusFromString(gameRequest.getStatus(),game));
+
+        List<Round> lsRounds = new ArrayList<Round>();
+        for(Integer roundId: gameRequest.getRounds()){
+            if(!(roundId == 0)){
+                Optional<Round> r = roundService.getRoundById(roundId);
+                if(!r.isPresent())
+                    throw new ResourceNotFoundException("Round", "id", roundId);
+                lsRounds.add(r.get());
+            }
+        }
+        List<Round> rounds = game.getRounds();
+        rounds.addAll(lsRounds);
+        game.setRounds(rounds);
+
+        List<Player> lsPlayer = new ArrayList<Player>();
+        for(Integer playerId: gameRequest.getPlayers()){
+            if(!(playerId == 0)){
+                Optional<Player> p = playerService.getPlayerById(playerId);
+                if(!p.isPresent())
+                    throw new ResourceNotFoundException("Player", "id", playerId);
+                lsPlayer.add(p.get());
+            }
+        }
+        List<Player> players = game.getPlayers();
+        players.addAll(lsPlayer);
+        game.setPlayers(players);
+
+        game.setNumPlayers(game.getPlayers().size());
+        Game savedGame = this.gameService.saveGame(game);
+    
+        return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
     
 }
