@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.auth;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -99,7 +98,6 @@ public class AuthService {
 				player.setLastName(request.getLastName());
 				player.setUser(user);
 				player.setImage(request.getImage());
-				player.setFriendsList(new HashSet<>());
 				player.setPlayerUsername(request.getPlayerUsername());
 				playerService.savePlayer(player);
 				break;

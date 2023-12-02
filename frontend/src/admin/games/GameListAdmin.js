@@ -1,6 +1,5 @@
 import { useState,useEffect } from 'react';
-import { Button, Col, Container, Row, Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
-import useFetchState from '../../util/useFetchState';
+import {Container, Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
 import getErrorModal from '../../util/getErrorModal';
 import tokenService from '../../services/token.service';
 
@@ -10,7 +9,6 @@ export default function GameListAdmin(){
 
     const [message, setMessage] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [games, setGames] = useFetchState([], `/api/v1/games`, jwt, setMessage, setVisible);
     const [waitingGames, setWaitingGames] = useState([]);
     const [inProgressgGames, setInProgressGames] = useState([]);
     const [finalizedGames, setFinalizedGames] = useState([]);
@@ -52,34 +50,54 @@ export default function GameListAdmin(){
             }));
         } 
     }
+    
 
-    async function setUp() {
-        const games = await (
-          await fetch(`/api/v1/games`, {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-              "Content-Type": "application/json",
-            },
-          })
-        ).json();
+    async function getFinalizedGames(){
+        const games1 = await (
+            await fetch(`/api/v1/games/finalized`, {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+              },
+            })
+          ).json();
+        ;
+        setFinalizedGames(games1);
+    }
 
-        setGames(games);
+    async function getWaitingGames(){
+        const games2 = await (
+            await fetch(`/api/v1/games/waiting`, {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+              },
+            })
+          ).json();
+        ;
+        setWaitingGames(games2);
+    }
 
-        let lsWaiting = [...games].filter((i) => i.status === "WAITING");
-        setWaitingGames(lsWaiting)
-
-        let lsProgress = [...games].filter((i) => i.status === "IN_PROGRESS");
-        setInProgressGames(lsProgress)
-
-        let lsFinalized = [...games].filter((i) => i.status === "FINALIZED");
-        setFinalizedGames(lsFinalized)
-      }
+    async function getInProgressGames(){
+        const games3 = await (
+            await fetch(`/api/v1/games/inProgress`, {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+              },
+            })
+          ).json();
+        ;
+        setInProgressGames(games3);
+    }
 
       useEffect(() => {
-        setUp();
+        getWaitingGames();
+        getInProgressGames();
+        getFinalizedGames();  
       }, []);
 
-      useEffect(() => {}, [games]);
+      useEffect(() => {},[waitingGames], [inProgressgGames], [finalizedGames]);
 
     const modal = getErrorModal(setVisible, visible, message);
 

@@ -45,6 +45,16 @@ public class AchievementService {
     public Achievement getAchievementByName(String name){
         return repo.findByName(name);
     }
+
+    @Transactional(readOnly = true)
+    public List<Achievement> getUnlockedAchievementsByPlayerId(Integer id){
+        return repo.findUnlockedAchievementsByPlayerId(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Achievement> getLockedAchievementsByPlayerId(Integer id){
+        return repo.findLockedAchievementsByPlayerId(id);
+    }
     
 
 }

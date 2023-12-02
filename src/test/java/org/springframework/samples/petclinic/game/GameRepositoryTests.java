@@ -72,6 +72,30 @@ public class GameRepositoryTests {
         assertTrue(waitingCompetitiveGames1.size() > 0);
     }
 
+    @Test
+    public void testFindInProgressGames() {
+
+        List<Game> inProgressGames = gameRepository.findInProgressGames();
+        assertNotNull(inProgressGames);
+        assertTrue(inProgressGames.size() > 0);
+    }
+
+    @Test
+    public void testFindFinalizedGames() {
+
+        List<Game> finalizedGames = gameRepository.findFinalizedGames();
+        assertNotNull(finalizedGames);
+        assertTrue(finalizedGames.size() > 0);
+    }
+
+    @Test
+    public void testFindWaitingGames() {
+
+        List<Game> waitingGames = gameRepository.findWaitingGames();
+        assertNotNull(waitingGames);
+        assertTrue(waitingGames.size() > 0);
+    }
+
     public Boolean checkValuesOfGameList(List<Game> games, GameMode GM){
         for(Game g : games){
             if(g.getGameMode() != GM && g.getStatus() != GameStatus.WAITING && g.getNumPlayers() >= 8)

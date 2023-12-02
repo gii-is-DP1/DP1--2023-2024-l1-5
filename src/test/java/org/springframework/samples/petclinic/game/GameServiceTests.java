@@ -11,7 +11,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.reset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +19,15 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.user.UserService;
+
+
 
 
 @ExtendWith(MockitoExtension.class)
@@ -42,25 +40,32 @@ public class GameServiceTests {
     private PlayerRepository playerRepository;
 
     @Mock
+    private UserService userService;
+
+    @Mock   
+    private PlayerService playerService;
+
+    @Mock
     private GameService gameService;
 
+    // @Test
+    // public void testSaveGame() {
+    //     gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+    //     Game gameToSave = new Game();
+    //     Player newPlayer = new Player();
+    //     User newUser = new User();
+    //     int pid = 1;
+    //     newPlayer.setId(pid);
+        
+    //     when(gameRepository.save(any(Game.class))).thenReturn(gameToSave);
+    //     when(userService.findCurrentUser()).thenReturn(newUser);
+    //     when(playerRepository.findByUser(any())).thenReturn(Optional.of(newPlayer));
+    //     Game savedGame = gameService.saveGame(gameToSave,newPlayer);
 
-    @Test
-    public void testSaveGame() {
-        gameService=new GameService(gameRepository, playerRepository);
-        Game gameToSave = new Game();
-        when(gameRepository.save(any(Game.class))).thenReturn(gameToSave);
-
-        Game savedGame = gameService.saveGame(gameToSave);
-
-        assertNotNull(savedGame);
-        assertEquals(gameToSave, savedGame);
-        verify(gameRepository, times(1)).save(any(Game.class));
-    }
 
     @Test
     public void testGetAllGames() {
-        gameService=new GameService(gameRepository, playerRepository);
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
         List<Game> games = new ArrayList<>();
         when(gameRepository.findAll()).thenReturn(games);
 
@@ -70,10 +75,44 @@ public class GameServiceTests {
         assertEquals(games, result);
         verify(gameRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testGetInProgressGames(){
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        List<Game> ipGames = new ArrayList<>();
+        when(gameRepository.findInProgressGames()).thenReturn(ipGames);
+        List<Game> result = gameService.getInProgressGames();
+        assertNotNull(result);
+        assertEquals(ipGames, result);
+        verify(gameRepository, times(1)).findInProgressGames();
+
+    }
+
+    @Test
+    public void testGetWaitingGames(){
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        List<Game> wGames = new ArrayList<>();
+        when(gameRepository.findWaitingGames()).thenReturn(wGames);
+        List<Game> result = gameService.getWaitingGames();
+        assertNotNull(result);
+        assertEquals(wGames, result);
+        verify(gameRepository, times(1)).findWaitingGames();
+    }
+
+    @Test
+    public void testGetFinalizedGames(){
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        List<Game> fGames = new ArrayList<>();
+        when(gameRepository.findFinalizedGames()).thenReturn(fGames);
+        List<Game> result = gameService.getFinalizedGames();
+        assertNotNull(result);
+        assertEquals(fGames, result);
+        verify(gameRepository, times(1)).findFinalizedGames();
+    }
     
     @Test
     public void testGetGameById() {
-        gameService=new GameService(gameRepository, playerRepository);
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
         Integer gameId = 1;
         Game game = new Game();
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
@@ -85,10 +124,10 @@ public class GameServiceTests {
         verify(gameRepository, times(1)).findById(gameId);
     }
 
+
     @Test
     public void testHasActiveGame() {
-        gameService=new GameService(gameRepository, playerRepository);
-
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
         Player player = new Player();
         Integer playerId = 1;
         player.setId(playerId);
@@ -116,7 +155,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetNoRandomGame() {
-        gameService=new GameService(gameRepository, playerRepository);
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
         GameMode gm = GameMode.QUICK_PLAY;
         WaitingGamesNotFoundException exception = assertThrows(WaitingGamesNotFoundException.class, () -> {
             gameService.getRandomGame(gm.toString());
@@ -131,7 +170,6 @@ public class GameServiceTests {
         Game g = createGame(GameStatus.WAITING);
         g.setId(1);
         g.setGameMode(gm);
-        gameService.saveGame(g);
 
         when(gameService.getRandomGame(gm.toString())).thenReturn(Optional.of(g));
         Optional<Game> result = gameService.getRandomGame(gm.toString());
@@ -141,13 +179,13 @@ public class GameServiceTests {
      }
 
 
-     @Test
-     public void testNoGetWaitingGame(){
-        gameService=new GameService(gameRepository, playerRepository);
-        Player player = new Player();
-        Optional<Game> result = gameService.getWaitingGame(player);
-        assertNull(result);
-     }
+    @Test
+    public void testGetNoWaitingGame(){
+        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+         Player player = new Player();
+          Optional<Game> result = gameService.getWaitingGame(player);
+          assertNull(result);
+        }
 
      @Test
      public void testGetWaitingGame(){

@@ -78,15 +78,40 @@ public class GameControllerTests {
 
         mockMvc.perform(get(BASE_URL))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.size()").value(5));
+            .andExpect(jsonPath("$.size()").value(7));
         
     }
 
     @Test
     @WithMockUser(username = "player1", authorities = {"PLAYER"})
     public void testgetRandomQuickGame() throws Exception{
-         mockMvc.perform(get(BASE_URL+"/quick/joinRandom")).andExpect(status().isOk());
+         mockMvc.perform(get(BASE_URL+"/quick/joinRandom"))
+         .andExpect(status().isOk());
     } 
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testGetInProgressGames() throws Exception{
+         mockMvc.perform(get(BASE_URL+"/inProgress"))
+         .andExpect(status().isOk())
+         .andExpect(jsonPath("$.size()").value(3));
+    }
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testGetWaitingGames() throws Exception{
+         mockMvc.perform(get(BASE_URL+"/waiting"))
+         .andExpect(status().isOk())
+         .andExpect(jsonPath("$.size()").value(2));
+    }
+
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testGetFinalizedGames() throws Exception{
+         mockMvc.perform(get(BASE_URL+"/finalized"))
+         .andExpect(status().isOk())
+         .andExpect(jsonPath("$.size()").value(2));
+    }
+
+
     @Test
     @WithMockUser(username = "player1", authorities = {"PLAYER"})
     public void testgetRandomCopetitiveGame() throws Exception{

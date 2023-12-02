@@ -5,6 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +28,12 @@ public class AchievementControllerTest {
     private static final String BASE_URL = "/api/v1/achievements";
     private static final Integer TEST_ACHIEVEMENT_ID_TESTING = 1;
     private static final Integer TEST_ACHIEVEMENT_ID_PRUEBAS = 2;
+    private static final Integer PLAYER_ID = 1;
     private Achievement testing;
     private Achievement pruebas;
 
-
-    @SuppressWarnings("unused")
-    @Autowired
-	private AchievementController achievementController;
-
     @MockBean
-    @Autowired
     AchievementService achievementService;
-
 
     @Autowired
     private WebApplicationContext context;
@@ -98,4 +95,27 @@ public class AchievementControllerTest {
                 .andExpect(jsonPath("$.name").value("New hobby"))
 				.andExpect(jsonPath("$.metric").value("TOTAL_PLAY_TIME"));
 	}
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
+    public void testGetUnlockedAchievementsByPlayerId() throws Exception {
+        List<Achievement> mockAchievements = new ArrayList<>();
+        when(achievementService.getUnlockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+
+        mockMvc.perform(get(BASE_URL + "/unlocked/" + PLAYER_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
+    public void testGetLockedAchievementsByPlayerId() throws Exception {
+        List<Achievement> mockAchievements = new ArrayList<>();
+        when(achievementService.getLockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+
+        mockMvc.perform(get(BASE_URL + "/locked/" + PLAYER_ID))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray());
+    }
+
 }
