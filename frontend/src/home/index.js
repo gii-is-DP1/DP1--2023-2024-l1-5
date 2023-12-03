@@ -43,7 +43,7 @@ export default function Home(){
     const FriendsFloatingBox = ({ friends }) => {
 
         return (
-            <div className="invitation-box floating-box">
+            <div className="invitation-box floating-box" style={{ position: 'fixed', bottom: '0', right: '0' }}>
                 <h3>Online friends</h3>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                     {friends.map((friend) => (
@@ -71,10 +71,9 @@ export default function Home(){
             <div className="hero-div">
                 <h1>Dobble</h1>
                 <h3>---</h3>
-                <h3>The most funny game</h3>     
-                {console.log(friendsOnline.length)}
-                <FriendsFloatingBox friends={friendsOnline} />   
+                <h3>The most funny game</h3>
             </div>
+            <FriendsFloatingBox friends={friendsOnline} />  
         </div>
     );
 }
