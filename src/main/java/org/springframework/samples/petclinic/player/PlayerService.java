@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.exceptions.ResourceNotFoundExceptio
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.vet.Vet;
 
 @Service
 public class PlayerService {
@@ -52,6 +53,12 @@ public class PlayerService {
 		BeanUtils.copyProperties(player, toUpdate, "id", "user");
 		playerRepository.save(toUpdate);
 		return toUpdate;
+	}
+
+    @Transactional
+	public void deletePlayer(int id) throws DataAccessException {
+		Player toDelete = getPlayerByUserId(id);
+		playerRepository.delete(toDelete);
 	}
 
 }

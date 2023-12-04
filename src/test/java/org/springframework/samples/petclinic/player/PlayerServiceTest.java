@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 @ExtendWith(MockitoExtension.class)
 public class PlayerServiceTest {
 
@@ -47,7 +46,6 @@ public class PlayerServiceTest {
         when(playerRepository.findAll()).thenReturn(new ArrayList<>());
 
         List<Player> players = playerService.getAllPlayers();
-
         assertNotNull(players);
         verify(playerRepository, times(1)).findAll();
     }
@@ -96,6 +94,23 @@ public class PlayerServiceTest {
         verify(playerRepository, times(1)).save(any(Player.class));
     }
 
+
+    @Test
+    public void testDeletePlayer() {
+        Integer firstCount = playerService.getAllPlayers().size();
+
+        Player player = new Player();
+        player.setId(USER_ID);
+        player.setPlayerUsername("OriginalUsername");
+        playerService.savePlayer(player);
+
+        Integer secondCount = playerService.getAllPlayers().size();
+        assertEquals(firstCount + 1, secondCount);
+
+        playerService.deletePlayer(player.getId());
+        Integer lastCount = playerService.getAllPlayers().size();
+		assertEquals(firstCount, lastCount);
+	}
 }
 
     /*@Test
