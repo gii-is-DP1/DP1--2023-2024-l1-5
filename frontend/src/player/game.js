@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import tokenService from '../services/token.service';
 
 
-export default function Game() {
+export default function game() {
 
     const [InvitationList, setInvitationList] = useState([]);
     const user = tokenService.getUser();
