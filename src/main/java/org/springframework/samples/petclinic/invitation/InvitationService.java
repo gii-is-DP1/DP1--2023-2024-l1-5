@@ -30,8 +30,14 @@ public class InvitationService {
     }
 
     @Transactional(readOnly = true)
-    public List<Invitation> getPendigInvitations(String playerUsername){
+    public List<Invitation> getPendigInvitationsSent(String playerUsername){
          return invitationRepository.findPendigInvitation(playerUsername);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Invitation> getPendigInvitationsReceived(String playerUsername){
+        //Player player = pla
+        return invitationRepository.findAlreadyPendigInvitation(playerUsername);
     }
 
     @Transactional(rollbackFor = {InvitationAlreadySent.class})
@@ -50,25 +56,5 @@ public class InvitationService {
         return invitation;
     }
 
-    // @Transactional()
-    // public Game updateGame(int idPlayer, int idGame){
-    //     Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
-    //     Game toUpdate= getGameById(idGame).get();
-    //     toUpdate.getPlayers().add(toAddPlayer);
-    //     User user = userService.findCurrentUser();
-    //     Player p = playerService.findPlayerByUser(user);
-    //     return saveGame(toUpdate,p);
-    // } 
 
-    // @Transactional
-    // public Game saveGame(Game game, Player player) {
-    //     User user = userService.findCurrentUser();
-    //     Player p = playerService.findPlayerByUser(user);
-    //     boolean hasActiveGame = hasActiveGame(p);
-    //     if(hasActiveGame){
-    //         throw new ActiveGameException("El jugador ya tiene una partida activa");
-    //     }
-    //     gameRepository.save(game);
-    //     return game;
-    // }
 }

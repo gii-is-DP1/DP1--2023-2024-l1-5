@@ -183,6 +183,18 @@ public class GameController {
 
     }
 
+    @PutMapping("/quick/joinInvitation/{game_id}")
+    public ResponseEntity<Game> joinQuickGameById(@PathVariable("game_id") Integer game_id) {
+        User user = userService.findCurrentUser();
+        Player player = playerService.getPlayerByUserId(user.getId());
+        Game game = gameService.getGameById(game_id).get();
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && game.getNumPlayers()<8) {
+            Game savedGame = this.gameService.updateGame(player.getId(), game_id);
+            return new ResponseEntity<>(savedGame, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> updateGame(@PathVariable("id") Integer id,

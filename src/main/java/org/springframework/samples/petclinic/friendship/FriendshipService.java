@@ -89,13 +89,43 @@ public class FriendshipService {
                     List<Game> games = gameRepository.findPlayerGamesInProgress(id);
                     if (!games.isEmpty() && !playerDetails.contains(player)) {
                         playerDetails.add(player);
-                    }
-                    
+                    }         
                 }
             }
         }
 
         return playerDetails;
+    }
+    @Transactional(readOnly = true)
+    public List<Player> getFriends2(Integer playerId, String state){
+        List<Friendship> friendships = friendshipRepository.findAcceptedFriendshipsByPlayerId(playerId);
+        Set<Integer> playerIds = new HashSet<>();
+
+        for (Friendship friendship : friendships) {
+            if (friendship.getUser_source().getId() != playerId) {
+                playerIds.add(friendship.getUser_source().getId());
+            }
+            if (friendship.getUser_dst().getId() != playerId) {
+                playerIds.add(friendship.getUser_dst().getId());
+            }
+        }
+
+        List<Player> playerDetails2 = new ArrayList<>();
+        for (int id : playerIds) {
+            if (id != playerId) { // Excluir el playerId
+                Player player = playerRepository.findPlayerById(id).get();
+                if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
+                    playerDetails2.add(player);
+                } else if (player != null && state.equals("NOTPLAYING")) { //Amigos del playerId que no esten jugando
+                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);
+                    if (games.isEmpty() && !playerDetails2.contains(player)) {
+                        playerDetails2.add(player);
+                    }         
+                }
+            }
+        }
+
+        return playerDetails2;
     }
 
 }

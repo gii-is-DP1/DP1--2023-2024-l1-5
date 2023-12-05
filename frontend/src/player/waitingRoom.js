@@ -1,15 +1,21 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import '../App.css';
 import "../static/css/player/quickWaitingRoom.css";
 import "../static/css/player/newGame.css"
-import { useParams,Link } from 'react-router-dom';
+import { useParams,Link, } from 'react-router-dom';
+import tokenService from '../services/token.service';
 
+const user = tokenService.getUser();
 
 export default function WaitingRoom(){
     const {id} = useParams();    
     const[game,setGame]=useState({});   
     const [players,setPlayers]=useState([]);
     const [playerNames,setPlayerNames]=useState([]);
+    const [FriendsNotPlaying, setFriendsNotPlaying] = useState([]);
+    const [friendUsername, setFriendUsername] = useState('');
+    const tableRef = useRef(null);
+    
 
 
     useEffect(() => {
@@ -63,7 +69,73 @@ export default function WaitingRoom(){
             }
         }
         getPlayerName();
-    },[players])
+    },[players]);
+
+    useEffect(()=>{
+        const getFriendsNotPlaying = async () => {
+            try {
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const userIdResponse = await fetch(`/api/v1/players/user/${user.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (userIdResponse.ok) {
+                    const responseBody = await userIdResponse.json();
+                    const playerId = responseBody.id;
+    
+                    const friendsPlayingResponse = await fetch(`/api/v1/friendship/friends/notplaying/${playerId}`, {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+    
+                    if (friendsPlayingResponse.ok) {
+                        const friendsNotPlayingList = await friendsPlayingResponse.json();
+                        console.log(friendsNotPlayingList);
+                        setFriendsNotPlaying(friendsNotPlayingList);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching friends playing:', error);
+            }
+        }
+        getFriendsNotPlaying();
+    })
+
+    const sendInvitationRequest = async (event) => {
+        try {
+            const friendUsername = event.target.textContent;
+            alert(friendUsername)
+            const gameId = id;
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+            const response = await fetch(`/api/v1/games/${gameId}/invitations/${friendUsername}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                alert("bien")
+                setFriendUsername(friendUsername);// Limpia el input
+            }
+            else {
+                const errorMessage = await response.text();
+                setFriendUsername(''); // Limpia el input
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                const errorMessage = await error.response.text();
+                setFriendUsername(''); // Limpia el input
+            } else {
+                console.error('Error sending Invitation :', error);
+            }
+        }
+    };
+    
 
     return(
         <div className="wallpaper">
@@ -82,8 +154,30 @@ export default function WaitingRoom(){
                 <div className='vertical'>
                     <div className="inButton">
                         <Link className='button'>The Pit </Link>
-                    </div>  
+                    </div>
+                    <div className="social">
+                        <div className="friendsNotPlaying">
+                            <h5>Friends to Invite</h5>
+                            <table ref={tableRef}>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {FriendsNotPlaying.map(friend => (
+                                        <tr key={friend.id}>
+                                            <td><a>INVITE </a></td>
+                                            <div className='button' onClick={sendInvitationRequest}>{friend.user.username}</div>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                
 
             </div>
         </div>

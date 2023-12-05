@@ -32,6 +32,7 @@ public class FriendshipController {
     private static final String PLAYER_AUTH = "PLAYER";
     private static final String stateALL = "ALL";
     private static final String statePLAYING = "PLAYING";
+    private static final String stateNOTPLAYING = "NOTPLAYING";
 
     @Autowired
     public FriendshipController(FriendshipService friendshipService, PlayerService playerService, UserService userService){
@@ -62,6 +63,12 @@ public class FriendshipController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Player>> getFriendsPlaying(@PathVariable("playerId") Integer playerId){
         return new ResponseEntity<>(friendshipService.getFriends(playerId, "PLAYING"), HttpStatus.OK);
+    }
+
+    @GetMapping("/friends/notplaying/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Player>> getFriendsNotPlaying(@PathVariable("playerId") Integer playerId){
+        return new ResponseEntity<>(friendshipService.getFriends2(playerId, "NOTPLAYING"), HttpStatus.OK);
     }
 
     @PostMapping("{username}")
