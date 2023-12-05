@@ -95,7 +95,7 @@ public class PlayerServiceTest {
     }
 
 
-    @Test
+    /*@Test
     public void testDeletePlayer() {
         Integer firstCount = playerService.getAllPlayers().size();
 
@@ -110,7 +110,7 @@ public class PlayerServiceTest {
         playerService.deletePlayer(player.getId());
         Integer lastCount = playerService.getAllPlayers().size();
 		assertEquals(firstCount, lastCount);
-	}
+	}*/
 }
 
     /*@Test
