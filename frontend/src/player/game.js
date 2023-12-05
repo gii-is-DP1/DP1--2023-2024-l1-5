@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import tokenService from '../services/token.service';
 
 
-export default function game() {
+export default function Game() {
 
     const [InvitationList, setInvitationList] = useState([]);
     const user = tokenService.getUser();
     const tableRef = useRef(null);
-
+//
     useEffect(()=>{
         const getInvitations = async () => {
             try {
