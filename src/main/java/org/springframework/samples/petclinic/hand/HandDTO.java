@@ -31,8 +31,8 @@ public class HandDTO {
             cardList.add(c.getId());
         }
         this.cards = cardList;
-        this.round = h.getRound().getId();
-        this.player = h.getPlayer().getId();
+        // this.round = h.getRound().getId();
+        // this.player = h.getPlayer().getId();
     }
     
 }

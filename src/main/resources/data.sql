@@ -124,18 +124,24 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
 
--- Inserta una registro de Hand
-INSERT INTO hands(id,num_cards, round_id, player_id) VALUES
-(1,6,1,1),
-(2,4,2,2),
-(3,4,4,4);
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (8,'QUICK_PLAY',3,14,13,30,'WAITING');
 
+INSERT INTO player_games(player_id, game_id) VALUES(19, 8);
+
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(9,10,11,10,'PIT',8);
+
+--Inserta una registro de Hand
+INSERT INTO hands(id,num_cards) VALUES
+(1,6),
+(2,4),
+(3,4);
 -- Inserta un registro de Deck
 INSERT INTO decks(id, number_of_cards, round_id) VALUES 
 (1, 16, 1),
 (2, 44, 2),
 (3, 44, 3),
-(4, 44, 4);
+(4, 44, 4),
+(5, 44, 9);
 
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1, 18, 19, 'ACCEPTED'), (2, 18, 17, 'WAITING'), (3, 19, 17, 'ACCEPTED'), (4, 19, 10, 'WAITING'),
@@ -218,24 +224,23 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
-INSERT INTO cards(id, image, deck_id, hand_id) VALUES 
-(1, 'https://i.imgur.com/pbHhrvm.jpeg',1,null),
-(2, 'https://i.imgur.com/I6Id6Ta.jpeg',1,null),
-(3, 'https://i.imgur.com/4kI9vYZ.jpeg',1,null),
-(4, 'https://i.imgur.com/3fugva3.jpeg',null,1),
-(5, 'https://i.imgur.com/Kxl8nZD.jpeg',null,1),
-(6, 'https://i.imgur.com/MWUOfw1.jpeg',null,2),
-(7, 'https://i.imgur.com/y3hnnjZ.jpeg',2,null),
-(8, 'https://i.imgur.com/kx7n6FM.jpeg',2,null),
-(9, 'https://i.imgur.com/CasQYx8.jpeg',3,null),
-(10, 'https://i.imgur.com/1mC2EW8.jpeg',null,2),
-(11, 'https://i.imgur.com/VswRlaY.jpeg',null,3),
-(12, 'https://i.imgur.com/AfC2ihF.jpeg',null,3),
-(13, 'https://i.imgur.com/ARussRh.jpeg',4,null),
-(14, 'https://i.imgur.com/owic8Ou.jpeg',4,null),
-(15, 'https://i.imgur.com/Rl8yaMu.jpeg',4,null),
-(16, 'https://i.imgur.com/VaXKfLq.jpeg',null,3);
-
+ INSERT INTO cards(id, image,deck_id,hand_id) VALUES 
+(1, 'https://i.imgur.com/pbHhrvm.jpeg',null,null),
+(2, 'https://i.imgur.com/I6Id6Ta.jpeg',null,null),
+(3, 'https://i.imgur.com/4kI9vYZ.jpeg',null,null),
+(4, 'https://i.imgur.com/3fugva3.jpeg',null,null),
+(5, 'https://i.imgur.com/Kxl8nZD.jpeg',null,null),
+(6, 'https://i.imgur.com/MWUOfw1.jpeg',null,null),
+(7, 'https://i.imgur.com/y3hnnjZ.jpeg',null,null),
+(8, 'https://i.imgur.com/kx7n6FM.jpeg',null,null),
+(9, 'https://i.imgur.com/CasQYx8.jpeg',null,null),
+(10, 'https://i.imgur.com/1mC2EW8.jpeg',null,null),
+(11, 'https://i.imgur.com/VswRlaY.jpeg',null,null),
+(12, 'https://i.imgur.com/AfC2ihF.jpeg',null,null),
+(13, 'https://i.imgur.com/ARussRh.jpeg',null,null),
+(14, 'https://i.imgur.com/owic8Ou.jpeg',null,null),
+(15, 'https://i.imgur.com/Rl8yaMu.jpeg',null,null),
+(16, 'https://i.imgur.com/VaXKfLq.jpeg',null,null);
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES
 ('DOLPHIN'),
@@ -270,8 +275,8 @@ INSERT INTO symbols(name) VALUES
 ('BIRD'),
 ('WATER');
 
--- Carta ID: 1
-INSERT INTO card_symbols(card_id, symbol) VALUES
+--Carta ID: 1
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (1,'DOLPHIN'),
 (1,'GLASSES'),
 (1,'THUNDER'),
@@ -280,7 +285,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (1,'SHOT');
 
 -- Carta ID: 2
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (2,'EXCLAMATION'),
 (2,'GHOST'),
 (2,'HAMMER'),
@@ -289,7 +294,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (2,'PENCIL');
 
 -- Carta ID: 3
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (3,'APPLE'),
 (3,'GLASSES'),
 (3,'BABY_BOTTLE'),
@@ -298,7 +303,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (3,'TURTLE');
 
 -- Carta ID: 4
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (4,'BABY_BOTTLE'),
 (4,'LADYBUG'),
 (4,'HAMMER'),
@@ -307,7 +312,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (4,'YIN_YAN');
 
 -- Carta ID: 5
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (5,'GLASSES'),
 (5,'CLOVER'),
 (5,'INTERROGATION'),
@@ -316,7 +321,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (5,'SPIDER');
 
 -- Carta ID: 6
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (6,'SCISSORS'),
 (6,'ZEBRA'),
 (6,'APPLE'),
@@ -325,7 +330,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (6,'IGLOO');
 
 -- Carta ID: 7
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (7,'KEY'),
 (7,'INTERROGATION'),
 (7,'TURTLE'),
@@ -334,7 +339,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (7,'SHOT');
 
 -- Carta ID: 8
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (8,'CACTUS'),
 (8,'LADYBUG'),
 (8,'EYE'),
@@ -343,7 +348,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (8,'CHEESE');
 
 -- Carta ID: 9
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (9,'TURTLE'),
 (9,'CLOVER'),
 (9,'ZEBRA'),
@@ -352,7 +357,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (9,'DOG');
 
 -- Carta ID: 10
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (10,'SNOWMAN'),
 (10,'CACTUS'),
 (10,'APPLE'),
@@ -361,7 +366,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (10,'CLOWN');
 
 -- Carta ID: 11
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (11,'EXCLAMATION'),
 (11,'TURTLE'),
 (11,'BIRD'),
@@ -370,7 +375,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (11,'LADYBUG');
 
 -- Carta ID: 12
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (12,'WATER'),
 (12,'CLOVER'),
 (12,'APPLE'),
@@ -379,7 +384,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (12,'EYE');
 
 -- Carta ID: 13
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (13,'INTERROGATION'),
 (13,'EYE'),
 (13,'BIRD'),
@@ -388,7 +393,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (13,'DOLPHIN');
 
 -- Carta ID: 14
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (14,'CACTUS'),
 (14,'BIRD'),
 (14,'CAT'),
@@ -397,7 +402,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (14,'CLOVER');
 
 -- Carta ID: 15
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (15,'KEY'),
 (15,'SCISSORS'),
 (15,'EYE'),
@@ -406,7 +411,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (15,'EXCLAMATION');
 
 -- Carta ID: 16
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (16,'BIRD'),
 (16,'SCISSORS'),
 (16,'GLASSES'),

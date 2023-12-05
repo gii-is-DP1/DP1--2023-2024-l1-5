@@ -11,7 +11,7 @@ public interface HandRepository extends CrudRepository<Hand, Integer> {
 
     List<Hand> findAll() throws DataAccessException;
 
-    Hand findByRoundId(Integer roundId);
+    // Hand findByRoundId(Integer roundId);
 
-    Hand findByPlayerId(Integer playerId);
+    // Hand findByPlayerId(Integer playerId);
 }

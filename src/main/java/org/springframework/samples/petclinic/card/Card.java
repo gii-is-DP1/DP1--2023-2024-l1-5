@@ -34,11 +34,7 @@ public class Card extends BaseEntity {
     private String image;
 
     @ManyToMany
-    @NotBlank
-    @NotNull
-    @JoinTable(name = "card_symbols", joinColumns = @JoinColumn(name = "card_id"), inverseJoinColumns = @JoinColumn(name = "symbol"), uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "card_id", "symbol" }) })
-    @Size(min = 6, max = 6)
+    @JoinTable(name = "card_symbols")
     private List<Symbol> symbols;
 
     @ManyToOne
@@ -46,9 +42,9 @@ public class Card extends BaseEntity {
     @JsonIgnore
     private Deck deck;
 
-    @ManyToOne
-    @JoinColumn(name = "hand_id")
-    @JsonIgnore
-    private Hand hand;
+    // @ManyToOne
+    // @JoinColumn(name = "hand_id")
+    // @JsonIgnore
+    // private Hand hand;
     
 }

@@ -17,12 +17,12 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.player.Player;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.round.Round;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -31,17 +31,20 @@ import org.springframework.samples.petclinic.round.Round;
 public class Hand extends BaseEntity {
 
     @Column(name = "num_cards")
-    @NotBlank
     private Integer numCartas;
 
-    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "round_id")
+    @JsonIgnore
     private Round round;
 
-    // @JsonIgnore
-    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
-    @JoinColumn(name = "player_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne
+    @JoinColumn(name = "player_id", referencedColumnName = "id")  
+    @JsonIgnore
     private Player player;
+
+    @JoinColumn(name = "hand_id")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Card> cards;
 }
