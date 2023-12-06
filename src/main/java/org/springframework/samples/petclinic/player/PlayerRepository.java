@@ -15,7 +15,9 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
     List<Player> findAll() throws DataAccessException;
     public Optional<Player> findByUser(User user);
     public Optional<Player> findByUserId(int id);
-    
+
+    Boolean existsByPlayerUsername(String playerUsername);
+
     @Query("SELECT p FROM Player p WHERE p.user.username = :username")
     public Optional<Player> findByUsername(String username);
     public List<Player> findPlayersById(int id);

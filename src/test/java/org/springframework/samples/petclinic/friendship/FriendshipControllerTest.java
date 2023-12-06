@@ -160,6 +160,31 @@ public class FriendshipControllerTest {
 
     @Test
     @WithMockUser(username = "lucas", authorities = "PLAYER")
+    public void testGetFriendsPlaying() throws Exception {
+
+        when(this.fs.getFriends(TEST_PLAYER_ID_LUCAS,"PLAYING")).thenReturn(java.util.List.of(guille));
+
+        mvc.perform(get(BASE_URL+"/friends/playing/"+TEST_PLAYER_ID_LUCAS))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.size()").value(1));
+    }
+
+    @Test
+    @WithMockUser(username = "lucas", authorities = "PLAYER")
+    public void testGetFriendsOnline() throws Exception {
+
+        when(this.fs.getFriends(TEST_PLAYER_ID_LUCAS,"ACTIVE")).thenReturn(java.util.List.of(guille));
+
+        mvc.perform(get(BASE_URL+"/friends/online/"+TEST_PLAYER_ID_LUCAS))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.size()").value(1));
+    }
+
+
+    @Test
+    @WithMockUser(username = "lucas", authorities = "PLAYER")
     public void testCreateFriendship() throws Exception {
         // Crear los objetos necesarios para la amistad
         ObjectMapper mapper = new ObjectMapper();

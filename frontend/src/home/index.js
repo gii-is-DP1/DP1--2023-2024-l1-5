@@ -5,12 +5,14 @@ import tokenService from '../services/token.service';
 import onlineLogo from '../static/images/punto_verde.png'
 import { Link } from "react-router-dom";
 
+
 const jwt = tokenService.getLocalAccessToken();
 const user = tokenService.getUser();
 
 export default function Home(){
     const [friendsOnline, setFriendsOnline] = useState([]);
     const [InvitationList, setInvitationList] = useState([]);
+
 
     const getOnlineFriendsList = async () => {
         try {
@@ -41,6 +43,7 @@ export default function Home(){
             console.error('Error fetching friends list:', error);
         }
     };
+  
     useEffect(()=>{
         const getInvitations = async () => {
             try {
@@ -67,8 +70,8 @@ export default function Home(){
         return () => clearInterval(intervalId);
     }, [])
 
-    const FriendsFloatingBox = ({ friends }) => {
 
+    const FriendsFloatingBox = ({ friends }) => {
         return (
             <div className="invitation-box floating-box" style={{ position: 'fixed', bottom: '0', right: '0' }}>
                 <h3>Online friends</h3>
@@ -87,6 +90,7 @@ export default function Home(){
             </div>
         );
     };
+
     const InvitationsFloatingBox = ({ invitations }) => {
         return (
             <div className="invitation-box floating-box" style={{ maxWidth: '800px' }}>
@@ -157,7 +161,6 @@ export default function Home(){
         }
     }
 
-
     return(
         <div className="home-page-container">
             <div className="hero-div">
@@ -166,7 +169,7 @@ export default function Home(){
                 <h3>The most funny game</h3>
             </div>
             {InvitationList.length > 0 && <InvitationsFloatingBox invitations={InvitationList} />}
-            {friendsOnline.length > 0 &&<FriendsFloatingBox friends={friendsOnline} /> } 
+            {friendsOnline.length > 0 && <FriendsFloatingBox friends={friendsOnline} /> } 
         </div>
     );
 }

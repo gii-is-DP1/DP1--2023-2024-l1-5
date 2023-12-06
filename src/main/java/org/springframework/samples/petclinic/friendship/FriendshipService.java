@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameRepository;
-import org.springframework.samples.petclinic.game.GameStatus;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
+import org.springframework.samples.petclinic.player.State;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,22 +79,29 @@ public class FriendshipService {
             }
         }
 
-        List<Player> playerDetails = new ArrayList<>();
+        List<Player> friendsList = new ArrayList<>();
         for (int id : playerIds) {
             if (id != playerId) { // Excluir el playerId
                 Player player = playerRepository.findPlayerById(id).get();
                 if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
-                    playerDetails.add(player);
+                    friendsList.add(player);
                 } else if (player != null && state.equals("PLAYING")) { //Amigos del playerId que esten jugando
                     List<Game> games = gameRepository.findPlayerGamesInProgress(id);
                     if (!games.isEmpty() && !playerDetails.contains(player)) {
                         playerDetails.add(player);
                     }         
+                    if (!games.isEmpty() && !friendsList.contains(player)) {
+                        friendsList.add(player);
+                    }
+                } else if (player != null && state.equals("ACTIVE")){
+                    if(player.getState().equals(State.ACTIVE) && !friendsList.contains(player)){
+                        friendsList.add(player);
+                    }
                 }
             }
         }
 
-        return playerDetails;
+        return friendsList;
     }
     @Transactional(readOnly = true)
     public List<Player> getFriends2(Integer playerId, String state){
