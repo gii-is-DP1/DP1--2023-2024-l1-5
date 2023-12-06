@@ -24,7 +24,8 @@ INSERT INTO appusers(id,username,password,authority) VALUES
 (215,'player16','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (216,'player17','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (217,'player18','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
-(218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+(218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(300,'playerX','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
 -- Associate PLAYERS with users
@@ -32,7 +33,7 @@ INSERT INTO players(id,first_name,last_name,image,user_id,playerUsername) VALUES
 (1,'Guillermo','Gomez Romero','https://s.hs-data.com/bilder/spieler/gross/246031.jpg',200,'gilly123'),
 (2,'Lucas','Antoñanzas','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',201,'luca_23'),
 (3,'Nicolas','Herrera','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',202,'nickH_77'),
-(4,'Alvaro','Bernal','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',203,'alvB_12'),
+(4,'Alvaro','Bernal','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',203,'Alvaro2'),
 (5,'Manuel','Orta','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',204,'manuOrta89'),
 (6,'Ronald','Montoya','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',205,'ron_M123'),
 (7,'Manuel2','Orta2','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',206,'mOrta_2'),
@@ -47,7 +48,8 @@ INSERT INTO players(id,first_name,last_name,image,user_id,playerUsername) VALUES
 (16,'Ronald6','Montoya6','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',215,'rM_696'),
 (17,'Manuel7','Orta7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',216,'manuel_orta'),
 (18,'Ronald7','Montoya7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',217,'ronM_7'),
-(19,'Manuel8','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_888');
+(19,'Manuel8','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_888'),
+(300,'xxxxxxx','xxxxxxxx','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',300,'xxxxxxxx');
 
 
 
@@ -155,10 +157,11 @@ INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 
 
 
-INSERT INTO invitations(id, destination_user, source_user, invitation_state) VALUES 
-(1, 'Guille8', 'Lucas24', 'ACCEPTED'),
-(2, 'Alvaro2', 'Guille12', 'PENDING'),
-(3, 'Lucas2', 'Nico1', 'REFUSED');
+INSERT INTO invitations(id, destination_user, source_user, invitation_state, game_id) VALUES 
+(1, 'Guille8', 'Lucas24', 'ACCEPTED',1),
+(2, 'Alvaro2', 'Guille12', 'PENDING',1),
+(69, 'xxxxxxxx', 'Alvaro2', 'PENDING', 1),
+(3, 'Lucas2', 'Nico1', 'REFUSED',1);
 
 -- Inserta un registro de Achievement
 INSERT INTO achievements(id, name, description, image_url, threshold, metric) VALUES

@@ -145,7 +145,7 @@ export default function FriendsList() {
 
         return (
             <div className="invitation-box floating-box">
-                <h3>Invitations</h3>
+                <h3>Friend Request</h3>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                     {invitations.map((invitation) => (
                         <li key={invitation.id}>
