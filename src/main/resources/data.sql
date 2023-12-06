@@ -160,7 +160,7 @@ INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 INSERT INTO invitations(id, destination_user, source_user, invitation_state, game_id) VALUES 
 (1, 'Guille8', 'Lucas24', 'ACCEPTED',1),
 (2, 'Alvaro2', 'Guille12', 'PENDING',1),
-(69, 'xxxxxxxx', 'Guille12', 'PENDING', 1),
+(69, 'xxxxxxxx', 'Alvaro2', 'PENDING', 1),
 (3, 'Lucas2', 'Nico1', 'REFUSED',1);
 
 -- Inserta un registro de Achievement

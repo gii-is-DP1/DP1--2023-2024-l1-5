@@ -36,7 +36,6 @@ public class InvitationService {
 
     @Transactional(readOnly = true)
     public List<Invitation> getPendigInvitationsReceived(String playerUsername){
-        //Player player = pla
         return invitationRepository.findAlreadyPendigInvitation(playerUsername);
     }
 

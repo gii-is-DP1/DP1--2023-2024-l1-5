@@ -85,9 +85,9 @@ public class GameService {
         Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
         Game toUpdate= getGameById(idGame).get();
         toUpdate.getPlayers().add(toAddPlayer);
-        // Integer num  = toUpdate.getNumPlayers();
-        // num +=1;
-        // toUpdate.setNumPlayers(num);
+        Integer num  = toUpdate.getNumPlayers();
+        num +=1;
+        toUpdate.setNumPlayers(num);
         User user = userService.findCurrentUser();
         Player p = playerService.findPlayerByUser(user);
         return saveGame(toUpdate,p);
