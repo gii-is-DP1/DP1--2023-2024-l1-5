@@ -102,6 +102,7 @@ public class RoundService {
                 int cartasRestantes = numCards % numPlayer;
                 for (Integer i = 0; i < numPlayer; i++) {
                     Integer cartasParaEstePlayer = cartasPorJugador + (cartasRestantes > 0 ? 1 : 0);
+                    cartasRestantes = 0;
                     List<Card> playerCards = new ArrayList<>(cartasAleatorias.subList(0, cartasParaEstePlayer));
                     Integer idPlayer = lsPlayers.get(i);
                     cartasAleatorias.removeAll(playerCards);
