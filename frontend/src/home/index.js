@@ -73,7 +73,7 @@ export default function Home(){
 
     const FriendsFloatingBox = ({ friends }) => {
         return (
-            <div className="invitation-box floating-box" style={{ position: 'fixed', bottom: '0', right: '0' }}>
+            <div className="invitation-box floating-box" style={{ position: 'fixed', bottom: '0', left: '0' }}>
                 <h3>Online friends</h3>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                     {friends.map((friend) => (

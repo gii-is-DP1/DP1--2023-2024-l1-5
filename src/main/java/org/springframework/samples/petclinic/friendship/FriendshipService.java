@@ -86,10 +86,7 @@ public class FriendshipService {
                 if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
                     friendsList.add(player);
                 } else if (player != null && state.equals("PLAYING")) { //Amigos del playerId que esten jugando
-                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);
-                    if (!games.isEmpty() && !playerDetails.contains(player)) {
-                        playerDetails.add(player);
-                    }         
+                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);     
                     if (!games.isEmpty() && !friendsList.contains(player)) {
                         friendsList.add(player);
                     }
