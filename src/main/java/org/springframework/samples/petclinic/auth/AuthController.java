@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.auth.payload.response.MessageRespon
 import org.springframework.samples.petclinic.configuration.jwt.JwtUtils;
 import org.springframework.samples.petclinic.configuration.services.UserDetailsImpl;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,13 +38,15 @@ public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
 	private final UserService userService;
+	private final PlayerService playerService;
 	private final JwtUtils jwtUtils;
 	private final AuthService authService;
 
 	@Autowired
 	public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtUtils jwtUtils,
-			AuthService authService) {
+			AuthService authService, PlayerService playerService) {
 		this.userService = userService;
+		this.playerService = playerService;
 		this.jwtUtils = jwtUtils;
 		this.authenticationManager = authenticationManager;
 		this.authService = authService;
@@ -79,7 +82,10 @@ public class AuthController {
 	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userService.existsUser(signUpRequest.getUsername()).equals(true)) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+		}else if(playerService.existsPlayerUser(signUpRequest.getPlayerUsername()).equals(true)){
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: PlayerUsername is already taken!"));
 		}
+
 		authService.createUser(signUpRequest);
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

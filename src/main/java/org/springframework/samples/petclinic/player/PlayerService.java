@@ -56,9 +56,13 @@ public class PlayerService {
 	}
 
     @Transactional
+    public Boolean existsPlayerUser(String playerUsername) {
+		return playerRepository.existsByPlayerUsername(playerUsername);
+    }
+
+    @Transactional
 	public void deletePlayer(int id) throws DataAccessException {
 		Player toDelete = getPlayerByUserId(id);
 		playerRepository.delete(toDelete);
 	}
-
 }
