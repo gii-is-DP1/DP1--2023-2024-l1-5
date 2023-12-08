@@ -1,46 +1,43 @@
 package org.springframework.samples.petclinic.round;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardService;
-import org.springframework.samples.petclinic.clinicowner.ClinicOwner;
 import org.springframework.samples.petclinic.deck.Deck;
 import org.springframework.samples.petclinic.deck.DeckService;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameDTO;
 import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.user.User;
-import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.hand.HandService;
-import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
+import org.springframework.samples.petclinic.symbol.Symbol;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
-
-import org.springframework.http.HttpStatus;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/rounds")
@@ -145,10 +142,10 @@ public class RoundController {
                 List<Card> cards = cardService.getAllCards();
                 List<Card> cardsPlus16 = new ArrayList<>();
                 for (Card c : cards) {
-                    Card toAdd=cardService.createNewCard(c.getId());
+                    Card toAdd = cardService.createNewCard(c.getId());
                     cardsPlus16.add(toAdd);
                 }
-                Map<Integer, List<Card>> hands = roundService.distribute(cardsPlus16,gameMode,roundMode, lsId);
+                Map<Integer, List<Card>> hands = roundService.distribute(cardsPlus16, gameMode, roundMode, lsId);
                 for (Integer key : hands.keySet()) {
                     if (key == 0) {
                         Deck deck = deckService.getDeckByRoundId(roundId);
@@ -163,22 +160,22 @@ public class RoundController {
                         }
 
                     } else {
-                        Integer pId=key;
+                        Integer pId = key;
                         Hand createHand1 = handService.createHand(9, pId);
                         if (createHand1 != null) {
                             List<Card> handCards = hands.get(key);
-                            for (Card card : handCards) {
-                                createHand1.getCards().add(card);
+                            for (Card c: handCards){
+                                createHand1.getCards().add(c);
                             }
-                        } 
+                            handService.saveHand(createHand1);
 
+                        }
+
+                    }
+                }
             }
+
         }
     }
-
-
-
-}
-}
 }
 

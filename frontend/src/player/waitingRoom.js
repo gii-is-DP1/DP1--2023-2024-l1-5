@@ -1,15 +1,20 @@
-import React,{useState,useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import '../App.css';
+import "../static/css/player/newGame.css";
 import "../static/css/player/quickWaitingRoom.css";
-import "../static/css/player/newGame.css"
-import { useParams,Link } from 'react-router-dom';
+import tokenService from '../services/token.service';
 
 
 export default function WaitingRoom(){
     const {id} = useParams();    
-    const[game,setGame]=useState({});   
+    const [game,setGame]=useState({});   
     const [players,setPlayers]=useState([]);
     const [playerNames,setPlayerNames]=useState([]);
+    const [creator, setCreator] = useState('');
+    const [playerId, setPlayerId] = useState(null);
+    const user = tokenService.getUser();
+    const [roundId, setRoundId] = useState(null);
 
 
     useEffect(() => {
@@ -28,6 +33,7 @@ export default function WaitingRoom(){
                     const data = await response.json();
                     setGame(data);
                     setPlayers(data.playerList);
+                    setRoundId(data.roundList[0]);
                 } else {
                     console.error("Error al obtener la partida", response.statusText);
                 }
@@ -38,6 +44,24 @@ export default function WaitingRoom(){
         }
         getGame();
     }, [id]);
+
+    useEffect(() => {
+        const getPlayer = async () => {
+        const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+        const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            })
+        if (myplayer.ok) {
+            const data = await myplayer.json();
+            setPlayerId(data.id);
+        }
+        }
+        getPlayer();
+    });
 
     useEffect(()=>{
         const getPlayerName = async() =>{
@@ -65,6 +89,26 @@ export default function WaitingRoom(){
         getPlayerName();
     },[players])
 
+    useEffect(() => { shuffle() }, []);
+        const shuffle = async() =>{
+            try{
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const response = await fetch(`/api/v1/rounds/${roundId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                const data = await response.json();
+                console.log(data);
+                window.location.href = `/game/quickPlay/${id}/${roundId}`;
+            }catch(error){
+                console.error("Error al realizar el reparto", error);
+            }
+        }
+
     return(
         <div className="wallpaper">
             <div className="horizontal">
@@ -81,7 +125,7 @@ export default function WaitingRoom(){
                 </div>  
                 <div className='vertical'>
                     <div className="inButton">
-                        <Link className='button'>The Pit </Link>
+                        <Link className='button' onClick={shuffle}>The Pit </Link>
                     </div>  
                 </div>
 

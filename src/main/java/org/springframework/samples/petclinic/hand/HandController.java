@@ -92,6 +92,16 @@ public class HandController {
         return new ResponseEntity<>(hand.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/player/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Hand> getHandByPlayerId(@PathVariable("id") Integer id) {
+        Hand hand = handService.getHandByPlayerId(id);
+        if (hand == null) {
+            throw new ResourceNotFoundException("Hand", "id", id);
+        }
+        return new ResponseEntity<>(hand, HttpStatus.OK);
+    }
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Hand> createHand(Integer id,Integer pId) throws DataAccessException{

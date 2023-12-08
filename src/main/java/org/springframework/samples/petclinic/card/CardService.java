@@ -2,14 +2,12 @@ package org.springframework.samples.petclinic.card;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.hand.HandRepository;
+import org.springframework.samples.petclinic.symbol.Symbol;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -38,7 +36,7 @@ public class CardService {
 
     @Transactional
     public List<Card> getCardsPlus16Id(){
-        List<Card> cards = cardRepository.findAll();
+        List<Card> cards = cardRepository.get16LastCards();
         for (Card card : cards) {
             card.setId(card.getId()+16);
         }
@@ -61,11 +59,12 @@ public class CardService {
         return saveCard(newCard);
     }
 
+
     @Transactional
     public Card updateCard(Integer cardId,Integer handId) throws DataAccessException {
         Card toUpdate = cardRepository.findById(cardId).get();
-        Hand hand = handRepository.findById(handId).get();
-      //  toUpdate.setHand(hand);
+        //Hand hand = handRepository.findById(handId).get();
+        //toUpdate.setHand(hand);
         return saveCard(toUpdate);
     }
 

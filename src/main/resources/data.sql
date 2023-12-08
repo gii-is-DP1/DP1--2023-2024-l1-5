@@ -126,16 +126,11 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8
 
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (8,'QUICK_PLAY',3,14,13,30,'WAITING');
 
-INSERT INTO player_games(player_id, game_id) VALUES(19, 8);
 INSERT INTO player_games(player_id, game_id) VALUES(18, 8);
+INSERT INTO player_games(player_id, game_id) VALUES(19, 8);
+
 
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(9,10,11,10,'PIT',8);
-
---Inserta una registro de Hand
-INSERT INTO hands(id,num_cards) VALUES
-(1,6),
-(2,4),
-(3,4);
 -- Inserta un registro de Deck
 INSERT INTO decks(id, number_of_cards, round_id) VALUES 
 (1, 16, 1),
