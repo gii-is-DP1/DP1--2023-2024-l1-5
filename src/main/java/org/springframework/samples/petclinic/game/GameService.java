@@ -43,8 +43,7 @@ public class GameService {
         if(hasActiveGame){
             throw new ActiveGameException("El jugador ya tiene una partida activa");
         }
-        gameRepository.save(game);
-        return game;
+        return gameRepository.save(game);
     }
     @Transactional(readOnly=true)
     public List<Game> getAllGames(){

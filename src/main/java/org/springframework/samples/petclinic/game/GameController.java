@@ -138,6 +138,7 @@ public class GameController {
             // Añado un nuevo código de estado sin documentar en swagger
             @ApiResponse(responseCode = "409", description = "El jugador ya tiene una partida activa", content = @io.swagger.v3.oas.annotations.media.Content)
     })
+    
     @PostMapping()
     public ResponseEntity<Game> createGame(@Valid @RequestBody GameRequest gameRequest) throws DataAccessException {
         // POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO

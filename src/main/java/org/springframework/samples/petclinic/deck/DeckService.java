@@ -6,12 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.card.Card;
-import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.round.Round;
+import org.springframework.samples.petclinic.round.RoundRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 
@@ -19,10 +17,12 @@ import jakarta.validation.Valid;
 public class DeckService {
 
     DeckRepository deckRepository;
+    RoundRepository roundRepository;
 
     @Autowired
-    public DeckService(DeckRepository deckRepository) {
+    public DeckService(DeckRepository deckRepository, RoundRepository roundRepository) {
         this.deckRepository = deckRepository;
+        this.roundRepository = roundRepository;
     }
 
     @Transactional
@@ -41,8 +41,12 @@ public class DeckService {
     }
 
     @Transactional
-    public Deck createDeck(Deck deck) {
-        return deckRepository.save(deck);
+    public Deck createDeck(Integer roundID) {
+        Deck d = new Deck();
+        d.setNumberOfCards(10);
+        Round r = roundRepository.findById(roundID).get();
+        d.setRound(r);
+        return deckRepository.save(d);
     }
 
     @Transactional(readOnly = true)
@@ -60,7 +64,7 @@ public class DeckService {
         for (Card card : ls) {
             card.setDeck(deckToUpdate);
         }
-        return createDeck(deckToUpdate);
+        return saveDeck(deckToUpdate);
     }
 
 }

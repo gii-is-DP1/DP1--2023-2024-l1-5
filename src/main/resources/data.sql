@@ -24,7 +24,10 @@ INSERT INTO appusers(id,username,password,authority) VALUES
 (215,'player16','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (216,'player17','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (217,'player18','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
-(218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+(218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(219,'player20','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(220,'player21','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(221,'player22','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
 -- Associate PLAYERS with users
@@ -47,8 +50,10 @@ INSERT INTO players(id,first_name,last_name,image,user_id,playerUsername) VALUES
 (16,'Ronald6','Montoya6','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',215,'rM_696'),
 (17,'Manuel7','Orta7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',216,'manuel_orta'),
 (18,'Ronald7','Montoya7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',217,'ronM_7'),
-(19,'Manuel8','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_888');
-
+(19,'prueba1','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_88'),
+(20,'prueba2','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',219,'mOrta_8'),
+(21,'prueba3','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',220,'mOrta_'),
+(22,'preba4','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',221,'mOrta');
 
 
 -- GAMES

@@ -17,6 +17,9 @@ export default function GameView() {
     const[hand, setHand] = useState({});
 
 
+    
+
+
 
     useEffect(() => {
         const getPlayer = async () => {
@@ -35,20 +38,43 @@ export default function GameView() {
         }
         getPlayer();
     });
+    // useEffect(() =>{
+    //     const getHand = async() =>{
+    //         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+    //         const responseHand =
+    //         await fetch(`/api/v1/hands/player/${playerId}`,
+    //             {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     Authorization: `Bearer ${jwt}`,
+    //                 },
+    //             })
+    //         if (responseHand.ok) {
+    //             const hand2 = await responseHand.json();
+    //             setHand(hand2);
+    //             setHandSize(hand2.numCartas);
+            
+    //         }
+    //     }
+    //     getHand();
+    // });
+
+
 
     useEffect(() => { gameView() }, []);
-    async function gameView(){
+     async function gameView(){
         const jwt = tokenService.getLocalAccessToken();
 
         const responseHand =
-            await fetch(`/api/v1/hands/${playerId}`,
+            await fetch(`/api/v1/hands/player/${playerId}`,
                 {
                     method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${jwt}`,
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
                     },
-                })
+                });
         if (responseHand.ok) {
             const hand2 = await responseHand.json();
             setHand(hand2);
@@ -59,6 +85,9 @@ export default function GameView() {
             const card = hand2.cards[0]; 
             nameSymbolsCard(card);
 
+        }
+        else {
+            console.log("error");
         }
 
      }
@@ -108,8 +137,8 @@ export default function GameView() {
             <div className="row">
                 <div className='col-4'>
                     <h1>MY HAND</h1>
-                    <h2> esta es la url {playerId} </h2>
-                    <img src='https://i.imgur.com/pbHhrvm.jpeg' alt='img'></img>
+                    <h2> esta es la url {hand.id} </h2>
+                    <img src={cardImg} alt='img'></img>
                 </div>
                 <div className='col-4'>
                     <img src="https://www.dobblegame.com/wp-content/uploads/sites/2/2020/12/dobble_visuel_page_lesjeux-3.png" alt='img' className='img'></img>

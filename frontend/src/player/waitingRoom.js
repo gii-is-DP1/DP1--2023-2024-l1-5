@@ -89,21 +89,25 @@ export default function WaitingRoom(){
         getPlayerName();
     },[players])
 
-    useEffect(() => { shuffle() }, []);
-        const shuffle = async() =>{
+    const shuffle = async() =>{
             try{
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-                const response = await fetch(`/api/v1/rounds/${roundId}`,
+                const response = await fetch(`/api/v1/rounds/shuffle`,
                 {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${jwt}`,
                     },
+                    body: JSON.stringify(roundId),
                 });
-                const data = await response.json();
-                console.log(data);
+                if(response.ok){
+                console.log("Reparto realizado");
                 window.location.href = `/game/quickPlay/${id}/${roundId}`;
+                }
+                else{
+                    console.error("Error XD", response.statusText);
+                }
             }catch(error){
                 console.error("Error al realizar el reparto", error);
             }
@@ -113,7 +117,7 @@ export default function WaitingRoom(){
         <div className="wallpaper">
             <div className="horizontal">
                 <div className='distr'>
-                    <span className="title">{game.gameMode} WAITING ROOM </span>
+                    <span className="title">{game.gameMode} WAITING ROOM {roundId}  </span>
                     <div className='distrPlay'>
                         <span className='text2'>  Players  {game.numPlayers} / 8 </span>
                         <ul>

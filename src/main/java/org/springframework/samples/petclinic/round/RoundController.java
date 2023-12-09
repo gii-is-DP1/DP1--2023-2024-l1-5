@@ -121,9 +121,9 @@ public class RoundController {
     //     return new ResponseEntity<>(savedRound, HttpStatus.OK);
     // }
 
-    @PutMapping("/{id}")
+    @PutMapping("/shuffle")
     @ResponseStatus(HttpStatus.OK)
-    public void create(Integer roundId) throws Exception {
+    public void create(@RequestBody @Valid int roundId) throws Exception {
 
         User user = userService.findCurrentUser();
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
@@ -139,7 +139,7 @@ public class RoundController {
                 for (Player player : ls) {
                     lsId.add(player.getId());
                 }
-                List<Card> cards = cardService.getAllCards();
+                List<Card> cards = cardService.get16LastCards();
                 List<Card> cardsPlus16 = new ArrayList<>();
                 for (Card c : cards) {
                     Card toAdd = cardService.createNewCard(c.getId());
@@ -148,11 +148,11 @@ public class RoundController {
                 Map<Integer, List<Card>> hands = roundService.distribute(cardsPlus16, gameMode, roundMode, lsId);
                 for (Integer key : hands.keySet()) {
                     if (key == 0) {
-                        Deck deck = deckService.getDeckByRoundId(roundId);
-                        if (deck != null) {
+                        Deck deck1 = deckService.createDeck(roundId);
+                        if (deck1 != null) {
                             List<Card> deckCards = hands.get(key);
                             if (deckCards != null) {
-                                this.deckService.updateDeck(deck, roundId, deckCards, round);
+                                this.deckService.updateDeck(deck1, roundId, deckCards, round);
                             }
 
                         } else {
@@ -161,7 +161,7 @@ public class RoundController {
 
                     } else {
                         Integer pId = key;
-                        Hand createHand1 = handService.createHand(9, pId);
+                        Hand createHand1 = handService.createHand(roundId, pId);
                         if (createHand1 != null) {
                             List<Card> handCards = hands.get(key);
                             for (Card c: handCards){
