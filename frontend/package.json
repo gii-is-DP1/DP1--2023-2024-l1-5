@@ -16,6 +16,7 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-big-calendar": "^1.6.8",
     "react-dom": "^18.2.0",
@@ -24,6 +25,9 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.11.0",
     "reactstrap": "^9.1.6",
+    "socket.io-client": "^4.7.2",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "swagger-ui-react": "^4.18.3",
     "web-vitals": "^3.1.1"
   },

@@ -107,6 +107,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{color: "white"}} tag={Link} to="/gameHistory"> Game History</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink style={{color: "white"}} tag={Link} to="/chat"> Chat</NavLink>
+                </NavItem>
                 </>
             )
         } 

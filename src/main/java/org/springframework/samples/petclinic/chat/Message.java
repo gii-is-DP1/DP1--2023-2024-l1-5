@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.message;
+package org.springframework.samples.petclinic.chat;
 
 import java.time.LocalDateTime;
 

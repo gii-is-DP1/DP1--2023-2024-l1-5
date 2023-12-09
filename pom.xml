@@ -184,6 +184,11 @@
   			<artifactId>maven-model</artifactId>
   			<version>3.9.4</version>
 		</dependency>
+		<!-- Chat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 	   
  </dependencies>
 	
