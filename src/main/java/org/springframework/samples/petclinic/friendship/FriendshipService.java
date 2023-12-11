@@ -122,7 +122,8 @@ public class FriendshipService {
                     playerDetails2.add(player);
                 } else if (player != null && state.equals("NOTPLAYING")) { //Amigos del playerId que no esten jugando
                     List<Game> games = gameRepository.findPlayerGamesInProgress(id);
-                    if (games.isEmpty() && !playerDetails2.contains(player)) {
+                    List<Game> games2 = gameRepository.findPlayerGamesWaiting(id);
+                    if (games.isEmpty() && games2.isEmpty() && !playerDetails2.contains(player)) {
                         playerDetails2.add(player);
                     }         
                 }
