@@ -34,5 +34,9 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'IN_PROGRESS'")
     List<Game> findPlayerGamesInProgress(@Param("playerId") Integer playerId) throws DataAccessException;
 
+    @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE (p.id = :playerId AND g.status = 'IN_PROGRESS') OR (p.id = :playerId AND g.status = 'WAITING')")
+    List<Game> findPlayerGamesInProgressOrWaiting(@Param("playerId") Integer playerId) throws DataAccessException;
+
+
 
 }

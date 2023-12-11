@@ -80,6 +80,16 @@ public class GameService {
         return result;
     }
 
+    @Transactional(readOnly=true)
+    public Boolean hasActiveGameAlls(Player player){
+        List<Game> playerGames = gameRepository.findPlayerGamesInProgressOrWaiting(player.getId());
+        Boolean result = false;
+        for(Game game: playerGames){
+            result = result || game.getStatus().equals(GameStatus.WAITING) || game.getStatus().equals(GameStatus.IN_PROGRESS);
+        }
+        return result;
+    }
+
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
         Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();

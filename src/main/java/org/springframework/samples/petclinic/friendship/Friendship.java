@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.friendship;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.player.Player;
 
@@ -20,9 +22,11 @@ import lombok.Setter;
 public class Friendship  extends BaseEntity{
     
     @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Player user_source;
 
     @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Player user_dst;
 
     @Enumerated(EnumType.STRING)

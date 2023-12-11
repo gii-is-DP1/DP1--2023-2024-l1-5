@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.owner.Owner;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetService;
 import org.springframework.security.core.Authentication;
@@ -39,12 +41,14 @@ public class UserService {
 //	private OwnerService ownerService;
 //
 	private VetService vetService;
+	private PlayerService playerService;
 
 	@Autowired
 	public UserService(UserRepository userRepository, VetService vetService) {
 		this.userRepository = userRepository;
 //		this.ownerService = ownerService;
 		this.vetService = vetService;
+		this.playerService = playerService;
 	}
 
 	@Transactional
@@ -136,6 +140,10 @@ public class UserService {
 				vetService.deleteVet(vet.get().getId());
 			}
 			break;
+		//case "PLAYER":
+		//	Player player = playerService.getPlayerByUserId(id);
+		//	playerService.deletePlayer(player.getId());		
+		//	break;
 		default:
 			// The only relations that have user are Owner and Vet
 			break;

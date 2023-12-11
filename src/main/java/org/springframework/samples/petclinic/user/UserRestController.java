@@ -24,6 +24,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.auth.payload.response.MessageResponse;
 import org.springframework.samples.petclinic.exceptions.AccessDeniedException;
+import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.util.RestPreconditions;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,11 +47,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 class UserRestController {
 
 	private final UserService userService;
+	private final PlayerService playerService;
+	private final GameService gameService;
 	private final AuthoritiesService authService;
 
 	@Autowired
-	public UserRestController(UserService userService, AuthoritiesService authService) {
+	public UserRestController(UserService userService,PlayerService playerService, GameService gameService,AuthoritiesService authService) {
 		this.userService = userService;
+		this.playerService = playerService;
+		this.gameService = gameService;
 		this.authService = authService;
 	}
 
@@ -90,12 +97,21 @@ class UserRestController {
 	@DeleteMapping(value = "{userId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<MessageResponse> delete(@PathVariable("userId") int id) {
-		RestPreconditions.checkNotNull(userService.findUser(id), "User", "ID", id);
+		Player currentPlayer = playerService.findPlayerByUser(userService.findCurrentUser());
+		User userToDelete = userService.findUser(id);
+		RestPreconditions.checkNotNull(userToDelete, "User", "ID", id);
+	
 		if (userService.findCurrentUser().getId() != id) {
-			userService.deleteUser(id);
-			return new ResponseEntity<>(new MessageResponse("User deleted!"), HttpStatus.OK);
-		} else
+			if (!gameService.hasActiveGameAlls(currentPlayer)) {
+				userService.deleteUser(id);
+				return new ResponseEntity<>(new MessageResponse("User deleted!"), HttpStatus.OK);
+			} else {
+				throw new AccessDeniedException("You can't delete a player with active games!");
+			}
+		} else {
 			throw new AccessDeniedException("You can't delete yourself!");
+		}
 	}
+	
 
 }
