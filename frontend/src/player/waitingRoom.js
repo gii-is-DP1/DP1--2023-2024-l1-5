@@ -3,7 +3,6 @@ import '../App.css';
 import "../static/css/player/quickWaitingRoom.css";
 import "../static/css/player/newGame.css"
 import { useParams, Link, } from 'react-router-dom';
-import { useInterval } from 'react-use';
 import tokenService from '../services/token.service';
 
 
