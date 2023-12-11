@@ -71,47 +71,49 @@ export default function Home(){
     }, [])
 
 
-    const FriendsFloatingBox = ({ friends }) => {
+    const FriendsAndInvitationsFloatingBox = ({ friends, invitations, handleButton }) => {
         return (
-            <div className="invitation-box floating-box" style={{ position: 'fixed', bottom: '0', left: '0' }}>
-                <h3>Online friends</h3>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                    {friends.map((friend) => (
-                        <li key={friend.id} style={{ display: 'flex', alignItems: 'center' }}>
-                            <span>
-                            <img alt="Online logo" src={onlineLogo} style={{ height: 10, width: 10, marginRight: '10px' }} />
-                            </span>
-                            <span>
-                            {friend.user.username}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    };
-
-    const InvitationsFloatingBox = ({ invitations }) => {
-        return (
-            <div className="invitation-box floating-box" style={{ maxWidth: '800px' }}>
-                <h3>INVITATIONS</h3>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                    {invitations.map((invitation) => (
-                        <li key={invitation.id} style={{ marginBottom: '10px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <span style={{ marginRight: '5px' }}>
-                                    <a>{invitation.source_user}</a>
-                                </span>
-                                <span style={{ marginRight: '5px' }}>
-                                    <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
+            <div className="floating-box" style={{ maxWidth: '800px', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: 'white', padding: '10px', borderRadius: '8px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)' }}>
+                <h3>Friends and Invitations</h3>
+    
+                {/* Online friends section */}
+                <div>
+                    <h4>Online Friends</h4>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                        {friends.map((friend) => (
+                            <li key={friend.id} style={{ display: 'flex', alignItems: 'center' }}>
+                                <span>
+                                    <img alt="Online logo" src={onlineLogo} style={{ height: 10, width: 10, marginRight: '10px' }} />
                                 </span>
                                 <span>
-                                    <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
+                                    {friend.user.username}
                                 </span>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+    
+                {/* Invitations section */}
+                <div>
+                    <h4>Invitations</h4>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                        {invitations.map((invitation) => (
+                            <li key={invitation.id} style={{ marginBottom: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span style={{ marginRight: '5px' }}>
+                                        <a>{invitation.source_user}</a>
+                                    </span>
+                                    <span style={{ marginRight: '5px' }}>
+                                        <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
+                                    </span>
+                                    <span>
+                                        <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
+                                    </span>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         );
     };
@@ -168,8 +170,7 @@ export default function Home(){
                 <h3>---</h3>
                 <h3>The most funny game</h3>
             </div>
-            {InvitationList.length > 0 && <InvitationsFloatingBox invitations={InvitationList} />}
-            {friendsOnline.length > 0 && <FriendsFloatingBox friends={friendsOnline} /> } 
+            {(InvitationList.length > 0  || friendsOnline.length) > 0 && <FriendsAndInvitationsFloatingBox friends={friendsOnline} invitations={InvitationList} handleButton={handleButton} />}
         </div>
     );
 }
