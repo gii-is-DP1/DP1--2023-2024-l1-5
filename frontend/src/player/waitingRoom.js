@@ -17,7 +17,6 @@ export default function WaitingRoom() {
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
     const [friendUsername, setFriendUsername] = useState('');
     const tableRef = useRef(null);
-    const navigate = useNavigate();
 
     const deletePlayerFromGame = async (currentUserId) => {
         try {
@@ -32,7 +31,7 @@ export default function WaitingRoom() {
         });
 
         if (response.ok) {
-            navigate('/');
+            window.location.href = `/`;
         } else {
             const errorMessage = await response.text();
             console.error('Error Leaving The Game:', errorMessage);
@@ -42,9 +41,7 @@ export default function WaitingRoom() {
         }
     };
 
-    const handleLeaveGame = (currentUserId) => {
-        deletePlayerFromGame(currentUserId);
-    };
+
     
     const sendInvitationRequest = async (friendUsername) => {
         try {
@@ -100,7 +97,7 @@ export default function WaitingRoom() {
                         },
                     });
                     const playerData = await playerResponse.json();
-                    return playerData.playerUsername;
+                    return playerData.user.id;
                 });
                 const playerNames = await Promise.all(playersPromises);
                 setPlayerNames(playerNames);
@@ -196,9 +193,10 @@ export default function WaitingRoom() {
                     <div className="social">
                         {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
                     </div>
-                    <Link onClick={() => handleLeaveGame(user.id)} className='button-leave'>Leave Game</Link>
+                    <Link onClick={() => deletePlayerFromGame(user.id)} className='button-leave'>Leave Game</Link>
                 </div>
             </div>
         </div>
     );
 }
+
