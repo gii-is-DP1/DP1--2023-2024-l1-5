@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.friendship;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.player.State;
+import org.springframework.samples.petclinic.user.Authorities;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -48,6 +50,8 @@ public class FriendshipControllerTest {
 
     @MockBean
     FriendshipService fs;
+    @Autowired
+	private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -58,6 +62,7 @@ public class FriendshipControllerTest {
     private Player lucas;
     private Player guille;
     private Player alvaro;
+    private Authorities auth;
     private User userLucas;
     private User userGuille;
     private User userAlvaro;
@@ -76,6 +81,10 @@ public class FriendshipControllerTest {
                 .webAppContextSetup(context)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
+        auth = new Authorities();
+        auth.setId(1);
+        auth.setAuthority("PLAYER");
+
 
         lucas = new Player();
         lucas.setId(TEST_PLAYER_ID_LUCAS);
@@ -87,6 +96,7 @@ public class FriendshipControllerTest {
         userLucas.setId(TEST_USER_ID_LUCAS);
         userLucas.setUsername("lucas");
         userLucas.setPassword("lucas");
+        userLucas.setAuthority(auth);
         lucas.setUser(userLucas);
 
         guille = new Player();
@@ -96,6 +106,7 @@ public class FriendshipControllerTest {
         guille.setImage("image");
         guille.setState(State.ACTIVE);
         userGuille = new User();
+        userGuille.setAuthority(auth);
         userGuille.setId(TEST_USER_ID_GUILLE);
         userGuille.setUsername("guille");
         userGuille.setPassword("guille");
@@ -108,6 +119,7 @@ public class FriendshipControllerTest {
         alvaro.setImage("image");
         alvaro.setState(State.ACTIVE);
         userAlvaro = new User();
+        userAlvaro.setAuthority(auth);
         userAlvaro.setId(TEST_USER_ID_ALVARO);
         userAlvaro.setUsername("alvaro");
         userAlvaro.setPassword("alvaro");
@@ -187,7 +199,6 @@ public class FriendshipControllerTest {
     @WithMockUser(username = "lucas", authorities = "PLAYER")
     public void testCreateFriendship() throws Exception {
         // Crear los objetos necesarios para la amistad
-        ObjectMapper mapper = new ObjectMapper();
         reset(fs);
 
         Friendship newFriendship = new Friendship();
@@ -197,14 +208,17 @@ public class FriendshipControllerTest {
         newFriendship.setStatus(FriendshipStatus.WAITING);
 
         // Configurar el comportamiento esperado para el servicio FriendshipService
+        when(us.findCurrentUser()).thenReturn(userLucas);
+        when(ps.getPlayerByUsername("alvaro")).thenReturn(alvaro);
+        when(ps.findPlayerByUser(userLucas)).thenReturn(lucas);
         when(fs.saveFriendship(any(Friendship.class), eq("POST"))).thenReturn(newFriendship);
 
         // Realizar la solicitud POST al endpoint para crear la amistad y realizar las verificaciones
         mvc.perform(post(BASE_URL + "/alvaro").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(newFriendship)))
+                .content(objectMapper.writeValueAsString(newFriendship)))
                 .andExpect(status().isCreated()) // Verificar que el estado de la respuesta sea 201
-                .andExpect(jsonPath("$.status").value(FriendshipStatus.WAITING)); // Verificar el campo "status" en el cuerpo de la respuesta
+                .andExpect(jsonPath("$.status").value(FriendshipStatus.WAITING.toString())); // Verificar que el estado de la amistad sea WAITING
     }
          
 
@@ -227,7 +241,7 @@ public class FriendshipControllerTest {
         
         mvc.perform(put(BASE_URL + "/acceptRequest/" + testFriendship.getId()).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(testFriendship)))
+                .content(objectMapper.writeValueAsString(testFriendship)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(FriendshipStatus.ACCEPTED.toString()));
     }
@@ -251,7 +265,7 @@ public class FriendshipControllerTest {
         // Realiza la solicitud PUT para rechazar la amistad y verifica la respuesta
         mvc.perform(put(BASE_URL + "/rejectRequest/" + testFriendship.getId()).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(testFriendship)))
+                .content(objectMapper.writeValueAsString(testFriendship)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(FriendshipStatus.DENIED.toString()));
     }

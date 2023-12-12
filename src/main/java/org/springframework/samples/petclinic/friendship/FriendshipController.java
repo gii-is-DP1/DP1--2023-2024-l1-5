@@ -86,7 +86,7 @@ public class FriendshipController {
         Player playerDst = playerService.getPlayerByUsername(username);
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
-            newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
+            newFriendship.setUser_source(player);
             newFriendship.setUser_dst(playerDst);
             newFriendship.setStatus(FriendshipStatus.WAITING);
             return new ResponseEntity<>(friendshipService.saveFriendship(newFriendship, "POST"), HttpStatus.CREATED);
