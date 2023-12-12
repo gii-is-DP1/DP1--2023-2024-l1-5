@@ -74,8 +74,6 @@ export default function Home(){
     const FriendsAndInvitationsFloatingBox = ({ friends, invitations, handleButton }) => {
         return (
             <div className="floating-box" style={{ maxWidth: '800px', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: 'white', padding: '10px', borderRadius: '8px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)' }}>
-                <h3>Friends and Invitations</h3>
-    
                 {/* Online friends section */}
                 <div>
                     <h4>Online Friends</h4>
