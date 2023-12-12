@@ -44,7 +44,6 @@ public class CardService {
         toCopy.getSymbols().size();
         List<Symbol> symbols = toCopy.getSymbols();
         newCard.setSymbols(symbols);
-        newCard.setDeck(toCopy.getDeck());
         return saveCard(newCard);
     }
 

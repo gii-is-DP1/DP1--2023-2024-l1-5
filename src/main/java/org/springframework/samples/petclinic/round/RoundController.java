@@ -24,7 +24,6 @@ import org.springframework.samples.petclinic.hand.HandService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
-import org.springframework.samples.petclinic.symbol.Symbol;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -167,6 +166,7 @@ public class RoundController {
                             for (Card c: handCards){
                                 createHand1.getCards().add(c);
                             }
+                            createHand1.setNumCartas(handCards.size());
                             handService.saveHand(createHand1);
 
                         }

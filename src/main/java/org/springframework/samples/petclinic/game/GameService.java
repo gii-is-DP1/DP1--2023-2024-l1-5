@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
@@ -45,6 +45,12 @@ public class GameService {
         }
         return gameRepository.save(game);
     }
+
+    @Transactional
+    public Game save(Game game){
+        return gameRepository.save(game);
+    }
+
     @Transactional(readOnly=true)
     public List<Game> getAllGames(){
         return gameRepository.findAll();
@@ -89,7 +95,13 @@ public class GameService {
         return saveGame(toUpdate,p);
     } 
 
-    
+    @Transactional()
+    public Game updateWinner(Integer idPlayer, Game g){
+        Game toSave = new Game();
+        BeanUtils.copyProperties(g, toSave,"id");
+        toSave.setWinner(idPlayer);
+        return save(toSave);
+    }
 
     @Transactional(readOnly=true)
     public Optional<Game> getRandomGame(String gameMode){

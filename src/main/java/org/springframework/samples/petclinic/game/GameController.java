@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -7,25 +8,25 @@ import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.round.Round;
+import org.springframework.samples.petclinic.round.RoundService;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.samples.petclinic.user.User;
-import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.samples.petclinic.round.Round;
-import org.springframework.samples.petclinic.round.RoundService;
-import org.springframework.http.HttpStatus;
-import java.util.ArrayList;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -183,6 +184,17 @@ public class GameController {
         }
 
     }
+
+    @PutMapping("/winner")
+    public ResponseEntity<Game> updateWinner(@RequestParam @Valid Integer gameId, @RequestParam @Valid Integer playerId) {
+        Game toUpdate = this.gameService.getGameById(gameId).get();
+        toUpdate.setWinner(playerId);
+        gameService.save(toUpdate);
+        return new ResponseEntity<>(toUpdate, HttpStatus.OK);
+    }
+
+
+
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

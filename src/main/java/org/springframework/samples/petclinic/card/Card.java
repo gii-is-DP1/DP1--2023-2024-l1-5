@@ -37,10 +37,10 @@ public class Card extends BaseEntity {
     @JoinTable(name = "card_symbols")
     private List<Symbol> symbols;
 
-    @ManyToOne
-    @JoinColumn(name = "deck_id")
-    @JsonIgnore
-    private Deck deck;
+    // @ManyToOne
+    // @JoinColumn(name = "deck_id")
+    // @JsonIgnore
+    // private Deck deck;
 
     // @ManyToOne
     // @JoinColumn(name = "hand_id")

@@ -33,6 +33,11 @@ public class Deck extends BaseEntity {
     @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST })
 	@JoinColumn(name = "round_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Round round;
+    private Round round; 
 
+
+    @JoinColumn(name = "card_id", referencedColumnName = "id")
+    // @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Card> cards;
 }
