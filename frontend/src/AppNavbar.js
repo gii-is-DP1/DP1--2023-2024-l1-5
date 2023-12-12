@@ -5,6 +5,7 @@ import tokenService from './services/token.service';
 import jwt_decode from "jwt-decode";
 import logo from './static/images/dobble_logo.png' 
 import friendsLogo from './static/images/friends.png'
+import gameButton from './player/game';
 
 function AppNavbar() {
     const [roles, setRoles] = useState([]);
@@ -106,6 +107,9 @@ function AppNavbar() {
                 </NavItem>
                 <NavItem>
                     <NavLink style={{color: "white"}} tag={Link} to="/gameHistory"> Game History</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink style={{color: "white"}} onClick={() => gameButton(username)}> My Game</NavLink>
                 </NavItem>
                 </>
             )
