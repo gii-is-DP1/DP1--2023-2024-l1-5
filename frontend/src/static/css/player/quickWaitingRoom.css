@@ -1,33 +1,142 @@
-.title{
-    color:rgb(0, 0, 0);
+.inButton {
+    width: calc(33.33% - 20px); /* Three columns with space between */
+    max-width: 250px; /* Maximum width for the buttons */
+}
+
+.social {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Aplica un margen vertical entre los elementos hijos de .social */
+.social > * {
+    margin-bottom: 20px;
+}
+
+/* Esto eliminará el margen inferior del último elemento hijo */
+.social > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media screen and (min-width: 1440px) {
+    .inButton {
+        width: 250px; /* Set fixed width for larger screens */
+        max-width: none; /* Reset maximum width */
+    }
+
+    .social {
+        width: 350px;
+        justify-content: center;
+    }
+}
+
+.wallpaper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+        url('../../images/dobble_background.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    color: rgb(0, 0, 0);
     font-size: 2.5rem;
     font-weight: bold;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
-.text2{
+
+.text2 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color:darkslategrey;
+    color: darkslategrey;
     font-size: 2rem;
 }
 
-.distr{
+.distr {
     display: grid;
     margin-bottom: 400px;
     grid-gap: 50px;
     margin-right: 600px;
 }
 
-.distrPlay{
+.distrPlay {
     display: grid;
     grid-gap: 10px;
 }
-.horizontal{
-    display:flex;
+
+.horizontal {
+    display: flex;
     flex-direction: row;
 }
-.vertical{
-    margin-top:300px;
-    margin-right:200px;
+
+.vertical {
+    margin-top: 0%;
+    margin-right: 0%;
+}
+/* Estilos del contenedor principal del chat */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* Altura máxima del contenedor del chat */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden; /* Oculta la scrollbar del contenedor principal */
 }
 
+/* Estilos del contenedor de mensajes */
+.messages {
+    flex: 1;
+    overflow-y: auto; /* Agrega una scrollbar vertical cuando el contenido excede la altura */
+    padding: 10px;
+    word-wrap: break-word;
+}
 
+/* Estilos de cada mensaje */
+.user-message {
+    background-color: #DCF8C6;
+    padding: 8px;
+    word-wrap: break-word;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    margin-left: 40%;
+    height: auto;
+    align-self: flex-end; /* Alinea los mensajes del usuario a la derecha */
+}
+
+.other-user-message {
+    background-color: #E0E0E0;
+    word-wrap: break-word;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    margin-right: 40%;
+    align-self: flex-start; /* Alinea los mensajes de otros usuarios a la izquierda */
+}
+
+/* Estilos del input */
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+    outline: none;
+}
+
+.chat-input:focus {
+    border-color: dodgerblue; /* Cambia el borde al enfocar el input */
+}

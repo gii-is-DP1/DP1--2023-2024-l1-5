@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../App.css';
 import "../static/css/player/quickWaitingRoom.css";
-import "../static/css/player/newGame.css"
 import { useParams, Link, } from 'react-router-dom';
 import tokenService from '../services/token.service';
+import ChatComponent from './chatComponent';
+import io from 'socket.io-client';
+
 
 
 const user = tokenService.getUser();
@@ -14,8 +16,9 @@ export default function WaitingRoom() {
     const [players, setPlayers] = useState([]);
     const [playerNames, setPlayerNames] = useState([]);
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
+    const [socket, setSocket] = useState(null);
     const [friendUsername, setFriendUsername] = useState('');
-    const tableRef = useRef(null);
+    const socketRef = useRef(null);
 
     const sendInvitationRequest = async (friendUsername) => {
         try {
@@ -107,19 +110,38 @@ export default function WaitingRoom() {
             console.error('Error in fetchData:', error);
         }
     };
+    const onError = (error) => {
+        console.error('Error en la conexión WebSocket:', error);
+        // Lógica para manejar el error de conexión
+    };
 
     console.log("Componente renderizado");
     useEffect(() => {
         fetchData();
-        console.log("hola")
-
         const intervalId = setInterval(() => {
             fetchData();
         }, 10000);
 
-        return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente desmonte
+        socketRef.current = io('http://localhost:8080'); // Cambia la URL por tu servidor WebSocket
 
-    }, [id]);
+        socketRef.current.on('connect', () => {
+            console.log('Conectado al servidor WebSocket');
+            players.forEach(player => {
+                console.log(`Conectando como ${player.id}`);
+                // Puedes enviar datos o realizar acciones específicas para cada jugador aquí
+            });
+        });
+
+        socketRef.current.on('disconnect', () => {
+            console.log('Desconectado del servidor WebSocket');
+        });
+
+        return () => {
+            clearInterval(intervalId);
+            socketRef.current.disconnect();
+        };
+
+    }, [id, players]);
 
     const FriendsInviteFloatingBox = ({ friendNotPlaying }) => {
         return (
@@ -164,10 +186,11 @@ export default function WaitingRoom() {
                     <div className="inButton">
                         <Link className='button'>The Pit </Link>
                     </div>
-                    <div className="social">
-                        {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
-                    </div>
+                    <ChatComponent />
                 </div>
+            </div>
+            <div className="social">
+                {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
             </div>
         </div>
     );
