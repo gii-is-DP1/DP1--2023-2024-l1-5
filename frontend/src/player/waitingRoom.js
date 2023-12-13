@@ -97,7 +97,7 @@ export default function WaitingRoom() {
                         },
                     });
                     const playerData = await playerResponse.json();
-                    return playerData.user.id;
+                    return playerData.playerUsername;
                 });
                 const playerNames = await Promise.all(playersPromises);
                 setPlayerNames(playerNames);
