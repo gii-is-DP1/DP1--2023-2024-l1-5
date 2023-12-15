@@ -43,8 +43,7 @@ public class Hand extends BaseEntity {
     @JsonIgnore
     private Player player;
 
-    @JoinColumn(name = "hand_id")
     // @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany()
     private List<Card> cards;
 }

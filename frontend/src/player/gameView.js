@@ -101,6 +101,7 @@ export default function GameView() {
                 })
         if (responseDeck.ok) {
             const deck = await responseDeck.json();
+            console.log(deck)
             setDeckImg(deck.cards[0].image);
             nameSymbolsDeck(deck.cards[0]);
 
@@ -139,7 +140,6 @@ export default function GameView() {
         console.log("1",handAux)
         console.log("handSize", handSize)
 
-        const ganador = null;
 
         if (lsauxButt.includes(symbolaux)) {
             if (handSize > 1) {
@@ -250,11 +250,11 @@ return (
             <div className="filas">
                 <div className='columnas'>
                     <h1>MY HAND</h1> 
-                    <img src={cardImg} class="circle" alt='img'></img>
+                    <img src={cardImg} className="circle" alt='img'></img>
                 </div>
                 <div className='columnas'>
                     <h1>Deck</h1>
-                    <img src={deckImg} class="circle" alt='img'></img>
+                    <img src={deckImg} className="circle" alt='img'></img>
                 </div>
             </div>
             <div className='filas2'>

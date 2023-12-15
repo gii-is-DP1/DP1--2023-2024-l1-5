@@ -50,14 +50,15 @@ public class DeckService {
     }
 
     @Transactional(readOnly = true)
-    public Deck getDeckByRoundId(Integer roundId) {
+    public Optional<Deck> getDeckByRoundId(Integer roundId) {
         return deckRepository.findByRoundId(roundId);
     }
 
     @Transactional
-    public Deck updateDeck(@Valid Deck deck, Integer idToUpdate, List<Card> ls, Round round) {
+    public Deck updateDeck(@Valid Deck deck, Integer idToUpdate, List<Card> ls) {
         Integer numCards = ls.size();
-        Deck deckToUpdate = getDeckByRoundId(idToUpdate);
+        Deck deckToUpdate = getDeckByRoundId(idToUpdate).get();
+        Round round = roundRepository.findById(idToUpdate).get();
         BeanUtils.copyProperties(deck, deckToUpdate, "id");
         deckToUpdate.setNumberOfCards(numCards);
         deckToUpdate.setRound(round);

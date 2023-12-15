@@ -147,29 +147,32 @@ public class RoundController {
                 Map<Integer, List<Card>> hands = roundService.distribute(cardsPlus16, gameMode, roundMode, lsId);
                 for (Integer key : hands.keySet()) {
                     if (key == 0) {
-                        Deck deck1 = deckService.createDeck(roundId);
-                        if (deck1 != null) {
-                            List<Card> deckCards = hands.get(key);
-                            if (deckCards != null) {
-                                this.deckService.updateDeck(deck1, roundId, deckCards, round);
-                            }
+                        List<Card> deckCards = hands.get(key);
+                        Deck deck0 = new Deck();
+                        deck0.setNumberOfCards(deckCards.size());
+                        deck0.setRound(round);
+                        deck0.setCards(deckCards);
+                        deckService.saveDeck(deck0);
+                        // Deck deck1 = deckService.createDeck(roundId);
+                        // if (deck1 != null) {
+                        //     if (deckCards != null) {
+                        //         this.deckService.updateDeck(deck1, roundId, deckCards);
+                        //     }
 
-                        } else {
-                            throw new Exception("no existe deck");
-                        }
+                        // } else {
+                        //     throw new Exception("no existe deck");
+                        // }
 
                     } else {
                         Integer pId = key;
-                        Hand createHand1 = handService.createHand(roundId, pId);
-                        if (createHand1 != null) {
-                            List<Card> handCards = hands.get(key);
-                            for (Card c: handCards){
-                                createHand1.getCards().add(c);
-                            }
-                            createHand1.setNumCartas(handCards.size());
-                            handService.saveHand(createHand1);
-
-                        }
+                        Player player = playerService.getPlayerById(pId).get();
+                        Hand createHand1 = new Hand();
+                        List<Card> handCards = hands.get(key);
+                        createHand1.setCards(handCards);
+                        createHand1.setNumCartas(handCards.size());
+                        createHand1.setPlayer(player);
+                        createHand1.setRound(round);
+                        handService.saveHand(createHand1);
 
                     }
                 }
