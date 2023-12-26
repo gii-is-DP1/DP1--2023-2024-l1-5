@@ -166,20 +166,24 @@ public class GameServiceTests {
         assertEquals("No se ha encontrado ninguna partida en espera", exception.getMessage());
     }
 
-     @Test
-     public void testGetRandomGame() {
-        
+    @Test
+    public void testGetRandomGame() {
         GameMode gm = GameMode.QUICK_PLAY;
         Game g = createGame(GameStatus.WAITING);
         g.setId(1);
         g.setGameMode(gm);
-
-        when(gameService.getRandomGame(gm.toString())).thenReturn(Optional.of(g));
+    
+        List<Game> games = new ArrayList<>();
+        games.add(g);
+    
+        // Simula el comportamiento del repositorio
+        when(gameRepository.findWaitingQuickGames()).thenReturn(games);
+    
         Optional<Game> result = gameService.getRandomGame(gm.toString());
-
+    
         assertNotNull(result);
         assertEquals(g, result.get());
-     }
+    }
 
 
     @Test
@@ -190,14 +194,26 @@ public class GameServiceTests {
           assertNull(result);
         }
 
-     @Test
-     public void testGetWaitingGame(){
+    @Test
+    public void testGetWaitingGame() {
         Player player = new Player();
         player.setId(2);
-        playerRepository.save(player);
+        
+        Game game = createGame(GameStatus.WAITING);
+        game.setId(1);
+        game.setPlayers(new ArrayList<>(List.of(player)));
+        
+        List<Game> playerGames = new ArrayList<>();
+        playerGames.add(game);
+        
+        // Simula el comportamiento del repositorio
+        when(gameRepository.findPlayerCreatedGames(player.getId())).thenReturn(playerGames);
+        
         Optional<Game> result = gameService.getWaitingGame(player);
-        assertNotNull(result);
-     }
+        
+        assertTrue(result.isPresent());
+        assertEquals(game, result.get());
+    }
 
      @Test
      public void testDeletePlayerFromGame() {
