@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
@@ -26,6 +28,7 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.user.User;
 
 
 
@@ -45,7 +48,7 @@ public class GameServiceTests {
     @Mock   
     private PlayerService playerService;
 
-    @Mock
+    @InjectMocks
     private GameService gameService;
 
     // @Test
@@ -194,5 +197,33 @@ public class GameServiceTests {
         playerRepository.save(player);
         Optional<Game> result = gameService.getWaitingGame(player);
         assertNotNull(result);
+     }
+
+     @Test
+     public void testDeletePlayerFromGame() {
+         Integer gameId = 1;
+         Integer userId = 1;
+ 
+         // Configuración de juego y jugadores
+         Game game = new Game();
+         game.setId(gameId);
+         game.setNumPlayers(2);
+         List<Player> players = new ArrayList<>();
+         Player player = new Player();
+         User user = new User();
+         user.setId(userId);
+         player.setUser(user);
+         players.add(player);
+         game.setPlayers(players);
+ 
+         // Simulando el comportamiento de gameRepository.findById
+         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
+ 
+         // Llama al método que estás probando
+         gameService.deletePlayerFromGame(gameId, userId);
+ 
+         // Verificaciones adicionales pueden incluir verificar el tamaño de la lista de jugadores en el juego
+         assertEquals(0, game.getPlayers().size());
+         assertEquals(1, game.getNumPlayers());
      }
 }
