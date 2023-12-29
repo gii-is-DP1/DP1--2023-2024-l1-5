@@ -194,7 +194,30 @@ public class GameController {
     }
 
 
-
+    // @PutMapping("ready/{id}")
+    // @ResponseStatus(HttpStatus.OK)
+    // public ResponseEntity<Game> updatePlayersCount(@PathVariable("id") Integer id) {
+    //     Optional<Game> optionalGame = gameService.getGameById(id);
+    //     if (!optionalGame.isPresent()) {
+    //         throw new ResourceNotFoundException("Game", "id", id);
+    //     }
+    
+    //     Game game = optionalGame.get();
+    //     int currentNumPlayers = game.getNumPlayers();
+        
+    //     // Restar un jugador si el número actual es mayor o igual a 0
+    //     if (currentNumPlayers >= 0) {
+    //         game.setNumPlayers(currentNumPlayers - 1);
+            
+    //         // Guardar el juego actualizado
+    //         Game savedGame = gameService.save(game);
+    
+    //         return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    //     }
+    // }
+    
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

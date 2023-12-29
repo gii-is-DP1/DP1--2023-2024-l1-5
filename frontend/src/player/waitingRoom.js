@@ -168,6 +168,47 @@ export default function WaitingRoom(){
             console.error("Error al realizar el reparto", error);
         }
     }
+    // const ready = async() =>{
+    //     try{
+            // ESTA PARTE DEBERÍA HACERSE AL CREAR LA PARTIDA, NO EN EL READY 
+            // const requestBody = {
+            //     gameMode: game.gameMode,
+            //     numPlayers: game.numPlayers,
+            //     creator: game.creator.id,
+            //     winner: game.winner,
+            //     gameTime: game.gameTime,
+            //     status: game.status,
+            //     gameId: game.id,
+            // };
+            // const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+            // const response1 = await fetch('/api/v1/gameInfo',
+            //     {
+            //         method: 'POST',
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             Authorization: `Bearer ${jwt}`,
+            //         },
+            //         body: JSON.stringify(requestBody),
+            //     });
+    //         if (response1.ok) {
+    //             const response = await fetch(`/api/v1/gameInfo/ready/${game.id}`,
+    //                 {
+    //                     method: 'PUT',
+    //                     headers: {
+    //                         "Content-Type": "application/json",
+    //                         Authorization: `Bearer ${jwt}`,
+    //                     },
+    //                 });
+    //             if (response.ok) {
+    //                 console.log(response.json());
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Error al realizar el reparto", error);
+    //     }
+    // }
+
+
     useEffect(() => {
         setUp();
     }, []);
@@ -190,9 +231,12 @@ export default function WaitingRoom(){
                 </div>  
                 <div className='vertical'>
                         <div className="inButton">
-                            <Link className='button' onClick={game.creator!==playerId?null:shuffle} disabled={playerId!==game.creator}>
-                                {game.creator!==playerId?'Waiting':'Start'}
-                                </Link>
+                            {/* <Link className='button' onClick={shuffle}>
+                                {'Ready'}
+                            </Link> */}
+                            <Link className='button' onClick={ready}>
+                                {'Ready'}
+                            </Link>
                         </div>  
                 </div>
 
