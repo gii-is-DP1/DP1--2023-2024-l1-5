@@ -110,12 +110,22 @@
   margin-bottom: 10px;
 }
 
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .toggle-button {
-  margin: 0 10px;
   padding: 5px 10px;
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   cursor: pointer;
+  min-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .toggle-button.active {
