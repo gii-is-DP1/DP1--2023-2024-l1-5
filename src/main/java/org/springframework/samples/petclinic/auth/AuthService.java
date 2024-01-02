@@ -93,12 +93,12 @@ public class AuthService {
 				user.setAuthority(role);
 				userService.saveUser(user);
 				Player player = new Player();
-				player.setState(State.ACTIVE);
 				player.setFirstName(request.getFirstName());
 				player.setLastName(request.getLastName());
-				player.setUser(user);
 				player.setImage(request.getImage());
 				player.setPlayerUsername(request.getPlayerUsername());
+				player.setState(State.ACTIVE);
+				player.setUser(user);
 				playerService.savePlayer(player);
 				break;
 

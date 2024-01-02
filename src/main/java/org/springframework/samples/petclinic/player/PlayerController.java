@@ -10,11 +10,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.auth.payload.response.MessageResponse;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.RestPreconditions;
 import org.springframework.samples.petclinic.vet.Vet;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,10 +86,18 @@ public class PlayerController {
     @PutMapping(value = "{playerId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Player> update(@PathVariable("playerId") int playerId, @RequestBody @Valid Player player) {
-		RestPreconditions.checkNotNull(playerService.getPlayerById(playerId), "Vet", "ID", playerId);
+		RestPreconditions.checkNotNull(playerService.getPlayerById(playerId), "Player", "ID", playerId);
 		return new ResponseEntity<>(this.playerService.updatePlayer(player, playerId), HttpStatus.OK);
 	}
 
+    
+	@DeleteMapping(value = "{playerId}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<MessageResponse> delete(@PathVariable("playerId") int id) {
+		RestPreconditions.checkNotNull(playerService.getPlayerByUserId(id), "Player", "ID", id);
+		playerService.deletePlayer(id);
+		return new ResponseEntity<>(new MessageResponse("Player deleted!"), HttpStatus.OK);
+	}
 
 
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
@@ -90,6 +91,9 @@ public class GameService {
         Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
         Game toUpdate= getGameById(idGame).get();
         toUpdate.getPlayers().add(toAddPlayer);
+        Integer num  = toUpdate.getNumPlayers();
+        num +=1;
+        toUpdate.setNumPlayers(num);
         User user = userService.findCurrentUser();
         Player p = playerService.findPlayerByUser(user);
         return saveGame(toUpdate,p);
@@ -136,4 +140,20 @@ public class GameService {
         }
         return result;
     }
+
+    @Transactional
+    public void deletePlayerFromGame(Integer gameId, Integer currentUserId) {
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));
+
+        Integer numPl = game.getNumPlayers();
+        numPl-=1;
+        game.setNumPlayers(numPl);
+
+        List<Player> players = game.getPlayers();
+        players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+        game.setPlayers(players);
+
+        gameRepository.save(game);
+    }
 }
+    
