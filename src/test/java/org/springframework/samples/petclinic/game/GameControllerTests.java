@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -175,6 +179,37 @@ public class GameControllerTests {
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(gameRequest)))
         .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(username = "player7", authorities = { "PLAYER" })
+    public void testDeletePlayerFromGame() throws Exception {
+
+        Game game = new Game();
+        game.setId(1);
+        game.setStatus(GameStatus.WAITING); 
+
+        List<Player> players = new ArrayList<>();
+
+        Player player1 = new Player();
+        User user1 = new User();
+        user1.setId(1);
+        player1.setUser(user1);
+
+        players.add(player1);
+        game.setPlayers(players);
+
+        Integer gameId = game.getId();
+        Integer userId = player1.getUser().getId();
+
+        // Simula el comportamiento esperado del servicio
+        doNothing().when(gameService).deletePlayerFromGame(gameId, userId);
+
+        // Realiza la petición DELETE y verifica el resultado
+        mockMvc.perform(delete(BASE_URL +"/"+ gameId + "/players/" + userId)
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 
     // @Test

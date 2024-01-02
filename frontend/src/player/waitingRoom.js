@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import '../App.css';
 import "../static/css/player/quickWaitingRoom.css";
 import "../static/css/player/newGame.css"
-import { useParams, Link, } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import tokenService from '../services/token.service';
+import { useNavigate  } from 'react-router-dom';
 
 
 const user = tokenService.getUser();
@@ -17,6 +18,31 @@ export default function WaitingRoom() {
     const [friendUsername, setFriendUsername] = useState('');
     const tableRef = useRef(null);
 
+    const deletePlayerFromGame = async (currentUserId) => {
+        try {
+        const gameId = id; 
+        const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+        const response = await fetch(`/api/v1/games/${gameId}/players/${currentUserId}`, {
+            method: "DELETE",
+            headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+            },
+        });
+
+        if (response.ok) {
+            window.location.href = `/`;
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error Leaving The Game:', errorMessage);
+        }
+        } catch (error) {
+        console.error('Error Leaving The Game:', error);
+        }
+    };
+
+
+    
     const sendInvitationRequest = async (friendUsername) => {
         try {
             const gameId = id;
@@ -167,8 +193,10 @@ export default function WaitingRoom() {
                     <div className="social">
                         {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
                     </div>
+                    <Link onClick={() => deletePlayerFromGame(user.id)} className='button-leave'>Leave Game</Link>
                 </div>
             </div>
         </div>
     );
 }
+

@@ -8,9 +8,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.auth.payload.response.MessageResponse;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -242,6 +244,13 @@ public class GameController {
         Game savedGame = this.gameService.saveGame(game, p1);
 
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{gameId}/players/{currentUserId}")
+    public ResponseEntity<MessageResponse> deletePlayerFromGame(@PathVariable("gameId") Integer gameId,@PathVariable("currentUserId") Integer currentUserId) {
+        System.out.println(gameId);
+        gameService.deletePlayerFromGame(gameId, currentUserId);
+        return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
 
 }
