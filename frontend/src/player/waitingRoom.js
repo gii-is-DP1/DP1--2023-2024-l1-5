@@ -4,7 +4,6 @@ import '../App.css';
 import "../static/css/player/newGame.css";
 import "../static/css/player/quickWaitingRoom.css";
 import tokenService from '../services/token.service';
-import io from 'socket.io-client';
 
 export default function WaitingRoom(){
     const {id} = useParams();    

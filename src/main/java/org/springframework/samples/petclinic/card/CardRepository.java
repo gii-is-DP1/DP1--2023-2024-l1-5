@@ -18,7 +18,7 @@ public interface CardRepository extends CrudRepository<Card, Integer>{
     // List<Card> findByHandId(Integer handId) throws DataAccessException;
 
 
-    @Query("SELECT c FROM Card c ORDER BY c.id DESC LIMIT 16")
+    @Query("SELECT c FROM Card c ORDER BY c.id LIMIT 16")
     List<Card> get16LastCards() throws DataAccessException;
 
 }
