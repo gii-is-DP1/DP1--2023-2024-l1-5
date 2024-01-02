@@ -75,7 +75,8 @@ public class SecurityConfiguration {
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/clinics/**")).hasAnyAuthority(CLINIC_OWNER, ADMIN)
 			.requestMatchers(HttpMethod.GET, "/api/v1/vets/stats").hasAuthority(ADMIN)
 			// GAME REQUEST MATCHERS
-			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/games/**")).authenticated()
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/games/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/gameInfo/**")).hasAnyAuthority(ADMIN, PLAYER)
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/vets/**")).authenticated()
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/vets/**")).hasAnyAuthority(ADMIN, "VET", CLINIC_OWNER) 
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()

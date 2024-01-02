@@ -43,17 +43,19 @@ public class GameController {
     private final UserService userService;
     private final PlayerService playerService;
     private final RoundService roundService;
+    private final GameInfoService gameInfoService;
     private static final String PLAYER_AUTH = "PLAYER";
     private static final String QUICK_PLAY = "QUICK_PLAY";
     private static final String COMPETITIVE = "COMPETITIVE";
 
     @Autowired
     public GameController(GameService gameService, UserService userService, PlayerService playerService,
-            RoundService roundService) {
+            RoundService roundService, GameInfoService gameInfoService) {
         this.gameService = gameService;
         this.playerService = playerService;
         this.userService = userService;
         this.roundService = roundService;
+        this.gameInfoService = gameInfoService;
     }
 
     @GetMapping
@@ -99,8 +101,6 @@ public class GameController {
 
         return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
     }
-    
-
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -148,22 +148,28 @@ public class GameController {
         Game newGame = new Game();
         newGame.setId(null);
         Game savedGame;
+        GameInfo gameInfo = new GameInfo();
         BeanUtils.copyProperties(gameRequest, newGame, "id");
 
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
             Player player = playerService.findPlayerByUser(user);
             // Establecer los valores predeterminados para los atributos
             List<Player> players = new ArrayList<>();
-            newGame.setGameMode(gameRequest.getGameMode());
+            GameMode gameMode = gameRequest.getGameMode();
+            newGame.setGameMode(gameMode);
             newGame.setCreator(player);
             newGame.setStatus(GameStatus.WAITING);
-            newGame.setNumPlayers(0);
             newGame.setGameTime(0);
             players.add(player);
             newGame.setPlayers(players);
             newGame.setNumPlayers(players.size());
-            savedGame = this.gameService.saveGame(newGame, player);
-
+            savedGame = gameService.saveGame(newGame, player);
+            gameInfo.setGameMode(gameMode);
+            gameInfo.setNumPlayers(players.size());
+            gameInfo.setCreator(player);
+            gameInfo.setStatus(GameStatus.WAITING);
+            gameInfo.setGame(savedGame);
+            gameInfoService.saveGameInfo(gameInfo);
         } else {
             throw new ResourceNotFoundException("User", "id", user.getId());
         }
@@ -177,12 +183,12 @@ public class GameController {
         Game aux = gameService.getRandomGame("QUICK_PLAY").get();
         int gameId = aux.getId();
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
-            Game savedGame = this.gameService.updateGame(id, gameId);
+            Game savedGame = gameService.updateGame(id, gameId);
+            gameInfoService.updateGameInfo(gameId);
             return new ResponseEntity<>(savedGame, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 
     @PutMapping("/winner")

@@ -14,13 +14,15 @@ public class GameInfoService {
 
     UserService userService;
     PlayerService playerService;
+    GameService gameService;
     GameInfoRepository gameInfoRepository;
 
     @Autowired
-    public GameInfoService(UserService userService, PlayerService playerService, GameInfoRepository gameInfoRepository) {
+    public GameInfoService(UserService userService, PlayerService playerService, GameInfoRepository gameInfoRepository, GameService gameService) {
         this.userService = userService;
         this.playerService = playerService;
         this.gameInfoRepository = gameInfoRepository;
+        this.gameService = gameService;
     }
     
     @Transactional
@@ -41,5 +43,13 @@ public class GameInfoService {
     @Transactional(readOnly=true)
     public GameInfo findGameInfoByGameId(Integer id){
         return gameInfoRepository.findByGameId(id);
+    }
+
+    @Transactional()
+    public GameInfo updateGameInfo(Integer gameId){
+        GameInfo gameInfo = gameInfoRepository.findByGameId(gameId);
+        Integer numPlayers = gameInfo.getNumPlayers();
+        gameInfo.setNumPlayers(numPlayers+1);
+        return gameInfoRepository.save(gameInfo);
     }
 }

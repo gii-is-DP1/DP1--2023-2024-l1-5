@@ -14,6 +14,7 @@ export default function WaitingRoom(){
     const [playerId, setPlayerId] = useState(null);
     const user = tokenService.getUser();
     const [roundId, setRoundId] = useState(null);
+    const [buttonClicked, setButtonClicked] = useState(false);
     // const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
     ; // Reemplaza con la URL de tu servidor
@@ -158,7 +159,6 @@ export default function WaitingRoom(){
                 });
                 if(response.ok){
                 console.log("Reparto realizado");
-                 window.location.href = `/game/quickPlay/${id}/${roundId}`;
 
             }else{
                 console.error("Error al realizar el ", response.statusText);
@@ -168,46 +168,58 @@ export default function WaitingRoom(){
             console.error("Error al realizar el reparto", error);
         }
     }
-    // const ready = async() =>{
-    //     try{
-            // ESTA PARTE DEBERÍA HACERSE AL CREAR LA PARTIDA, NO EN EL READY 
-            // const requestBody = {
-            //     gameMode: game.gameMode,
-            //     numPlayers: game.numPlayers,
-            //     creator: game.creator.id,
-            //     winner: game.winner,
-            //     gameTime: game.gameTime,
-            //     status: game.status,
-            //     gameId: game.id,
-            // };
-            // const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-            // const response1 = await fetch('/api/v1/gameInfo',
-            //     {
-            //         method: 'POST',
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             Authorization: `Bearer ${jwt}`,
-            //         },
-            //         body: JSON.stringify(requestBody),
-            //     });
-    //         if (response1.ok) {
-    //             const response = await fetch(`/api/v1/gameInfo/ready/${game.id}`,
-    //                 {
-    //                     method: 'PUT',
-    //                     headers: {
-    //                         "Content-Type": "application/json",
-    //                         Authorization: `Bearer ${jwt}`,
-    //                     },
-    //                 });
-    //             if (response.ok) {
-    //                 console.log(response.json());
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error("Error al realizar el reparto", error);
-    //     }
-    // }
+    const ready = async() => {
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+            if (!buttonClicked) { // Verifica si el botón ya se ha presionado
+                const response = await fetch(`/api/v1/gameInfo/ready/${game.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                if (response.ok) {
+                    setButtonClicked(true); // Actualiza el estado para indicar que se ha presionado el botón
+                    checkAllPlayersReady(game.id);
+                }
+            }
+        } catch (error) {
+            console.error("Error al realizar el reparto", error);
+        }
+    }
 
+    const checkAllPlayersReady = async (gameId) => {
+        try {
+            let noPlayers = false;
+            while (!noPlayers) {
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const response = await fetch(`/api/v1/gameInfo/${gameId}`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (response.ok) {
+                    const gameInfo = await response.json();
+                    if (gameInfo.numPlayers === 0) {
+                        if(gameInfo.creator === playerId){
+                            shuffle();
+                        }
+                        noPlayers = true; // Establecer noPlayers a true para salir del ciclo
+                        setTimeout(() => {
+                            window.location.href = `/game/quickPlay/${id}/${roundId}`;
+                        }, 3000);
+                    } else {
+                        console.log("El número de jugadores no es 0 en gameInfo. Esperando...");
+                        await new Promise((resolve) => setTimeout(resolve, 1000));
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error al obtener gameInfo", error);
+        }
+    };
 
     useEffect(() => {
         setUp();
@@ -234,7 +246,7 @@ export default function WaitingRoom(){
                             {/* <Link className='button' onClick={shuffle}>
                                 {'Ready'}
                             </Link> */}
-                            <Link className='button' onClick={ready}>
+                            <Link className={`button ${buttonClicked ? 'disabled' : ''}`} onClick={ready} disabled={buttonClicked}>
                                 {'Ready'}
                             </Link>
                         </div>  

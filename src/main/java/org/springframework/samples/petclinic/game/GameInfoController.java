@@ -66,7 +66,7 @@ public class GameInfoController {
     
     @GetMapping("/{gameId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GameInfoDTO> getGameInfoByGameId(@RequestParam Integer gameId) {
+    public ResponseEntity<GameInfoDTO> getGameInfoByGameId(@PathVariable("gameId") Integer gameId) {
         GameInfo game = gameInfoService.findGameInfoByGameId(gameId);
         GameInfoDTO gameInfoDTO = new GameInfoDTO(game);
         return new ResponseEntity<>(gameInfoDTO, HttpStatus.OK);
