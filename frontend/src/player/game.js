@@ -70,35 +70,6 @@ export default function Game() {
         }
     }
 
-    async function gameButton(username) {
-        try {
-            const jwt = JSON.parse(window.localStorage.getItem('jwt'));
-    
-            const games = await(
-                await fetch(`/api/v1/games`, {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                        'Content-Type': 'application/json',
-                    },
-                })
-            ).json();
-    
-            for (let i = 0; i < games.length; i++) {
-                if (games[i].status === 'IN_PROGRESS' || games[i].status === 'WAITING') {
-                    const players = games[i].playerList;
-                    for (let j = 0; j < players.length; j++) {
-                        if (players[j].user.username === user.username) {
-                            window.location.href = `/game/quickPlay/${games[i].id}`;
-                            return;
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            console.error('Error en la función gameButton:', error);
-        }
-    }
-
     const InvitationsFloatingBox = ({ invitations }) => {
         return (
             <div className="invitation-box floating-box" style={{ maxWidth: '800px' }}>
@@ -132,9 +103,6 @@ export default function Game() {
                 </Link>
                 <Link to="/game/competitiveGame" className="button">
                     Competitive
-                </Link>
-                <Link className="button" onClick={gameButton}>
-                    My Game
                 </Link>
                 {InvitationList.length > 0 && <InvitationsFloatingBox invitations={InvitationList} />}
             </div>

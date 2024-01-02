@@ -5,13 +5,15 @@ import tokenService from './services/token.service';
 import jwt_decode from "jwt-decode";
 import logo from './static/images/dobble_logo.png' 
 import friendsLogo from './static/images/friends.png'
-import gameButton from './player/game';
+import { useNavigate } from 'react-router-dom';
 
 function AppNavbar() {
     const [roles, setRoles] = useState([]);
     const [username, setUsername] = useState("");
     const jwt = tokenService.getLocalAccessToken();
     const [collapsed, setCollapsed] = useState(true);
+    const user = tokenService.getUser();
+    const navigate = useNavigate();
 
     const toggleNavbar = () => setCollapsed(!collapsed);
 
@@ -21,6 +23,37 @@ function AppNavbar() {
             setUsername(jwt_decode(jwt).sub);
         }
     }, [jwt])
+
+    async function myGameButton(username) {
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem('jwt'));
+    
+            const games = await(
+                await fetch(`/api/v1/games`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+            ).json();
+    
+            for (let i = 0; i < games.length; i++) {
+                if (games[i].status === 'WAITING') {
+                    const players = games[i].playerList;
+                    for (let j = 0; j < players.length; j++) {
+                        if (players[j].user.username === user.username) {
+                            //window.location.href = `/game/quickPlay/${games[i].id}`;
+                            const idGame = games[i].id;
+                            navigate(`/game/quickPlay/${idGame}`); // Usa navigate para cambiar la ruta
+                            return;
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error en la función gameButton:', error);
+        }
+    }
 
     let adminLinks = <></>;
     let ownerLinks = <></>;
@@ -109,7 +142,7 @@ function AppNavbar() {
                     <NavLink style={{color: "white"}} tag={Link} to="/gameHistory"> Game History</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink style={{color: "white"}} onClick={() => gameButton(username)}> My Game</NavLink>
+                    <NavLink style={{color: "white"}} tag={Link} to="#" onClick={() => myGameButton(username)}> My Game</NavLink>
                 </NavItem>
                 </>
             )
