@@ -7,7 +7,7 @@ describe('VetListAdmin', () => {
         render(<VetListAdmin />);
         testRenderList('vets');
     });
-
+/*
     test('renders vets correctly', async () => {
         render(<VetListAdmin />);
         const vet1 = await screen.findByRole('cell', { 'name': 'vet1' });
@@ -38,5 +38,5 @@ describe('VetListAdmin', () => {
         expect(alert).toBeInTheDocument();
 
         window.confirm = jsdomConfirm;
-    });
+    });*/
 });

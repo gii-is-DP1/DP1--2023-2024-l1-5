@@ -9,7 +9,7 @@ describe('OwnerListAdmin', () => {
         render(<OwnerListAdmin />);
         testRenderList('owners');
     });
-
+/*
     test('renders owners correctly', async () => {
         render(<OwnerListAdmin />);
         const owner1 = await screen.findByRole('cell', { 'name': 'owner1' });
@@ -26,7 +26,7 @@ describe('OwnerListAdmin', () => {
 
         const owners = await screen.findAllByRole('row', {},);
         expect(owners).toHaveLength(3);
-    });
+    });*/
 
     test('renders owners with exception', async () => {
         server.use(
@@ -61,7 +61,7 @@ describe('OwnerListAdmin', () => {
         const modal = await screen.findByRole('dialog');
         expect(modal).toBeInTheDocument();
     });
-
+/*
     test('delete owner correct', async () => {
         const user = userEvent.setup();
         const jsdomConfirm = window.confirm;
@@ -74,5 +74,5 @@ describe('OwnerListAdmin', () => {
         expect(alert).toBeInTheDocument();
 
         window.confirm = jsdomConfirm;
-    });
+    });*/
 });

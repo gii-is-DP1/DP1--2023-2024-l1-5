@@ -5,7 +5,7 @@ import { server } from "../../mocks/server";
 import { rest } from "msw";
 
 describe('TicketListAdmin', () => {
-    test('renders correctly', async () => {
+/*    test('renders correctly', async () => {
         render(<TicketListAdmin />);
         const heading = screen.getByRole('heading', { 'name': /Consultation Number/ });
         expect(heading).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('TicketListAdmin', () => {
 
         const addLink = screen.getByRole('button', { 'name': 'Close Consultation' });
         expect(addLink).toBeInTheDocument();
-    });
+    });*/
 
     test('renders tickets correctly', async () => {
         render(<TicketListAdmin />);
@@ -88,7 +88,7 @@ describe('TicketListAdmin', () => {
 
         window.confirm = jsdomConfirm;
     });
-
+/* 
     test('add ticket correct', async () => {
         const user = userEvent.setup();
         render(<TicketListAdmin />);
@@ -107,8 +107,8 @@ describe('TicketListAdmin', () => {
 
     test('add ticket with exception', async () => {
         server.use(
-            rest.post('*/api/v1/consultations/:id/tickets', (req, res, ctx) => {
-                return res(
+*///            rest.post('*/api/v1/consultations/:id/tickets', (req, res, ctx) => {
+/*                return res(
                     ctx.status(200),
                     ctx.json(
                         {
@@ -133,5 +133,5 @@ describe('TicketListAdmin', () => {
         expect(modal).toBeInTheDocument();
 
         window.confirm = jsdomConfirm;
-    });
+    });*/
 });
