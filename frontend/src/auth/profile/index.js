@@ -108,9 +108,9 @@ export default function Profile() {
                     <table className="achievement-table">
                         <thead>
                             <tr>
-                                <th className="text-center">Image</th>
-                                <th className="text-center">Name</th>
-                                <th className="text-center">Description</th>
+                                <th className="text-center"></th>
+                                <th className="text-center">NAME</th>
+                                <th className="text-center">DESCRIPTION</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,7 +125,7 @@ export default function Profile() {
     const modal = getErrorModal(setVisible, visible, message);
 
     return (
-        <Container style={{ marginTop: "15px" }} fluid>
+        <Container className="profile-page-container" fluid>
             {alerts.map((a) => a.alert)}
             {modal}
             {renderUserProfile(userInfo)}

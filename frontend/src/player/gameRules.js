@@ -4,34 +4,33 @@ import "../static/css/player/gameRules.css"
 export default function GameRules() {
 
   const imagePaths = [
-    'https://i.imgur.com/P5d3qbK.jpeg',
-    'https://i.imgur.com/xg0Ip2C.jpeg',
-    'https://i.imgur.com/poq7e8a.jpeg',
-    'https://i.imgur.com/doqI44d.jpeg',
-    'https://i.imgur.com/SPyjIzq.jpeg',
-    'https://i.imgur.com/FM0lzzV.jpeg',
-    'https://i.imgur.com/dnbylbJ.jpeg',
-    'https://i.imgur.com/ENbj5D3.jpeg',
+    'https://i.imgur.com/P5d3qbK.jpeg', // 1
+    'https://i.imgur.com/poq7e8a.jpeg', // 3
+    'https://i.imgur.com/SPyjIzq.jpeg', // 5
+    'https://i.imgur.com/dnbylbJ.jpeg', // 7
+    'https://i.imgur.com/xg0Ip2C.jpeg', // 2
+    'https://i.imgur.com/doqI44d.jpeg', // 4
+    'https://i.imgur.com/FM0lzzV.jpeg', // 6
+    'https://i.imgur.com/ENbj5D3.jpeg', // 8
   ];
   return (
-    <div className='wallpaper'>
-      <div className="image-view">
-        <div className="image-row">
+    <div class="main">
+      <div class="image-view">
+        <div class="image-row">
           {imagePaths.slice(0, 4).map((path, index) => (
-            <div key={index} className="image-container">
-              <img className="image" src={path} alt={`Imagen ${index + 1}`} />
+            <div key={index} class="image-container">
+              <img class="image" src={path} alt={`Imagen ${index + 1}`} />
             </div>
           ))}
         </div>
-        <div className="image-row">
+        <div class="image-row">
           {imagePaths.slice(4).map((path, index) => (
-            <div key={index + 4} className="image-container">
-              <img className="image" src={path} alt={`Imagen ${index + 5}`} />
+            <div key={index + 4} classe="image-container">
+              <img class="image" src={path} alt={`Imagen ${index + 5}`} />
             </div>
           ))}
         </div>
       </div>
     </div>
-    
   );
 };

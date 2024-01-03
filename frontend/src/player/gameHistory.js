@@ -82,25 +82,23 @@ export default function GameHistory() {
 
     return(
         <div>
-            <Container fluid style={{ marginTop: "15px" }}>
-                <div class="containerGamesHistory"> 
-                    <div class="centered-rectangle mt-4">
-                            <h1 className="text-center">Games History</h1>
-                            <Table class='mt-4'>
-                            <thead>
-                                <tr>
-                                    <th>Mode</th>
-                                    <th>Creator</th>
-                                    <th>Players</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {getGamesList(games)}
-                            </tbody>
-                        </Table>
-                    </div>  
+            <div class="game-history-container" fluid>
+                <div class="game-history-section">
+                    <h1 className="text-center">Games History</h1>
+                    <Table class='mt-4'>
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Creator</th>
+                                <th>Players</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getGamesList(games)}
+                        </tbody>
+                    </Table>
                 </div>
-            </Container>
+            </div>
         </div>
 
     );
