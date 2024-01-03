@@ -93,9 +93,7 @@ public class GameService {
         players.add(toAddPlayer);
         toUpdate.setPlayers(players);
         toUpdate.setNumPlayers(players.size());
-        User user = userService.findCurrentUser();
-        Player p = playerService.findPlayerByUser(user);
-        return saveGame(toUpdate,p);
+        return saveGame(toUpdate,toAddPlayer);
     } 
 
     @Transactional()

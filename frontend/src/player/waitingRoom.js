@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import "../static/css/player/newGame.css";
 import "../static/css/player/quickWaitingRoom.css";
-import io from 'socket.io-client';
 import tokenService from '../services/token.service';
 
 export default function WaitingRoom(){
@@ -17,29 +16,6 @@ export default function WaitingRoom(){
     const [buttonClicked, setButtonClicked] = useState(false);
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
     const [friendUsername, setFriendUsername] = useState('');
-    // const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-
-    ; // Reemplaza con la URL de tu servidor
-
-    // useEffect(() => {
-    //     const socket = io('ws://localhost:8080',{
-    //     transports: ['websocket'],
-    //     extraHeaders:{
-    //         Authorization: `Bearer ${jwt}`
-    //     },  
-    // });
-    //     socket.on('/topic/shuffle-completed', (redirectUrl) => {
-    //         console.log("Reparto realizado");
-    //         window.location.href = `/player/game/${id}/${redirectUrl}`;
-    //     });
-
-    //     return () => {
-    //         // Desconectar el socket cuando el componente se desmonta
-    //         if (socket.connected) {
-    //             socket.disconnect();
-    //         }
-    //     };
-    // }, []);
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -134,7 +110,6 @@ export default function WaitingRoom(){
                 });
                 const updatedPlayerNames = await Promise.all(playersPromises);
                 setPlayerNames(updatedPlayerNames);
-                console.log(updatedPlayerNames);
             } catch (error) {
                 console.error("Error al obtener nombres de jugadores", error);
             }
@@ -160,7 +135,6 @@ export default function WaitingRoom(){
                 });
                 const playerNames = await Promise.all(playersPromises);
                 setPlayerNames(playerNames);
-                console.log(playerNames)
             }catch(error){
                 console.error("Error al obtener el nombre del jugador", error);
             }
@@ -183,6 +157,7 @@ export default function WaitingRoom(){
             if (response.ok) {
                 setFriendUsername(friendUsername);
                 alert("ENVIADA");
+
             } else {
                 const errorMessage = await response.text();
                 console.error('Error sending Invitation:', errorMessage);
@@ -196,7 +171,6 @@ export default function WaitingRoom(){
 
     const fetchData = async () => {
         try {
-            console.log("fetchData llamado");
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
             // Obtener información del juego
@@ -260,11 +234,8 @@ export default function WaitingRoom(){
         }
     };
 
-    console.log("Componente renderizado");
     useEffect(() => {
         fetchData();
-        console.log("hola")
-
         const intervalId = setInterval(() => {
             fetchData();
         }, 10000);

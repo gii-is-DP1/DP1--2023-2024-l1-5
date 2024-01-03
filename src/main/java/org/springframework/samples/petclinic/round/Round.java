@@ -47,7 +47,7 @@ public class Round extends BaseEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "game_id")
-    //@JsonIgnore
+    @JsonIgnore
     private Game game;
 
 }

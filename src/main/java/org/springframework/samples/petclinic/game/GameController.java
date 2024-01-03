@@ -202,29 +202,7 @@ public class GameController {
     }
 
 
-    // @PutMapping("ready/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<Game> updatePlayersCount(@PathVariable("id") Integer id) {
-    //     Optional<Game> optionalGame = gameService.getGameById(id);
-    //     if (!optionalGame.isPresent()) {
-    //         throw new ResourceNotFoundException("Game", "id", id);
-    //     }
-    
-    //     Game game = optionalGame.get();
-    //     int currentNumPlayers = game.getNumPlayers();
-        
-    //     // Restar un jugador si el número actual es mayor o igual a 0
-    //     if (currentNumPlayers >= 0) {
-    //         game.setNumPlayers(currentNumPlayers - 1);
-            
-    //         // Guardar el juego actualizado
-    //         Game savedGame = gameService.save(game);
-    
-    //         return new ResponseEntity<>(savedGame, HttpStatus.OK);
-    //     } else {
-    //         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    //     }
-    // }
+
     
 
     @PutMapping("/quick/joinInvitation/{game_id}")
@@ -234,6 +212,7 @@ public class GameController {
         Game game = gameService.getGameById(game_id).get();
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && game.getNumPlayers()<8) {
             Game savedGame = this.gameService.updateGame(player.getId(), game_id);
+            gameInfoService.updateGameInfo(game_id);
             return new ResponseEntity<>(savedGame, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
