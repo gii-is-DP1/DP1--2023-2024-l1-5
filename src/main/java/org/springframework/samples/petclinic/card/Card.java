@@ -2,23 +2,15 @@ package org.springframework.samples.petclinic.card;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.samples.petclinic.deck.Deck;
-import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.symbol.Symbol;
-import jakarta.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 
 import java.util.List;
 
