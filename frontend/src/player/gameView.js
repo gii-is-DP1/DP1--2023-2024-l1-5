@@ -86,38 +86,8 @@ export default function GameView() {
         if (playerId !== null) {
           gameView();
         }
-      }, [playerId]);
+    }, [playerId]);
     
-    // async function gameView() {
-    //     const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-        // const responseHand =
-        //     await fetch(`/api/v1/hands/player/${playerId}`,
-        //         {
-        //             method: 'GET',
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 Authorization: `Bearer ${jwt}`,
-        //             },
-        //         });
-        // if (responseHand.ok) {
-        //     const hand2 = await responseHand.json();
-        //     setCardImg(hand2.cards[0].image);
-        //     setHandAux(hand2.cards);
-        //     setHandSize(hand2.numCartas);
-        //     const card = hand2.cards[0];
-        //     nameSymbolsCard(card);
-        // } else {
-        //     console.log("Error al obtener la mano del jugador");
-        // }
-    //     const responseDeck = await getDeckByRoundId(roundId, jwt);
-    //     if (responseDeck.ok) {
-    //         const deck = await responseDeck.json();
-    //         setDeckImg(deck.cards[0].image);
-    //         nameSymbolsDeck(deck.cards[0]);
-    //     } else {
-    //         console.log("Error al obtener el deck");
-    //     }
-    // }
     async function gameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const responseHand =

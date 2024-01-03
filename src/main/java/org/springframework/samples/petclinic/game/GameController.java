@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.auth.payload.response.MessageResponse;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
@@ -18,6 +19,7 @@ import org.springframework.samples.petclinic.round.Round;
 import org.springframework.samples.petclinic.round.RoundService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -225,6 +227,18 @@ public class GameController {
     // }
     
 
+    @PutMapping("/quick/joinInvitation/{game_id}")
+    public ResponseEntity<Game> joinQuickGameById(@PathVariable("game_id") Integer game_id) {
+        User user = userService.findCurrentUser();
+        Player player = playerService.getPlayerByUserId(user.getId());
+        Game game = gameService.getGameById(game_id).get();
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true) && game.getNumPlayers()<8) {
+            Game savedGame = this.gameService.updateGame(player.getId(), game_id);
+            return new ResponseEntity<>(savedGame, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> updateGame(@PathVariable("id") Integer id,
@@ -272,6 +286,13 @@ public class GameController {
         Game savedGame = this.gameService.saveGame(game, p1);
 
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{gameId}/players/{currentUserId}")
+    public ResponseEntity<MessageResponse> deletePlayerFromGame(@PathVariable("gameId") Integer gameId,@PathVariable("currentUserId") Integer currentUserId) {
+        System.out.println(gameId);
+        gameService.deletePlayerFromGame(gameId, currentUserId);
+        return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
 
 }

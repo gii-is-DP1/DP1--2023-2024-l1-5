@@ -2,8 +2,10 @@ package org.springframework.samples.petclinic.player;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -161,4 +163,14 @@ public class PlayerControllerTest {
             .andExpect(jsonPath("$.firstName").value("UPDATED"))
             .andExpect(jsonPath("$.lastName").value("CHANGED"));
     }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"admin"}) 
+	public void shouldDeletePlayer() throws Exception {
+		when(this.playerService.getPlayerByUserId(TEST_USER_ID_LUCAS)).thenReturn(lucas);
+		
+	    doNothing().when(this.playerService).deletePlayer(TEST_USER_ID_LUCAS);
+	    mockMvc.perform(delete(BASE_URL + "/{id}", TEST_USER_ID_LUCAS).with(csrf()))
+	         .andExpect(status().isOk());
+	}
 }

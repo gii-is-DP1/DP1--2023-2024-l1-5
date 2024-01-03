@@ -139,4 +139,20 @@ public class GameService {
         }
         return result;
     }
+
+    @Transactional
+    public void deletePlayerFromGame(Integer gameId, Integer currentUserId) {
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));
+
+        Integer numPl = game.getNumPlayers();
+        numPl-=1;
+        game.setNumPlayers(numPl);
+
+        List<Player> players = game.getPlayers();
+        players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+        game.setPlayers(players);
+
+        gameRepository.save(game);
+    }
 }
+    
