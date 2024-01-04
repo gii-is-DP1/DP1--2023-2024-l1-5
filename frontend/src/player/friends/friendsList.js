@@ -209,9 +209,9 @@ export default function FriendsList() {
                         onChange={handleInputChange}
                     />
                     <br></br>
-                    <Button className="purple-button" onClick={sendFriendRequest}>
+                    <button className="purple-button" onClick={sendFriendRequest}>
                         Send Request
-                    </Button>
+                    </button>
                 </div>
             </div>
             {requests.length > 0 && <InvitationFloatingBox invitations={requests} />}

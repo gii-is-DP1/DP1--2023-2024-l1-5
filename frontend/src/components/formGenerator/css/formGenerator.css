@@ -5,8 +5,8 @@
   --color-error: #cc0033;
   --color-error-background: #fce4e4;
   --color-border-disabled: #706c6c;
-  --main-button-hover-dark-color: #23c483;
-  --main-button-hover-light-color: #23c483;
+  --main-button-hover-dark-color: rgba(120, 40, 150, 0.7);
+  --main-button-hover-light-color: rgba(120, 40, 150, 0.7);
   --main-button-shadow-hover-color: rgba(0,0,0,0.4);
   --main-black: #111;
 }

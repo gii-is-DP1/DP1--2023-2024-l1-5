@@ -75,7 +75,9 @@ export default function GameHistory() {
 
     useEffect(() => {
         setUp();
-    }, [games, playerGames]);
+    }, []);
+
+    useEffect(() => {}, [games, playerGames])
 
     return(
         <div class="wallpaper">

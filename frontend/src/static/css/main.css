@@ -1,11 +1,15 @@
 .wallpaper {
     padding-top: 66px;
-    margin: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/dobble_bg.jpeg'); 
-    background-size: cover; 
-    background-attachment: fixed; 
-    background-position: center; 
-    height: 100vh; 
+    margin: 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
 
 .page {
@@ -14,10 +18,35 @@
     justify-content: space-around;
     align-items: stretch;
     width: 90%;
+    height: auto;
 }
 
 .section {
     width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 3px solid rgba(120, 40, 150, 0.7);
+    border-radius: 2.25rem;
+    background-color: rgb(245, 245, 245);
+    margin: 25px 0;
+}
+
+.big-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 3px solid rgba(120, 40, 150, 0.7);
+    border-radius: 2.25rem;
+    background-color: rgb(245, 245, 245);
+    margin: 25px 0;
+}
+
+.small-section {
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,4 +95,13 @@ table img {
 
 .purple-button:active {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/dobble_bg.jpeg'); 
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-position: center; 
 }
