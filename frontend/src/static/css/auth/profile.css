@@ -1,42 +1,9 @@
-.profile-page-container {
-  height: 100vh; 
-  width: 100vw; 
-  margin: 0; 
-  padding: 0; 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_bg.jpeg');
-  background-size: cover;
-  background-attachment: fixed;
-  overflow: auto; 
-}
-
-
-.profile-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  width: 100%;
-}
-
-.profile-section, .achievements-section {
-  width: 45%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border: 3px solid rgba(120, 40, 150, 0.6);
-  border-radius: 2.25rem;
-  background-color: rgb(245, 245, 245);
-  margin: 25px 0;
-}
-
 .profile-image {
-  height: auto;
-  width: 150px;
+  height: 250px;
+  width: auto;
   border-radius: 20%;
+  margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .profile-data {
@@ -44,75 +11,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-around;
   align-items: center;
-  position: relative;
   top: 0;
   left: 0;
-}
-
-.profile-auth-button {
-  padding: 1.3em 3em;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: solid 2px rgba(120, 40, 150, 0.6);
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-}
-
-.profile-auth-button:hover {
-  background-color: var(--main-green-color);
-  box-shadow: 0px 15px 20px rgba(120, 40, 150, 0.6);
-  color: #fff;
-  transform: translateY(-7px);
-}
-
-.profile-auth-button.blue {
-  border: solid 2px rgba(120, 40, 150, 0.6);
-}
-
-.profile-auth-button.blue:hover {
-  background-color: rgba(120, 40, 150, 0.6);
-  box-shadow: 0px 15px 20px rgba(120, 40, 150, 0.6);
-}
-
-.button-container-edit {
-  margin-top: 20px;
-  align-self: flex-start;
-}
-
-.button-container-back {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  position: relative;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-}
-
-.achievement-table {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.achievement-table th, .achievement-table td {
-  text-align: center;
-  padding: 5px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
 }
 
 .toggle-buttons {
@@ -125,7 +27,7 @@
 .toggle-button {
   padding: 5px 10px;
   background-color: #f0f0f0;
-  border: 1px solid rgba(120, 40, 150, 0.6);
+  border: 1px solid rgba(120, 40, 150, 0.7);
   cursor: pointer;
   min-width: 100px;
   white-space: nowrap;
@@ -134,32 +36,7 @@
 }
 
 .toggle-button.active {
-  background-color: rgba(120, 40, 150, 0.6); 
+  background-color: rgba(120, 40, 150, 0.7); 
   color: white;
   font-weight: bold;
-}
-
-.toggle-button:focus {
-  outline: none;
-}
-
-.achievement-table img {
-  width: 50px;
-  height: auto;
-  border-radius: 50%;
-}
-
-@media screen and (max-width: 768px) {
-  .profile-container {
-    flex-direction: column;
-  }
-
-  .profile-section, .achievements-section {
-    width: 90%;
-  }
-
-  .button-container-back, .button-container-edit {
-    position: static;
-    margin: 10px 0;
-  }
 }

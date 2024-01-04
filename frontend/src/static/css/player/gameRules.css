@@ -1,28 +1,21 @@
-.main {
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_bg.jpeg');
-  background-size: cover;
-  background-attachment: fixed;
-}
-
 .image-view {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .image-row {
   display: flex;
-  justify-content: space-around;
-}
-
-.image-container {
-  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 50px;
 }
 
 .image {
-  width: 90%;
-  height: auto;
-  border-radius: 55%;
-  border: 2px solid rgba(120, 40, 150, 0.6);
+  width: auto;
+  height: 43vh;
+  border-radius: 50%;
+  border: 2px solid rgba(120, 40, 150, 0.7);
 }

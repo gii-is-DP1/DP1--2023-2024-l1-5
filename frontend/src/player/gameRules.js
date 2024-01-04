@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import "../static/css/main.css"
 import "../static/css/player/gameRules.css"
 
 export default function GameRules() {
@@ -14,18 +15,18 @@ export default function GameRules() {
     'https://i.imgur.com/ENbj5D3.jpeg', // 8
   ];
   return (
-    <div class="main">
+    <div class="wallpaper">
       <div class="image-view">
         <div class="image-row">
           {imagePaths.slice(0, 4).map((path, index) => (
-            <div key={index} class="image-container">
+            <div key={index}>
               <img class="image" src={path} alt={`Imagen ${index + 1}`} />
             </div>
           ))}
         </div>
         <div class="image-row">
           {imagePaths.slice(4).map((path, index) => (
-            <div key={index + 4} classe="image-container">
+            <div key={index + 4}>
               <img class="image" src={path} alt={`Imagen ${index + 5}`} />
             </div>
           ))}

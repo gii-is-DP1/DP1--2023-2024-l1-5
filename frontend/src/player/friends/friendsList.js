@@ -1,6 +1,6 @@
 import React, { useState,useEffect }  from 'react';
 import "../../static/css/player/friends.css";
-import '../../static/css/player/floatingBox.css';
+import "../../static/css/main.css"
 import tokenService from '../../services/token.service';
 import { Table, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -174,13 +174,13 @@ export default function FriendsList() {
                     {modalContent}
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={closeAndClearInput}>Close</Button>
+                    <Button className='purple-button' onClick={closeAndClearInput}>Close</Button>
                 </ModalFooter>
             </Modal>
-            <div className="container">
-                <div className="half-width mt-4">
+            <div className='page'>
+                <div className="section">
                     <h1 className="text-center">FriendsList</h1>
-                        <Table class='mt-4'>
+                        <Table className='table'>
                             <thead>
                                 <tr>
                                     <th>Nickname</th>
@@ -197,24 +197,24 @@ export default function FriendsList() {
                             </tbody>
                         </Table>
                 </div>
-                <div className="half-width mt-4">
+                <div className="section">
                     <h1 className="text-center">Add Friends</h1>
-                        <label>Insert here your friend username!</label>
-                        <br />
-                        <br />
-                        <Input
-                            type="text"
-                            placeholder="Enter username"
-                            value={friendUsername}
-                            onChange={handleInputChange}
-                        />
-                        <br />
-                        <Button color="primary" onClick={sendFriendRequest}>
-                            Send Request
-                        </Button>
+                    <br></br>
+                    <br></br>
+                    <label>Insert here your friend username!</label>
+                    <Input
+                        type="text"
+                        placeholder="Enter username"
+                        value={friendUsername}
+                        onChange={handleInputChange}
+                    />
+                    <br></br>
+                    <Button className="purple-button" onClick={sendFriendRequest}>
+                        Send Request
+                    </Button>
                 </div>
-                {requests.length > 0 && <InvitationFloatingBox invitations={requests} />}
             </div>
+            {requests.length > 0 && <InvitationFloatingBox invitations={requests} />}
         </div>
     );
 }

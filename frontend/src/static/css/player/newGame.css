@@ -102,7 +102,7 @@
     bottom: 0;
     z-index: -1;
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-        url('../../images/dobble_background.jpg');
+        url('../../images/dobble_bg.jpeg');
     background-size: cover;
     display: flex;
     justify-content: center;
