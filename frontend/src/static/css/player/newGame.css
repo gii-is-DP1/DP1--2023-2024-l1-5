@@ -8,6 +8,13 @@
     justify-content: center;
 }
 
+.button.disabled {
+    opacity: 0.6; /* Opacidad reducida para indicar que está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
+    pointer-events: none; /* Evita que se pueda hacer clic en el botón */
+    /* Agrega otros estilos visuales según tus preferencias */
+  }
+
 .error {
     color: red;
     font-size: 12pt;

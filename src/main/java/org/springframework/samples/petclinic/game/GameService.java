@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +44,14 @@ public class GameService {
         if(hasActiveGame){
             throw new ActiveGameException("El jugador ya tiene una partida activa");
         }
-        gameRepository.save(game);
-        return game;
+        return gameRepository.save(game);
     }
+
+    @Transactional
+    public Game save(Game game){
+        return gameRepository.save(game);
+    }
+
     @Transactional(readOnly=true)
     public List<Game> getAllGames(){
         return gameRepository.findAll();
@@ -73,10 +78,11 @@ public class GameService {
     }
     @Transactional(readOnly=true)
     public Boolean hasActiveGame(Player player){
-        List<Game> playerGames = gameRepository.findPlayerCreatedGames(player.getId());
-        Boolean result = false;
-        for(Game game: playerGames){
-            result = result || game.getStatus().equals(GameStatus.WAITING) || game.getStatus().equals(GameStatus.IN_PROGRESS);
+        Game wGame = gameRepository.findWaitingPlayerGame(player.getId());
+        Game iGame = gameRepository.findInProgressPlayerGame(player.getId());
+        Boolean result = true;
+        if(wGame == null && iGame == null){
+            result = false;
         }
         return result;
     }
@@ -84,17 +90,25 @@ public class GameService {
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
         Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
+        boolean hasActiveGame = hasActiveGame(toAddPlayer);
+        if(hasActiveGame){
+            throw new ActiveGameException("El jugador ya tiene una partida activa");
+        }
         Game toUpdate= getGameById(idGame).get();
-        toUpdate.getPlayers().add(toAddPlayer);
-        Integer num  = toUpdate.getNumPlayers();
-        num +=1;
-        toUpdate.setNumPlayers(num);
-        User user = userService.findCurrentUser();
-        Player p = playerService.findPlayerByUser(user);
-        return saveGame(toUpdate,p);
+        List<Player> players = toUpdate.getPlayers();
+        players.add(toAddPlayer);
+        toUpdate.setPlayers(players);
+        toUpdate.setNumPlayers(players.size());
+        return save(toUpdate);
     } 
 
-    
+    @Transactional()
+    public Game updateWinner(Integer idPlayer, Game g){
+        Game toSave = new Game();
+        BeanUtils.copyProperties(g, toSave,"id");
+        toSave.setWinner(idPlayer);
+        return save(toSave);
+    }
 
     @Transactional(readOnly=true)
     public Optional<Game> getRandomGame(String gameMode){

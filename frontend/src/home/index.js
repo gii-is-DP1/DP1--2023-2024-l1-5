@@ -103,10 +103,10 @@ export default function Home(){
                                         <a>{invitation.source_user}</a>
                                     </span>
                                     <span style={{ marginRight: '5px' }}>
-                                        <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
+                                        <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.game.id, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
                                     </span>
                                     <span>
-                                        <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
+                                        <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.game.id, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
                                     </span>
                                 </div>
                             </li>
@@ -121,7 +121,7 @@ export default function Home(){
         getOnlineFriendsList();
     }, []);
 
-    async function handleButton(game, invitationId, action) {
+    async function handleButton(game,gameId, invitationId, action) {
         if (action == "ACEPTAR"){
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
             const invitationResponse = await fetch(`/api/v1/invitations/acceptRequest/${invitationId}`,
@@ -133,9 +133,10 @@ export default function Home(){
                 },
             });
             if(invitationResponse.ok){
+
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
-                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${game.id}`,
+                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${gameId}`,
                 {
                     method: 'PUT',
                     headers: {

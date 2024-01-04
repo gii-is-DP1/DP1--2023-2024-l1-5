@@ -142,9 +142,13 @@ export default function QuickPlay() {
             if(response3.ok){
                 const data = await response3.json();
                 window.location.href = `/game/quickPlay/${data.id}`;
-        } else{
-            console.error("Error al crear la partida", response3.statusText);
-            setError3("Error al crear la partida. Ya perteneces a una partida");
+        } else if(response3.status === 409){
+            console.error("Error al unirse a una partida.", response3.statusText);
+            setError3("Error al unirse a una partida. No existen partidas disponibles");
+        }
+        else {
+            console.error("Error al unirse a una partida.", response3.statusText);
+            setError3("Error al unirse a una partida. Ya perteneces a una partida");
 
         }}
         catch(error) {

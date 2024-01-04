@@ -25,7 +25,9 @@ INSERT INTO appusers(id,username,password,authority) VALUES
 (216,'player17','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (217,'player18','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
 (218,'player19','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
-(300,'playerX','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
+(219,'player20','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(220,'player21','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5),
+(221,'player22','$2a$10$aeypcHWSf4YEkDAF0d.vjOLu94aS40MBUb4rOtDncFxZdo2wpkt8.',5);
 
 
 -- Associate PLAYERS with users
@@ -48,96 +50,103 @@ INSERT INTO players(id,first_name,last_name,image,user_id,playerUsername) VALUES
 (16,'Ronald6','Montoya6','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',215,'rM_696'),
 (17,'Manuel7','Orta7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',216,'manuel_orta'),
 (18,'Ronald7','Montoya7','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',217,'ronM_7'),
-(19,'Manuel8','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_888'),
-(300,'xxxxxxx','xxxxxxxx','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',300,'xxxxxxxx');
-
+(19,'prueba1','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',218,'mOrta_88'),
+(20,'prueba2','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',219,'mOrta_8'),
+(21,'prueba3','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',220,'mOrta_'),
+(22,'preba4','Orta8','https://img.freepik.com/vector-premium/icono-perfil-avatar_188544-4755.jpg',221,'mOrta');
 
 
 -- GAMES
 
 -- PARTIDA 1
 -- Creador: Player 1
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
--- Jugadores PARTIDA 1
-INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
--- RONDA DE LA PARTIDA 1
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
+-- --- INFORMACION DE LA PARTIDA 1
+-- INSERT INTO games_info(id, game_mode, num_players, winner_id, creator_id, game_time, game_status, game_id) 
+-- VALUES (1, 'QUICK_PLAY', 4, 2, 1, 80, 'IN_PROGRESS', 1);
 
--- PARTIDA 2
--- Creador: Player 2
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
--- Jugadores PARTIDA 2
-INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
-INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
-INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
+-- -- Jugadores PARTIDA 1
+-- INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
+-- -- RONDA DE LA PARTIDA 1
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
 
---PARTIDA 3
--- Creador: Player 6
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
--- Jugadores PARTIDA 3
-INSERT INTO player_games(player_id, game_id) VALUES(7, 3);
-INSERT INTO player_games(player_id, game_id) VALUES(6, 3);
-INSERT INTO player_games(player_id, game_id) VALUES(4, 3);
-INSERT INTO player_games(player_id, game_id) VALUES(5, 3);
--- RONDA DE LA PARTIDA 3
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,6,4,135,'INFERNAL_TOWER',3);
+-- -- PARTIDA 2
+-- -- Creador: Player 2
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+-- -- Jugadores PARTIDA 2
+-- INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
+-- INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
+-- INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
 
--- PARTIDA 4
--- Creador: Player 4
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',2,3,4,200,'IN_PROGRESS');
---Jugadores PARTIDA 4
-INSERT INTO player_games(player_id, game_id) VALUES(4, 4);
-INSERT INTO player_games(player_id, game_id) VALUES(16, 4);
--- RONDA DE LA PARTIDA 4
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,1,50,'INFERNAL_TOWER',4);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4,4,1,100,'PIT',4);
+-- --PARTIDA 3
+-- -- Creador: Player 6
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (3,'QUICK_PLAY',4,3,6,135,'IN_PROGRESS');
+-- -- Jugadores PARTIDA 3
+-- INSERT INTO player_games(player_id, game_id) VALUES(7, 3);
+-- INSERT INTO player_games(player_id, game_id) VALUES(6, 3);
+-- INSERT INTO player_games(player_id, game_id) VALUES(4, 3);
+-- INSERT INTO player_games(player_id, game_id) VALUES(5, 3);
+-- -- RONDA DE LA PARTIDA 3
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(2,6,4,135,'INFERNAL_TOWER',3);
 
--- PARTIDA 5
--- Creador: Player 5
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
---Jugadores PARTIDA 5
-INSERT INTO player_games(player_id, game_id) VALUES(5, 5);
-INSERT INTO player_games(player_id, game_id) VALUES(14, 5);
-INSERT INTO player_games(player_id, game_id) VALUES(15, 5);
+-- -- PARTIDA 4
+-- -- Creador: Player 4
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (4,'COMPETITIVE',2,3,4,200,'IN_PROGRESS');
+-- --Jugadores PARTIDA 4
+-- INSERT INTO player_games(player_id, game_id) VALUES(4, 4);
+-- INSERT INTO player_games(player_id, game_id) VALUES(16, 4);
+-- -- RONDA DE LA PARTIDA 4
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(3,4,1,50,'INFERNAL_TOWER',4);
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(4,4,1,100,'PIT',4);
+
+-- -- PARTIDA 5
+-- -- Creador: Player 5
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (5,'QUICK_PLAY',3,3,5,30,'WAITING');
+-- --Jugadores PARTIDA 5
+-- INSERT INTO player_games(player_id, game_id) VALUES(5, 5);
+-- INSERT INTO player_games(player_id, game_id) VALUES(14, 5);
+-- INSERT INTO player_games(player_id, game_id) VALUES(15, 5);
 
 
--- PARTIDA 6
--- Creador: Player 9
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (6,'QUICK_PLAY',3,3,9,30,'FINALIZED');
---Jugadores PARTIDA 6
-INSERT INTO player_games(player_id, game_id) VALUES(9, 6);
-INSERT INTO player_games(player_id, game_id) VALUES(10, 6);
-INSERT INTO player_games(player_id, game_id) VALUES(11, 6);
--- RONDA DE LA PARTIDA 6
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(5,9,10,30,'INFERNAL_TOWER',6);
+-- -- PARTIDA 6
+-- -- Creador: Player 9
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (6,'QUICK_PLAY',3,3,9,30,'FINALIZED');
+-- --Jugadores PARTIDA 6
+-- INSERT INTO player_games(player_id, game_id) VALUES(9, 6);
+-- INSERT INTO player_games(player_id, game_id) VALUES(10, 6);
+-- INSERT INTO player_games(player_id, game_id) VALUES(11, 6);
+-- -- RONDA DE LA PARTIDA 6
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(5,9,10,30,'INFERNAL_TOWER',6);
 
--- PARTIDA 7
--- Creador: Player 10
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (7,'COMPETITIVE',3,3,10,30,'FINALIZED');
---Jugadores PARTIDA 7
-INSERT INTO player_games(player_id, game_id) VALUES(10, 7);
-INSERT INTO player_games(player_id, game_id) VALUES(11, 7);
-INSERT INTO player_games(player_id, game_id) VALUES(12, 7);
--- RONDA DE LA PARTIDA 7
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6,10,11,10,'INFERNAL_TOWER',7);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
-INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
+-- -- PARTIDA 7
+-- -- Creador: Player 10
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (7,'COMPETITIVE',3,3,10,30,'FINALIZED');
+-- --Jugadores PARTIDA 7
+-- INSERT INTO player_games(player_id, game_id) VALUES(10, 7);
+-- INSERT INTO player_games(player_id, game_id) VALUES(11, 7);
+-- INSERT INTO player_games(player_id, game_id) VALUES(12, 7);
+-- -- RONDA DE LA PARTIDA 7
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(6,10,11,10,'INFERNAL_TOWER',7);
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(7,10,11,10,'PIT',7);
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(8,10,11,10,'INFERNAL_TOWER',7);
 
--- Inserta una registro de Hand
-INSERT INTO hands(id,num_cards, round_id, player_id) VALUES
-(1,6,1,1),
-(2,4,2,2),
-(3,4,4,4);
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (8,'QUICK_PLAY',3,14,13,30,'WAITING');
 
+-- INSERT INTO player_games(player_id, game_id) VALUES(18, 8);
+-- INSERT INTO player_games(player_id, game_id) VALUES(19, 8);
+
+
+-- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(9,10,11,10,'PIT',8);
 -- Inserta un registro de Deck
-INSERT INTO decks(id, number_of_cards, round_id) VALUES 
-(1, 16, 1),
-(2, 44, 2),
-(3, 44, 3),
-(4, 44, 4);
+INSERT INTO decks(id, number_of_cards) VALUES 
+(1, 16),
+(2, 44),
+(3, 44),
+(4, 44),
+(5, 44);
 
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1, 18, 19, 'ACCEPTED'), (2, 18, 17, 'WAITING'), (3, 19, 17, 'ACCEPTED'), (4, 19, 10, 'WAITING'),
@@ -157,11 +166,11 @@ INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 
 
 
-INSERT INTO invitations(id, destination_user, source_user, invitation_state, game_id) VALUES 
-(1, 'Guille8', 'Lucas24', 'ACCEPTED',1),
-(2, 'Alvaro2', 'Guille12', 'PENDING',1),
-(69, 'xxxxxxxx', 'Alvaro2', 'PENDING', 1),
-(3, 'Lucas2', 'Nico1', 'REFUSED',1);
+-- INSERT INTO invitations(id, destination_user, source_user, invitation_state, game_id) VALUES 
+-- (1, 'Guille8', 'Lucas24', 'ACCEPTED',1),
+-- (2, 'Alvaro2', 'Guille12', 'PENDING',1),
+-- (69, 'xxxxxxxx', 'Alvaro2', 'PENDING', 1),
+-- (3, 'Lucas2', 'Nico1', 'REFUSED',1);
 
 -- Inserta un registro de Achievement
 INSERT INTO achievements(id, name, description, image_url, threshold, metric) VALUES
@@ -221,24 +230,23 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES
 INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
 
-INSERT INTO cards(id, image, deck_id, hand_id) VALUES 
-(1, 'https://i.imgur.com/pbHhrvm.jpeg',1,null),
-(2, 'https://i.imgur.com/I6Id6Ta.jpeg',1,null),
-(3, 'https://i.imgur.com/4kI9vYZ.jpeg',1,null),
-(4, 'https://i.imgur.com/3fugva3.jpeg',null,1),
-(5, 'https://i.imgur.com/Kxl8nZD.jpeg',null,1),
-(6, 'https://i.imgur.com/MWUOfw1.jpeg',null,2),
-(7, 'https://i.imgur.com/y3hnnjZ.jpeg',2,null),
-(8, 'https://i.imgur.com/kx7n6FM.jpeg',2,null),
-(9, 'https://i.imgur.com/CasQYx8.jpeg',3,null),
-(10, 'https://i.imgur.com/1mC2EW8.jpeg',null,2),
-(11, 'https://i.imgur.com/VswRlaY.jpeg',null,3),
-(12, 'https://i.imgur.com/AfC2ihF.jpeg',null,3),
-(13, 'https://i.imgur.com/ARussRh.jpeg',4,null),
-(14, 'https://i.imgur.com/owic8Ou.jpeg',4,null),
-(15, 'https://i.imgur.com/Rl8yaMu.jpeg',4,null),
-(16, 'https://i.imgur.com/VaXKfLq.jpeg',null,3);
-
+ INSERT INTO cards(id, image) VALUES 
+(1, 'https://i.imgur.com/pbHhrvm.jpeg'),
+(2, 'https://i.imgur.com/I6Id6Ta.jpeg'),
+(3, 'https://i.imgur.com/4kI9vYZ.jpeg'),
+(4, 'https://i.imgur.com/3fugva3.jpeg'),
+(5, 'https://i.imgur.com/Kxl8nZD.jpeg'),
+(6, 'https://i.imgur.com/MWUOfw1.jpeg'),
+(7, 'https://i.imgur.com/y3hnnjZ.jpeg'),
+(8, 'https://i.imgur.com/kx7n6FM.jpeg'),
+(9, 'https://i.imgur.com/CasQYx8.jpeg'),
+(10, 'https://i.imgur.com/1mC2EW8.jpeg'),
+(11, 'https://i.imgur.com/VswRlaY.jpeg'),
+(12, 'https://i.imgur.com/AfC2ihF.jpeg'),
+(13, 'https://i.imgur.com/ARussRh.jpeg'),
+(14, 'https://i.imgur.com/owic8Ou.jpeg'),
+(15, 'https://i.imgur.com/Rl8yaMu.jpeg'),
+(16, 'https://i.imgur.com/VaXKfLq.jpeg');
 --Se han declarado todos los simbolos
 INSERT INTO symbols(name) VALUES
 ('DOLPHIN'),
@@ -273,8 +281,8 @@ INSERT INTO symbols(name) VALUES
 ('BIRD'),
 ('WATER');
 
--- Carta ID: 1
-INSERT INTO card_symbols(card_id, symbol) VALUES
+--Carta ID: 1
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (1,'DOLPHIN'),
 (1,'GLASSES'),
 (1,'THUNDER'),
@@ -283,7 +291,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (1,'SHOT');
 
 -- Carta ID: 2
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (2,'EXCLAMATION'),
 (2,'GHOST'),
 (2,'HAMMER'),
@@ -292,7 +300,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (2,'PENCIL');
 
 -- Carta ID: 3
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (3,'APPLE'),
 (3,'GLASSES'),
 (3,'BABY_BOTTLE'),
@@ -301,7 +309,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (3,'TURTLE');
 
 -- Carta ID: 4
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (4,'BABY_BOTTLE'),
 (4,'LADYBUG'),
 (4,'HAMMER'),
@@ -310,7 +318,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (4,'YIN_YAN');
 
 -- Carta ID: 5
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (5,'GLASSES'),
 (5,'CLOVER'),
 (5,'INTERROGATION'),
@@ -319,7 +327,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (5,'SPIDER');
 
 -- Carta ID: 6
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (6,'SCISSORS'),
 (6,'ZEBRA'),
 (6,'APPLE'),
@@ -328,7 +336,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (6,'IGLOO');
 
 -- Carta ID: 7
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (7,'KEY'),
 (7,'INTERROGATION'),
 (7,'TURTLE'),
@@ -337,7 +345,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (7,'SHOT');
 
 -- Carta ID: 8
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (8,'CACTUS'),
 (8,'LADYBUG'),
 (8,'EYE'),
@@ -346,7 +354,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (8,'CHEESE');
 
 -- Carta ID: 9
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (9,'TURTLE'),
 (9,'CLOVER'),
 (9,'ZEBRA'),
@@ -355,7 +363,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (9,'DOG');
 
 -- Carta ID: 10
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (10,'SNOWMAN'),
 (10,'CACTUS'),
 (10,'APPLE'),
@@ -364,7 +372,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (10,'CLOWN');
 
 -- Carta ID: 11
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (11,'EXCLAMATION'),
 (11,'TURTLE'),
 (11,'BIRD'),
@@ -373,7 +381,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (11,'LADYBUG');
 
 -- Carta ID: 12
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (12,'WATER'),
 (12,'CLOVER'),
 (12,'APPLE'),
@@ -382,7 +390,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (12,'EYE');
 
 -- Carta ID: 13
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (13,'INTERROGATION'),
 (13,'EYE'),
 (13,'BIRD'),
@@ -391,7 +399,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (13,'DOLPHIN');
 
 -- Carta ID: 14
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (14,'CACTUS'),
 (14,'BIRD'),
 (14,'CAT'),
@@ -400,7 +408,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (14,'CLOVER');
 
 -- Carta ID: 15
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (15,'KEY'),
 (15,'SCISSORS'),
 (15,'EYE'),
@@ -409,7 +417,7 @@ INSERT INTO card_symbols(card_id, symbol) VALUES
 (15,'EXCLAMATION');
 
 -- Carta ID: 16
-INSERT INTO card_symbols(card_id, symbol) VALUES
+INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (16,'BIRD'),
 (16,'SCISSORS'),
 (16,'GLASSES'),
