@@ -17,6 +17,7 @@ export default function GameView() {
     const { roundId } = useParams();
     const{id} =useParams();
     const[game,setGame]=useState({});
+    const [prevDeckImg, setPrevDeckImg] = useState(null);
 
 
     // useEffect(() => {
@@ -51,23 +52,44 @@ export default function GameView() {
         if (myplayer.ok) {
             const data = await myplayer.json();
             setPlayerId(data.id);
-
-
         }
-
-
     }
     useEffect(() => {
         setUp();
     }, []);
 
 
+    async function getDeckByRoundId(roundId, jwt) {
+        try {
+            const response = await fetch(`/api/v1/decks/round/${roundId}`, {
+                method: 'GET',
+                headers: {
+                Authorization: `Bearer ${jwt}`,
+                'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                // const deck = await response.json();
+                return response;
+            } else {
+                console.error('Error al obtener la baraja por ID de ronda');
+                return null;
+            }
+            } catch (error) {
+            console.error('Error en la solicitud:', error);
+            return null;
+            }
+    }
 
-    useEffect(() => { gameView() }, [playerId]);
+    // useEffect(() => { gameView() }, [playerId]);
+    useEffect(() => {
+        if (playerId !== null) {
+          gameView();
+        }
+    }, [playerId]);
     
     async function gameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-
         const responseHand =
             await fetch(`/api/v1/hands/player/${playerId}`,
                 {
@@ -84,29 +106,32 @@ export default function GameView() {
             setHandSize(hand2.numCartas);
             const card = hand2.cards[0];
             nameSymbolsCard(card);
-
+        } else {
+            console.log("Error al obtener la mano del jugador");
         }
-        else {
-            console.log("error");
-        }
+        const fetchDeck = async () => {
+            const responseDeck = await getDeckByRoundId(roundId, jwt);
+        
+            if (responseDeck.ok) {
+                const deck = await responseDeck.json();
+                setDeckImg(deck.cards[0].image);
+                nameSymbolsDeck(deck.cards[0]);
+            } else {
+                console.log("Error al obtener el deck");
+            }
+        };
+      
+        // Ejecutar fetchDeck inmediatamente al iniciar gameView
+        await fetchDeck();
+      
+        // Establecer intervalo para ejecutar fetchDeck cada segundo
+        const interval = setInterval(fetchDeck, 1000);
 
-        const responseDeck =
-            await fetch(`/api/v1/decks/round/${roundId}`, 
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                        "Content-Type": "application/json",
-                    },
-                })
-        if (responseDeck.ok) {
-            const deck = await responseDeck.json();
-            console.log(deck)
-            setDeckImg(deck.cards[0].image);
-            nameSymbolsDeck(deck.cards[0]);
-
-        }
+        // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
+        return () => clearInterval(interval);
     }
+      
+    //  IMPORTANTE QUE NO SE USE EL FETCH DECK UNA VEZ TERMINADA LA PARTIDA
     const winner = async()=>{
         try{
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -131,43 +156,63 @@ export default function GameView() {
     }
 
 
-    async function handleButton(event) {
+    useEffect(() => {
+        if (prevDeckImg !== deckImg) {
+          // Realizar acciones si deckImg ha cambiado
+          // Por ejemplo, aquí podrías ejecutar una función o realizar una lógica específica
+          console.log('deckImg ha cambiado:', deckImg);
+          // Realizar cualquier acción necesaria después de que deckImg cambie
+    
+          // Después de realizar la acción, actualiza el estado previo de deckImg
+          setPrevDeckImg(deckImg);
+        }
+      }, [deckImg, prevDeckImg]);
 
+
+    async function handleButton(event) {
+        const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const symbolaux = event.target.textContent;
-        console.log(deckSymbols)
         const lsauxButt = deckSymbols.map(deckSymbol => deckSymbol);
-        console.log(lsauxButt)
-        console.log("1",handAux)
-        console.log("handSize", handSize)
 
 
         if (lsauxButt.includes(symbolaux)) {
             if (handSize > 1) {
-                console.log("HANDAUX", handAux)
                 const newSymbolsCard = handAux[1];
-                const newSymbolsDeck = handAux[0];
-                console.log("new card",newSymbolsCard)
-                console.log("new deck",newSymbolsDeck)
                 const newImg = handAux[1].image;
                 const updateHandAux = handAux.slice(1);
                 const newSize = handSize - 1;
+                const cardId = handAux[0].id;
+                try {
+                    const response = await fetch(`/api/v1/decks/round/${roundId}?cardId=${cardId}`, {
+                        method: 'PUT',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    });
+                    if (response.ok) {
+                        const responseDeck = await getDeckByRoundId(roundId, jwt);
+                        const updatedDeck = await responseDeck.json();
+                        setDeckImg(updatedDeck.cards[0].image);
+                        nameSymbolsDeck(updatedDeck.cards[0]);
+                        console.log(updatedDeck.cards[0]);
+                        
+                    } else {
+                        console.error("Error al actualizar el deck", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error al actualizar el deck", error);
+                }
+                
+
                 setCardImg(newImg);
-                setDeckImg(handAux[0].image);
-                nameSymbolsDeck(newSymbolsDeck);
                 nameSymbolsCard(newSymbolsCard);
                 setHandAux(updateHandAux);
                 setHandSize(newSize);
-                console.log(handSize);
-                console.log(newSize);
-                console.log(updateHandAux);
 
             } else {
-                winner();
-                console.log("GANADOR");
+                // winner();
                 alert("Enhorabuena! Has ganado la partida");
-
-                
-                
             }
         }
     }
@@ -266,9 +311,6 @@ return (
             </div>
         </div>
     </div>
-
-
-
-)
+    )
 }
 

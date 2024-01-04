@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
+import org.springframework.samples.petclinic.exceptions.PlayerNotFoundException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,6 +49,10 @@ public class ExceptionHandlerConfiguration
     }
     @ExceptionHandler(FriendshipExistsException.class)
     public ResponseEntity<String> handleFriendshipExistsException(FriendshipExistsException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(PlayerNotFoundException.class)
+    public ResponseEntity<String> handlePlayerNotFoundException(PlayerNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

@@ -41,3 +41,35 @@
 .NavbarBrand {
   margin-left: 20px;
 }
+
+.aceptar-boton {
+  background-color: #4CAF50; 
+  color: white;
+  padding: 8px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rechazar-boton {
+  background-color: #f44336; 
+  color: white;
+  padding: 8px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.invite-boton {
+  background-color: #2196F3; 
+  color: white;
+  padding: 8px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+}

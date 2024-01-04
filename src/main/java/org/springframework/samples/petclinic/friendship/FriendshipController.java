@@ -32,6 +32,7 @@ public class FriendshipController {
     private static final String PLAYER_AUTH = "PLAYER";
     private static final String stateALL = "ALL";
     private static final String statePLAYING = "PLAYING";
+    private static final String stateNOTPLAYING = "NOTPLAYING";
     private static final String stateACTIVE = "ACTIVE";
 
     @Autowired
@@ -71,6 +72,12 @@ public class FriendshipController {
         return new ResponseEntity<>(friendshipService.getFriends(playerId, stateACTIVE), HttpStatus.OK);
     }
 
+    @GetMapping("/friends/notplaying/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Player>> getFriendsNotPlaying(@PathVariable("playerId") Integer playerId){
+        return new ResponseEntity<>(friendshipService.getFriends2(playerId, "NOTPLAYING"), HttpStatus.OK);
+    }
+
     @PostMapping("{username}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Friendship> createFriendship(@PathVariable("username") String username){
@@ -79,7 +86,7 @@ public class FriendshipController {
         Player playerDst = playerService.getPlayerByUsername(username);
         if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
             Player player = playerService.findPlayerByUser(user);
-            newFriendship.setUser_source(playerService.getPlayerById(player.getId()).get());
+            newFriendship.setUser_source(player);
             newFriendship.setUser_dst(playerDst);
             newFriendship.setStatus(FriendshipStatus.WAITING);
             return new ResponseEntity<>(friendshipService.saveFriendship(newFriendship, "POST"), HttpStatus.CREATED);

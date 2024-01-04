@@ -1,11 +1,18 @@
 package org.springframework.samples.petclinic.invitation;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.Table;
@@ -29,5 +36,10 @@ public class Invitation extends BaseEntity{
 	@NotNull
 	@Column(name = "invitation_state")
     private InvitationState invitation_state;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
+    private Game game;
     
 }

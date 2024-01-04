@@ -27,6 +27,7 @@ import org.springframework.samples.petclinic.configuration.jwt.JwtUtils;
 import org.springframework.samples.petclinic.configuration.services.UserDetailsImpl;
 import org.springframework.samples.petclinic.owner.OwnerRestController;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -59,6 +60,9 @@ class AuthControllerTests {
 
 	@MockBean
 	private UserService userService;
+
+	@MockBean
+	private PlayerService playerService;
 
 	@MockBean
 	private AuthService authService;
@@ -145,6 +149,15 @@ class AuthControllerTests {
 		mockMvc.perform(post(BASE_URL + "/signup").with(csrf()).contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(signupRequest))).andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message").value("Error: Username is already taken!"));
+	}
+
+	@Test
+	void shouldNotRegisterUserWithExistingPlayerUsername() throws Exception {
+		when(this.playerService.existsPlayerUser(signupRequest.getPlayerUsername())).thenReturn(true);
+
+		mockMvc.perform(post(BASE_URL + "/signup").with(csrf()).contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(signupRequest))).andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.message").value("Error: PlayerUsername is already taken!"));
 	}
 
 }

@@ -7,10 +7,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
+import org.springframework.samples.petclinic.exceptions.PlayerNotFoundException;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.vet.Vet;
 
 @Service
 public class PlayerService {
@@ -43,7 +45,7 @@ public class PlayerService {
     }
     @Transactional(readOnly=true)
     public Player getPlayerByUsername(String username) throws DataAccessException{
-        return playerRepository.findByUsername(username).orElseThrow(() -> new FriendshipExistsException("No se ha encontrado el usuario con username: " + username));
+        return playerRepository.findByUsername(username).orElseThrow(() -> new PlayerNotFoundException("User with username " + username +" not found"));
     }
 
     @Transactional
@@ -54,4 +56,14 @@ public class PlayerService {
 		return toUpdate;
 	}
 
+    @Transactional
+    public Boolean existsPlayerUser(String playerUsername) {
+		return playerRepository.existsByPlayerUsername(playerUsername);
+    }
+
+    @Transactional
+	public void deletePlayer(int id) throws DataAccessException {
+		Player toDelete = getPlayerByUserId(id);
+		playerRepository.delete(toDelete);
+	}
 }
