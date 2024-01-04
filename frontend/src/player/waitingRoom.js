@@ -13,6 +13,7 @@ export default function WaitingRoom(){
     const [playerId, setPlayerId] = useState(null);
     const user = tokenService.getUser();
     const [roundId, setRoundId] = useState(null);
+    const [round, setRound] = useState({});
     const [buttonClicked, setButtonClicked] = useState(false);
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
     const [friendUsername, setFriendUsername] = useState('');
@@ -53,15 +54,47 @@ export default function WaitingRoom(){
                     setGame(data);
                     setPlayers(data.playerList);
                     setRoundId(data.roundList[0]);
+
                 } else {
                     console.error("Error al obtener la partida", response.statusText);
                 }
             } catch (error) {
                 console.error("Error al obtener la partida", error);
             }
+           
         }
         getGame();
     }, [id]);
+
+    useEffect(()=> {
+        const getRound = async () =>{
+            try{
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const response = await fetch(`/api/v1/rounds/${roundId}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                if(response.ok){
+                    const data = await response.json();
+                    console.log(data);
+                    setRound(data);
+                }else{
+                    console.error("Error al obtener la ronda", response.statusText);
+                }
+            }catch(error){
+                console.error("Error al obtener la ronda", error);
+            }
+        }
+        if(roundId !== null){
+            getRound()
+        }
+    },[roundId])
+
+
 
     const deletePlayerFromGame = async (currentUserId) => {
         try {
@@ -307,7 +340,13 @@ export default function WaitingRoom(){
                         }
                         noPlayers = true; // Establecer noPlayers a true para salir del ciclo
                         setTimeout(() => {
-                            window.location.href = `/game/quickPlay/${id}/${roundId}`;
+                            console.log(round.roundMode)
+                            if(round.roundMode === 'PIT'){
+                                window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
+                            }else{
+                                window.location.href = `/game/quickPlay/${id}/${roundId}/it`;
+                            }
+                            
                         }, 3000);
                     } else {
                         console.log("El número de jugadores no es 0 en gameInfo. Esperando...");
