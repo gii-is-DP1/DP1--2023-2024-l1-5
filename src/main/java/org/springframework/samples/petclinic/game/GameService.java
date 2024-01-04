@@ -78,10 +78,11 @@ public class GameService {
     }
     @Transactional(readOnly=true)
     public Boolean hasActiveGame(Player player){
-        List<Game> playerGames = gameRepository.findPlayerCreatedGames(player.getId());
-        Boolean result = false;
-        for(Game game: playerGames){
-            result = result || game.getStatus().equals(GameStatus.WAITING) || game.getStatus().equals(GameStatus.IN_PROGRESS);
+        Game wGame = gameRepository.findWaitingPlayerGame(player.getId());
+        Game iGame = gameRepository.findInProgressPlayerGame(player.getId());
+        Boolean result = true;
+        if(wGame == null && iGame == null){
+            result = false;
         }
         return result;
     }
@@ -89,12 +90,16 @@ public class GameService {
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
         Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
+        boolean hasActiveGame = hasActiveGame(toAddPlayer);
+        if(hasActiveGame){
+            throw new ActiveGameException("El jugador ya tiene una partida activa");
+        }
         Game toUpdate= getGameById(idGame).get();
         List<Player> players = toUpdate.getPlayers();
         players.add(toAddPlayer);
         toUpdate.setPlayers(players);
         toUpdate.setNumPlayers(players.size());
-        return saveGame(toUpdate,toAddPlayer);
+        return save(toUpdate);
     } 
 
     @Transactional()
