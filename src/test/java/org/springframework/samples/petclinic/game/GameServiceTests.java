@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
@@ -26,6 +28,7 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.user.User;
 
 
 
@@ -45,7 +48,7 @@ public class GameServiceTests {
     @Mock   
     private PlayerService playerService;
 
-    @Mock
+    @InjectMocks
     private GameService gameService;
 
     // @Test
@@ -163,20 +166,24 @@ public class GameServiceTests {
         assertEquals("No se ha encontrado ninguna partida en espera", exception.getMessage());
     }
 
-     @Test
-     public void testGetRandomGame() {
-        
+    @Test
+    public void testGetRandomGame() {
         GameMode gm = GameMode.QUICK_PLAY;
         Game g = createGame(GameStatus.WAITING);
         g.setId(1);
         g.setGameMode(gm);
-
-        when(gameService.getRandomGame(gm.toString())).thenReturn(Optional.of(g));
+    
+        List<Game> games = new ArrayList<>();
+        games.add(g);
+    
+        // Simula el comportamiento del repositorio
+        when(gameRepository.findWaitingQuickGames()).thenReturn(games);
+    
         Optional<Game> result = gameService.getRandomGame(gm.toString());
-
+    
         assertNotNull(result);
         assertEquals(g, result.get());
-     }
+    }
 
 
     @Test
@@ -187,12 +194,52 @@ public class GameServiceTests {
           assertNull(result);
         }
 
-     @Test
-     public void testGetWaitingGame(){
+    @Test
+    public void testGetWaitingGame() {
         Player player = new Player();
         player.setId(2);
-        playerRepository.save(player);
+        
+        Game game = createGame(GameStatus.WAITING);
+        game.setId(1);
+        game.setPlayers(new ArrayList<>(List.of(player)));
+        
+        List<Game> playerGames = new ArrayList<>();
+        playerGames.add(game);
+        
+        // Simula el comportamiento del repositorio
+        when(gameRepository.findPlayerCreatedGames(player.getId())).thenReturn(playerGames);
+        
         Optional<Game> result = gameService.getWaitingGame(player);
-        assertNotNull(result);
+        
+        assertTrue(result.isPresent());
+        assertEquals(game, result.get());
+    }
+
+     @Test
+     public void testDeletePlayerFromGame() {
+         Integer gameId = 1;
+         Integer userId = 1;
+ 
+         // Configuración de juego y jugadores
+         Game game = new Game();
+         game.setId(gameId);
+         game.setNumPlayers(2);
+         List<Player> players = new ArrayList<>();
+         Player player = new Player();
+         User user = new User();
+         user.setId(userId);
+         player.setUser(user);
+         players.add(player);
+         game.setPlayers(players);
+ 
+         // Simulando el comportamiento de gameRepository.findById
+         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
+ 
+         // Llama al método que estás probando
+         gameService.deletePlayerFromGame(gameId, userId);
+ 
+         // Verificaciones adicionales pueden incluir verificar el tamaño de la lista de jugadores en el juego
+         assertEquals(0, game.getPlayers().size());
+         assertEquals(1, game.getNumPlayers());
      }
 }
