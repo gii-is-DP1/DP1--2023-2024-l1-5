@@ -87,7 +87,11 @@ export default function Profile() {
                             <h5>First Name: {currentUser.firstName}</h5>
                             <h5>Last Name: {currentUser.lastName}</h5>
                         </div>
-                        <Link to={"/profile/edit"} className="purple-button">Edit</Link>
+                        <Link 
+                            to={"/profile/edit"} 
+                            className="purple-button"
+                            style={{ textDecoration: 'none' }}
+                            >Edit</Link>
                     </div>
                 </div>
                 <div className="section">

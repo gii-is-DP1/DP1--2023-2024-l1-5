@@ -1,5 +1,6 @@
 import "../../static/css/auth/authButton.css";
 import "../../static/css/auth/authPage.css";
+import "../../static/css/main.css";
 import tokenService from "../../services/token.service";
 import FormGenerator from "../../components/formGenerator/formGenerator";
 import { registerFormOwnerInputs } from "./form/registerFormOwnerInputs";
@@ -102,64 +103,66 @@ export default function Register() {
 
   if (type) {
     return (
-      <div className="auth-page-container">
-        <h1>Register</h1>
-        <div className="auth-form-container">
-          <FormGenerator
-            ref={registerFormRef}
-            inputs={
-              type === "Owner" ? registerFormOwnerInputs 
-              : type === "Vet" ? registerFormVetInputs
-              : type === "Player" ? registerFormPlayerInputs
-              : registerFormClinicOwnerInputs
-            }
-            onSubmit={handleSubmit}
-            numberOfColumns={1}
-            listenEnterKey
-            buttonText="Save"
-            buttonClassName="auth-button"
-          />
+      <div className="wallpaper">
+        <div className="section">
+        <h1 className="text-center">Register</h1>
+          <div className="auth-form-container">
+            <FormGenerator
+              ref={registerFormRef}
+              inputs={
+                type === "Owner" ? registerFormOwnerInputs 
+                : type === "Vet" ? registerFormVetInputs
+                : type === "Player" ? registerFormPlayerInputs
+                : registerFormClinicOwnerInputs
+              }
+              onSubmit={handleSubmit}
+              numberOfColumns={1}
+              listenEnterKey
+              buttonText="Save"
+              buttonClassName="purple-button"
+            />
+          </div>
         </div>
       </div>
     );
   } else {
     return (
-      <div className="auth-page-container">
-        <div className="auth-form-container">
-          <h1>Register</h1>
-          <h2 className="text-center text-md">
-            What type of user will you be?
-          </h2>
-          <div className="options-row">
-            <button
-              className="auth-button"
-              value="Owner"
-              onClick={handleButtonClick}
-            >
-              Owner
-            </button>
-            <button
-              className="auth-button"
-              value="Vet"
-              onClick={handleButtonClick}
-            >
-              Vet
-            </button>
-            <button
-              className="auth-button"
-              value="Clinic Owner"
-              onClick={handleButtonClick}
-            >
-              Clinic Owner
-            </button>
-            <button
-              className="auth-button"
-              value="Player"
-              onClick={handleButtonClick}
-            >
-              Player
-            </button>
-          </div>
+      <div className="wallpaper">
+        <div className="section">
+            <h1 className="text-center">Register</h1>
+            <h2 className="text-center mt-3">
+              What type of user will you be?
+            </h2>
+            <div className="button-group mt-4">
+              <button
+                className="purple-button"
+                value="Owner"
+                onClick={handleButtonClick}
+              >
+                Owner
+              </button>
+              <button
+                className="purple-button"
+                value="Vet"
+                onClick={handleButtonClick}
+              >
+                Vet
+              </button>
+              <button
+                className="purple-button"
+                value="Clinic Owner"
+                onClick={handleButtonClick}
+              >
+                Clinic Owner
+              </button>
+              <button
+                className="purple-button"
+                value="Player"
+                onClick={handleButtonClick}
+              >
+                Player
+              </button>
+            </div>
         </div>
       </div>
     );

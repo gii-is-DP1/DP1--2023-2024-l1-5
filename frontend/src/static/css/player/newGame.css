@@ -1,20 +1,3 @@
-.button {
-    background-color: #2f324fc7;
-    padding: 2rem;
-    border-radius: 300px;
-    color: rgb(245, 245, 245);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-}
-
-.button.disabled {
-    opacity: 0.6; /* Opacidad reducida para indicar que está deshabilitado */
-    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
-    pointer-events: none; /* Evita que se pueda hacer clic en el botón */
-    /* Agrega otros estilos visuales según tus preferencias */
-  }
-
 .error {
     color: red;
     font-size: 12pt;
@@ -22,47 +5,11 @@
     margin-top: 10px;
 }
 
-.buttonQP {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; /* Allows items to wrap to the next line */
-    gap: 20px; /* Space between buttons */
-    margin: 20px; /* Adjust overall margin */
-}
-
-.gameButton {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; /* Allows items to wrap to the next line */
-    gap: 20px; /* Space between buttons */
-}
-
-.inButton {
-    width: calc(33.33% - 20px); /* Three columns with space between */
-    max-width: 250px; /* Maximum width for the buttons */
-}
-
-.blockText {
-    background-color: #2f324f;
-    border-radius: 30px;
-    width: 100%; /* Full width */
-    max-width: 250px; /* Maximum width for the text block */
-    height: auto; /* Adjust height based on content */
-    margin-top: 30px;
-    padding: 20px; /* Padding for the text block */
-}
-
-.text {
-    color: rgb(255, 255, 255);
-    margin-top: 20px;
-    font-size: 10pt;
-    position: relative; /* Change to relative position */
-}
-
 .social {
     display: flex;
     flex-direction: column; /* Cambiar el ancho según sea necesario */
     gap: 20px;
+    align-self: flex-end;
 }
 
 .friendsPlaying,
@@ -80,19 +27,6 @@
 
 /* Responsive adjustments */
 @media screen and (min-width: 1440px) {
-    .buttonQP,
-    .gameButton {
-        justify-content: space-between; /* Spread buttons across the container */
-    }
-
-    .inButton {
-        width: 250px; /* Set fixed width for larger screens */
-        max-width: none; /* Reset maximum width */
-    }
-
-    .blockText {
-        width: 250px; /* Reset width */
-    }
 
     .social{
         width: 350px;

@@ -64,7 +64,7 @@ export default function UserListAdmin() {
 
   return (
     <div className="wallpaper">
-      <div className="page">
+      <div className="page user-list">
         <div className="section">
           <h1 className="text-center">Users</h1>
           {alerts.map((a) => a.alert)}

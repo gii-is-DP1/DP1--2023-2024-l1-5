@@ -1,3 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/dobble_bg.jpeg'); 
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
 .wallpaper {
     padding-top: 66px;
     margin: 0; 
@@ -15,7 +24,8 @@
 .page {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 50px;
     align-items: stretch;
     width: 90%;
     height: auto;
@@ -46,7 +56,7 @@
 }
 
 .small-section {
-    width: 30%;
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,18 +67,18 @@
     margin: 25px 0;
 }
 
-table {
+.table {
     width: 100%;
     margin-top: 10px;
 }
 
-table th, .table td {
+.table th, .table td {
     text-align: center;
     vertical-align: middle;
     padding: 5px;
 }
 
-table img {
+.table img {
     width: 40px;
     height: auto;
     border-radius: 50%;
@@ -94,14 +104,37 @@ table img {
 }
 
 .purple-button:active {
+    background-color: rgba(0, 128, 0, 0.7); /* Cambio a verde con cierta transparencia */
+    border-color: rgba(0, 128, 0, 0.7); /* Asegúrate de que el borde también cambie para mantener la consistencia */
+    color: white; /* O el color de texto que prefieras cuando esté activo */
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/dobble_bg.jpeg'); 
-    background-size: cover; 
-    background-attachment: fixed; 
-    background-position: center; 
+.button-group {
+    display: flex; /* Usa Flexbox */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espacio de 20px entre cada botón */
+}
+
+
+.floating-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(245,245,245);
+    padding: 10px;
+    width: 300px;
+    max-height: 400px;
+    overflow: auto;
+    display: flex; /* Usa flexbox para el centrado */
+    flex-direction: column; /* Alinear elementos verticalmente */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    border: 3px solid rgba(120, 40, 150, 0.7); /* Puedes ajustar el grosor y el color del borde según tus preferencias */
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.floating-box button {
+    margin: 5px; /* Espaciado entre botones */
 }

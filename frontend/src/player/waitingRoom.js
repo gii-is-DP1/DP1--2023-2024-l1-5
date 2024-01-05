@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import "../static/css/player/newGame.css";
 import "../static/css/player/quickWaitingRoom.css";
+import "../static/css/main.css";
 import tokenService from '../services/token.service';
 
 export default function WaitingRoom(){
@@ -326,7 +327,7 @@ export default function WaitingRoom(){
 
     const FriendsInviteFloatingBox = ({ friendNotPlaying }) => {
         return (
-            <div className="floating-box" style={{ maxWidth: '800px', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: 'white', padding: '10px', borderRadius: '8px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)' }}>
+            <div className="floating-box">
                 <h3>Friends to Invite</h3>
                 <table style={{ width: '100%' }}>
                     <thead>
@@ -351,28 +352,38 @@ export default function WaitingRoom(){
 
     return (
         <div className="wallpaper">
-            <div className="horizontal">
-                <div className='distr'>
-                    <span className="title">{game.gameMode} WAITING ROOM  </span>
-                    <div className='distrPlay'>
-                        <span className='text2'>  Players  {game.numPlayers} / 8 </span>
-                        <ul>
-                            {playerNames.map((player, index) => {
-                                return (<li key={index}> {player} </li>)
-                            })}
-                        </ul>
-                    </div>
-                </div>
-                <div className='vertical'>
-                    <div className="inButton">
-                        <Link className={`button ${buttonClicked ? 'disabled' : ''}`} onClick={ready} disabled={buttonClicked}>
-                                    {'Ready'}
+            <div className="page">
+                <div className='section'>
+                    <h1 className='text-center'>Waiting Room</h1>
+                    <h4 className='text-center'>{game.gameMode} MODE</h4>
+                    <h5 className='text-center mt-2'>  Players  {game.numPlayers} / 8 </h5>
+                    <ul className='mt-2'>
+                        {playerNames.map((player, index) => {
+                            return (<li key={index}> {player} </li>)
+                        })}
+                    </ul>
+                    <div className='button-group mt-2'>
+                        <Link 
+                            className={`purple-button ${buttonClicked ? '' : 'active'}`} 
+                            onClick={ready} disabled={buttonClicked}
+                            style={{ textDecoration:'none'}}
+                            >
+                            {'Ready'}
+                        </Link>
+                        <Link 
+                            className='purple-button'
+                            onClick={() => deletePlayerFromGame(user.id)}
+                            style={{ textDecoration:'none'}} 
+                            >
+                            Leave Game
                         </Link>
                     </div>
-                    <div className="social">
-                        {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
-                    </div>
-                    <Link onClick={() => deletePlayerFromGame(user.id)} className='button-leave'>Leave Game</Link>
+                </div>
+                <div className='section'>
+                <h1 className='text-center'>Chat</h1>
+                </div>
+                <div className="social">
+                    {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
                 </div>
             </div>
         </div>

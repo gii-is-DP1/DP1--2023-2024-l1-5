@@ -36,25 +36,3 @@
 .hero-div h3{
     text-align: center;
 }
-
-.floating-box {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgb(245,245,245);
-    padding: 10px;
-    width: 300px;
-    max-height: 400px;
-    overflow: auto;
-    display: flex; /* Usa flexbox para el centrado */
-    flex-direction: column; /* Alinear elementos verticalmente */
-    justify-content: center; /* Centra verticalmente */
-    align-items: center; /* Centra horizontalmente */
-    border: 3px solid rgba(120, 40, 150, 0.7); /* Puedes ajustar el grosor y el color del borde según tus preferencias */
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.floating-box button {
-    margin: 5px; /* Espaciado entre botones */
-}
