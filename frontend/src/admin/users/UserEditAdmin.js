@@ -70,10 +70,11 @@ export default function UserEditAdmin() {
   ));
 
   return (
-    <div className="auth-page-container">
-      {<h2>{user.id ? "Edit User" : "Add User"}</h2>}
-      {modal}
-      <div className="auth-form-container">
+    <div className="wallpaper">
+      <div className="section">
+        {<h2>{user.id ? "Edit User" : "Add User"}</h2>}
+        <br></br>
+        {modal}
         <Form onSubmit={handleSubmit}>
           <div className="custom-form-input">
             <Label for="username" className="custom-form-input-label">
@@ -136,10 +137,10 @@ export default function UserEditAdmin() {
             )}
           </div>
           <div className="custom-button-row">
-            <button className="auth-button">Save</button>
+            <button className="purple-button">Save</button>
             <Link
               to={`/users`}
-              className="auth-button"
+              className="purple-button"
               style={{ textDecoration: "none" }}
             >
               Cancel

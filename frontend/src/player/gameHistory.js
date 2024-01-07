@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
 import tokenService from '../services/token.service';
-import { Button, Col, Container, Row, Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
-import "../static/css/player/gameHistory.css"
+import { Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
+import "../static/css/main.css"
 
 
 const jwt = tokenService.getLocalAccessToken();
@@ -61,7 +61,6 @@ export default function GameHistory() {
         } 
     }
 
-
     async function setUp() {
         const partidas = await (
             await fetch(`/api/v1/games`, {
@@ -78,32 +77,26 @@ export default function GameHistory() {
         setUp();
     }, []);
 
-    useEffect(() => {}, [games, playerGames]);
+    useEffect(() => {}, [games, playerGames])
 
     return(
-        <div>
-            <Container fluid style={{ marginTop: "15px" }}>
-                <div class="containerGamesHistory"> 
-                    <div class="centered-rectangle mt-4">
-                            <h1 className="text-center">Games History</h1>
-                            <Table class='mt-4'>
-                            <thead>
-                                <tr>
-                                    <th>Mode</th>
-                                    <th>Creator</th>
-                                    <th>Players</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {getGamesList(games)}
-                            </tbody>
-                        </Table>
-                    </div>  
-                </div>
-            </Container>
+        <div class="wallpaper">
+            <div class="section">
+                <h1 className="text-center">Games History</h1>
+                <Table class='table'>
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Creator</th>
+                            <th>Players</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {getGamesList(games)}
+                    </tbody>
+                </Table>
+            </div>
         </div>
-
     );
-
 }
 

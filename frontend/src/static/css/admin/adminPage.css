@@ -18,7 +18,7 @@
   transition: transform 0.5s, color 0.3s;
   transform: translateY(-15px) scale(0.7);
   transform-origin: top left;
-  color: #23c483;
+  color: rgba(120, 40, 150, 0.7);
   cursor: pointer;
 }
 
@@ -70,4 +70,8 @@
 .containerGames{
   display: flex;
   height: 100%;
+}
+
+.user-list {
+  align-self: flex-start;
 }

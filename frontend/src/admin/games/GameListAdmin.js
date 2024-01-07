@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react';
 import {Container, Table, Dropdown,DropdownItem, DropdownToggle,DropdownMenu } from 'reactstrap';
 import getErrorModal from '../../util/getErrorModal';
 import tokenService from '../../services/token.service';
+import '../../static/css/main.css';
 
 const jwt = tokenService.getLocalAccessToken();
 
@@ -102,57 +103,55 @@ export default function GameListAdmin(){
     const modal = getErrorModal(setVisible, visible, message);
 
     return(
-        <div>
-            <Container fluid style={{ marginTop: "15px" }}>
+        <div className='wallpaper'>
+            <div className='page'>
                 {modal} 
-                <div class="containerGames">  
-                    <div class="half-width mt-4">
-                        <h1 className="text-center">Waiting Games</h1>
-                        <Table class='mt-4'>
-                        <thead>
-                                <tr>
-                                    <th>Mode</th>
-                                    <th>Creator</th>
-                                    <th>Players</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {getGamesList(waitingGames)}
-                            </tbody>
-                        </Table>
-                    </div>  
-                    <div class="half-width mt-4">
-                        <h1 className="text-center">Current Games</h1>
-                        <Table class='mt-4'>
-                            <thead>
-                                <tr>
-                                    <th>Mode</th>
-                                    <th>Creator</th>
-                                    <th>Players</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {getGamesList(inProgressgGames)}
-                            </tbody>
-                        </Table>
-                    </div>
-                    <div class="half-width mt-4">
-                        <h1 className="text-center">Finalized Games</h1>
-                        <Table className='mt-4'>
-                        <thead>
-                                <tr>
-                                    <th>Mode</th>
-                                    <th>Creator</th>
-                                    <th>Players</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {getGamesList(finalizedGames)}
-                            </tbody>
-                        </Table>
-                    </div>
+                <div className="small-section">
+                    <h1 className="text-center">Waiting Games</h1>
+                    <Table className='table'>
+                    <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Creator</th>
+                                <th>Players</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getGamesList(waitingGames)}
+                        </tbody>
+                    </Table>
                 </div>  
-            </Container>
+                <div className="small-section">
+                    <h1 className="text-center">Current Games</h1>
+                    <Table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Creator</th>
+                                <th>Players</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getGamesList(inProgressgGames)}
+                        </tbody>
+                    </Table>
+                </div>
+                <div className="small-section">
+                    <h1 className="text-center">Finalized Games</h1>
+                    <Table className='table'>
+                    <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Creator</th>
+                                <th>Players</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getGamesList(finalizedGames)}
+                        </tbody>
+                    </Table>
+                </div>
+            </div>  
         </div>
 
     );
