@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate} from 'react-router-dom';
 import '../App.css';
 import tokenService from "../services/token.service";
 import "../static/css/player/gameView.css";
@@ -7,6 +7,7 @@ import "../static/css/player/gameView.css";
 const user = tokenService.getUser();
 
 export default function GameView() {
+    const navigate = useNavigate();
     const [cardImg, setCardImg] = useState('');
     const [deckImg, setDeckImg] = useState(null);
     const [handAux, setHandAux] = useState([]);
@@ -133,6 +134,7 @@ export default function GameView() {
       
     //  IMPORTANTE QUE NO SE USE EL FETCH DECK UNA VEZ TERMINADA LA PARTIDA
     const winner = async()=>{
+        game.status = 'FINALIZED'
         try{
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
             const response = await fetch(`/api/v1/games/winner`,
@@ -153,6 +155,7 @@ export default function GameView() {
         }catch(error){
             console.error("Error al obtener el ganador", error);
         }
+        navigate(`/game/quickPlay/winner`);
     }
 
 
@@ -211,8 +214,7 @@ export default function GameView() {
                 setHandSize(newSize);
 
             } else {
-                // winner();
-                alert("Enhorabuena! Has ganado la partida");
+                winner();
             }
         }
     }

@@ -201,10 +201,6 @@ public class GameController {
         return new ResponseEntity<>(toUpdate, HttpStatus.OK);
     }
 
-
-
-    
-
     @PutMapping("/quick/joinInvitation/{game_id}")
     public ResponseEntity<Game> joinQuickGameById(@PathVariable("game_id") Integer game_id) {
         User user = userService.findCurrentUser();
