@@ -5,6 +5,7 @@ import getErrorModal from "../../../util/getErrorModal";
 import { profileEditFormInputs } from "./form/profileEditFormInputs";
 import FormGenerator from "../../../components/formGenerator/formGenerator";
 import tokenService from "../../../services/token.service";
+import "../../../static/css/main.css";
 
 const persona = tokenService.getUser();
 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -106,18 +107,15 @@ export default function ProfileEdit(){
     const modal = getErrorModal(setVisible, visible, message);
 
     return (
-        <div className="edit-pet-page-container">
-          <div className="edit-pet-form-container">
-            <h2 className="text-center">Edit Profile</h2>
+        <div className="wallpaper">
+          <div className="section">
+            <h1 className="text-center">Edit Profile</h1>
                 <FormGenerator
                 inputs={profileEditFormInputs}
                 onSubmit={handleSubmit}
                 buttonText="Save"
-                buttonClassName="auth-button"
+                buttonClassName="purple-button"
                 />
-            <div className="button-container-back">
-                <Link className="auth-button" to="/profile" style={{textDecoration: "none"}}>Back</Link>
-            </div>
           </div>
           {modal}
         </div>
