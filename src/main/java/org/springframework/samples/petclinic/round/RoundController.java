@@ -27,6 +27,7 @@ import org.springframework.samples.petclinic.round.exceptions.WaitingGameExcepti
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,7 +71,7 @@ public class RoundController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Round> getRoundById(Integer id) {
+    public ResponseEntity<Round> getRoundById(@PathVariable("id") Integer id) {
         Optional<Round> r = roundService.getRoundById(id);
         if (!r.isPresent())
             throw new ResourceNotFoundException("Round", "id", id);

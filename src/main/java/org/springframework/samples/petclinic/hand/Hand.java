@@ -35,7 +35,6 @@ public class Hand extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "player_id", referencedColumnName = "id")  
-    @JsonIgnore
     private Player player;
 
     // @JsonIgnore
