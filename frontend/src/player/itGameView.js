@@ -9,16 +9,13 @@ const user = tokenService.getUser();
 export default function ItGameView() {
     const [cardImg, setCardImg] = useState('');
     const [deckImg, setDeckImg] = useState(null);
-    const [handAux, setHandAux] = useState([]);
     const [deckAux,setDeckAux] = useState([]);
     const [cardSymbol, setCardSymbols] = useState([]);
     const [deckSymbols, setDeckSymbols] = useState([]);
-    const [handSize, setHandSize] = useState(0);
     const [deckSize,setDeckSize] = useState(0);
     const [playerId, setPlayerId] = useState(null);
     const { roundId } = useParams();
     const{id} =useParams();
-    const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
 
     async function setUp() {
@@ -102,8 +99,6 @@ export default function ItGameView() {
         if (responseHand.ok) {
             const hand2 = await responseHand.json();
             setCardImg(hand2.cards[0].image);
-            setHandAux(hand2.cards);
-            setHandSize(hand2.numCartas);
             nameSymbolsCard(hand2.cards[0]);
         } else {
             console.log("Error al obtener la mano del jugador");
@@ -134,7 +129,6 @@ export default function ItGameView() {
         // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
         return () => clearInterval(interval);
     }
-
     useEffect(() => {
         if (prevDeckImg !== deckImg) {
           // Realizar acciones si deckImg ha cambiado
@@ -206,47 +200,71 @@ export default function ItGameView() {
                 setDeckSize(newSize);
 
             } else {
-                // winner();
-                alert("Enhorabuena! Has ganado la partida");
+                const getGame = async () => {
+                    try {
+                        const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                        const response = await fetch(`/api/v1/games/${id}`,
+                            {
+                                method: 'GET',
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${jwt}`,
+                                },
+                            });
+                        if (response.ok) {
+                            const data = await response.json();
+                            const handsPromises = data.playerList.map(async (player) => {
+                                const playerHand = await fetch(`/api/v1/hands/player/${player.id}`,
+                                    {
+                                        method: 'GET',
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: `Bearer ${jwt}`,
+                                        },
+                                    });
+                                if (playerHand.ok) {
+                                    const hand = await playerHand.json();
+                                    return hand;
+                                }else{
+                                    console.log("Error al obtener la mano del jugador");
+                                }
+                            }
+                            );
+                            const hands = await Promise.all(handsPromises);
+                            const sortedHands = hands.sort((a, b) => b.numCartas - a.numCartas);
+                            const winner = sortedHands[0].player.id;
+                            try {
+                                const reponseWinner = await fetch(`/api/v1/players/${winner}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `Bearer ${jwt}`,
+                                    },
+                                });
+                                if (reponseWinner.ok) {
+                                    const winnerData = await reponseWinner.json();
+                                    alert(`El ganador es ${winnerData.playerUsername}`);
+                                } else {
+                                    console.error("Error al obtener el ganador", reponseWinner.statusText);
+                                }
+                            } catch (error) {
+                                console.error("Error al obtener el ganador", error);
+                            }
+                        } else {
+                            console.error("Error al obtener la partida", response.statusText);
+                        }
+                    }
+                    catch (error) {
+                        console.error("Error al obtener la partida", error);
+                    }
+                }
+                getGame();
+                
             }
         }
     }
 
-    useEffect(() => {
-        const getGame = async () => {
-            try {
-                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-                const response = await fetch(`/api/v1/games/${id}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${jwt}`,
-                        },
-                    });
-                if (response.ok) {
-                    const data = await response.json();
-                    setGame(data);
-                } else {
-                    console.error("Error al obtener la partida", response.statusText);
-                }
-            }
-            catch (error) {
-                console.error("Error al obtener la partida", error);
-            }
-        }
-        getGame();
-    }, [id]);
-
-
-
-
-
-
-
-
-
-
+   
 
     async function nameSymbolsCard(card) {
         if (card && card.symbols) {

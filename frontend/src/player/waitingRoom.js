@@ -338,7 +338,6 @@ export default function WaitingRoom(){
                         }
                         noPlayers = true; // Establecer noPlayers a true para salir del ciclo
                         setTimeout(() => {
-                            console.log(round.roundMode)
                             if(round.roundMode === 'PIT'){
                                 window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
                             }else{

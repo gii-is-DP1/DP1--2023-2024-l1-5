@@ -100,6 +100,7 @@ public class HandController {
         Card newHandCard = cardService.getCardById(cardId);
         cards.add(0,newHandCard);
         hand.setCards(cards);
+        hand.setNumCartas(cards.size());
         handService.saveHand(hand);
         return new ResponseEntity<>(hand, HttpStatus.OK);
     }
