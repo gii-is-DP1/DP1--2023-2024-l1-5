@@ -434,7 +434,7 @@ export default function WaitingRoom(){
 
     return (
         <div className="wallpaper">
-            <div className="page">
+            <div className="page" style = {{ height: '90%' }}>
                 <div className='section' style={{ alignSelf: 'center' }}>
                     <h1 className='text-center'>Waiting Room</h1>
                     <h4 className='text-center'>{game.gameMode} MODE</h4>
