@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import "../static/css/player/newGame.css";
@@ -18,7 +18,8 @@ export default function WaitingRoom(){
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
     const [friendUsername, setFriendUsername] = useState('');
     const [messages, setMessages] = useState([]); 
-    const [newMessage, setNewMessage] = useState('');
+    const [newMessage, setNewMessage] = useState(''); 
+    const messagesEndRef = useRef(null);
 
 
 
@@ -391,6 +392,17 @@ export default function WaitingRoom(){
         }
     };    
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            scrollToBottom();
+        }, 100); // Retraso para dar tiempo a que el DOM se actualice
+    }, [messages]);
+    
+
     useEffect(() => {
         setUp();
     }, []);
@@ -454,10 +466,12 @@ export default function WaitingRoom(){
                     <div className='chat-section'>
                         <div className='chat-messages'>
                             {messages.map((message, index) => (
-                                <div key={index} className='chat-message'>
-                                    <strong>{message.source_user}: </strong> {message.content}
+                                <div key={index} 
+                                    className={`chat-message ${message.source_user === user.username ? 'my-message' : ''}`}>
+                                <strong>{message.source_user}: </strong> {message.content}
                                 </div>
                             ))}
+                            <div ref={messagesEndRef} /> {/* Elemento invisible al final del contenedor */}
                         </div>
                         <div className='chat-input'>
                             <input

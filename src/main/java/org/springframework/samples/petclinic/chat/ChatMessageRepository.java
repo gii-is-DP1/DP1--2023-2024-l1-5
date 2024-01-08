@@ -13,7 +13,7 @@ public interface ChatMessageRepository extends CrudRepository<ChatMessage, Integ
 
     List<ChatMessage> findAll();
 
-    @Query("SELECT cm FROM ChatMessage cm WHERE cm.game.id = :gameId ORDER BY cm.message_date ASC")
+    @Query("SELECT cm FROM ChatMessage cm WHERE cm.game.id = :gameId ORDER BY cm.message_date DESC")
     List<ChatMessage> findChatMessagesByGameId(@Param("gameId") Integer id) throws DataAccessException;
     
 }
