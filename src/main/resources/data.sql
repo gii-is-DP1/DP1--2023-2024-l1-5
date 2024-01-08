@@ -227,8 +227,8 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES
 (3, 'nicherlob', 180, 12);
 
 -- Inserta un registro de ChatMessage
--- INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (1, 'Hola Buenos Dias','luca_23','2023-02-11 11:30', 2);
--- INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (2,'Que calor hace!!!' ,'manuelOrt_7','2023-02-11 11:31', 2);
+INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (1, 'Hola Buenos Dias','player2','2023-02-11 11:30', 2);
+INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (2,'Que calor hace!!!' ,'player9','2023-02-11 11:31', 2);
 
  INSERT INTO cards(id, image) VALUES 
 (1, 'https://i.imgur.com/pbHhrvm.jpeg'),
