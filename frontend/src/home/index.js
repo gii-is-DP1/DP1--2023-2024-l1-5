@@ -1,6 +1,7 @@
 import React, { useState,useEffect }  from 'react';
 import '../App.css';
 import '../static/css/home/home.css';
+import '../static/css/main.css'
 import tokenService from '../services/token.service';
 import onlineLogo from '../static/images/punto_verde.png'
 import { Link } from "react-router-dom";
@@ -73,7 +74,7 @@ export default function Home(){
 
     const FriendsAndInvitationsFloatingBox = ({ friends, invitations, handleButton }) => {
         return (
-            <div className="floating-box" style={{ maxWidth: '800px', position: 'fixed', bottom: '20px', right: '20px', backgroundColor: 'white', padding: '10px', borderRadius: '8px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)' }}>
+            <div className="floating-box" >
                 {/* Online friends section */}
                 <div>
                     <h4>Online Friends</h4>
@@ -102,10 +103,10 @@ export default function Home(){
                                         <a>{invitation.source_user}</a>
                                     </span>
                                     <span style={{ marginRight: '5px' }}>
-                                        <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
+                                        <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.game.id, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
                                     </span>
                                     <span>
-                                        <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
+                                        <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.game.id, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
                                     </span>
                                 </div>
                             </li>
@@ -120,7 +121,7 @@ export default function Home(){
         getOnlineFriendsList();
     }, []);
 
-    async function handleButton(game, invitationId, action) {
+    async function handleButton(game,gameId, invitationId, action) {
         if (action == "ACEPTAR"){
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
             const invitationResponse = await fetch(`/api/v1/invitations/acceptRequest/${invitationId}`,
@@ -132,9 +133,10 @@ export default function Home(){
                 },
             });
             if(invitationResponse.ok){
+
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
 
-                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${game.id}`,
+                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${gameId}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -162,7 +164,7 @@ export default function Home(){
     }
 
     return(
-        <div className="home-page-container">
+        <div className="wallpaper">
             <div className="hero-div">
                 <h1>Dobble</h1>
                 <h3>---</h3>

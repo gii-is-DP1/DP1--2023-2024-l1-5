@@ -1,0 +1,140 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/dobble_bg.jpeg'); 
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+.wallpaper {
+    padding-top: 66px;
+    margin: 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    align-items: stretch;
+    width: 90%;
+    height: auto;
+}
+
+.section {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 3px solid rgba(120, 40, 150, 0.7);
+    border-radius: 2.25rem;
+    background-color: rgb(245, 245, 245);
+    margin: 25px 0;
+}
+
+.big-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 3px solid rgba(120, 40, 150, 0.7);
+    border-radius: 2.25rem;
+    background-color: rgb(245, 245, 245);
+    margin: 25px 0;
+}
+
+.small-section {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 3px solid rgba(120, 40, 150, 0.7);
+    border-radius: 2.25rem;
+    background-color: rgb(245, 245, 245);
+    margin: 25px 0;
+}
+
+.table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+.table img {
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.purple-button {
+    padding: 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    background-color: rgba(120, 40, 150, 0.7); 
+    border: 2px solid rgba(120, 40, 150, 0.7);
+    border-radius: 45px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.purple-button:hover {
+    color: black;
+    background-color: rgb(245, 245, 245);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.purple-button:active {
+    background-color: rgba(0, 128, 0, 0.7); /* Cambio a verde con cierta transparencia */
+    border-color: rgba(0, 128, 0, 0.7); /* Asegúrate de que el borde también cambie para mantener la consistencia */
+    color: white; /* O el color de texto que prefieras cuando esté activo */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-group {
+    display: flex; /* Usa Flexbox */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espacio de 20px entre cada botón */
+}
+
+
+.floating-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(245,245,245);
+    padding: 10px;
+    width: 300px;
+    max-height: 400px;
+    overflow: auto;
+    display: flex; /* Usa flexbox para el centrado */
+    flex-direction: column; /* Alinear elementos verticalmente */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    border: 3px solid rgba(120, 40, 150, 0.7); /* Puedes ajustar el grosor y el color del borde según tus preferencias */
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.floating-box button {
+    margin: 5px; /* Espaciado entre botones */
+}

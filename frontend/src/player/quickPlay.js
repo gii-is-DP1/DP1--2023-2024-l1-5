@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../App.css';
 import "../static/css/player/newGame.css"
+import '../static/css/main.css'
 import { Link } from "react-router-dom";
 import tokenService from '../services/token.service';
 
@@ -142,9 +143,13 @@ export default function QuickPlay() {
             if(response3.ok){
                 const data = await response3.json();
                 window.location.href = `/game/quickPlay/${data.id}`;
-        } else{
-            console.error("Error al crear la partida", response3.statusText);
-            setError3("Error al crear la partida. Ya perteneces a una partida");
+        } else if(response3.status === 409){
+            console.error("Error al unirse a una partida.", response3.statusText);
+            setError3("Error al unirse a una partida. No existen partidas disponibles");
+        }
+        else {
+            console.error("Error al unirse a una partida.", response3.statusText);
+            setError3("Error al unirse a una partida. Ya perteneces a una partida");
 
         }}
         catch(error) {
@@ -188,58 +193,72 @@ export default function QuickPlay() {
     }, []);
 
     return (
-        <div className="wallpaper   ">
-            <div className='buttonQP'>
-                <div className="inButton">
-                    <Link className='button' onClick={CreateThePit}>The Pit</Link>
-                    <div className="blockText">
-                        <span className="text">
-                            On go, the players flip their draw pile face-up.
-                            Players must be faster than the others to discard the cards from
-                            their draw pile by placing them on the card in the middle.
-                            To do that, they have to name the identical symbol between
-                            the top card of their draw pile and the card in the middle.
-                            As the middle card changes as soon as a player places one
-                            of his or her cards on top of it, players must be quick
-
-                        </span>
-                    </div>
+        <div className="wallpaper">
+            <div className='page'>
+                <div className='small section' style={{ position: 'relative' }}>
+                    <h1 className='text-center'>The Pit</h1>
+                    <span className="text-center mt-2">
+                        On go, the players flip their draw pile face-up.
+                        Players must be faster than the others to discard the cards from
+                        their draw pile by placing them on the card in the middle.
+                        To do that, they have to name the identical symbol between
+                        the top card of their draw pile and the card in the middle.
+                        As the middle card changes as soon as a player places one
+                        of his or her cards on top of it, players must be quick.
+                    </span>
+                    <br></br>
+                    <Link 
+                        className='purple-button' 
+                        onClick={CreateThePit}
+                        style={{ textDecoration: 'none' }}
+                    >
+                    Create Game
+                    </Link>
                     <p className='error'>{error}</p>
                 </div>
-                <div className="inButton">
-                    <Link className="button" onClick={createInfernalTower}>Infernal Tower</Link>
-                    <div className="blockText">
-                        <span className="text">
-                            On go, the players flip their
-                            card face-up.
-                            Each player must be the fastest at
-                            spotting the identical symbol between his
-                            or her card and the first card of the draw
-                            pile. The first player to find the symbol
-                            names it, takes the card from the draw
-                            pile and places it in front of him or
-                            her, on top of his or her card. By
-                            taking this card, a new card is
-                            revealed. The game continues
-                            until all the cards from the
-                            draw pile have been drawn.
-                        </span>
-                    </div>
+                <div className='small section'>
+                    <h1 className='text-center'>Infernal Tower</h1>
+                    <span className="text-center mt-2">
+                        On go, the players flip their
+                        card face-up.
+                        Each player must be the fastest at
+                        spotting the identical symbol between his
+                        or her card and the first card of the draw
+                        pile. The first player to find the symbol
+                        names it, takes the card from the draw
+                        pile and places it in front of him or
+                        her, on top of his or her card. By
+                        taking this card, a new card is
+                        revealed. The game continues
+                        until all the cards from the
+                        draw pile have been drawn.
+                    </span>
+                    <br></br>
+                    <Link 
+                        className="purple-button" 
+                        onClick={createInfernalTower}
+                        style={{ textDecoration: 'none' }}
+                        >
+                        Create Game
+                    </Link>
                     <p className='error'>{error2}</p>
                 </div>
-
-                <div className="inButton">
-                    <Link to="" className="button" onClick={joinGame}>Join Game</Link>
-                    <div className="blockText">
-                        <span className="text">
-                            Join a random game
-                        </span>
-                    </div>
+                <div className='small section'>
+                    <h1 className='text-center'>Random Mode</h1>
+                    <span className="text-center mt-2">
+                        Join a random game
+                    </span>
+                    <br></br>
+                    <Link 
+                        className="purple-button" 
+                        onClick={joinGame}
+                        style={{ textDecoration: 'none' }}
+                        >
+                        Join Game
+                    </Link>
                     <p className='error'>{error3}</p>
                 </div>
-
                 <div className="social">
-                    
                     <div className="friendsPlaying">
                         <h5>Friends Playing</h5>
                         <table ref={tableRef}>

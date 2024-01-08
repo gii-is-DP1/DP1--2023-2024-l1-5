@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, ButtonGroup, Table } from "reactstrap";
 import tokenService from "../../services/token.service";
 import "../../static/css/admin/adminPage.css";
+import "../../static/css/main.css"
 import deleteFromList from "../../util/deleteFromList";
 import getErrorModal from "../../util/getErrorModal";
 import useFetchState from "../../util/useFetchState";
@@ -62,24 +63,30 @@ export default function UserListAdmin() {
   const modal = getErrorModal(setVisible, visible, message);
 
   return (
-    <div className="admin-page-container">
-      <h1 className="text-center">Users</h1>
-      {alerts.map((a) => a.alert)}
-      {modal}
-      <Button color="success" tag={Link} to="/users/new">
-        Add User
-      </Button>
-      <div>
-        <Table aria-label="users" className="mt-4">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Authority</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{userList}</tbody>
-        </Table>
+    <div className="wallpaper">
+      <div className="page user-list">
+        <div className="section">
+          <h1 className="text-center">Users</h1>
+          {alerts.map((a) => a.alert)}
+          {modal}
+          <Table className="table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Authority</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{userList}</tbody>
+          </Table>
+          <Link 
+            to="/users/new" 
+            className="purple-button" 
+            style={{ textDecoration: "none" }}
+            >
+              Add User
+          </Link>
+        </div>
       </div>
     </div>
   );

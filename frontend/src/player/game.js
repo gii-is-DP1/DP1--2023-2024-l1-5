@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import '../static/css/player/newGame.css';
+import '../static/css/main.css'
 import tokenService from '../services/token.service';
 
 export default function Game() {
@@ -34,7 +35,7 @@ export default function Game() {
         return () => clearInterval(intervalId);
     }, []);
 
-    async function handleButton(game, invitationId, action) {
+    async function handleButton(game, gameId, invitationId, action) {
         if (action === 'ACEPTAR') {
             const jwt = JSON.parse(window.localStorage.getItem('jwt'));
             const invitationResponse = await fetch(`/api/v1/invitations/acceptRequest/${invitationId}`, {
@@ -46,7 +47,7 @@ export default function Game() {
             });
             if (invitationResponse.ok) {
                 const jwt = JSON.parse(window.localStorage.getItem('jwt'));
-                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${game.id}`, {
+                const gameResponse = await fetch(`/api/v1/games/quick/joinInvitation/${gameId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -82,10 +83,10 @@ export default function Game() {
                                     <a>{invitation.source_user}</a>
                                 </span>
                                 <span style={{ marginRight: '5px' }}>
-                                    <div className='aceptar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'ACEPTAR')}>ACEPTAR</div>
+                                    <div className='aceptar-boton' onClick={() => handleButton(invitation.game,invitation.game.id,  invitation.id, 'ACEPTAR')}>ACEPTAR</div>
                                 </span>
                                 <span>
-                                    <div className='rechazar-boton' onClick={() => handleButton(invitation.game, invitation.id, 'RECHAZAR')}>RECHAZAR</div>
+                                    <div className='rechazar-boton' onClick={() => handleButton(invitation.game,invitation.game.id,  invitation.id, 'RECHAZAR')}>RECHAZAR</div>
                                 </span>
                             </div>
                         </li>
@@ -97,13 +98,43 @@ export default function Game() {
 
     return (
         <div className="wallpaper">
-            <div className="gameButton">
-                <Link to="/game/quickPlay" className="button">
-                    Quick Play
-                </Link>
-                <Link to="/game/competitiveGame" className="button">
-                    Competitive
-                </Link>
+            <div className="page">
+                <div className='small-section'>
+                    <h1 className='text-center'>
+                        Quick Mode
+                    </h1>
+                    <span className='text-center mt-2'>
+                    Quick Mode is super fun and speedy! It's like a quick playtime where you can just enjoy the game, laugh, and have a blast. 
+                    You don't have to worry about keeping score or winning - it's all about having a good time. 
+                    Whether you're playing with friends or family, Quick Mode is perfect for when you just want to play fast and have fun!
+                    </span>
+                    <br></br>
+                    <Link 
+                        to="/game/quickPlay" 
+                        className="purple-button"
+                        style={{ textDecoration: 'none' }}
+                        >
+                        Play
+                    </Link>
+                </div>
+                <div className='small-section'>
+                    <h1 className='text-center'>
+                        Competitive Mode
+                    </h1>
+                    <span className='text-center mt-2'>
+                    Competitive Mode is where you get to show off your skills! In this mode, every move is a chance to earn points and climb up the leaderboard. 
+                    It's like a fun challenge where you try to be the best player you can be. 
+                    If you love making strategies and winning games, this is the mode for you. Let's see how high you can climb in the rankings!
+                    </span>
+                    <br></br>
+                    <Link 
+                        to="/game/competitiveGame" 
+                        className="purple-button"
+                        style={{ textDecoration: 'none' }}
+                        >
+                        Play
+                    </Link>
+                </div>
                 {InvitationList.length > 0 && <InvitationsFloatingBox invitations={InvitationList} />}
             </div>
         </div>
