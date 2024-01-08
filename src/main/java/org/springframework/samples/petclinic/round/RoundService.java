@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +21,12 @@ import java.util.function.BiFunction;
 @Service
 public class RoundService {
     RoundRepository roundRepository;
-    GameRepository  gameRepository;
+    GameService gameService;
 
     @Autowired
-    public RoundService(RoundRepository roundRepository, GameRepository gameRepository) {
+    public RoundService(RoundRepository roundRepository, GameService gameService) {
         this.roundRepository = roundRepository;
-        this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
 
     @Transactional
