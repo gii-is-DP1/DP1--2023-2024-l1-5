@@ -36,25 +36,25 @@ export default function Login() {
 
   
     return (
-      <div className="auth-page-container">
-        {message ? (
-          <Alert color="primary">{message}</Alert>
-        ) : (
-          <></>
-        )}
-
-        <h1>Login</h1>
-
-        <div className="auth-form-container">
-          <FormGenerator
-            ref={loginFormRef}
-            inputs={loginFormInputs}
-            onSubmit={handleSubmit}
-            numberOfColumns={1}
-            listenEnterKey
-            buttonText="Login"
-            buttonClassName="auth-button"
-          />
+      <div className="wallpaper">
+        <div className="section">
+          {message ? (
+            <Alert color="primary">{message}</Alert>
+          ) : (
+            <></>
+          )}
+          <h1>Login</h1>
+          <div className="auth-form-container">
+            <FormGenerator
+              ref={loginFormRef}
+              inputs={loginFormInputs}
+              onSubmit={handleSubmit}
+              numberOfColumns={1}
+              listenEnterKey
+              buttonText="Login"
+              buttonClassName="purple-button"
+            />
+          </div>
         </div>
       </div>
     );  

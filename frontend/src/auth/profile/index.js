@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import tokenService from '../../services/token.service';
 import getErrorModal from '../../util/getErrorModal';
 import '../../static/css/auth/profile.css'; 
+import '../../static/css/main.css';
 
 export default function Profile() {
     const [userInfo, setUserInfo] = useState([]);
@@ -60,11 +61,11 @@ export default function Profile() {
     const renderAchievements = () => {
         return achievements.map((achievement) => (
             <tr key={achievement.id}>
-                <td className="text-center">
+                <td>
                     <img src={achievement.imageUrl} alt={achievement.name} width="50px" />
                 </td>
-                <td className="text-center">{achievement.name}</td>
-                <td className="text-center">{achievement.description}</td>
+                <td>{achievement.name}</td>
+                <td>{achievement.description}</td>
             </tr>
         ));
     };
@@ -76,20 +77,24 @@ export default function Profile() {
         }
 
         return (
-            <div className="profile-container">
-                <div className="profile-section">
+            <div className="page">
+                <div className="section">
                     <h1 className="text-center">My Profile</h1>
-                    <div className="container-image">
-                        <img src={currentUser.image || 'path/to/default/image.jpg'} className="profile-image" alt="Profile" />
-                    </div>
                     <div className="profile-data">
-                        <h4>Username: {user.username}</h4>
-                        <h4>First Name: {currentUser.firstName}</h4>
-                        <h4>Last Name: {currentUser.lastName}</h4>
-                        <Link to={"/profile/edit"} className="profile-auth-button blue">Edit</Link>
+                        <div className='text-center'>
+                            <img src={currentUser.image || 'path/to/default/image.jpg'} className="profile-image" alt="Profile" />
+                            <h5>Username: {user.username}</h5>
+                            <h5>First Name: {currentUser.firstName}</h5>
+                            <h5>Last Name: {currentUser.lastName}</h5>
+                        </div>
+                        <Link 
+                            to={"/profile/edit"} 
+                            className="purple-button"
+                            style={{ textDecoration: 'none' }}
+                            >Edit</Link>
                     </div>
                 </div>
-                <div className="achievements-section">
+                <div className="section">
                     <h1 className="text-center">Achievements</h1>
                     <div className="toggle-buttons">
                     <button 
@@ -105,12 +110,12 @@ export default function Profile() {
                         Locked
                     </button>
                 </div>
-                    <table className="achievement-table">
+                    <table className='table'>
                         <thead>
                             <tr>
-                                <th className="text-center">Image</th>
-                                <th className="text-center">Name</th>
-                                <th className="text-center">Description</th>
+                                <th></th>
+                                <th>NAME</th>
+                                <th>DESCRIPTION</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,13 +130,10 @@ export default function Profile() {
     const modal = getErrorModal(setVisible, visible, message);
 
     return (
-        <Container style={{ marginTop: "15px" }} fluid>
+        <div className="wallpaper">
             {alerts.map((a) => a.alert)}
             {modal}
             {renderUserProfile(userInfo)}
-            <div className="button-container-back center-bottom">
-                <Link className="profile-auth-button" to="/">Back</Link>
-            </div>
-        </Container>
+        </div>
     );
 }

@@ -211,7 +211,7 @@ function AppNavbar() {
         <div>
             <Navbar expand="md" dark color="dark">
                 <NavbarBrand href="/">
-                    <img alt="logo" src={logo} style={{ height: 40, width: 40 }} />
+                    <img alt="logo" src={logo} style={{ height: 40, width: 40, marginRight: 10 }} />
                     Dobble
                 </NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="ms-2" />
