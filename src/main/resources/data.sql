@@ -60,18 +60,18 @@ INSERT INTO players(id,first_name,last_name,image,user_id,playerUsername) VALUES
 
 -- PARTIDA 1
 -- Creador: Player 1
--- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
--- --- INFORMACION DE LA PARTIDA 1
--- INSERT INTO games_info(id, game_mode, num_players, winner_id, creator_id, game_time, game_status, game_id) 
--- VALUES (1, 'QUICK_PLAY', 4, 2, 1, 80, 'IN_PROGRESS', 1);
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (1,'QUICK_PLAY',4,2,1,80,'IN_PROGRESS');
+--- INFORMACION DE LA PARTIDA 1
+INSERT INTO games_info(id, game_mode, num_players, winner_id, creator_id, game_time, game_status, game_id) 
+VALUES (1, 'QUICK_PLAY', 4, 2, 1, 80, 'IN_PROGRESS', 1);
 
--- -- Jugadores PARTIDA 1
--- INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
--- INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
--- INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
--- INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
--- -- RONDA DE LA PARTIDA 1
--- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
+-- Jugadores PARTIDA 1
+INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
+INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
+-- RONDA DE LA PARTIDA 1
+INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
 
 -- -- PARTIDA 2
 -- -- Creador: Player 2

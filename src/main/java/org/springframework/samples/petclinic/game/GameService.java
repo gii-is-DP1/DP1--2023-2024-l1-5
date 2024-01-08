@@ -82,6 +82,10 @@ public class GameService {
         }
         return result;
     }
+    @Transactional(readOnly = true)
+    public Game getInProgressGame(Integer playerId){
+        return gameRepository.findInProgressPlayerGame(playerId);
+    }
 
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
