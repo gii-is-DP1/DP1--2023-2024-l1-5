@@ -393,15 +393,15 @@ export default function WaitingRoom(){
     };    
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+        const chatMessagesElement = document.querySelector('.chat-messages');
+        if (chatMessagesElement) {
+            chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+        }
+    };    
 
     useEffect(() => {
-        setTimeout(() => {
-            scrollToBottom();
-        }, 100); // Retraso para dar tiempo a que el DOM se actualice
+        scrollToBottom();
     }, [messages]);
-    
 
     useEffect(() => {
         setUp();
@@ -435,7 +435,7 @@ export default function WaitingRoom(){
     return (
         <div className="wallpaper">
             <div className="page">
-                <div className='section'>
+                <div className='section' style={{ alignSelf: 'center' }}>
                     <h1 className='text-center'>Waiting Room</h1>
                     <h4 className='text-center'>{game.gameMode} MODE</h4>
                     <h5 className='text-center mt-2'>  Players  {game.numPlayers} / 8 </h5>
@@ -461,7 +461,7 @@ export default function WaitingRoom(){
                         </Link>
                     </div>
                 </div>
-                <div className='section'>
+                <div className='small-section'>
                     <h1 className='text-center'>Chat</h1>
                     <div className='chat-section'>
                         <div className='chat-messages'>

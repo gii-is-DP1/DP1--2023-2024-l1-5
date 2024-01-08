@@ -1,5 +1,10 @@
+.page {
+    height: 90%;
+}
+
 .chat-section {
     width: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +18,8 @@
     display: flex;
     flex-direction: column-reverse; /* Comienza desde abajo */
     overflow-y: auto; /* Permite el desplazamiento vertical */
-    height: 300px; /* Altura fija para el área de mensajes, ajústala según tus necesidades */
+    overflow-x: hidden; /* Oculta el desplazamiento horizontal */
+    height: 100%; /* Altura fija para el área de mensajes, ajústala según tus necesidades */
     width: 100%; /* Ancho completo del contenedor padre */
     border: 2px solid rgba(120, 40, 150, 0.5); /* Borde estilizado */
     border-radius: 10px; /* Bordes redondeados */
@@ -28,6 +34,9 @@
     padding: 8px; /* Espaciado interno de cada mensaje */
     border-radius: 10px; /* Bordes redondeados de cada mensaje */
     color: rgba(0, 0, 0, 0.7); /* Color del texto */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%; /* Ajusta este valor según el diseño de tu chat */
 }
 
 .my-message {
