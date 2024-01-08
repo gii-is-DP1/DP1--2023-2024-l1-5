@@ -82,7 +82,7 @@ public class GameControllerTests {
 
         mockMvc.perform(get(BASE_URL))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.size()").value(7));
+            .andExpect(jsonPath("$.size()").value(8));
         
     }
 
@@ -104,7 +104,7 @@ public class GameControllerTests {
     public void testGetWaitingGames() throws Exception{
          mockMvc.perform(get(BASE_URL+"/waiting"))
          .andExpect(status().isOk())
-         .andExpect(jsonPath("$.size()").value(2));
+         .andExpect(jsonPath("$.size()").value(3));
     }
 
     @Test
@@ -137,7 +137,7 @@ public class GameControllerTests {
         .andExpect(status().isConflict());
     }
     @Test
-    @WithMockUser(username = "player7", authorities = { "PLAYER" })
+    @WithMockUser(username = "player3", authorities = { "PLAYER" })
     public void testCreatequickGame() throws Exception {
 
         User user = new User();

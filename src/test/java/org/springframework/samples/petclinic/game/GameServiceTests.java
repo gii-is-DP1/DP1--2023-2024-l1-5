@@ -64,7 +64,40 @@ public class GameServiceTests {
     //     when(userService.findCurrentUser()).thenReturn(newUser);
     //     when(playerRepository.findByUser(any())).thenReturn(Optional.of(newPlayer));
     //     Game savedGame = gameService.saveGame(gameToSave,newPlayer);
+    // @Test
+    // public void testUpdatePlayer() {
+    //     Player existingPlayer = new Player();
+    //     existingPlayer.setId(PLAYER_ID);
+    //     existingPlayer.setPlayerUsername("OriginalUsername");
 
+    //     Player updateInfo = new Player();
+    //     updateInfo.setPlayerUsername("UpdatedUsername");
+
+    //     when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(existingPlayer));
+    //     when(playerRepository.save(any(Player.class))).thenReturn(existingPlayer);
+
+    //     Player updatedPlayer = playerService.updatePlayer(updateInfo, PLAYER_ID);
+
+    //     assertNotNull(updatedPlayer);
+    //     assertEquals("UpdatedUsername", updatedPlayer.getPlayerUsername());
+    //     verify(playerRepository, times(1)).save(any(Player.class));
+    // }
+    private static final Integer PLAYER_ID = 2;
+    private static final Integer GAME_ID = 100;
+
+
+    @Test
+    public void testUpdateGame(){
+        Game game = new Game();
+        Player player = new Player();
+        player.setId(PLAYER_ID);
+        game.setId(GAME_ID);
+        Game updateGame = new Game();
+        when(gameRepository.findById(GAME_ID)).thenReturn(Optional.of(game));
+        when(gameRepository.save(game)).thenReturn(game);
+        Game result = gameService.updateGame(PLAYER_ID, GAME_ID);
+        assertNotNull(result);
+    }
 
     @Test
     public void testGetAllGames() {
@@ -155,6 +188,8 @@ public class GameServiceTests {
         game.setStatus(status);
         return game;
     }
+
+    
 
     @Test
     public void testGetNoRandomGame() {

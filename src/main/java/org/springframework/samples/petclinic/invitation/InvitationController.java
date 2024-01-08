@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@RequestMapping("/api/v1/invitations")
 @Tag(name = "Invitation", description = "The Invitations management API")
 @SecurityRequirement(name = "bearerAuth")
 public class InvitationController {

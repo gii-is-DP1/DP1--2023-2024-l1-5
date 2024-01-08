@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.round.exceptions.WaitingGameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +21,12 @@ import java.util.function.BiFunction;
 @Service
 public class RoundService {
     RoundRepository roundRepository;
-    GameRepository  gameRepository;
+    GameService gameService;
 
     @Autowired
-    public RoundService(RoundRepository roundRepository, GameRepository gameRepository) {
+    public RoundService(RoundRepository roundRepository, GameService gameService) {
         this.roundRepository = roundRepository;
-        this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
 
     @Transactional
@@ -122,50 +122,5 @@ public class RoundService {
             }
 
         }
-    }
-
-    public Map<Integer, List<Card>> repartir2(List<Card> lsCards, GameMode gameMode, RoundMode roundMode,
-            List<Integer> lsPlayers) {
-        Map<Integer, List<Card>> hands = new HashMap<>();
-        Integer numCards = lsCards.size();
-        Integer numPlayers = lsPlayers.size();
-
-        List<Card> cartasAleatorias = new ArrayList<>(lsCards);
-        Collections.shuffle(cartasAleatorias);
-
-        BiFunction<Integer, Integer, List<Card>> obtenerMano = (idPlayer, cartasParaEstePlayer) -> {
-            List<Card> playerCards = cartasAleatorias.subList(0, cartasParaEstePlayer);
-            cartasAleatorias.removeAll(playerCards);
-            hands.put(idPlayer, playerCards);
-            return playerCards;
-        };
-
-        if ("COMPETITIVE" == gameMode.toString() && "PIT" == roundMode.toString()) {
-            hands.put(0, obtenerMano.apply(0, 1));
-            int cartasPorJugador = numCards / numPlayers;
-            for (Integer i = 0; i < numPlayers; i++) {
-                obtenerMano.apply(lsPlayers.get(i), cartasPorJugador);
-            }
-        } else if ("COMPETITIVE" == gameMode.toString()) {
-            for (Integer i = 0; i < numPlayers; i++) {
-                obtenerMano.apply(lsPlayers.get(i), 1);
-            }
-            hands.put(0, cartasAleatorias);
-        } else if ("PIT" == roundMode.toString()) {
-            hands.put(0, obtenerMano.apply(0, 1));
-            int cartasPorJugador = numCards / numPlayers;
-            int cartasRestantes = numCards % numPlayers;
-            for (Integer i = 0; i < numPlayers; i++) {
-                Integer cartasParaEstePlayer = cartasPorJugador + (cartasRestantes > 0 ? 1 : 0);
-                obtenerMano.apply(lsPlayers.get(i), cartasParaEstePlayer);
-            }
-        } else {
-            for (Integer i = 0; i < numPlayers; i++) {
-                obtenerMano.apply(lsPlayers.get(i), 1);
-            }
-            hands.put(0, cartasAleatorias);
-        }
-
-        return hands;
     }
 }

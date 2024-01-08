@@ -99,7 +99,8 @@ public class GameService {
         players.add(toAddPlayer);
         toUpdate.setPlayers(players);
         toUpdate.setNumPlayers(players.size());
-        return save(toUpdate);
+        Game updatedGame = save(toUpdate);
+        return updatedGame;
     } 
 
     @Transactional()
