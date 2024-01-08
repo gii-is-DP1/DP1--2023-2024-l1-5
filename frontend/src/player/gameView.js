@@ -20,6 +20,8 @@ export default function GameView() {
     const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
     const[winnerId, setWinnerId] = useState(null);
+    const [isGameOver, setIsGameOver] = useState(false); // Nuevo estado para el control del final del juego
+
 
 
     // useEffect(() => {
@@ -101,16 +103,20 @@ export default function GameView() {
                     Authorization: `Bearer ${jwt}`,
                 },
             }); 
-            if(responseWinner.ok){
-                const win = await responseWinner.json();
-                setWinnerId(win);
-                console.log(winnerId)
-                if(winnerId != null){
-                    navigate(`/game/quickPlay/loser`);
+            if (responseWinner.ok) {
+                const responseText = await responseWinner.text();
+                if (responseText.trim() === "") {
+                    console.log("La respuesta JSON está vacía");
+                } else {
+                    const win = JSON.parse(responseText);
+                    setWinnerId(win);
+                    console.log(win);
+                    setIsGameOver(true)
+                    navigate(`/game/quickPlay/${id}/endGame`);
                 }
-            }else{
-                console.log("Error al obtener el ganador");
-            }        
+            } else {
+                console.log("Error en la respuesta del servidor:", responseWinner.status);
+            }    
         };
 
         const responseHand =
@@ -143,17 +149,15 @@ export default function GameView() {
                 console.log("Error al obtener el deck");
             }
         };
+            // Ejecutar fetchDeck inmediatamente al iniciar gameView
+            await fetchDeck();
 
-        // Ejecutar fetchDeck inmediatamente al iniciar gameView
-        await fetchDeck();
-        await fetchWinner();
-      
-        // Establecer intervalo para ejecutar fetchDeck cada segundo
-        const interval = setInterval(fetchDeck, 1000);
-        const interval2 = setInterval(fetchWinner,1005);
+            // Establecer intervalo para ejecutar fetchDeck cada segundo
+            const interval = setInterval(fetchDeck, 1000);
+            const interval2 = setInterval(fetchWinner,2000);
 
-        // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
-        return () => clearInterval(interval, interval2);
+            // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
+            return () => clearInterval(interval, interval2);
     }
       
     //  IMPORTANTE QUE NO SE USE EL FETCH DECK UNA VEZ TERMINADA LA PARTIDA
@@ -170,14 +174,15 @@ export default function GameView() {
             });
             if(response.ok){
                 console.log("Tenemos ganador");
+                setIsGameOver(true)
+                navigate(`/game/quickPlay/${id}/endGame`);
             }else{
                 console.error("Error al obtener el ganador", response.statusText);
             }
         }catch(error){
             console.error("Error al obtener el ganador", error);
         }
-        navigate(`/game/quickPlay/winner`);
-    }
+    }   
 
 
     useEffect(() => {
@@ -238,8 +243,6 @@ export default function GameView() {
             }
         }
     }
-
-   
 
     useEffect(() => {
         const getGame = async () => {

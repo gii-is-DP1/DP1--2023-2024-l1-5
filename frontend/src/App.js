@@ -59,8 +59,7 @@ import GameRules from "./player/gameRules";
 import GameHistory from "./player/gameHistory";
 import GamesListAdmin from "./admin/games/GameListAdmin";
 import FriendsList from "./player/friends/friendsList";
-import GameEndWinner from "./player/gameEndWinner";
-import GameEndLoser from "./player/gameEndLoser";
+import GameEndWinnerLoser from "./player/gameEndWinnerLoser";
 import Error from "./player/error";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
@@ -164,8 +163,7 @@ function App() {
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/winner" exact={true} element={<PrivateRoute><GameEndWinner/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/loser" exact={true} element={<PrivateRoute><GameEndLoser/></PrivateRoute>}></Route>
+          <Route path="/game/quickPlay/:id/endGame" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
           <Route path="/error" exact={true} element={<PrivateRoute><Error/></PrivateRoute>}></Route>
         </>)
 
