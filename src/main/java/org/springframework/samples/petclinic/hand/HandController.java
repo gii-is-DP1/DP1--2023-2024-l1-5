@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.hand;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -87,6 +88,16 @@ public class HandController {
     }
 
 
+    @GetMapping("/round/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<HandDTO>> getRoundHands(@PathVariable("id") Integer id) {
+        List<Hand> hands = handService.getHandByRoundId(id);
+        if (hands == null) {
+            throw new ResourceNotFoundException("Hand", "id", id);
+        }
+        List<HandDTO> handDTOs = hands.stream().map(hand -> new HandDTO(hand,hand.getCards())).collect(Collectors.toList());
+        return new ResponseEntity<>(handDTOs, HttpStatus.OK);
+    }
 
 
     // @PutMapping("/{id}")

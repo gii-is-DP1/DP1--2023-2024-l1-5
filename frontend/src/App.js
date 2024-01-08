@@ -160,7 +160,7 @@ function App() {
           <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id/:roundId" exact={true} element={<PrivateRoute><GameView/></PrivateRoute>} />	
-          <Route path="/game/quickPlay/:id/:roundId/viewer" exact={true} element={<PrivateRoute><GameViewerView/></PrivateRoute>} />
+          <Route path="/game/quickPlay/:id/:roundId/viewer/:playerId" exact={true} element={<PrivateRoute><GameViewerView/></PrivateRoute>} />
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>

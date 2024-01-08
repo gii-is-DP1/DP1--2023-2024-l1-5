@@ -42,7 +42,6 @@ export default function QuickPlay() {
                 });
                 if (friendsPlayingResponse.ok) {
                     const friendsPlayingList = await friendsPlayingResponse.json();
-                    console.log(friendsPlayingList);
                     setOtherGamesFriends(friendsPlayingList);
                 }
             } catch (error) {
@@ -50,31 +49,10 @@ export default function QuickPlay() {
             }
         };
 
-        const getFriendGameInfo = async (playerId) => {
-            try {
-                const friendGameInfoResponse = await fetch(`/api/v1/games/inProgress/${playerId}`, {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-                if (friendGameInfoResponse.ok) {
-                    const friendGameInfo = await friendGameInfoResponse.json()
-                    setGameId(friendGameInfo.id); 
-                    setRoundId(friendGameInfo.rounds[0].id);
-                }
-                console.log(gameId)
-                console.log(roundId)
-            } catch (error) {
-                console.error('Error fetching friends games:', error);
-            }
-        };
-
         if (myplayer.ok) {
             const data = await myplayer.json();
             setPlayerId(data.id);
             getFriendsPlaying(data.id);
-            getFriendGameInfo(data.id);
         }
 
         
@@ -200,6 +178,32 @@ export default function QuickPlay() {
         }
     };
 
+    const getFriendGameInfo = async (playerId) => {
+        try {
+            const friendGameInfoResponse = await fetch(`/api/v1/games/inProgress/${playerId}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (friendGameInfoResponse.ok) {
+                const friendGameInfo = await friendGameInfoResponse.json()
+                setGameId(friendGameInfo.id); 
+                setRoundId(friendGameInfo.rounds[0].id);
+            }
+            console.log(gameId);
+            console.log(roundId);
+        } catch (error) {
+            console.error('Error fetching friends games:', error);
+        }
+    };
+    useEffect(() => {
+        // Fetch friends' game info when otherGamesFriends changes
+        otherGamesFriends.forEach((friend) => {
+            getFriendGameInfo(friend.id);
+        });
+    }, [otherGamesFriends]);
+
     useEffect(() => {
         setUp();
     }, []);
@@ -283,15 +287,23 @@ export default function QuickPlay() {
                                 {otherGamesFriends.map(friend => (
                                     <tr key={friend.id}>
                                         <td>{friend.user.username} <a>- IN GAME </a></td>
-
-                                        {/* /game/quickPlay/${id}/${roundId} */}
                                         <td>
-                                            <Link to={`/game/quickPlay/${gameId}/${roundId}/viewer`} className="purple-button" style={{ textDecoration: 'none' }}>
-                                                <img alt="Eye Logo" src={eyeLogo} style={{ height: 25, width: 25}} />
-                                            </Link>
+                                            {/* Render link using gameId and roundId */}
+                                            {gameId && roundId && (
+                                                <Link
+                                                    to={`/game/quickPlay/${gameId}/${roundId}/viewer/${friend.id}`}
+                                                    className="purple-button"
+                                                    style={{ textDecoration: 'none' }}
+                                                >
+                                                    <img
+                                                        alt="Eye Logo"
+                                                        src={eyeLogo}
+                                                        style={{ height: 25, width: 25 }}
+                                                    />
+                                                </Link>
+                                            )}
                                         </td>
                                     </tr>
-
                                 ))}
                             </tbody>
                         </table>

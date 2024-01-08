@@ -67,9 +67,9 @@ VALUES (1, 'QUICK_PLAY', 4, 2, 1, 80, 'IN_PROGRESS', 1);
 
 -- Jugadores PARTIDA 1
 INSERT INTO player_games(player_id, game_id) VALUES(1, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
-INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(13, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(12, 1);
+-- INSERT INTO player_games(player_id, game_id) VALUES(10, 1);
 -- RONDA DE LA PARTIDA 1
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1,1,10,80,'PIT',1);
 
@@ -141,12 +141,15 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1
 
 -- INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(9,10,11,10,'PIT',8);
 -- Inserta un registro de Deck
-INSERT INTO decks(id, number_of_cards) VALUES 
-(1, 16),
-(2, 44),
-(3, 44),
-(4, 44),
-(5, 44);
+INSERT INTO decks(id, number_of_cards,round_id) VALUES 
+(1,1,1);
+-- (2, 44),
+-- (3, 44),
+-- (4, 44),
+-- (5, 44);
+
+INSERT INTO hands(id,num_cards, player_id, round_id) VALUES
+(1,15,1,1);
 
 INSERT INTO friendship(id,user_dst_id,user_source_id,status) VALUES
 (1, 18, 19, 'ACCEPTED'), (2, 18, 17, 'WAITING'), (3, 19, 17, 'ACCEPTED'), (4, 19, 10, 'WAITING'),
@@ -424,6 +427,27 @@ INSERT INTO card_symbols(card_id, symbols_name) VALUES
 (16,'DOG'),
 (16,'CLOWN'),
 (16,'HAMMER');
+
+
+INSERT INTO decks_cards(cards_id, deck_id) VALUES
+(1,1);
+
+INSERT INTO hands_cards(cards_id, hand_id) VALUES
+(2,1),
+(3,1),
+(4,1),
+(5,1),
+(6,1),
+(7,1),
+(8,1),
+(9,1),
+(10,1),
+(11,1),
+(12,1),
+(13,1),
+(14,1),
+(15,1),
+(16,1);
 
 --Se declaran los registros de chats
 INSERT INTO chats (id) VALUES (1);
