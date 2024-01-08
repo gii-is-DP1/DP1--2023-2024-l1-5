@@ -12,7 +12,7 @@ export default function WaitingRoom(){
     const [playerNames,setPlayerNames]=useState([]);
     const [playerId, setPlayerId] = useState(null);
     const user = tokenService.getUser();
-    const [roundId, setRoundId] = useState(null);
+    const [roundId, setRoundId] = useState(0);
     const [round, setRound] = useState({});
     const [buttonClicked, setButtonClicked] = useState(false);
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
@@ -54,7 +54,6 @@ export default function WaitingRoom(){
                     setGame(data);
                     setPlayers(data.playerList);
                     setRoundId(data.roundList[0]);
-
                 } else {
                     console.error("Error al obtener la partida", response.statusText);
                 }
@@ -63,10 +62,6 @@ export default function WaitingRoom(){
             }
            
         }
-        getGame();
-    }, [id]);
-
-    useEffect(()=> {
         const getRound = async () =>{
             try{
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -80,7 +75,6 @@ export default function WaitingRoom(){
                 });
                 if(response.ok){
                     const data = await response.json();
-                    console.log(data);
                     setRound(data);
                 }else{
                     console.error("Error al obtener la ronda", response.statusText);
@@ -89,11 +83,15 @@ export default function WaitingRoom(){
                 console.error("Error al obtener la ronda", error);
             }
         }
-        if(roundId !== null){
-            getRound()
-        }
-    },[roundId])
 
+        const fetchGame = async () => {
+            await getGame();
+            await getRound();
+    };
+    fetchGame();
+    }, [id, roundId]);
+
+        
 
 
     const deletePlayerFromGame = async (currentUserId) => {

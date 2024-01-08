@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.card.Card;
+import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,10 +29,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class HandController {
 
     private final HandService handService;
+    private final CardService cardService;
 
     @Autowired
-    public HandController(HandService handService) {
+    public HandController(HandService handService, CardService cardService) {
         this.handService = handService;
+        this.cardService = cardService;
     }
 
     @GetMapping
@@ -84,6 +90,18 @@ public class HandController {
     public ResponseEntity<Hand> createHand(Integer id,Integer pId) throws DataAccessException{
         Hand createdHand = handService.createHand(id, pId);
         return new ResponseEntity<>(createdHand,HttpStatus.CREATED);
+    }
+
+    @PutMapping("/round/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Hand> updateHand(@PathVariable("playerId") Integer playerId, @RequestParam("cardId") Integer cardId) {
+        Hand hand = handService.getHandByPlayerId(playerId);
+        List<Card> cards = hand.getCards();
+        Card newHandCard = cardService.getCardById(cardId);
+        cards.add(0,newHandCard);
+        hand.setCards(cards);
+        handService.saveHand(hand);
+        return new ResponseEntity<>(hand, HttpStatus.OK);
     }
 
 
