@@ -6,7 +6,7 @@ import "../static/css/player/gameView.css";
 
 const user = tokenService.getUser();
 
-export default function GameView() {
+export default function PitGameView() {
     const [cardImg, setCardImg] = useState('');
     const [deckImg, setDeckImg] = useState(null);
     const [handAux, setHandAux] = useState([]);
@@ -19,27 +19,6 @@ export default function GameView() {
     const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
 
-
-    // useEffect(() => {
-    //     const getPlayer = async () => {
-    //         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-    //         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
-    //             {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     Authorization: `Bearer ${jwt}`,
-    //                 },
-    //             })
-    //         if (myplayer.ok) {
-    //             const data = await myplayer.json();
-    //             setPlayerId(data.id);
-    //             gameView();
-    //         }
-    //     }
-    //     getPlayer();
-
-
-    // }, [user.id]);
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,

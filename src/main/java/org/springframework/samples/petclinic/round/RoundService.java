@@ -111,7 +111,7 @@ public class RoundService {
                 return hands;
             } else {
                 for (Integer i = 0; i < numPlayer; i++) {
-                    List<Card> playerCards = cartasAleatorias.subList(0, 1);
+                    List<Card> playerCards = new ArrayList<>(cartasAleatorias.subList(0, 1));
                     Integer idPlayer = lsPlayers.get(i);
                     cartasAleatorias.removeAll(playerCards);
                     hands.put(idPlayer, playerCards);
