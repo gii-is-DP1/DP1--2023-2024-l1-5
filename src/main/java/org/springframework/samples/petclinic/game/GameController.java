@@ -193,13 +193,21 @@ public class GameController {
         }
     }
 
-    @PutMapping("/winner")
-    public ResponseEntity<Game> updateWinner(@RequestParam @Valid Integer gameId, @RequestParam @Valid Integer playerId) {
+    @PutMapping("/winner/{game_id}/{player_id}")
+    public ResponseEntity<Game> updateWinner(@PathVariable("game_id") Integer gameId, @PathVariable("player_id") Integer playerId) {
         Game toUpdate = this.gameService.getGameById(gameId).get();
         toUpdate.setWinner(playerId);
         gameService.save(toUpdate);
         return new ResponseEntity<>(toUpdate, HttpStatus.OK);
     }
+
+    @GetMapping("/winner/{game_id}")
+    public ResponseEntity<Integer> getWinner(@PathVariable("game_id") Integer gameId) {
+        Game game = this.gameService.getGameById(gameId).orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        Integer res = game.getWinner();
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+    
 
     @PutMapping("/quick/joinInvitation/{game_id}")
     public ResponseEntity<Game> joinQuickGameById(@PathVariable("game_id") Integer game_id) {

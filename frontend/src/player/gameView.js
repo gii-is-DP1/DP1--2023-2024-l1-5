@@ -19,6 +19,7 @@ export default function GameView() {
     const{id} =useParams();
     const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
+    const[winnerId, setWinnerId] = useState(null);
 
 
     // useEffect(() => {
@@ -91,6 +92,27 @@ export default function GameView() {
     
     async function gameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+
+        const fetchWinner = async () => {
+            const responseWinner = await fetch(`/api/v1/games/winner/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            }); 
+            if(responseWinner.ok){
+                const win = await responseWinner.json();
+                setWinnerId(win);
+                console.log(winnerId)
+                if(winnerId != null){
+                    navigate(`/game/quickPlay/loser`);
+                }
+            }else{
+                console.log("Error al obtener el ganador");
+            }        
+        };
+
         const responseHand =
             await fetch(`/api/v1/hands/player/${playerId}`,
                 {
@@ -121,34 +143,33 @@ export default function GameView() {
                 console.log("Error al obtener el deck");
             }
         };
-      
+
         // Ejecutar fetchDeck inmediatamente al iniciar gameView
         await fetchDeck();
+        await fetchWinner();
       
         // Establecer intervalo para ejecutar fetchDeck cada segundo
         const interval = setInterval(fetchDeck, 1000);
+        const interval2 = setInterval(fetchWinner,1005);
 
         // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
-        return () => clearInterval(interval);
+        return () => clearInterval(interval, interval2);
     }
       
     //  IMPORTANTE QUE NO SE USE EL FETCH DECK UNA VEZ TERMINADA LA PARTIDA
     const winner = async()=>{
-        game.status = 'FINALIZED'
         try{
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-            const response = await fetch(`/api/v1/games/winner`,
+            const response = await fetch(`/api/v1/games/winner/${id}/${user.id}`,
             {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
-                body: JSON.stringify(game.id),
             });
             if(response.ok){
-                const data = await response.json();
-                console.log(data);
+                console.log("Tenemos ganador");
             }else{
                 console.error("Error al obtener el ganador", response.statusText);
             }
@@ -176,8 +197,7 @@ export default function GameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const symbolaux = event.target.textContent;
         const lsauxButt = deckSymbols.map(deckSymbol => deckSymbol);
-
-
+        
         if (lsauxButt.includes(symbolaux)) {
             if (handSize > 1) {
                 const newSymbolsCard = handAux[1];
@@ -297,6 +317,7 @@ return (
             <div className="filas">
                 <div className='columnas'>
                     <h1>MY HAND</h1> 
+                    {handSize}
                     <img src={cardImg} className="circle" alt='img'></img>
                 </div>
                 <div className='columnas'>
