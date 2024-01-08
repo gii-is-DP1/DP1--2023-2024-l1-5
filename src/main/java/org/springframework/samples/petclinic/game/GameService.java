@@ -7,11 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -22,16 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameService {
 
-    PlayerRepository playerRepository;
     GameRepository gameRepository;
     UserService userService;
     PlayerService playerService;
 
 	@Autowired
-	public GameService(GameRepository gameRepository,PlayerRepository playerRepository, UserService userService, 
+	public GameService(GameRepository gameRepository, UserService userService, 
                         PlayerService playerService) {
 		this.gameRepository = gameRepository;
-        this.playerRepository = playerRepository;
         this.userService = userService;
         this.playerService = playerService;
     }
@@ -89,7 +85,7 @@ public class GameService {
 
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
-        Player toAddPlayer = playerRepository.findPlayerById(idPlayer).get();
+        Player toAddPlayer = playerService.getPlayerById(idPlayer).get();
         boolean hasActiveGame = hasActiveGame(toAddPlayer);
         if(hasActiveGame){
             throw new ActiveGameException("El jugador ya tiene una partida activa");
@@ -157,6 +153,16 @@ public class GameService {
         game.setPlayers(players);
 
         gameRepository.save(game);
+    }
+
+    @Transactional
+    public List<Game> getPlayerGamesInProgress(Integer id){
+        return gameRepository.findPlayerGamesInProgress(id);
+    }
+    
+    @Transactional
+    public List<Game> getPlayerGamesWaiting(Integer id){
+        return gameRepository.findPlayerGamesWaiting(id);
     }
 }
     

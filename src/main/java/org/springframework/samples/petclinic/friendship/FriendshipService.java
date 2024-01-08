@@ -9,9 +9,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerRepository;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.player.State;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FriendshipService {
     FriendshipRepository friendshipRepository;
-    PlayerRepository playerRepository;
-    GameRepository gameRepository;
+    PlayerService playerService;
+    GameService gameService;
 
     @Autowired
-    public FriendshipService(FriendshipRepository friendshipRepository, PlayerRepository playerRepository, GameRepository gameRepository){
+    public FriendshipService(FriendshipRepository friendshipRepository, PlayerService playerService, GameService gameService){
         this.friendshipRepository = friendshipRepository;
-        this.playerRepository = playerRepository;
-        this.gameRepository = gameRepository;
+        this.playerService = playerService;
+        this.gameService = gameService;
     }
 
     @Transactional(rollbackFor = {FriendshipExistsException.class})
@@ -82,11 +82,11 @@ public class FriendshipService {
         List<Player> friendsList = new ArrayList<>();
         for (int id : playerIds) {
             if (id != playerId) { // Excluir el playerId
-                Player player = playerRepository.findPlayerById(id).get();
+                Player player = playerService.getPlayerById(id).get();
                 if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
                     friendsList.add(player);
                 } else if (player != null && state.equals("PLAYING")) { //Amigos del playerId que esten jugando
-                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);     
+                    List<Game> games = gameService.getPlayerGamesInProgress(id);    
                     if (!games.isEmpty() && !friendsList.contains(player)) {
                         friendsList.add(player);
                     }
@@ -117,12 +117,12 @@ public class FriendshipService {
         List<Player> playerDetails2 = new ArrayList<>();
         for (int id : playerIds) {
             if (id != playerId) { // Excluir el playerId
-                Player player = playerRepository.findPlayerById(id).get();
+                Player player = playerService.getPlayerById(id).get();
                 if (player != null && state.equals("ALL")) { //Amigos del playerId con cualquier estado
                     playerDetails2.add(player);
                 } else if (player != null && state.equals("NOTPLAYING")) { //Amigos del playerId que no esten jugando
-                    List<Game> games = gameRepository.findPlayerGamesInProgress(id);
-                    List<Game> games2 = gameRepository.findPlayerGamesWaiting(id);
+                    List<Game> games = gameService.getPlayerGamesInProgress(id); 
+                    List<Game> games2 = gameService.getPlayerGamesWaiting(id); 
                     if (games.isEmpty() && games2.isEmpty() && !playerDetails2.contains(player)) {
                         playerDetails2.add(player);
                     }         
