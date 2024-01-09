@@ -18,6 +18,7 @@ function AppNavbar() {
     const [hasGame, setHasGame] = useState(false);
     const [idGame, setIdGame] = useState(null);
     const [idRound, setIdRound] = useState(null);
+    const [roundMode, setRoundMode] = useState(null);
     const [status, setStatus] = useState(null);
     const toggleNavbar = () => setCollapsed(!collapsed);
     const location = useLocation();
@@ -44,26 +45,29 @@ function AppNavbar() {
                     })
                 ).json(); 
 
-                const { userHasGame, gameId, statusB, roundB } = checkIfUserHasGame(gamesMG, currentPath);
-
+                const { userHasGame, gameId, statusB, roundB, roundMode } = checkIfUserHasGame(gamesMG, currentPath);
                 setHasGame(userHasGame);
                 setIdGame(gameId);
                 setStatus(statusB);
                 setIdRound(roundB);
+                setRoundMode(roundMode);
+                console.log(roundMode);
             } catch (error) {
                 console.error('Error en la función checkIfUserHasGame:', error);
             }
         }
         fetchData();
-    }, [currentPath, idGame, status, idRound]); 
+    }, [currentPath, idGame, status, idRound, roundMode]); 
 
     async function myGameButton() {
         try {
             if (status === "WAITING" && currentPath !== `/game/quickPlay/${idGame}`) {
                 window.location.href = `/game/quickPlay/${idGame}`;
                 //navigate(/game/quickPlay/${idGame}); // Usa navigate para cambiar la ruta
-            } else if (status === "IN_PROGRESS" ){
+            } else if (status === "IN_PROGRESS" && roundMode === "PIT"){
                 window.location.href = `/game/quickPlay/${idGame}/${idRound}`;
+            } else if (status === "IN_PROGRESS" && roundMode === "INFERNAL_TOWER"){
+                window.location.href = `/game/quickPlay/${idGame}/${idRound}/it`;
             }
         } catch (error) {
             console.error('Error en la función gameButton:', error);

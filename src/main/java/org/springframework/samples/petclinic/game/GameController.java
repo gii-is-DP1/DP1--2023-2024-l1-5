@@ -138,14 +138,11 @@ public class GameController {
 
     @GetMapping("/myGame/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<GameDTO>> getPlayerGames(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<List<Game>> getPlayerGames(@PathVariable("userId") Integer userId) {
         Player player = playerService.getPlayerByUserId(userId);
         List<Game> games = gameService.getGameFromPlayer(player);
-        List<GameDTO> gameDTOs = games.stream()
-                .map(game -> new GameDTO(game))
-                .collect(Collectors.toList());
 
-        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(games, HttpStatus.OK);
     }
 
     @ApiResponses(value = {

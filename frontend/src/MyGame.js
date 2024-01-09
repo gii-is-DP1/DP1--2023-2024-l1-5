@@ -4,12 +4,14 @@ export function checkIfUserHasGame(games, currentPath) {
         let gameId = null;
         let statusB = null;
         let roundB = null;
+        let roundMode = null;
 
         if(games.length > 0){
             userHasGame = true;
             gameId = games[0].id;
             statusB = games[0].status;
-            roundB = games[0].roundList[0];
+            roundB = games[0].rounds[0].id;
+            roundMode = games[0].rounds[0].roundMode;
         }
 
         const isInGameURL = currentPath.startsWith("/game/quickPlay/");
@@ -18,9 +20,9 @@ export function checkIfUserHasGame(games, currentPath) {
             userHasGame = false;
         }
 
-        return { userHasGame, gameId, statusB, roundB };
+        return { userHasGame, gameId, statusB, roundB, roundMode };
     } catch (error) {
         console.error('Error en la función checkIfUserHasGame:', error);
-        return { userHasGame: false, gameId: null, statusB: null, roundB: null };
+        return { userHasGame: false, gameId: null, statusB: null, roundB: null, roundMode: null };
     }
 }
