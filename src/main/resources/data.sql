@@ -75,11 +75,12 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1
 
 -- PARTIDA 2
 -- Creador: Player 2
--- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
--- -- Jugadores PARTIDA 2
--- INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
--- INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
--- INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
+
+INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+-- Jugadores PARTIDA 2
+INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
+INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
 
 --PARTIDA 3
 -- Creador: Player 2
@@ -231,9 +232,9 @@ INSERT INTO game_statistics (id, result, game_duration, points) VALUES
 (2, 'ronaldDinamita', 150, 22),
 (3, 'nicherlob', 180, 12);
 
--- -- Inserta un registro de Message
--- INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
--- INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
+-- Inserta un registro de ChatMessage
+INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (1, 'Hola Buenos Dias','player2','2023-02-11 11:30', 2);
+INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (2,'Que calor hace!!!' ,'player9','2023-02-11 11:31', 2);
 
  INSERT INTO cards(id, image) VALUES 
 (1, 'https://i.imgur.com/pbHhrvm.jpeg'),
@@ -633,6 +634,7 @@ INSERT INTO card_symbols(card_id, symbols_name) VALUES
 -- INSERT INTO chats (id) VALUES (1);
 -- INSERT INTO chats (id) VALUES (2);
 -- INSERT INTO chats (id) VALUES (3);
+
 
 
 

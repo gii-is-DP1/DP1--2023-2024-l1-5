@@ -12,7 +12,7 @@ const user = tokenService.getUser();
 export default function QuickPlay() {
     const [error, setError] = useState(null);
     const [error2, setError2] = useState(null);
-    const [error3,setError3] = useState(null);
+    const [error3, setError3] = useState(null);
     const [playerId, setPlayerId] = useState(null);
     const tableRef = useRef(null);
     const [otherGamesFriends, setOtherGamesFriends] = useState([]);
@@ -59,7 +59,6 @@ export default function QuickPlay() {
     }
 
     const CreateThePit = async () => {
-
         const requestBody2 = {
             roundMode: "PIT",
         }
@@ -89,19 +88,17 @@ export default function QuickPlay() {
                         body: JSON.stringify(requestBody2),
                     });
                 if (!(response2.ok)) {
-                    console.error("Error al crear la ronda", response2.statusText);
+                    console.error("Error creating round", response2.statusText);
                 }
             } else {
-                console.error("Error: Ya perteneces a una partida", response1.statusText);
-                setError("Error al crear la partida: Ya perteneces a una partida");
+                console.error("Error: You already belong to a game", response1.statusText);
+                setError("Error creating the game: You already belong to a game");
             }
-
+        } catch (error) {
+            console.error("Error: You already belong to a game", error);
         }
-        catch (error) {
-            console.error("Error:Ya perteneces a una partida", error);
-        }
-
     }
+
     const createInfernalTower = async () => {
         const requestBody2 = {
             roundMode: "INFERNAL_TOWER",
@@ -131,19 +128,15 @@ export default function QuickPlay() {
                         body: JSON.stringify(requestBody2),
                     });
                 if (!(response2.ok)) {
-                    console.error("Error al crear la ronda", response2.statusText);
+                    console.error("Error creating round", response2.statusText);
                 }
-
             } else {
-                console.error("Error al crear la partida", response1.statusText);
-                setError2("Error al crear la partida. Ya perteneces a una partida");
-
+                console.error("Error creating the game", response1.statusText);
+                setError2("Error creating the game. You already belong to a game");
             }
+        } catch (error) {
+            console.error("Error: You already belong to a game", error);
         }
-        catch (error) {
-            console.error("Error:Ya perteneces a una partida", error);
-        }
-
     }
 
 
@@ -151,30 +144,28 @@ export default function QuickPlay() {
     const joinGame = async () => {
         try {
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-            
+
             const response3 = await fetch('/api/v1/games/quick/joinRandom',
-            {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
-                },
-                body: JSON.stringify(playerId),
-            });
-            if(response3.ok){
+                {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                    body: JSON.stringify(playerId),
+                });
+            if (response3.ok) {
                 const data = await response3.json();
                 window.location.href = `/game/quickPlay/${data.id}`;
-        } else if(response3.status === 409){
-            console.error("Error al unirse a una partida.", response3.statusText);
-            setError3("Error al unirse a una partida. No existen partidas disponibles");
-        }
-        else {
-            console.error("Error al unirse a una partida.", response3.statusText);
-            setError3("Error al unirse a una partida. Ya perteneces a una partida");
-
-        }}
-        catch(error) {
-        console.error("Error:Ya perteneces a una partida", error);
+            } else if (!response3.ok) {
+                console.error("Error joining a game", response3.statusText);
+                setError3("Error joining a game. You already belong to a game");
+            } else {
+                console.error("Error joining a game. No available games", response3.statusText);
+                setError3("Error joining a game. No available games");
+            } 
+        } catch (error) {
+            console.error("Error: You already belong to a game", error);
         }
     };
 
@@ -223,12 +214,12 @@ export default function QuickPlay() {
                         of his or her cards on top of it, players must be quick.
                     </span>
                     <br></br>
-                    <Link 
-                        className='purple-button' 
+                    <Link
+                        className='purple-button'
                         onClick={CreateThePit}
                         style={{ textDecoration: 'none' }}
                     >
-                    Create Game
+                        Create Game
                     </Link>
                     <p className='error'>{error}</p>
                 </div>
@@ -250,11 +241,11 @@ export default function QuickPlay() {
                         draw pile have been drawn.
                     </span>
                     <br></br>
-                    <Link 
-                        className="purple-button" 
+                    <Link
+                        className="purple-button"
                         onClick={createInfernalTower}
                         style={{ textDecoration: 'none' }}
-                        >
+                    >
                         Create Game
                     </Link>
                     <p className='error'>{error2}</p>
@@ -265,11 +256,11 @@ export default function QuickPlay() {
                         Join a random game
                     </span>
                     <br></br>
-                    <Link 
-                        className="purple-button" 
+                    <Link
+                        className="purple-button"
                         onClick={joinGame}
                         style={{ textDecoration: 'none' }}
-                        >
+                    >
                         Join Game
                     </Link>
                     <p className='error'>{error3}</p>
@@ -311,6 +302,5 @@ export default function QuickPlay() {
                 </div>
             </div>
         </div>
-
     );
 }
