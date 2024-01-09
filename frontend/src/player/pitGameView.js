@@ -300,8 +300,9 @@ return (
         <div className='contenedor'>
             <div className="filas">
                 <div className='columnas'>
-                    <h1>MY HAND</h1> 
+                    <h1>My hand</h1> 
                     <img src={cardImg} className="circle" alt='img'></img>
+                    <h5>Cards left: {handSize}</h5>
                 </div>
                 <div className='columnas'>
                     <h1>Deck</h1>

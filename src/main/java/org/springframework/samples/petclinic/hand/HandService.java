@@ -7,11 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerRepository;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.round.Round;
-import org.springframework.samples.petclinic.round.RoundRepository;
+import org.springframework.samples.petclinic.round.RoundService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class HandService {
 
     HandRepository handRepository;
-    RoundRepository roundRepository;
-    PlayerRepository playerRepository;
+    RoundService roundService;
+    PlayerService playerService;
 
     @Autowired
-    public HandService(HandRepository handRepository, RoundRepository roundRepository, PlayerRepository playerRepository) {
+    public HandService(HandRepository handRepository, RoundService roundService, PlayerService playerService) {
         this.handRepository = handRepository;
-        this.roundRepository = roundRepository;
-        this.playerRepository = playerRepository;
+        this.roundService = roundService;
+        this.playerService = playerService;
     }
 
     @Transactional
@@ -40,8 +39,8 @@ public class HandService {
     public Hand createHand(Integer roundId,Integer playerId) throws DataAccessException {
         Hand newHand = new Hand();
         newHand.setNumCartas(10);
-        Round round = roundRepository.findById(roundId).get();
-        Player player = playerRepository.findById(playerId).get();
+        Round round = roundService.getRoundById(roundId).get();
+        Player player = playerService.getPlayerById(playerId).get();
         newHand.setRound(round);
         newHand.setPlayer(player);
         newHand.setCards(new ArrayList<>());
@@ -63,15 +62,11 @@ public class HandService {
         return handRepository.findHandByPlayerId(playerId);
     }
 
-    // @Transactional(readOnly = true)
-    // public Hand getHandByRoundId(Integer roundId) {
-    //     return handRepository.findByRoundId(roundId);
-    // }
+    @Transactional(readOnly = true)
+    public List<Hand> getHandByRoundId(Integer roundId) {
+        return handRepository.findByRoundId(roundId);
+    }
 
-    // @Transactional(readOnly = true)
-    // public Hand getHandByPlayerId(Integer playerId) {
-    //     return handRepository.findByPlayerId(playerId);
-    // }
 
     @Transactional
     public Hand updateHand(Hand hand, Integer id) {

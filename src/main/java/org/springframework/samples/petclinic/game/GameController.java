@@ -286,7 +286,6 @@ public class GameController {
         Game savedGame = gameService.save(gameToUpdate);
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
     }
-
     @PutMapping("/updateFinalized/{gameId}")
     public ResponseEntity<Game> updateGameFinalized(@PathVariable("gameId") Integer gameId) {
         Game gameToUpdate = gameService.getGameById(gameId)
@@ -294,6 +293,15 @@ public class GameController {
         gameToUpdate.setStatus(GameStatus.FINALIZED);
         Game savedGame = gameService.save(gameToUpdate);
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+    @GetMapping("/inProgress/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Game> getInProgressPlayerGame(@PathVariable("playerId") Integer playerId){
+        Game game = gameService.getInProgressGame(playerId);
+        if(game == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
 }

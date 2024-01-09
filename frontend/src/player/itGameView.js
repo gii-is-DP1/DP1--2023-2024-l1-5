@@ -21,6 +21,7 @@ export default function ItGameView() {
     const [handSize, setHandSize] = useState(0);
     const[winnerId, setWinnerId] = useState(null);
 
+
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
@@ -127,6 +128,7 @@ export default function ItGameView() {
         if (responseHand.ok) {
             const hand2 = await responseHand.json();
             setCardImg(hand2.cards[0].image);
+            setHandSize(hand2.cards.length);
             nameSymbolsCard(hand2.cards[0]);
         } else {
             console.log("Error al obtener la mano del jugador");
@@ -355,8 +357,9 @@ export default function ItGameView() {
             <div className='contenedor'>
                 <div className="filas">
                     <div className='columnas'>
-                        <h1>MY HAND</h1> 
+                        <h1>My hand</h1> 
                         <img src={cardImg} className="circle" alt='img'></img>
+                        <h5>Cards left: {handSize}</h5>
                     </div>
                     <div className='columnas'>
                         <h1>Deck</h1>
