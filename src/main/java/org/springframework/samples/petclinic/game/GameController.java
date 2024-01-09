@@ -274,4 +274,14 @@ public class GameController {
         return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
 
+    @GetMapping("/inProgress/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Game> getInProgressPlayerGame(@PathVariable("playerId") Integer playerId){
+        Game game = gameService.getInProgressGame(playerId);
+        if(game == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+    
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.round.Round;
@@ -63,10 +62,10 @@ public class HandService {
         return handRepository.findHandByPlayerId(playerId);
     }
 
-    // @Transactional(readOnly = true)
-    // public Hand getHandByRoundId(Integer roundId) {
-    //     return handRepository.findByRoundId(roundId);
-    // }
+    @Transactional(readOnly = true)
+    public List<Hand> getHandByRoundId(Integer roundId) {
+        return handRepository.findByRoundId(roundId);
+    }
 
     // @Transactional(readOnly = true)
     // public Hand getHandByPlayerId(Integer playerId) {

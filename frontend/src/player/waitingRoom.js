@@ -399,11 +399,11 @@ export default function WaitingRoom(){
                         })}
                     </ul>
                     <div className='button-group mt-2'>
-                        <Link 
-                            className={`purple-button ${buttonClicked ? '' : 'active'}`} 
-                            onClick={ready} disabled={buttonClicked}
-                            style={{ textDecoration:'none'}}
-                            >
+                    <Link
+                        className={`purple-button ${buttonClicked ? 'disabled' : 'active'}`}
+                        onClick={ready}
+                        style={{ textDecoration: 'none', pointerEvents: buttonClicked ? 'none' : 'auto' }}
+                    >
                             {'Ready'}
                         </Link>
                         <Link 

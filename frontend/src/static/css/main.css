@@ -110,6 +110,14 @@ body {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
+.purple-button:disabled {
+    background-color: lightgray;
+    border-color: lightgray;
+    color: gray;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 .button-group {
     display: flex; /* Usa Flexbox */
     justify-content: center; /* Centra los botones horizontalmente */

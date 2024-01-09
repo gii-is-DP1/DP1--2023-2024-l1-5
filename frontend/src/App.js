@@ -54,6 +54,7 @@ import WaitingRoom from "./player/waitingRoom";
 import Game from "./player/game";
 import PitGameView from "./player/pitGameView";
 import ItGameView from "./player/itGameView";
+import GameViewerView from "./player/gameViewerView";
 import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
 import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
 import GameRules from "./player/gameRules";
@@ -161,6 +162,7 @@ function App() {
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id/:roundId/pit" exact={true} element={<PrivateRoute><PitGameView/></PrivateRoute>} />	
           <Route path="/game/quickPlay/:id/:roundId/it" exact={true} element={<PrivateRoute><ItGameView/></PrivateRoute>} />	
+          <Route path="/game/quickPlay/:id/:roundId/viewer/:playerId" exact={true} element={<PrivateRoute><GameViewerView/></PrivateRoute>} />
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>

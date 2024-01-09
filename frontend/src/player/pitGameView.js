@@ -19,27 +19,6 @@ export default function PitGameView() {
     const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
 
-
-    // useEffect(() => {
-    //     const getPlayer = async () => {
-    //         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-    //         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
-    //             {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     Authorization: `Bearer ${jwt}`,
-    //                 },
-    //             })
-    //         if (myplayer.ok) {
-    //             const data = await myplayer.json();
-    //             setPlayerId(data.id);
-    //             gameView();
-    //         }
-    //     }
-    //     getPlayer();
-
-
-    // }, [user.id]);
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
@@ -294,8 +273,9 @@ return (
         <div className='contenedor'>
             <div className="filas">
                 <div className='columnas'>
-                    <h1>MY HAND</h1> 
+                    <h1>My hand</h1> 
                     <img src={cardImg} className="circle" alt='img'></img>
+                    <h5>Cards left: {handSize}</h5>
                 </div>
                 <div className='columnas'>
                     <h1>Deck</h1>
