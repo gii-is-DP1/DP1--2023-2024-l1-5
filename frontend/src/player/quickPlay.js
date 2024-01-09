@@ -4,6 +4,7 @@ import "../static/css/player/newGame.css"
 import '../static/css/main.css'
 import { Link } from "react-router-dom";
 import tokenService from '../services/token.service';
+import eyeLogo from '..//static/images/eye.png';
 
 const jwt = tokenService.getLocalAccessToken();
 const user = tokenService.getUser();
@@ -15,6 +16,8 @@ export default function QuickPlay() {
     const [playerId, setPlayerId] = useState(null);
     const tableRef = useRef(null);
     const [otherGamesFriends, setOtherGamesFriends] = useState([]);
+    const [gameId, setGameId] = useState(null);
+    const [roundId, setRoundId] = useState(null);
 
     const requestBody1 = {
         gameMode: "QUICK_PLAY"
@@ -29,10 +32,30 @@ export default function QuickPlay() {
                     Authorization: `Bearer ${jwt}`,
                 },
             })
+        const getFriendsPlaying = async (playerId) => {
+            try {
+                const friendsPlayingResponse = await fetch(`/api/v1/friendship/friends/playing/${playerId}`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (friendsPlayingResponse.ok) {
+                    const friendsPlayingList = await friendsPlayingResponse.json();
+                    setOtherGamesFriends(friendsPlayingList);
+                }
+            } catch (error) {
+                console.error('Error fetching friends playing:', error);
+            }
+        };
+
         if (myplayer.ok) {
             const data = await myplayer.json();
             setPlayerId(data.id);
+            getFriendsPlaying(data.id);
         }
+
+        
     }
 
     const CreateThePit = async () => {
@@ -116,6 +139,8 @@ export default function QuickPlay() {
         }
     }
 
+
+
     const joinGame = async () => {
         try {
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -144,39 +169,34 @@ export default function QuickPlay() {
         }
     };
 
-    const getFriendsPlaying = async () => {
+    const getFriendGameInfo = async (playerId) => {
         try {
-            const userIdResponse = await fetch(`/api/v1/players/user/${user.id}`, {
+            const friendGameInfoResponse = await fetch(`/api/v1/games/inProgress/${playerId}`, {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                     "Content-Type": "application/json",
                 },
             });
-            if (userIdResponse.ok) {
-                const responseBody = await userIdResponse.json();
-                const playerId = responseBody.id;
-
-                const friendsPlayingResponse = await fetch(`/api/v1/friendship/friends/playing/${playerId}`, {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                if (friendsPlayingResponse.ok) {
-                    const friendsPlayingList = await friendsPlayingResponse.json();
-                    console.log(friendsPlayingList);
-                    setOtherGamesFriends(friendsPlayingList);
-                }
+            if (friendGameInfoResponse.ok) {
+                const friendGameInfo = await friendGameInfoResponse.json()
+                setGameId(friendGameInfo.id); 
+                setRoundId(friendGameInfo.rounds[0].id);
             }
+            console.log(gameId);
+            console.log(roundId);
         } catch (error) {
-            console.error('Error fetching friends playing:', error);
+            console.error('Error fetching friends games:', error);
         }
     };
+    useEffect(() => {
+        // Fetch friends' game info when otherGamesFriends changes
+        otherGamesFriends.forEach((friend) => {
+            getFriendGameInfo(friend.id);
+        });
+    }, [otherGamesFriends]);
 
     useEffect(() => {
         setUp();
-        getFriendsPlaying();
     }, []);
 
     return (
@@ -258,6 +278,22 @@ export default function QuickPlay() {
                                 {otherGamesFriends.map(friend => (
                                     <tr key={friend.id}>
                                         <td>{friend.user.username} <a>- IN GAME </a></td>
+                                        <td>
+                                            {/* Render link using gameId and roundId */}
+                                            {gameId && roundId && (
+                                                <Link
+                                                    to={`/game/quickPlay/${gameId}/${roundId}/viewer/${friend.id}`}
+                                                    className="purple-button"
+                                                    style={{ textDecoration: 'none' }}
+                                                >
+                                                    <img
+                                                        alt="Eye Logo"
+                                                        src={eyeLogo}
+                                                        style={{ height: 25, width: 25 }}
+                                                    />
+                                                </Link>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

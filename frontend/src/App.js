@@ -52,13 +52,16 @@ import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import QuickPlay from "./player/quickPlay";
 import WaitingRoom from "./player/waitingRoom";
 import Game from "./player/game";
-import GameView from "./player/gameView";
+import PitGameView from "./player/pitGameView";
+import ItGameView from "./player/itGameView";
+import GameViewerView from "./player/gameViewerView";
 import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
 import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
 import GameRules from "./player/gameRules";
 import GameHistory from "./player/gameHistory";
 import GamesListAdmin from "./admin/games/GameListAdmin";
 import FriendsList from "./player/friends/friendsList";
+import GameEndWinnerLoser from "./player/gameEndWinnerLoser";
 import Error from "./player/error";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
@@ -158,10 +161,13 @@ function App() {
           <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
           <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/:id/:roundId" exact={true} element={<PrivateRoute><GameView/></PrivateRoute>} />	
+          <Route path="/game/quickPlay/:id/:roundId/pit" exact={true} element={<PrivateRoute><PitGameView/></PrivateRoute>} />	
+          <Route path="/game/quickPlay/:id/:roundId/it" exact={true} element={<PrivateRoute><ItGameView/></PrivateRoute>} />          
+          <Route path="/game/quickPlay/:id/:roundId/viewer/:playerId" exact={true} element={<PrivateRoute><GameViewerView/></PrivateRoute>} />
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>
+          <Route path="/game/quickPlay/:id/endGame/:winnerId" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
           <Route path="/error" exact={true} element={<PrivateRoute><Error/></PrivateRoute>}></Route>
         </>)
 
