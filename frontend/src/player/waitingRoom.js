@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import "../static/css/player/newGame.css";
-import "../static/css/player/quickWaitingRoom.css";
+import "../static/css/player/waitingRoom.css";
 import "../static/css/main.css";
 import tokenService from '../services/token.service';
 
@@ -18,6 +18,11 @@ export default function WaitingRoom(){
     const [buttonClicked, setButtonClicked] = useState(false);
     const [friendsNotPlaying, setFriendsNotPlaying] = useState([]);
     const [friendUsername, setFriendUsername] = useState('');
+    const [messages, setMessages] = useState([]); 
+    const [newMessage, setNewMessage] = useState(''); 
+    const messagesEndRef = useRef(null);
+
+
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -61,7 +66,7 @@ export default function WaitingRoom(){
             } catch (error) {
                 console.error("Error al obtener la partida", error);
             }
-           
+            
         }
         const getRound = async () =>{
             try{
@@ -91,9 +96,6 @@ export default function WaitingRoom(){
     };
     fetchGame();
     }, [id, roundId]);
-
-        
-
 
     const deletePlayerFromGame = async (currentUserId) => {
         try {
@@ -266,15 +268,15 @@ export default function WaitingRoom(){
         }
     };
 
-    useEffect(() => {
-        fetchData();
-        const intervalId = setInterval(() => {
-            fetchData();
-        }, 10000);
+    // useEffect(() => {
+    //     fetchData();
+    //     const intervalId = setInterval(() => {
+    //         fetchData();
+    //     }, 10000);
 
-        return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente desmonte
+    //     return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente desmonte
 
-    }, [id]);
+    // }, [id]);
 
     const shuffle = async() =>{
             try{
@@ -337,15 +339,28 @@ export default function WaitingRoom(){
                         if(gameInfo.creator === playerId){
                             shuffle();
                         }
-                        noPlayers = true; // Establecer noPlayers a true para salir del ciclo
-                        setTimeout(() => {
-                            if(round.roundMode === 'PIT'){
-                                window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
-                            }else{
-                                window.location.href = `/game/quickPlay/${id}/${roundId}/it`;
-                            }
-                            
-                        }, 3000);
+
+                        const updateGameStatus = await fetch(`/api/v1/games/updateInprogress/${id}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${jwt}`,
+                            },
+                        });
+                        if(updateGameStatus.ok){
+                            noPlayers = true; // Establecer noPlayers a true para salir del ciclo
+                            setTimeout(() => {
+                                if(round.roundMode === 'PIT'){
+                                    window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
+                                }else{
+                                    window.location.href = `/game/quickPlay/${id}/${roundId}/it`;
+                                }
+                            }, 3000);
+                        }else{
+                            console.log("Error al actualizar el estado de la partida");
+                        }
+
                     } else {
                         console.log("El número de jugadores no es 0 en gameInfo. Esperando...");
                         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -356,6 +371,83 @@ export default function WaitingRoom(){
             console.error("Error al obtener gameInfo", error);
         }
     };
+
+    const fetchChatMessages = async () => {
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+            const response = await fetch(`/api/v1/chatMessages/${id}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setMessages(data);
+            } else {
+                console.error("Error al cargar mensajes del chat", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error al cargar mensajes del chat", error);
+        }
+    };
+
+    const sendChatMessage = async () => {
+        if (!newMessage.trim()) return; // Evita enviar mensajes vacíos
+    
+        try {
+            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+            const response = await fetch(`/api/v1/chatMessages`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    content: newMessage,
+                    source_user: user.username, // Asume que tienes el nombre de usuario disponible
+                    game_id: id, // ID de la partida
+                }),
+            });
+            if (response.ok) {
+                setNewMessage('');
+                fetchChatMessages(); // Recargar los mensajes después de enviar uno nuevo
+            } else {
+                console.error("Error al enviar mensaje", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error al enviar mensaje", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchChatMessages();
+        const intervalId = setInterval(() => {
+            fetchChatMessages();
+            fetchData();
+        }, 5000); // Actualizar cada 5 segundos, ajusta según sea necesario
+    
+        return () => clearInterval(intervalId);
+    }, [id]);
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Previene el comportamiento predeterminado de la tecla Enter
+            sendChatMessage(); // Llama a la función que envía el mensaje
+        }
+    };    
+
+    const scrollToBottom = () => {
+        const chatMessagesElement = document.querySelector('.chat-messages');
+        if (chatMessagesElement) {
+            chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+        }
+    };    
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     useEffect(() => {
         setUp();
@@ -388,8 +480,8 @@ export default function WaitingRoom(){
 
     return (
         <div className="wallpaper">
-            <div className="page">
-                <div className='section'>
+            <div className="page" style = {{ height: '90%' }}>
+                <div className='section' style={{ alignSelf: 'center' }}>
                     <h1 className='text-center'>Waiting Room</h1>
                     <h4 className='text-center'>{game.gameMode} MODE</h4>
                     <h5 className='text-center mt-2'>  Players  {game.numPlayers} / 8 </h5>
@@ -415,8 +507,29 @@ export default function WaitingRoom(){
                         </Link>
                     </div>
                 </div>
-                <div className='section'>
-                <h1 className='text-center'>Chat</h1>
+                <div className='small-section'>
+                    <h1 className='text-center'>Chat</h1>
+                    <div className='chat-section'>
+                        <div className='chat-messages'>
+                            {messages.map((message, index) => (
+                                <div key={index} 
+                                    className={`chat-message ${message.source_user === user.username ? 'my-message' : ''}`}>
+                                <strong>{message.source_user}: </strong> {message.content}
+                                </div>
+                            ))}
+                            <div ref={messagesEndRef} /> {/* Elemento invisible al final del contenedor */}
+                        </div>
+                        <div className='chat-input'>
+                            <input
+                                type='text'
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                onKeyDown={handleKeyDown} // Agrega el manejador de eventos aquí
+                                placeholder='Escribe un mensaje...'
+                            />
+                            <button onClick={sendChatMessage}>Enviar</button>
+                        </div>
+                    </div>
                 </div>
                 <div className="social">
                     {friendsNotPlaying.length > 0 && <FriendsInviteFloatingBox friendNotPlaying={friendsNotPlaying} />}
