@@ -76,11 +76,11 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES(1
 -- PARTIDA 2
 -- Creador: Player 2
 
-INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
+-- INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES (2,'COMPETITIVE',3,3,2,93,'WAITING');
 -- Jugadores PARTIDA 2
-INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
-INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
-INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
+-- INSERT INTO player_games(player_id, game_id) VALUES(9, 2);
+-- INSERT INTO player_games(player_id, game_id) VALUES(2, 2);
+-- INSERT INTO player_games(player_id, game_id) VALUES(8, 2);
 
 --PARTIDA 3
 -- Creador: Player 2

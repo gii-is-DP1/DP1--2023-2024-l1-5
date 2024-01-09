@@ -136,6 +136,15 @@ public class GameController {
         return new ResponseEntity<>(g.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/myGame/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Game>> getPlayerGames(@PathVariable("userId") Integer userId) {
+        Player player = playerService.getPlayerByUserId(userId);
+        List<Game> games = gameService.getGameFromPlayer(player);
+
+        return new ResponseEntity<>(games, HttpStatus.OK);
+    }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Partida creada exitosamente"),
             // Añado un nuevo código de estado sin documentar en swagger
@@ -294,6 +303,7 @@ public class GameController {
         Game savedGame = gameService.save(gameToUpdate);
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
     }
+
     @GetMapping("/inProgress/{playerId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> getInProgressPlayerGame(@PathVariable("playerId") Integer playerId){

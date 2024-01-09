@@ -87,6 +87,18 @@ public class GameService {
         return gameRepository.findInProgressPlayerGame(playerId);
     }
 
+    @Transactional(readOnly=true)
+    public List<Game> getGameFromPlayer(Player player){
+        Game wGame = gameRepository.findWaitingPlayerGame(player.getId());
+        Game iGame = gameRepository.findInProgressPlayerGame(player.getId());
+        List<Game> result = new ArrayList<>();
+        if(wGame != null)
+            result.add(wGame);
+        if(iGame != null)
+            result.add(iGame);
+        return result;
+    }
+    
     @Transactional()
     public Game updateGame(int idPlayer, int idGame){
         Player toAddPlayer = playerService.getPlayerById(idPlayer).get();
