@@ -278,4 +278,22 @@ public class GameController {
         return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
 
+    @PutMapping("/updateInprogress/{gameId}")
+    public ResponseEntity<Game> updateGameInProgress(@PathVariable("gameId") Integer gameId) {
+        Game gameToUpdate = gameService.getGameById(gameId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        gameToUpdate.setStatus(GameStatus.IN_PROGRESS);
+        Game savedGame = gameService.save(gameToUpdate);
+        return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateFinalized/{gameId}")
+    public ResponseEntity<Game> updateGameFinalized(@PathVariable("gameId") Integer gameId) {
+        Game gameToUpdate = gameService.getGameById(gameId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        gameToUpdate.setStatus(GameStatus.FINALIZED);
+        Game savedGame = gameService.save(gameToUpdate);
+        return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+
 }

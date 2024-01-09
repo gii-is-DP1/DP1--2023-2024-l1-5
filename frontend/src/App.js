@@ -163,7 +163,7 @@ function App() {
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/:id/endGame" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
+          <Route path="/game/quickPlay/:id/endGame/:winnerId" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
           <Route path="/error" exact={true} element={<PrivateRoute><Error/></PrivateRoute>}></Route>
         </>)
 

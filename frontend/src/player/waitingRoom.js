@@ -306,10 +306,24 @@ export default function WaitingRoom(){
                         if(gameInfo.creator === playerId){
                             shuffle();
                         }
-                        noPlayers = true; // Establecer noPlayers a true para salir del ciclo
-                        setTimeout(() => {
-                            window.location.href = `/game/quickPlay/${id}/${roundId}`;
-                        }, 3000);
+
+                        const updateGameStatus = await fetch(`/api/v1/games/updateInprogress/${id}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${jwt}`,
+                            },
+                        });
+                        if(updateGameStatus.ok){
+                            noPlayers = true; // Establecer noPlayers a true para salir del ciclo
+                            setTimeout(() => {
+                                window.location.href = `/game/quickPlay/${id}/${roundId}`;
+                            }, 3000);
+                        }else{
+                            console.log("Error al actualizar el estado de la partida");
+                        }
+
                     } else {
                         console.log("El número de jugadores no es 0 en gameInfo. Esperando...");
                         await new Promise((resolve) => setTimeout(resolve, 1000));

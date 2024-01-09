@@ -7,32 +7,7 @@ export default function GameEnd() {
     const navigate = useNavigate();
     const jwt = JSON.parse(window.localStorage.getItem("jwt"));
     const user = tokenService.getUser();
-    const { id } = useParams();
-    const [winnerId, setWinnerId] = useState(null);
-
-    useEffect(() => {
-        const fetchWinnerId = async () => {
-            const responseWinner = await fetch(`/api/v1/games/winner/${id}`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
-                },
-            });
-
-            if (responseWinner.ok) {
-                const responseText = await responseWinner.text();
-                if (responseText.trim() !== "") {
-                    const win = JSON.parse(responseText);
-                    setWinnerId(win);
-                }
-            } else {
-                console.log("Error en la respuesta del servidor:", responseWinner.status);
-            }
-        };
-
-        fetchWinnerId();
-    }, [id, jwt]);
+    const { id, winnerId } = useParams();
 
     const goToMainMenu = () => {
         navigate('/');
@@ -66,7 +41,7 @@ export default function GameEnd() {
 
     return (
         <div className="game-end-container">
-            {user.id === winnerId ? <WinnerEnd /> : <LosserEnd />}
+            {user.id == winnerId ? <WinnerEnd /> : <LosserEnd />}
         </div>
     );
 }
