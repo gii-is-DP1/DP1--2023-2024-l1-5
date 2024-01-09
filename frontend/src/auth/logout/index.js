@@ -37,7 +37,12 @@ const Logout = () => {
           tokenService.removeUser();
           window.location.href = "/";
         } else {
-          alert("There is no user logged in");
+          if(user.roles == "ADMIN"){
+            tokenService.removeUser();
+            window.location.href = "/";
+          }else{
+            alert("There is no user logged in");
+          }
         }
       } catch (error) {
         console.error("Error:", error);
