@@ -193,16 +193,20 @@ public class GameController {
         }
     }
 
-    @PutMapping("/winner")
-    public ResponseEntity<Game> updateWinner(@RequestParam @Valid Integer gameId, @RequestParam @Valid Integer playerId) {
+    @PutMapping("/winner/{game_id}/{player_id}")
+    public ResponseEntity<Game> updateWinner(@PathVariable("game_id") Integer gameId, @PathVariable("player_id") Integer playerId) {
         Game toUpdate = this.gameService.getGameById(gameId).get();
         toUpdate.setWinner(playerId);
         gameService.save(toUpdate);
         return new ResponseEntity<>(toUpdate, HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/winner/{game_id}")
+    public ResponseEntity<Integer> getWinner(@PathVariable("game_id") Integer gameId) {
+        Game game = this.gameService.getGameById(gameId).orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        Integer res = game.getWinner();
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
     
 
     @PutMapping("/quick/joinInvitation/{game_id}")
@@ -274,6 +278,22 @@ public class GameController {
         return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
 
+    @PutMapping("/updateInprogress/{gameId}")
+    public ResponseEntity<Game> updateGameInProgress(@PathVariable("gameId") Integer gameId) {
+        Game gameToUpdate = gameService.getGameById(gameId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        gameToUpdate.setStatus(GameStatus.IN_PROGRESS);
+        Game savedGame = gameService.save(gameToUpdate);
+        return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
+    @PutMapping("/updateFinalized/{gameId}")
+    public ResponseEntity<Game> updateGameFinalized(@PathVariable("gameId") Integer gameId) {
+        Game gameToUpdate = gameService.getGameById(gameId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Game", "id", gameId));
+        gameToUpdate.setStatus(GameStatus.FINALIZED);
+        Game savedGame = gameService.save(gameToUpdate);
+        return new ResponseEntity<>(savedGame, HttpStatus.OK);
+    }
     @GetMapping("/inProgress/{playerId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> getInProgressPlayerGame(@PathVariable("playerId") Integer playerId){
@@ -283,5 +303,5 @@ public class GameController {
         }
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
-    
+
 }

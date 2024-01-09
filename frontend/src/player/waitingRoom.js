@@ -61,7 +61,7 @@ export default function WaitingRoom(){
             } catch (error) {
                 console.error("Error al obtener la partida", error);
             }
-           
+            
         }
         const getRound = async () =>{
             try{
@@ -91,9 +91,6 @@ export default function WaitingRoom(){
     };
     fetchGame();
     }, [id, roundId]);
-
-        
-
 
     const deletePlayerFromGame = async (currentUserId) => {
         try {
@@ -337,15 +334,28 @@ export default function WaitingRoom(){
                         if(gameInfo.creator === playerId){
                             shuffle();
                         }
-                        noPlayers = true; // Establecer noPlayers a true para salir del ciclo
-                        setTimeout(() => {
-                            if(round.roundMode === 'PIT'){
-                                window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
-                            }else{
-                                window.location.href = `/game/quickPlay/${id}/${roundId}/it`;
-                            }
-                            
-                        }, 3000);
+
+                        const updateGameStatus = await fetch(`/api/v1/games/updateInprogress/${id}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${jwt}`,
+                            },
+                        });
+                        if(updateGameStatus.ok){
+                            noPlayers = true; // Establecer noPlayers a true para salir del ciclo
+                            setTimeout(() => {
+                                if(round.roundMode === 'PIT'){
+                                    window.location.href = `/game/quickPlay/${id}/${roundId}/pit`;
+                                }else{
+                                    window.location.href = `/game/quickPlay/${id}/${roundId}/it`;
+                                }
+                            }, 3000);
+                        }else{
+                            console.log("Error al actualizar el estado de la partida");
+                        }
+
                     } else {
                         console.log("El número de jugadores no es 0 en gameInfo. Esperando...");
                         await new Promise((resolve) => setTimeout(resolve, 1000));

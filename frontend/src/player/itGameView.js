@@ -17,7 +17,10 @@ export default function ItGameView() {
     const { roundId } = useParams();
     const{id} =useParams();
     const [prevDeckImg, setPrevDeckImg] = useState(null);
+    const [isGameOver, setIsGameOver] = useState(false);
     const [handSize, setHandSize] = useState(0);
+    const[winnerId, setWinnerId] = useState(null);
+
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -79,7 +82,6 @@ export default function ItGameView() {
         }
     }
     
-
     useEffect(() => {
         if (playerId !== null) {
           gameView();
@@ -88,6 +90,32 @@ export default function ItGameView() {
 
     async function gameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+
+        const fetchWinner = async () => {
+            if (isGameOver) {
+                return;
+            }
+            const responseWinner = await fetch(`/api/v1/games/winner/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            }); 
+            if (responseWinner.ok) {
+                const responseText = await responseWinner.text();
+                if (responseText.trim() === "") {
+                } else {
+                    const win = JSON.parse(responseText);
+                    setWinnerId(win);
+                    setIsGameOver(true)
+                    window.location.href = `/game/quickPlay/${id}/endGame/${win}`;
+                }
+            } else {
+                console.log("Error en la respuesta del servidor:", responseWinner.status);
+            }    
+        };
+
         const responseHand =
             await fetch(`/api/v1/hands/player/${playerId}`,
                 {
@@ -117,28 +145,21 @@ export default function ItGameView() {
                 console.log("Error al obtener el deck");
             
             }
-        
-            
         };
         
-      
-        // Ejecutar fetchDeck inmediatamente al iniciar gameView
         await fetchDeck();
-      
-        // Establecer intervalo para ejecutar fetchDeck cada segundo
-        const interval = setInterval(fetchDeck, 1000);
 
-        // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
-        return () => clearInterval(interval);
+        const interval = setInterval(fetchDeck, 1000);
+        const interval2 = setInterval(fetchWinner,2000);
+
+        return () => clearInterval(interval, interval2);
     }
+    
     useEffect(() => {
         if (prevDeckImg !== deckImg) {
-          // Realizar acciones si deckImg ha cambiado
-          // Por ejemplo, aquí podrías ejecutar una función o realizar una lógica específica
+
           console.log('deckImg ha cambiado:', deckImg);
-          // Realizar cualquier acción necesaria después de que deckImg cambie
-    
-          // Después de realizar la acción, actualiza el estado previo de deckImg
+
           setPrevDeckImg(deckImg);
         }
       }, [deckImg, prevDeckImg]);
@@ -234,19 +255,42 @@ export default function ItGameView() {
                             );
                             const hands = await Promise.all(handsPromises);
                             const sortedHands = hands.sort((a, b) => b.numCartas - a.numCartas);
-                            const winner = sortedHands[0].player.id;
+                            const winnerPlayerId = sortedHands[0].player.id;
+                            const responsePlayer = await fetch(`/api/v1/players/${winnerPlayerId}`,
+                            {
+                                method: 'GET',
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${jwt}`,
+                                },
+                            });
+                            const winner = await responsePlayer.json();
+                            const winnerUserId = winner.user.id;
                             try {
-                                const reponseWinner = await fetch(`/api/v1/players/${winner}`, {
-                                    method: 'GET',
+                                const reponseWinner = await fetch(`/api/v1/games/winner/${id}/${winnerUserId}`,
+                                {
+                                    method: 'PUT',
                                     headers: {
                                         "Content-Type": "application/json",
                                         Authorization: `Bearer ${jwt}`,
                                     },
                                 });
                                 if (reponseWinner.ok) {
-                                    const winnerData = await reponseWinner.json();
-                                    alert(`El ganador es ${winnerData.playerUsername}`);
-                                } else {
+                                    const updateGameStatus = await fetch(`/api/v1/games/updateFinalized/${id}`,
+                                    {
+                                        method: 'PUT',
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: `Bearer ${jwt}`,
+                                        },
+                                    });
+                                    if(updateGameStatus.ok){
+                                        console.log("Tenemos ganador");
+                                        
+                                    }else{
+                                        console.log("Error al actualizar el estado de la partida");
+                                    }
+                                }else {
                                     console.error("Error al obtener el ganador", reponseWinner.statusText);
                                 }
                             } catch (error) {
@@ -265,8 +309,6 @@ export default function ItGameView() {
             }
         }
     }
-
-   
 
     async function nameSymbolsCard(card) {
         if (card && card.symbols) {
@@ -309,7 +351,6 @@ export default function ItGameView() {
             }
         }
     }
-    
     
     return (
         <div className="wallpaper">
