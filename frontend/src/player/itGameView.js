@@ -18,6 +18,7 @@ export default function ItGameView() {
     const{id} =useParams();
     const [prevDeckImg, setPrevDeckImg] = useState(null);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [handSize, setHandSize] = useState(0);
     const[winnerId, setWinnerId] = useState(null);
 
     async function setUp() {
@@ -80,7 +81,6 @@ export default function ItGameView() {
         }
     }
     
-
     useEffect(() => {
         if (playerId !== null) {
           gameView();
@@ -152,6 +152,7 @@ export default function ItGameView() {
 
         return () => clearInterval(interval, interval2);
     }
+    
     useEffect(() => {
         if (prevDeckImg !== deckImg) {
 
@@ -348,7 +349,6 @@ export default function ItGameView() {
             }
         }
     }
-    
     
     return (
         <div className="wallpaper">

@@ -61,6 +61,7 @@ export default function WaitingRoom(){
             } catch (error) {
                 console.error("Error al obtener la partida", error);
             }
+            
         }
         const getRound = async () =>{
             try{
