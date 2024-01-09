@@ -136,6 +136,18 @@ public class GameController {
         return new ResponseEntity<>(g.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/myGame/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<GameDTO>> getPlayerGames(@PathVariable("userId") Integer userId) {
+        Player player = playerService.getPlayerByUserId(userId);
+        List<Game> games = gameService.getGameFromPlayer(player);
+        List<GameDTO> gameDTOs = games.stream()
+                .map(game -> new GameDTO(game))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
+    }
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Partida creada exitosamente"),
             // Añado un nuevo código de estado sin documentar en swagger
@@ -273,7 +285,7 @@ public class GameController {
         gameService.deletePlayerFromGame(gameId, currentUserId);
         return new ResponseEntity<>(new MessageResponse("Player deleted from the Game!"), HttpStatus.OK);
     }
-
+    
     @GetMapping("/inProgress/{playerId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Game> getInProgressPlayerGame(@PathVariable("playerId") Integer playerId){
@@ -283,5 +295,5 @@ public class GameController {
         }
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
-    
+
 }
