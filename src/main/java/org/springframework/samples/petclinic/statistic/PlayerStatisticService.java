@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.statistic;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -23,8 +24,9 @@ public class PlayerStatisticService {
     }
 
     @Transactional
-    public void saveGameStatistic(PlayerStatistic gameStatistic){
-        playerStatisticRepository.save(gameStatistic);
+    public PlayerStatistic update(PlayerStatistic playerStatistic){
+        playerStatisticRepository.save(playerStatistic);
+        return playerStatistic;
     }
 
     @Transactional
@@ -33,10 +35,9 @@ public class PlayerStatisticService {
     }
 
     @Transactional
-    public PlayerStatistic findById(Integer id){
+    public PlayerStatistic getPSById(Integer id) throws DataAccessException{
         return playerStatisticRepository.findById(id).get();
     }
-
     
     
 }
