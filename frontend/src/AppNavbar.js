@@ -65,7 +65,7 @@ function AppNavbar() {
                 window.location.href = `/game/quickPlay/${idGame}`;
                 //navigate(/game/quickPlay/${idGame}); // Usa navigate para cambiar la ruta
             } else if (status === "IN_PROGRESS" && roundMode === "PIT"){
-                window.location.href = `/game/quickPlay/${idGame}/${idRound}`;
+                window.location.href = `/game/quickPlay/${idGame}/${idRound}/pit`;
             } else if (status === "IN_PROGRESS" && roundMode === "INFERNAL_TOWER"){
                 window.location.href = `/game/quickPlay/${idGame}/${idRound}/it`;
             }
