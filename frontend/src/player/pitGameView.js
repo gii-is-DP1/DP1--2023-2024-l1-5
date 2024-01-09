@@ -6,7 +6,7 @@ import "../static/css/player/gameView.css";
 
 const user = tokenService.getUser();
 
-export default function GameView() {
+export default function PitGameView() {
     const [cardImg, setCardImg] = useState('');
     const [deckImg, setDeckImg] = useState(null);
     const [handAux, setHandAux] = useState([]);

@@ -5,7 +5,6 @@ import tokenService from "../services/token.service";
 
 export default function GameEnd() {
     const navigate = useNavigate();
-    const jwt = JSON.parse(window.localStorage.getItem("jwt"));
     const user = tokenService.getUser();
     const { id, winnerId } = useParams();
 
@@ -40,6 +39,7 @@ export default function GameEnd() {
     );
 
     return (
+
         <div className="game-end-container">
             {user.id == winnerId ? <WinnerEnd /> : <LosserEnd />}
         </div>

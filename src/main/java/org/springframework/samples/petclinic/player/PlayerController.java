@@ -98,6 +98,4 @@ public class PlayerController {
 		playerService.deletePlayer(id);
 		return new ResponseEntity<>(new MessageResponse("Player deleted!"), HttpStatus.OK);
 	}
-
-
 }
