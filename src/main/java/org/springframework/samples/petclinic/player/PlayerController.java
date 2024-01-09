@@ -36,6 +36,9 @@ import jakarta.validation.Valid;
 @SecurityRequirement(name = "bearerAuth")
 public class PlayerController {
 
+    private static final String PLAYER_AUTH = "PLAYER";
+
+
     private final PlayerService playerService;
     private final UserService userService;
 
@@ -89,6 +92,33 @@ public class PlayerController {
 		RestPreconditions.checkNotNull(playerService.getPlayerById(playerId), "Player", "ID", playerId);
 		return new ResponseEntity<>(this.playerService.updatePlayer(player, playerId), HttpStatus.OK);
 	}
+
+    @PutMapping("/playerLoggingOut/{Id}")
+    @ResponseStatus(HttpStatus.OK)
+    public  ResponseEntity<Player> logoutPlayer(@PathVariable("Id") int id) {
+        User user = userService.findCurrentUser();
+        Player player = playerService.getPlayerById(id).get();
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
+            player.setState(State.INACTIVE);
+             return new ResponseEntity<>(this.playerService.savePlayer(player), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        }
+    }
+    @PutMapping("/playerLoggingIn/{Id}")
+    @ResponseStatus(HttpStatus.OK)
+    public  ResponseEntity<Player> logInPlayer(@PathVariable("Id") int id) {
+        User user = userService.findCurrentUser();
+        Player player = playerService.getPlayerById(id).get();
+        if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)){
+            player.setState(State.ACTIVE);
+             return new ResponseEntity<>(this.playerService.savePlayer(player), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        }
+    }
 
     
 	@DeleteMapping(value = "{playerId}")
