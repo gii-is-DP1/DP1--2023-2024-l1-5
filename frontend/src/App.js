@@ -64,6 +64,7 @@ import FriendsList from "./player/friends/friendsList";
 import GameEndWinnerLoser from "./player/gameEndWinnerLoser";
 import Error from "./player/error";
 import getErrorModal from "./util/getErrorModal";
+import Construction from "./player/construction";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -180,6 +181,7 @@ function App() {
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id/endGame/:winnerId" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
           <Route path="/error" exact={true} element={<PrivateRoute><Error/></PrivateRoute>}></Route>
+          <Route path="/underConstruction" exact={true} element={<PrivateRoute><Construction/></PrivateRoute>}></Route>
         </>)
 
 
