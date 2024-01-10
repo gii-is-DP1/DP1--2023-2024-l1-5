@@ -27,11 +27,47 @@ export default function Login() {
       .then(function (data) {
         tokenService.setUser(data);
         tokenService.updateLocalAccessToken(data.token);
-        window.location.href = "/";
       })
       .catch((error) => {         
         setMessage(error);
-      });            
+      }); 
+      try {
+        const user = tokenService.getUser();
+        const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+        const playerResponse = await fetch(`/api/v1/players/user/${user.id}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            })
+        if (playerResponse.ok) {
+          const data = await playerResponse.json();
+          const playerId = data.id;
+          const jwt = JSON.parse(window.localStorage.getItem('jwt'));
+          const response = await fetch(`/api/v1/players/playerLoggingIn/${playerId}`, {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (response.ok) {
+            const data2 = await response.json();
+          }else {
+            console.error("Error al hacer login:", response.statusText);
+          }
+          window.location.href = "/";
+        } else {
+          if(user.roles == "ADMIN"){
+            window.location.href = "/";
+          }else{
+            alert("There is no user logged in");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }           
   }
 
   
