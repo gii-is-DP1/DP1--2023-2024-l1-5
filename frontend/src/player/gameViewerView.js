@@ -222,7 +222,7 @@ export default function GameViewerView() {
                     <br></br>
                     <br></br>
                     <h1>Current deck</h1>
-                    <img src={deckImg} className="circle" alt='img'></img>
+                    <img src={deckImg} className="circle" alt='img' style={{width: 300, height: 300}}></img>
                 </div>
             </div>
             <div>
@@ -272,7 +272,7 @@ export default function GameViewerView() {
 
     return (
         <div className="wallpaper">
-            {winnerId === null || winnerId === 0? <GameInProgress/>: <GameEnd/>}
+            {winnerId == null || winnerId == 0? <GameInProgress/>: <GameEnd/>}
         </div>
     )
     
