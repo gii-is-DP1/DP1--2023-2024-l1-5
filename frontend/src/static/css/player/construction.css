@@ -1,0 +1,82 @@
+.game-end-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 100%;
+}
+
+.container {
+    background-color: rgb(1, 224, 205);
+    margin: auto;
+    width: 50%;
+    padding: 100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton_left_winner{
+    display: inline-block;
+    padding: 10px 20px;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.boton_rigth_winner{
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 100px;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.boton_left_losser{
+    display: inline-block;
+    padding: 10px 20px;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #df3412;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.boton_rigth_losser{
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 100px;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #df3412;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.boton:hover {
+    background-color: #45a049;
+}
+
+.botones-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

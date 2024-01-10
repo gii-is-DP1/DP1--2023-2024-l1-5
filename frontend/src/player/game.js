@@ -128,7 +128,7 @@ export default function Game() {
                     </span>
                     <br></br>
                     <Link 
-                        to="/game/competitiveGame" 
+                        to="/underConstruction" 
                         className="purple-button"
                         style={{ textDecoration: 'none' }}
                         >

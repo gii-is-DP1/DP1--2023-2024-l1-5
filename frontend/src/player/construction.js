@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import "../static/css/player/error.css";
+import "../static/css/player/construction.css";
 
-export default function Error() {
+export default function Construction() {
     const navigate = useNavigate();
 
     const goToMainMenu = () => {
@@ -11,9 +11,9 @@ export default function Error() {
     const redirectToGmail = () => {
         const emailTo = 'alvbercau@alum.us.es';
         
-        const subject = 'Problemas técnicos en el juego';
+        const subject = 'Avísame del lanzamiento';
         
-        const body = 'Hola, he tenido problemas técnicos en el juego.';
+        const body = 'Hola, avísame cuando el modo de juego esté disponible.';
 
         const mailtoLink = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -21,20 +21,20 @@ export default function Error() {
         window.location.href = mailtoLink;
     };
 
-    const ErrorMessage = () => (
+    const Construction = () => (
         <div className="container">
-            <h1>😞 Oops, there's been a problem! 😞</h1>
-            <p>Sorry, we have experienced technical difficulties. Please contact our support by sending us an email.</p>
+            <h1>⛏️⚠️🚧 Under construction...⛏️⚠️🚧</h1>
+            <h4>This part of the application has not yet been developed, sorry for the inconvenience.</h4>
             <div className="botones-container">
                 <button className="boton_left_winner" onClick={goToMainMenu}>Back to Main Menu</button>
-                <button className="boton_rigth_winner" onClick={redirectToGmail}>Contact by Mail</button>
+                <button className="boton_rigth_winner" onClick={redirectToGmail}>Let me know when the launch is announced</button>
             </div>
         </div>
     );
 
     return (
         <div className="game-end-container">
-            <ErrorMessage />
+            <Construction />
         </div>
     );
 }
