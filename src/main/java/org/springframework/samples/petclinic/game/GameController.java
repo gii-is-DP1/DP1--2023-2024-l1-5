@@ -194,9 +194,10 @@ public class GameController {
     }
 
     @PutMapping("/winner/{game_id}/{player_id}")
-    public ResponseEntity<Game> updateWinner(@PathVariable("game_id") Integer gameId, @PathVariable("player_id") Integer playerId) {
+    public ResponseEntity<Game> updateWinner(@PathVariable("game_id") Integer gameId, @PathVariable("player_id") Integer playerId, @RequestParam("time") Integer time) {
         Game toUpdate = this.gameService.getGameById(gameId).get();
         toUpdate.setWinner(playerId);
+        toUpdate.setGameTime(time);
         gameService.save(toUpdate);
         return new ResponseEntity<>(toUpdate, HttpStatus.OK);
     }

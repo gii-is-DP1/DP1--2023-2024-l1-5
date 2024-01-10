@@ -20,7 +20,17 @@ export default function ItGameView() {
     const [isGameOver, setIsGameOver] = useState(false);
     const [handSize, setHandSize] = useState(0);
     const[winnerId, setWinnerId] = useState(null);
+    const [timer, setTimer] = useState(0);
 
+    useEffect(() => {
+        // Iniciar el temporizador al cargar la vista
+        const interval = setInterval(() => {
+            // Incrementar el contador del temporizador
+            setTimer(prevTimer => prevTimer + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [isGameOver]);
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -267,7 +277,7 @@ export default function ItGameView() {
                             const winner = await responsePlayer.json();
                             const winnerUserId = winner.user.id;
                             try {
-                                const reponseWinner = await fetch(`/api/v1/games/winner/${id}/${winnerUserId}`,
+                                const reponseWinner = await fetch(`/api/v1/games/winner/${id}/${winnerUserId}?time=${timer}`,
                                 {
                                     method: 'PUT',
                                     headers: {
