@@ -59,7 +59,11 @@ export default function Login() {
           }
           window.location.href = "/";
         } else {
-          alert("There is no user logged in");
+          if(user.roles == "ADMIN"){
+            window.location.href = "/";
+          }else{
+            alert("There is no user logged in");
+          }
         }
       } catch (error) {
         console.error("Error:", error);
