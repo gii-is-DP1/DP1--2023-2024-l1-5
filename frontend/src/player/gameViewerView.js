@@ -258,7 +258,7 @@ export default function GameViewerView() {
 
     const GameEnd = () => (
         <div className="container">
-            <h1>👑{winnerName} has won the game👑</h1>
+            <h1>👑{winnerName} won the game👑</h1>
             <div className="botones-container">
                     <Link 
                         className='purple-button' 
