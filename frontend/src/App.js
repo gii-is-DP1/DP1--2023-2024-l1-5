@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { ErrorBoundary } from "react-error-boundary";
@@ -52,14 +52,19 @@ import VetEditClinicOwner from "./clinicOwner/vets/VetEditClinicOwner";
 import QuickPlay from "./player/quickPlay";
 import WaitingRoom from "./player/waitingRoom";
 import Game from "./player/game";
-import GameView from "./player/gameView";
+import PitGameView from "./player/pitGameView";
+import ItGameView from "./player/itGameView";
+import GameViewerView from "./player/gameViewerView";
 import AchievementListAdmin from "./admin/achievements/AchievementListAdmin";
 import AchievementEditAdmin from "./admin/achievements/AchievementEditAdmin";
 import GameRules from "./player/gameRules";
 import GameHistory from "./player/gameHistory";
 import GamesListAdmin from "./admin/games/GameListAdmin";
 import FriendsList from "./player/friends/friendsList";
+import GameEndWinnerLoser from "./player/gameEndWinnerLoser";
 import Error from "./player/error";
+import getErrorModal from "./util/getErrorModal";
+import Construction from "./player/construction";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -69,6 +74,16 @@ function ErrorFallback({ error, resetErrorBoundary }) {
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   )
+}
+
+function sendLogoutRequest() {
+  const jwt = window.localStorage.getItem("jwt");
+  if (jwt || typeof jwt === "undefined") {
+    tokenService.removeUser();
+    window.location.href = "/";
+  } else {
+    alert("There is no user logged in");
+  }
 }
 
 function App() {
@@ -158,11 +173,15 @@ function App() {
           <Route path="/game" exact={true} element={<PrivateRoute><Game/></PrivateRoute>} />	
           <Route path="/game/quickPlay" exact={true} element={<PrivateRoute><QuickPlay/></PrivateRoute>}></Route>
           <Route path="/game/quickPlay/:id" exact={true} element={<PrivateRoute><WaitingRoom/></PrivateRoute>}></Route>
-          <Route path="/game/quickPlay/:id/:roundId" exact={true} element={<PrivateRoute><GameView/></PrivateRoute>} />	
+          <Route path="/game/quickPlay/:id/:roundId/pit" exact={true} element={<PrivateRoute><PitGameView/></PrivateRoute>} />	
+          <Route path="/game/quickPlay/:id/:roundId/it" exact={true} element={<PrivateRoute><ItGameView/></PrivateRoute>} />          
+          <Route path="/game/quickPlay/:id/:roundId/viewer/:playerId" exact={true} element={<PrivateRoute><GameViewerView/></PrivateRoute>} />
           <Route path="/gameRules" exact={true} element={<PrivateRoute><GameRules/></PrivateRoute>}></Route>
           <Route path="/gameHistory" exact={true} element={<PrivateRoute><GameHistory/></PrivateRoute>}></Route>
           <Route path="/friendsList" exact={true} element={<PrivateRoute><FriendsList/></PrivateRoute>}></Route>
+          <Route path="/game/quickPlay/:id/endGame/:winnerId" exact={true} element={<PrivateRoute><GameEndWinnerLoser/></PrivateRoute>}></Route>
           <Route path="/error" exact={true} element={<PrivateRoute><Error/></PrivateRoute>}></Route>
+          <Route path="/underConstruction" exact={true} element={<PrivateRoute><Construction/></PrivateRoute>}></Route>
         </>)
 
 
@@ -187,6 +206,57 @@ function App() {
     )
   }
 
+  // Estado y constantes para la detección de inactividad y la modal
+  const INACTIVITY_TIME = 15 * 1000; // 15 segundos de inactividad
+  const WARNING_TIME = 10 * 1000; // 10 segundos adicionales después de la alerta
+  const [isInactive, setIsInactive] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  // Reiniciar el temporizador de inactividad
+  const resetInactivityTimer = () => {
+    setIsInactive(false);
+    setShowModal(false); // Ocultar la ventana modal
+    clearTimeout(window.inactivityTimer);
+    clearTimeout(window.warningTimer);
+    window.inactivityTimer = setTimeout(() => setIsInactive(true), INACTIVITY_TIME);
+  };
+
+  // Establecer eventos para detectar actividad del usuario
+  useEffect(() => {
+    const events = ['mousemove', 'keydown', 'scroll', 'click'];
+    events.forEach(event => window.addEventListener(event, resetInactivityTimer));
+    resetInactivityTimer();
+
+    // Limpieza al desmontar el componente
+    return () => {
+      events.forEach(event => window.removeEventListener(event, resetInactivityTimer));
+      clearTimeout(window.inactivityTimer);
+      clearTimeout(window.warningTimer);
+    };
+  }, []);
+
+  // Función para comprobar si el usuario está logueado
+  const isUserLoggedIn = () => {
+    const jwt = window.localStorage.getItem("jwt");
+    return jwt !== null && jwt !== "undefined";
+  };  
+
+  // Efecto para manejar la inactividad
+  useEffect(() => {
+    if (isInactive && isUserLoggedIn()) {
+      setShowModal(true); // Mostrar la ventana modal
+      // Iniciar temporizador de advertencia para cierre de sesión
+      window.warningTimer = setTimeout(() => {
+        if (showModal) { // Si la modal sigue activa, cerrar sesión
+          sendLogoutRequest();
+        }
+      }, WARNING_TIME);
+    }
+  }, [isInactive, showModal]);
+
+  // Renderizar el componente modal
+  const inactivityModal = getErrorModal(() => setShowModal(false), showModal, "Has estado inactivo durante un tiempo. ¿Sigues ahí?");
+
   return (
     <div>
       <ErrorBoundary FallbackComponent={ErrorFallback} >
@@ -203,6 +273,7 @@ function App() {
           {playerRoutes}
         </Routes>
       </ErrorBoundary>
+      {inactivityModal}
     </div>
   );
 }

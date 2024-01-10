@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link} from 'react-router-dom';
 import '../App.css';
 import tokenService from "../services/token.service";
 import "../static/css/player/gameView.css";
 
 const user = tokenService.getUser();
 
-export default function GameView() {
+export default function PitGameView() {
     const [cardImg, setCardImg] = useState('');
     const [deckImg, setDeckImg] = useState(null);
     const [handAux, setHandAux] = useState([]);
@@ -18,28 +18,9 @@ export default function GameView() {
     const{id} =useParams();
     const[game,setGame]=useState({});
     const [prevDeckImg, setPrevDeckImg] = useState(null);
+    const[winnerId, setWinnerId] = useState(null);
+    const [isGameOver, setIsGameOver] = useState(false);
 
-
-    // useEffect(() => {
-    //     const getPlayer = async () => {
-    //         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-    //         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
-    //             {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     Authorization: `Bearer ${jwt}`,
-    //                 },
-    //             })
-    //         if (myplayer.ok) {
-    //             const data = await myplayer.json();
-    //             setPlayerId(data.id);
-    //             gameView();
-    //         }
-    //     }
-    //     getPlayer();
-
-
-    // }, [user.id]);
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const myplayer = await fetch(`/api/v1/players/user/${user.id}`,
@@ -69,7 +50,6 @@ export default function GameView() {
                 },
             });
             if (response.ok) {
-                // const deck = await response.json();
                 return response;
             } else {
                 console.error('Error al obtener la baraja por ID de ronda');
@@ -81,7 +61,6 @@ export default function GameView() {
             }
     }
 
-    // useEffect(() => { gameView() }, [playerId]);
     useEffect(() => {
         if (playerId !== null) {
           gameView();
@@ -90,6 +69,32 @@ export default function GameView() {
     
     async function gameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+
+        const fetchWinner = async () => {
+            if (isGameOver) {
+                return;
+            }
+            const responseWinner = await fetch(`/api/v1/games/winner/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            }); 
+            if (responseWinner.ok) {
+                const responseText = await responseWinner.text();
+                if (responseText.trim() === "") {
+                } else {
+                    const win = JSON.parse(responseText);
+                    setWinnerId(win);
+                    setIsGameOver(true)
+                    window.location.href = `/game/quickPlay/${id}/endGame/${win}`;
+                }
+            } else {
+                console.log("Error en la respuesta del servidor:", responseWinner.status);
+            }    
+        };
+
         const responseHand =
             await fetch(`/api/v1/hands/player/${playerId}`,
                 {
@@ -120,50 +125,55 @@ export default function GameView() {
                 console.log("Error al obtener el deck");
             }
         };
-      
-        // Ejecutar fetchDeck inmediatamente al iniciar gameView
-        await fetchDeck();
-      
-        // Establecer intervalo para ejecutar fetchDeck cada segundo
-        const interval = setInterval(fetchDeck, 1000);
+            await fetchDeck();
 
-        // Limpieza del intervalo al desmontar el componente o al cambiar condiciones
-        return () => clearInterval(interval);
+            const interval = setInterval(fetchDeck, 1000);
+            const interval2 = setInterval(fetchWinner,2000);
+
+            return () => clearInterval(interval, interval2);
     }
       
-    //  IMPORTANTE QUE NO SE USE EL FETCH DECK UNA VEZ TERMINADA LA PARTIDA
     const winner = async()=>{
         try{
-            const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-            const response = await fetch(`/api/v1/games/winner`,
-            {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
-                },
-                body: JSON.stringify(game.id),
-            });
-            if(response.ok){
-                const data = await response.json();
-                console.log(data);
-            }else{
-                console.error("Error al obtener el ganador", response.statusText);
+            if(!isGameOver){
+                const jwt = JSON.parse(window.localStorage.getItem("jwt"));
+                const response = await fetch(`/api/v1/games/winner/${id}/${user.id}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+                if(response.ok){
+                    const updateGameStatus = await fetch(`/api/v1/games/updateFinalized/${id}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${jwt}`,
+                            },
+                        });
+                        if(updateGameStatus.ok){
+                            console.log("Tenemos ganador");
+                            setIsGameOver(true)
+                            window.location.href = `/game/quickPlay/${id}/endGame/${user.id}`;
+                        }else{
+                            console.log("Error al actualizar el estado de la partida");
+                        }
+                }else{
+                    console.error("Error al obtener el ganador", response.statusText);
+                }
             }
         }catch(error){
             console.error("Error al obtener el ganador", error);
         }
-    }
+    }   
 
 
     useEffect(() => {
         if (prevDeckImg !== deckImg) {
-          // Realizar acciones si deckImg ha cambiado
-          // Por ejemplo, aquí podrías ejecutar una función o realizar una lógica específica
           console.log('deckImg ha cambiado:', deckImg);
-          // Realizar cualquier acción necesaria después de que deckImg cambie
-    
-          // Después de realizar la acción, actualiza el estado previo de deckImg
           setPrevDeckImg(deckImg);
         }
       }, [deckImg, prevDeckImg]);
@@ -173,8 +183,7 @@ export default function GameView() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
         const symbolaux = event.target.textContent;
         const lsauxButt = deckSymbols.map(deckSymbol => deckSymbol);
-
-
+        
         if (lsauxButt.includes(symbolaux)) {
             if (handSize > 1) {
                 const newSymbolsCard = handAux[1];
@@ -211,13 +220,10 @@ export default function GameView() {
                 setHandSize(newSize);
 
             } else {
-                // winner();
-                alert("Enhorabuena! Has ganado la partida");
+                winner();
             }
         }
     }
-
-   
 
     useEffect(() => {
         const getGame = async () => {
@@ -294,8 +300,9 @@ return (
         <div className='contenedor'>
             <div className="filas">
                 <div className='columnas'>
-                    <h1>MY HAND</h1> 
+                    <h1>My hand</h1> 
                     <img src={cardImg} className="circle" alt='img'></img>
+                    <h5>Cards left: {handSize}</h5>
                 </div>
                 <div className='columnas'>
                     <h1>Deck</h1>
