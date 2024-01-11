@@ -92,6 +92,11 @@ export default function Profile() {
                             className="purple-button"
                             style={{ textDecoration: 'none' }}
                             >Edit</Link>
+                        <Link 
+                            to={"/statistics"} 
+                            className="purple-button"
+                            style={{ textDecoration: 'none' }}
+                            >Statistics</Link>
                     </div>
                 </div>
                 <div className="section">
