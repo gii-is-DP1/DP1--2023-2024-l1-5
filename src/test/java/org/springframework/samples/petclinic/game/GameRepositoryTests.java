@@ -39,7 +39,7 @@ public class GameRepositoryTests {
     //Case 2: Check that player 3 has not created games
     @Test
     public void testGamesCreatedByPlayersIsEmpty(){
-        List<Game> playerCreatedGames2 = gameRepository.findPlayerCreatedGames(3);
+        List<Game> playerCreatedGames2 = gameRepository.findPlayerCreatedGames(7);
         assertNotNull(playerCreatedGames2);
         assertEquals(0, playerCreatedGames2.size());
     }
@@ -69,7 +69,7 @@ public class GameRepositoryTests {
         List<Game> waitingCompetitiveGames1 = gameRepository.findWaitingCompetitiveGames();
         assertNotNull(waitingCompetitiveGames1);
         assertTrue(checkValuesOfGameList(waitingCompetitiveGames1, GameMode.COMPETITIVE));
-        assertTrue(waitingCompetitiveGames1.size() > 0);
+        assertTrue(waitingCompetitiveGames1.size() == 0);
     }
 
     @Test

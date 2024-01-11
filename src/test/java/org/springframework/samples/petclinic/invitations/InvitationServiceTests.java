@@ -1,14 +1,9 @@
 package org.springframework.samples.petclinic.invitations;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,33 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.petclinic.friendship.Friendship;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameRepository;
 import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.invitation.Invitation;
 import org.springframework.samples.petclinic.invitation.InvitationRepository;
 import org.springframework.samples.petclinic.invitation.InvitationService;
-import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
 
 
 @ExtendWith(MockitoExtension.class)
 public class InvitationServiceTests {
-    
-    @Mock
-    private GameRepository gameRepository;
 
-    @Mock
-    private PlayerRepository playerRepository;
 
     @Mock
     private UserService userService;
@@ -89,27 +74,27 @@ public class InvitationServiceTests {
     }
 
     @Test
-    public void testgetPendigInvitationsSent(){
+    public void testgetPendingInvitationsSent(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findPendigInvitation("Alvaro2")).thenReturn(invitations);
+        when(invitationRepository.findPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsSent("Alvaro2");
+        List<Invitation> result = invitationService.getPendingInvitationsSent("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findPendigInvitation("Alvaro2");
+        verify(invitationRepository, times(1)).findPendingInvitation("lucantdel");
     }
 
     @Test
-    public void testgetPendigInvitationsReceived(){
+    public void testgetPendingInvitationsReceived(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findAlreadyPendigInvitation("Alvaro2")).thenReturn(invitations);
+        when(invitationRepository.findAlreadyPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsReceived("Alvaro2");
+        List<Invitation> result = invitationService.getPendingInvitationsReceived("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findAlreadyPendigInvitation("Alvaro2");
+        verify(invitationRepository, times(1)).findAlreadyPendingInvitation("lucantdel");
     }
 
     @Test
@@ -132,8 +117,8 @@ public class InvitationServiceTests {
         Invitation invitation = new Invitation();
         Game game = new Game();
         invitation.setId(10);
-        invitation.setSource_user("Alvaro2");
-        invitation.setDestination_user("Guille8");
+        invitation.setSource_user("lucantdel");
+        invitation.setDestination_user("guigomorm");
         invitation.setGame(game);
         return invitation;
     }

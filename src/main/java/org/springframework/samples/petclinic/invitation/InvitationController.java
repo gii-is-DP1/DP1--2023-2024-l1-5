@@ -51,7 +51,7 @@ public class InvitationController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Invitation>> getPendingInitations(@PathVariable("username") String username){
         Player player = playerService.getPlayerByUsername(username);
-        return new ResponseEntity<>(invitationService.getPendigInvitationsReceived(player.getPlayerUsername()), HttpStatus.OK);
+        return new ResponseEntity<>(invitationService.getPendingInvitationsReceived(player.getPlayerUsername()), HttpStatus.OK);
     }
     
     @PostMapping("/api/v1/games/{game_id}/invitations/{username}")

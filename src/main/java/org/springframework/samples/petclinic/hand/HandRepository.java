@@ -15,7 +15,8 @@ public interface HandRepository extends CrudRepository<Hand, Integer> {
     @Query ("SELECT hand FROM Hand hand WHERE hand.player.id =:id")
     Hand findHandByPlayerId(Integer id) throws DataAccessException;
 
-    // Hand findByRoundId(Integer roundId);
+    @Query ("SELECT hand FROM Hand hand WHERE hand.round.id =:roundId")
+    List<Hand> findByRoundId(Integer roundId) throws DataAccessException;
 
     // Hand findByPlayerId(Integer playerId);
 }

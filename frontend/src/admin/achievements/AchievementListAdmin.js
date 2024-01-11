@@ -5,6 +5,7 @@ import useFetchState from "../../util/useFetchState";
 import deleteFromList from "../../util/deleteFromList";
 import getErrorModal from "../../util/getErrorModal";
 import { Link } from "react-router-dom";
+import "../../static/css/main.css"
 
 const jwt = tokenService.getLocalAccessToken();
 export default function AchievementList() {
@@ -19,18 +20,18 @@ export default function AchievementList() {
   const achievementList = achievements.map((a) => {
     return (
       <tr key={a.id}>
-        <td className="text-center"> {a.name} </td>
-        <td className="text-center"> {a.description} </td>
-        <td className="text-center">
+        <td> {a.name} </td>
+        <td> {a.description} </td>
+        <td>
           <img
             src={a.imageUrl}
             alt={a.name}
             width="50px"
           />
         </td>
-        <td className="text-center"> {a.threshold} </td>
-        <td className="text-center"> {a.metric} </td>
-        <td className="text-center">
+        <td> {a.threshold} </td>
+        <td> {a.metric} </td>
+        <td>
           <ButtonGroup>
             <Button
                 size="sm"
@@ -65,36 +66,33 @@ export default function AchievementList() {
   });
   const modal = getErrorModal(setVisible, visible, message);
   return (
-    <div>
-      <div className="admin-page-container">
+    <div className="wallpaper">
+      <div className="big-section">
         <h1 className="text-center">Achievements</h1>
         {alerts.map((a) => a.alert)}
         {modal}
         <div>
-          <Table aria-label="achievements" className="mt-4">
+          <Table className="table">
             <thead>
               <tr>
-                <th className="text-center">Name</th>
-                <th className="text-center">Description</th>
-                <th className="text-center">Image</th>
-                <th className="text-center">Threshold</th>
-                <th className="text-center">Metric</th>
-                <th className="text-center">Actions</th>
-                <th className="text-center"></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Threshold</th>
+                <th>Metric</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>{achievementList}</tbody>
           </Table>
         </div>
-        <Button outline color="success">
           <Link
             to={`/achievements/new`}
-            className="btn sm"
+            className="purple-button"
             style={{ textDecoration: "none" }}
           >
             Create achievement
           </Link>
-        </Button>
       </div>
     </div>
   );

@@ -1,14 +1,11 @@
 package org.springframework.samples.petclinic.game;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.user.User;
@@ -38,9 +33,6 @@ public class GameServiceTests {
 
     @Mock
     private GameRepository gameRepository;
-
-    @Mock
-    private PlayerRepository playerRepository;
 
     @Mock
     private UserService userService;
@@ -101,7 +93,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetAllGames() {
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         List<Game> games = new ArrayList<>();
         when(gameRepository.findAll()).thenReturn(games);
 
@@ -114,7 +106,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetInProgressGames(){
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         List<Game> ipGames = new ArrayList<>();
         when(gameRepository.findInProgressGames()).thenReturn(ipGames);
         List<Game> result = gameService.getInProgressGames();
@@ -126,7 +118,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetWaitingGames(){
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         List<Game> wGames = new ArrayList<>();
         when(gameRepository.findWaitingGames()).thenReturn(wGames);
         List<Game> result = gameService.getWaitingGames();
@@ -137,7 +129,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetFinalizedGames(){
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         List<Game> fGames = new ArrayList<>();
         when(gameRepository.findFinalizedGames()).thenReturn(fGames);
         List<Game> result = gameService.getFinalizedGames();
@@ -148,7 +140,7 @@ public class GameServiceTests {
     
     @Test
     public void testGetGameById() {
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         Integer gameId = 1;
         Game game = new Game();
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
@@ -163,9 +155,9 @@ public class GameServiceTests {
 
     @Test
     public void testHasActiveGame() {
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         Player player = new Player();
-        Integer playerId = 1;
+        Integer playerId = 3;
         player.setId(playerId);
 
         List<Game> playerGames = new ArrayList<>();
@@ -185,6 +177,7 @@ public class GameServiceTests {
 
     private Game createGame(GameStatus status) {
         Game game = new Game();
+        game.setId(1000);
         game.setStatus(status);
         return game;
     }
@@ -193,7 +186,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetNoRandomGame() {
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
         GameMode gm = GameMode.QUICK_PLAY;
         WaitingGamesNotFoundException exception = assertThrows(WaitingGamesNotFoundException.class, () -> {
             gameService.getRandomGame(gm.toString());
@@ -223,7 +216,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetNoWaitingGame(){
-        gameService = new GameService(gameRepository, playerRepository, userService, playerService);
+        gameService = new GameService(gameRepository, userService, playerService);
          Player player = new Player();
           Optional<Game> result = gameService.getWaitingGame(player);
           assertNull(result);
