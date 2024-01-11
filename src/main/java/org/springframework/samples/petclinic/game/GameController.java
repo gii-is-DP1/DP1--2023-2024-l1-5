@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,66 @@ public class GameController {
         GameDTO gameDTO = new GameDTO(g.get());
 
         return new ResponseEntity<>(gameDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/playerId/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Game>> getGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        List<Game> games = gameService.getGamesByPlayerId(playerId);
+        return new ResponseEntity<>(games, HttpStatus.OK);
+    }
+
+    @GetMapping("/numGames/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getNumGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer numGames = gameService.getNumGamesByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/numGamesWin/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getNumGamesWinByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer numGames = gameService.getNumGamesWinByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/timeGames/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getTimeGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer numGames = gameService.getTimesGamesWinByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/maxTimeGames/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getMaxTimeGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer numGames = gameService.getMaxTimeGamesByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/minTimeGames/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getMinTimeGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer numGames = gameService.getMinTimeGamesByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/avgTimeGames/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Double> getAvgTimeGamesByPlayerId(@PathVariable("playerId") Integer playerId) {
+        Double numGames = gameService.getAvgTimeGamesByPlayerId(playerId);
+        return new ResponseEntity<>(numGames, HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<RankingDTO>> getRanking() {
+        Map<String, Integer> ranking = gameService.getRanking();
+        List<RankingDTO> rankingDTO = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : ranking.entrySet()) {
+            rankingDTO.add(new RankingDTO(entry.getKey(), entry.getValue()));
+        }
+        return new ResponseEntity<>(rankingDTO, HttpStatus.OK);
     }
 
     @GetMapping("/quick/joinRandom")
