@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Collections;
 import java.util.Comparator;
@@ -211,35 +212,54 @@ public class GameService {
     }
 
     @Transactional
-    public Map<String,Integer> getRanking2(){
-        Map<String,Integer> ranking = new HashMap<>();
+    public Map<String, Integer> getRanking() {
+        Map<String, Integer> completeRanking = rank();
+
+        Map<String, Integer> top5Ranking = completeRanking.entrySet()
+                .stream()
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        return top5Ranking;
+    }
+
+    public Map<String, Integer> rank() {
         List<Player> players = playerService.getAllPlayers();
-        for(Player p: players){
-            Integer numGames = getNumGamesByPlayerId(p.getId());
-            ranking.put(p.getUser().getUsername(), numGames);
-        }
+
+        List<Player> filteredPlayers = players.stream()
+                .filter(player -> getNumGamesWinByPlayerId(player.getUser().getId()) > 0)
+                .collect(Collectors.toList());
+
+        Map<String, Integer> ranking = filteredPlayers.stream()
+                .collect(Collectors.toMap(
+                        player -> player.getUser().getUsername(),
+                        player -> getNumGamesWinByPlayerId(player.getUser().getId())
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
         return ranking;
     }
 
     @Transactional
-    public Map<String, Integer> getRanking() {
-        List<Player> players = playerService.getAllPlayers();
-
-        // Filtra jugadores con más de cero partidas y ordena por la cantidad de juegos
-        List<Player> filteredPlayers = players.stream()
-                .filter(player -> getNumGamesByPlayerId(player.getId()) > 0)
-                .sorted(Collections.reverseOrder(Comparator.comparingInt(player -> getNumGamesByPlayerId(player.getId()))))
-                .limit(5) // Limita a 5 jugadores
-                .collect(Collectors.toList());
-
-        // Crea el ranking con los jugadores filtrados
-        Map<String, Integer> ranking = filteredPlayers.stream()
-                .collect(Collectors.toMap(
-                        player -> player.getUser().getUsername(),
-                        player -> getNumGamesByPlayerId(player.getId())
-                ));
-
-        return ranking;
+    public Integer myRank(Integer playerId){
+        Map<String, Integer> ranking = rank();
+        Integer myRank = 0;
+        for(Map.Entry<String, Integer> entry : ranking.entrySet()){
+            myRank++;
+            if(entry.getKey().equals(playerService.getPlayerById(playerId).get().getUser().getUsername())){
+                return myRank;
+            }
+        }
+        return 0;
     }
 }
     

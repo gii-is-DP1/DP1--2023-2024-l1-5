@@ -3,7 +3,7 @@ import '../App.css';
 import '../static/css/home/home.css';
 import '../static/css/main.css';
 import tokenService from '../services/token.service';
-import {PieChart, Pie, Sector, Cell, Tooltip} from "recharts";
+import {PieChart, Pie, Sector, Cell, Tooltip, Legend} from "recharts";
 
 const jwt = tokenService.getLocalAccessToken();
 const user = tokenService.getUser();
@@ -17,6 +17,9 @@ export default function Statistics() {
         gamesMaxTime: 0,
         gamesMinTime: 0,
         totalTimePlayed: 0,
+        totalGamesWonPit: 0,
+        totalGamesWonIT: 0,
+        myRank: 0,
     });
 
     const [playerId, setPlayerId] = useState(null);
@@ -113,12 +116,29 @@ export default function Statistics() {
         
             setStats((prevStats) => ({ ...prevStats, gamesAvgTime: roundedAvgTime }));
         });
+
+        fetchData(`/api/v1/games/numGamesMode/${playerId}/${"PIT"}`, (numPit) => {
+            setStats((prevStats) => ({ ...prevStats, totalGamesWonPit: numPit }));
+        });
+
+        fetchData(`/api/v1/games/numGamesMode/${playerId}/${"INFERNAL_TOWER"}`, (numIT) => {
+            setStats((prevStats) => ({ ...prevStats, totalGamesWonIT: numIT }));
+        });
+
+        fetchData(`/api/v1/games/ranking/${playerId}`, (rank) => {
+            setStats((prevStats) => ({ ...prevStats, myRank: rank }));
+        });
         
     }, [jwt, playerId]);
 
     const data = [
-        {name:"Games Win", value: stats.gamesWon}, 
-        {name:"Games los", value: stats.nGames - stats.gamesWon}, 
+        {name:"GAMES WON", value: stats.gamesWon}, 
+        {name:"LOST GAMES", value: stats.nGames - stats.gamesWon}, 
+    ]
+
+    const data2 = [
+        {name:"PIT", value: stats.totalGamesWonPit}, 
+        {name:"INFERNAL TOWER", value: stats.totalGamesWonIT}, 
     ]
 
     const renderStatistics = () => {
@@ -128,13 +148,7 @@ export default function Statistics() {
                     <h1 className="text-center">Player Statistics</h1>
                     <div className="statistics-list">
                         <div>
-                            <strong>Number of Games:</strong> {stats.nGames}
-                        </div>
-                        <div>
-                            <strong>Games Won:</strong> {stats.gamesWon}
-                        </div>
-                        <div>
-                            <strong>Games Lost:</strong> {stats.nGames - stats.gamesWon}
+                            <strong>Total Games:</strong> {stats.nGames}
                         </div>
                         <div>
                             <strong>Total Time Played:</strong> {stats.totalTimePlayed} seconds
@@ -146,34 +160,87 @@ export default function Statistics() {
                             <strong>Min Time Played:</strong> {stats.gamesMinTime} seconds
                         </div>
                         <div>
-                            <strong>Avg Time Played:</strong> {stats.gamesAvgTime} seconds
+                            <strong>Average time per game:</strong> {stats.gamesAvgTime} seconds
                         </div>
                     </div>
-                    <div>
-                        <PieChart width={400} height={400}>
-                            <Pie
-                                dataKey="value"
-                                isAnimationActive={false}
-                                data={data}
-                                cx={200}
-                                cy={200}
-                                outerRadius={80}
-                                fill="#8884d8"
-                                label
-                            />
-                            <Tooltip />
-                        </PieChart>
+                    <div className="chart-container">
+                        <div className="chart">
+                            <PieChart width={340} height={340}>
+                            <text x={170} y={20} textAnchor="middle" dominantBaseline="middle">
+                                GAMES WIN AND LOST
+                            </text>
+                                <Pie
+                                    dataKey="value"
+                                    isAnimationActive={false}
+                                    data={data}
+                                    cx={190}
+                                    cy={200}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    label
+                                >
+                                    <Cell key={1} fill="#82ca9d" />
+                                    <Cell key={2} fill="#8884d8" />
+                                </Pie>
+                                <Tooltip />
+                                <Legend 
+                                    align="center"
+                                    payload={[
+                                        { id: 'Games Win', type: 'square', value: 'GAMES WON', color: '#82ca9d' },
+                                        { id: 'Games los', type: 'square', value: 'LOST GAMES', color: '#8884d8' },
+                                    ]}
+                                />
+                            </PieChart>
+                        </div>
+                        <div className="chart">
+                            <PieChart width={340} height={340}>
+                            <text x={170} y={20} textAnchor="middle" dominantBaseline="middle">
+                                GAMES PLAYED BY MODE
+                            </text>
+                                <Pie
+                                    dataKey="value"
+                                    isAnimationActive={false}
+                                    data={data2}
+                                    cx={150}
+                                    cy={200}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    label
+                                >
+                                    <Cell key={1} fill="#82ca9d" />
+                                    <Cell key={2} fill="#8884d8" />
+                                </Pie>
+                                <Tooltip />
+                                <Legend 
+                                    align="center"
+                                    payload={[
+                                        { id: 'Games Win of PIT', type: 'square', value: 'PIT', color: '#82ca9d' },
+                                        { id: 'Games Win of IT', type: 'square', value: 'IT', color: '#8884d8' },
+                                    ]}
+                                />
+                            </PieChart>
+                        </div>
                     </div>
                 </div>
                 <div className="section">
                     <div>
-                        <h2>Player Ranking</h2>
+                        <h2>Global Top 5</h2>
                         <ol>
                             {ranking.map((player, index) => (
                             <li key={player.id}>
-                                 {player.username}: {player.numGames} games
+                                 {player.username}: {player.numGames} games won
                             </li>
                             ))}
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Your position in the Ranking</h3>
+                        <ol>
+                            {stats.myRank === 0 ? (
+                                <li>You must play to appear in the ranking</li>
+                            ) : (
+                                <li>myRank: {stats.myRank}</li>
+                            )}
                         </ol>
                     </div>
                 </div>

@@ -166,6 +166,23 @@ public class GameController {
         return new ResponseEntity<>(numGames, HttpStatus.OK);
     }
 
+    @GetMapping("/numGamesMode/{playerId}/{gameMode}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getNumGamesModeByPlayerId(@PathVariable("playerId") Integer playerId,
+            @PathVariable("gameMode") String gameMode) {
+        List<Game> games = gameService.getGamesByPlayerId(playerId);
+        Integer result = 0;
+        List<Round> rounds = games.stream().map(game -> game.getRounds()).flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        for (Round round : rounds) {
+            if (round.getRoundMode().toString().equals(gameMode)) 
+                result++; 
+        }
+        
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/ranking")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RankingDTO>> getRanking() {
@@ -175,6 +192,14 @@ public class GameController {
             rankingDTO.add(new RankingDTO(entry.getKey(), entry.getValue()));
         }
         return new ResponseEntity<>(rankingDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Integer> getRankingPlayerId(@PathVariable("playerId") Integer playerId) {
+        Integer result = gameService.myRank(playerId);
+        
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/quick/joinRandom")

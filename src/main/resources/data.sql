@@ -218,13 +218,6 @@ VALUES
 (3, 8),
 (3, 9);
 
-
--- Inserta un registro de PlayerStatistic
--- INSERT INTO player_statistics (id, number_of_games, win_number, lose_number, competitive_points, max_duration, min_duration) VALUES 
---    (1, 10, 5, 5, 0, 120, 10),
---    (3, 100, 80, 20, 320, 400, 180),
---    (2, 15, 10, 5, 50, 150, 20);
-
 -- -- Inserta un registro de Message
 -- INSERT INTO messages (id, content, source_user, message_date) VALUES (1, 'Hola Buenos Dias','guillecoria','2023-02-24 12:30' );
 -- INSERT INTO messages (id, content, source_user, message_date) VALUES (2,'Que calor hace!!!' ,'lucas69','2023-04-11 11:30' );
