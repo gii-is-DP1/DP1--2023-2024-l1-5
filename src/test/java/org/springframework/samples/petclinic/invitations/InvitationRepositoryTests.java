@@ -30,42 +30,42 @@ public class InvitationRepositoryTests {
     //Encontrar las invitaciones en estado PENDING de cierto user
     @Test
     public void testfindPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findPendigInvitation("Alvaro2");
+        List<Invitation> invitations = invitationRepository.findPendigInvitation("lucantdel");
         assertNotNull(invitations);
         assertTrue(invitations.size() > 0);
     }
     //Caso negativo
     @Test
     public void testfindNoPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findPendigInvitation("Alvaro200");
+        List<Invitation> invitations = invitationRepository.findPendigInvitation("lucantdel");
         assertNotNull(invitations);
         assertTrue(invitations.size() == 0);
     }
     //Encontrar si cierto usuario ya recibio la invitacion
     @Test
     public void testfindAlreadyPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("Alvaro2");
+        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("ronmonalb");
         assertNotNull(invitations);
         assertTrue(invitations.size() > 0);
     }
     //Caso negativo
     @Test
     public void testNofindAlreadyPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("Alvaro200");
+        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("lucantdel");
         assertNotNull(invitations);
         assertTrue(invitations.size() == 0);
     }
     //Encontrar las invitaciones aceptadas por cierto user
     @Test
     public void testfindAcceptedInvitation(){
-        List<Invitation> invitations = invitationRepository.findAcceptedInvitation("Guille8");
+        List<Invitation> invitations = invitationRepository.findAcceptedInvitation("manortper");
         assertNotNull(invitations);
         assertTrue(invitations.size() > 0);
     }
     //Caso negativo
     @Test
     public void testfindNoAcceptedInvitation(){
-        List<Invitation> invitations = invitationRepository.findAcceptedInvitation("Guille80");
+        List<Invitation> invitations = invitationRepository.findAcceptedInvitation("ronmonalb");
         assertNotNull(invitations);
         assertTrue(invitations.size() == 0);
     }

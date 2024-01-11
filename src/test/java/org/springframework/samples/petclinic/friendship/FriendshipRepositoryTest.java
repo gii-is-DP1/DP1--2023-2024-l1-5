@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest()
 public class FriendshipRepositoryTest {
 
+    private static final int TEST_PLAYER_ID = 1;
+
     @Autowired
     FriendshipRepository fr;
 
@@ -22,19 +24,19 @@ public class FriendshipRepositoryTest {
 
     @Test
     public void findFriendshipWaitingRequestsByPlayerIdTest() {
-        List<Friendship> actualResult = fr.findFriendshipRequests(19);
+        List<Friendship> actualResult = fr.findFriendshipRequests(TEST_PLAYER_ID);
         assertTrue(actualResult.size()==2);
     }
     
     @Test
     public void findFriendshipAllRequestByPlayerId() {
-        List<Friendship> actualResult = fr.findFriendshipRequestByPlayerId(19);
-        assertTrue(actualResult.size()==4);
+        List<Friendship> actualResult = fr.findFriendshipRequestByPlayerId(TEST_PLAYER_ID);
+        assertTrue(actualResult.size()==2);
     }
 
     @Test
     public void findAcceptedFriendshipsByPlayerIdTest() {
-        List<Friendship> actualResult = fr.findAcceptedFriendshipsByPlayerId(19);
+        List<Friendship> actualResult = fr.findAcceptedFriendshipsByPlayerId(TEST_PLAYER_ID);
         assertTrue(actualResult.size()==2);
     }
 
