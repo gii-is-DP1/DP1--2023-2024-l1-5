@@ -74,27 +74,27 @@ public class InvitationServiceTests {
     }
 
     @Test
-    public void testgetPendigInvitationsSent(){
+    public void testgetPendingInvitationsSent(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findPendigInvitation("lucantdel")).thenReturn(invitations);
+        when(invitationRepository.findPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsSent("lucantdel");
+        List<Invitation> result = invitationService.getPendingInvitationsSent("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findPendigInvitation("lucantdel");
+        verify(invitationRepository, times(1)).findPendingInvitation("lucantdel");
     }
 
     @Test
-    public void testgetPendigInvitationsReceived(){
+    public void testgetPendingInvitationsReceived(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findAlreadyPendigInvitation("lucantdel")).thenReturn(invitations);
+        when(invitationRepository.findAlreadyPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsReceived("lucantdel");
+        List<Invitation> result = invitationService.getPendingInvitationsReceived("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findAlreadyPendigInvitation("lucantdel");
+        verify(invitationRepository, times(1)).findAlreadyPendingInvitation("lucantdel");
     }
 
     @Test

@@ -28,13 +28,9 @@ public class ChatMessageRepositoryTest {
     @Test
     public void testFindChatMessagesByGameId() {
         List<ChatMessage> chatMessages = chatMessageRepository.findChatMessagesByGameId(GAME_ID);
-        assertNotNull(chatMessages); // Asegúrate de que la lista no sea nula
-        assertFalse(chatMessages.isEmpty()); // Asegúrate de que la lista no esté vacía
-
-        // Si conoces los datos esperados, puedes realizar aserciones específicas
-        // Por ejemplo, si sabes que debería haber un mensaje de un usuario específico:
+        assertNotNull(chatMessages);
+        assertFalse(chatMessages.isEmpty());
         assertTrue(chatMessages.stream().anyMatch(message -> "Que tal? Eres bueno?".equals(message.getContent())));
-        // Otras aserciones pueden ser sobre el contenido del mensaje, fecha, etc.
     }
 
 }

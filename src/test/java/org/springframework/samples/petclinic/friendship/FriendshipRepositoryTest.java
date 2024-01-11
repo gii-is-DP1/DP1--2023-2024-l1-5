@@ -31,7 +31,7 @@ public class FriendshipRepositoryTest {
     @Test
     public void findFriendshipAllRequestByPlayerId() {
         List<Friendship> actualResult = fr.findFriendshipRequestByPlayerId(TEST_PLAYER_ID);
-        assertTrue(actualResult.size()==2);
+        assertTrue(actualResult.size()==4);
     }
 
     @Test

@@ -67,7 +67,4 @@ public class ChatMessageControllerTest {
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$.size()").value(2));
     }
-
-    // Aquí puedes agregar más tests para otros métodos en tu ChatMessageController
-    // ...
 }

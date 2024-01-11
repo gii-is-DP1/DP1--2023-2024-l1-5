@@ -8,7 +8,6 @@ import org.springframework.samples.petclinic.invitation.InvitationRepository;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest()
@@ -29,29 +28,29 @@ public class InvitationRepositoryTests {
     }
     //Encontrar las invitaciones en estado PENDING de cierto user
     @Test
-    public void testfindPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findPendigInvitation("lucantdel");
+    public void testfindPendingInvitation(){
+        List<Invitation> invitations = invitationRepository.findPendingInvitation("lucantdel");
         assertNotNull(invitations);
         assertTrue(invitations.size() > 0);
     }
     //Caso negativo
     @Test
-    public void testfindNoPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findPendigInvitation("lucantdel");
+    public void testfindNoPendingInvitation(){
+        List<Invitation> invitations = invitationRepository.findPendingInvitation("ronmonalb");
         assertNotNull(invitations);
         assertTrue(invitations.size() == 0);
     }
     //Encontrar si cierto usuario ya recibio la invitacion
     @Test
-    public void testfindAlreadyPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("ronmonalb");
+    public void testfindAlreadyPendingInvitation(){
+        List<Invitation> invitations = invitationRepository.findAlreadyPendingInvitation("ronmonalb");
         assertNotNull(invitations);
         assertTrue(invitations.size() > 0);
     }
     //Caso negativo
     @Test
-    public void testNofindAlreadyPendigInvitation(){
-        List<Invitation> invitations = invitationRepository.findAlreadyPendigInvitation("lucantdel");
+    public void testNofindAlreadyPendingInvitation(){
+        List<Invitation> invitations = invitationRepository.findAlreadyPendingInvitation("lucantdel");
         assertNotNull(invitations);
         assertTrue(invitations.size() == 0);
     }
