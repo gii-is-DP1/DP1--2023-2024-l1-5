@@ -111,11 +111,6 @@ INSERT INTO player_achievements(player_id, achievement_id) VALUES
 -- Players 5, 6, 7, 9 no tienen logros
 
 
--- Inserta un registro de ChatMessage
-INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (1,'Hola Buenos Dias','player10','2023-02-11 11:30', 1);
-INSERT INTO chat_messages (id, content, source_user, message_date, game_id) VALUES (2,'Que calor hace!!!' ,'player12','2023-02-11 11:31', 1);
-
-
 -- CARTAS
  INSERT INTO cards(id, image) VALUES 
 (1, 'https://i.imgur.com/xLo9ljN.jpg'),

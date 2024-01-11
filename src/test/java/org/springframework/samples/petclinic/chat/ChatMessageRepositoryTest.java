@@ -13,21 +13,22 @@ public class ChatMessageRepositoryTest {
 
     private static final Integer GAME_ID = 1; 
 
-
     @Autowired
     ChatMessageRepository chatMessageRepository;
+
     @Test
     public void testFindAll() {
         List<ChatMessage> chatMessages = chatMessageRepository.findAll();
         assertNotNull(chatMessages);
         assertTrue(chatMessages.size() > 0);
     }
+
     @Test
     public void testFindChatMessagesByGameId() {
         List<ChatMessage> chatMessages = chatMessageRepository.findChatMessagesByGameId(GAME_ID);
         assertNotNull(chatMessages); 
         assertFalse(chatMessages.isEmpty()); 
-        assertTrue(chatMessages.stream().anyMatch(message -> "Hola Buenos Dias".equals(message.getContent())));
+        assertTrue(chatMessages.stream().anyMatch(message -> "Que tal? Eres bueno?".equals(message.getContent())));
     }
 
 }
