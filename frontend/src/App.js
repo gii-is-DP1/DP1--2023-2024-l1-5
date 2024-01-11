@@ -207,7 +207,7 @@ function App() {
   }
 
   // Estado y constantes para la detección de inactividad y la modal
-  const INACTIVITY_TIME = 15 * 1000; // 15 segundos de inactividad
+  const INACTIVITY_TIME = 60 * 1000; // 60 segundos de inactividad
   const WARNING_TIME = 10 * 1000; // 10 segundos adicionales después de la alerta
   const [isInactive, setIsInactive] = useState(false);
   const [showModal, setShowModal] = useState(false);
