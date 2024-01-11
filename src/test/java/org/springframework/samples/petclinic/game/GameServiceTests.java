@@ -124,7 +124,7 @@ public class GameServiceTests {
     public void testHasActiveGame() {
         gameService = new GameService(gameRepository, userService, playerService);
         Player player = new Player();
-        Integer playerId = 7;
+        Integer playerId = 3;
         player.setId(playerId);
 
         List<Game> playerGames = new ArrayList<>();
@@ -144,6 +144,7 @@ public class GameServiceTests {
 
     private Game createGame(GameStatus status) {
         Game game = new Game();
+        game.setId(1000);
         game.setStatus(status);
         return game;
     }

@@ -29,7 +29,8 @@ public class FrienshipServiceTest {
     @Test
     public void saveFriendshipExistent(){
         Friendship f = createValidFriendship();
-        f.setUser_dst(playerService.getPlayerById(12).get());
+        f.setUser_dst(playerService.getPlayerById(1).get());
+        f.setUser_source(playerService.getPlayerById(3).get());
         assertThrows(FriendshipExistsException.class, () -> fs.saveFriendship(f,"POST"));
     }
 

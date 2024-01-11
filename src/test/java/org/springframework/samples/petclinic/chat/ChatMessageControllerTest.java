@@ -23,7 +23,7 @@ import java.util.List;
 public class ChatMessageControllerTest {
 
     private static final String BASE_URL = "/api/v1/chatMessages";
-    private static final Integer GAME_ID = 2;
+    private static final Integer GAME_ID = 1;
 
     @Autowired
     private WebApplicationContext context;
