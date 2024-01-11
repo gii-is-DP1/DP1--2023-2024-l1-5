@@ -40,4 +40,14 @@ public class CardServiceTest {
             }
         }
     }
+
+    @Test
+    public void testEachCardHasSixSymbols() {
+        List<Card> allCards = cardService.getAllCards(); 
+        for (Card card : allCards) {
+            List<Symbol> symbols = card.getSymbols();
+            assertEquals(6, symbols.size(), "La carta con ID " + card.getId() + " debe tener exactamente 6 símbolos");
+        }
+    }
+
 }
