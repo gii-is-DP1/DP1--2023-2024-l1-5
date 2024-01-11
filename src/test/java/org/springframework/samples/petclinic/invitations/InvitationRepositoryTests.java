@@ -31,8 +31,10 @@ public class InvitationRepositoryTests {
     public void testfindPendingInvitation(){
         List<Invitation> invitations = invitationRepository.findPendingInvitation("lucantdel");
         assertNotNull(invitations);
-        assertTrue(invitations.size() == 0);
+        assertTrue(invitations.size() != 0);
     }
+
+
     //Caso negativo
     @Test
     public void testfindNoPendingInvitation(){

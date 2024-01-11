@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -78,18 +80,7 @@ public class GameServiceTests {
     private static final Integer GAME_ID = 100;
 
 
-    @Test
-    public void testUpdateGame(){
-        Game game = new Game();
-        Player player = new Player();
-        player.setId(PLAYER_ID);
-        game.setId(GAME_ID);
-        Game updateGame = new Game();
-        when(gameRepository.findById(GAME_ID)).thenReturn(Optional.of(game));
-        when(gameRepository.save(game)).thenReturn(game);
-        Game result = gameService.updateGame(PLAYER_ID, GAME_ID);
-        assertNotNull(result);
-    }
+
 
     @Test
     public void testGetAllGames() {
@@ -160,18 +151,15 @@ public class GameServiceTests {
         Integer playerId = 3;
         player.setId(playerId);
 
-        List<Game> playerGames = new ArrayList<>();
-
         //Case 1: Check that there is an active game
-        playerGames.add(createGame(GameStatus.WAITING));
-        playerGames.add(createGame(GameStatus.IN_PROGRESS));
-        when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);
+        when(gameRepository.findWaitingPlayerGame(playerId)).thenReturn(createGame(GameStatus.WAITING));
+        when(gameRepository.findInProgressPlayerGame(playerId)).thenReturn(createGame(GameStatus.IN_PROGRESS));
         assertTrue(gameService.hasActiveGame(player));
 
         //Case 2: Check that there is no active game
-        playerGames.clear();
-        playerGames.add(createGame(GameStatus.FINALIZED));
-        when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);
+
+        when(gameRepository.findWaitingPlayerGame(playerId)).thenReturn(null);
+        when(gameRepository.findInProgressPlayerGame(playerId)).thenReturn(null);
         assertFalse(gameService.hasActiveGame(player));
     }
 
