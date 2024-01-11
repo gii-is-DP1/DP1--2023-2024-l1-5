@@ -154,16 +154,6 @@ public class RoundController {
                         deck0.setRound(round);
                         deck0.setCards(deckCards);
                         deckService.saveDeck(deck0);
-                        // Deck deck1 = deckService.createDeck(roundId);
-                        // if (deck1 != null) {
-                        //     if (deckCards != null) {
-                        //         this.deckService.updateDeck(deck1, roundId, deckCards);
-                        //     }
-
-                        // } else {
-                        //     throw new Exception("no existe deck");
-                        // }
-
                     } else {
                         Integer pId = key;
                         Player player = playerService.getPlayerById(pId).get();

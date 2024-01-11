@@ -51,7 +51,6 @@ public class CardService {
         return cardRepository.get16LastCards();
     }
 
-
     @Transactional
     public Card updateCard(Integer cardId,Integer handId) throws DataAccessException {
         Card toUpdate = cardRepository.findById(cardId).get();
