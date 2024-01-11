@@ -369,11 +369,11 @@ export default function ItGameView() {
                     <div className='columnas'>
                         <h1>My hand</h1> 
                         <img src={cardImg} className="circle" alt='img'></img>
-                        <h5>Cards left: {handSize}</h5>
                     </div>
                     <div className='columnas'>
                         <h1>Deck</h1>
                         <img src={deckImg} className="circle" alt='img'></img>
+                        <h5>Cards left: {deckSize}</h5>
                     </div>
                 </div>
                 <div className='filas2'>

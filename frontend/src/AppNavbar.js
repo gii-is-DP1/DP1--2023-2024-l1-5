@@ -5,7 +5,8 @@ import tokenService from './services/token.service';
 import jwt_decode from "jwt-decode";
 import logo from './static/images/dobble_logo.png' 
 import friendsLogo from './static/images/friends.png'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import {checkIfUserHasGame } from './MyGame';
 
 function AppNavbar() {
     const [roles, setRoles] = useState([]);
@@ -14,8 +15,14 @@ function AppNavbar() {
     const [collapsed, setCollapsed] = useState(true);
     const user = tokenService.getUser();
     const navigate = useNavigate();
-
+    const [hasGame, setHasGame] = useState(false);
+    const [idGame, setIdGame] = useState(null);
+    const [idRound, setIdRound] = useState(null);
+    const [roundMode, setRoundMode] = useState(null);
+    const [status, setStatus] = useState(null);
     const toggleNavbar = () => setCollapsed(!collapsed);
+    const location = useLocation();
+    const currentPath = location.pathname;
 
     useEffect(() => {
         if (jwt) {
@@ -24,31 +31,43 @@ function AppNavbar() {
         }
     }, [jwt])
 
-    async function myGameButton(username) {
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const jwt = JSON.parse(window.localStorage.getItem('jwt'));
+
+                const gamesMG = await (
+                    await fetch(`/api/v1/games/myGame/${user.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                ).json(); 
+
+                const { userHasGame, gameId, statusB, roundB, roundMode } = checkIfUserHasGame(gamesMG, currentPath);
+                setHasGame(userHasGame);
+                setIdGame(gameId);
+                setStatus(statusB);
+                setIdRound(roundB);
+                setRoundMode(roundMode);
+                console.log(roundMode);
+            } catch (error) {
+                console.error('Error en la función checkIfUserHasGame:', error);
+            }
+        }
+        fetchData();
+    }, [currentPath, idGame, status, idRound, roundMode]); 
+
+    async function myGameButton() {
         try {
-            const jwt = JSON.parse(window.localStorage.getItem('jwt'));
-    
-            const games = await(
-                await fetch(`/api/v1/games`, {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                        'Content-Type': 'application/json',
-                    },
-                })
-            ).json();
-    
-            for (let i = 0; i < games.length; i++) {
-                if (games[i].status === 'WAITING') {
-                    const players = games[i].playerList;
-                    for (let j = 0; j < players.length; j++) {
-                        if (players[j].user.username === user.username) {
-                            //window.location.href = `/game/quickPlay/${games[i].id}`;
-                            const idGame = games[i].id;
-                            navigate(`/game/quickPlay/${idGame}`); // Usa navigate para cambiar la ruta
-                            return;
-                        }
-                    }
-                }
+            if (status === "WAITING" && currentPath !== `/game/quickPlay/${idGame}`) {
+                window.location.href = `/game/quickPlay/${idGame}`;
+                //navigate(/game/quickPlay/${idGame}); // Usa navigate para cambiar la ruta
+            } else if (status === "IN_PROGRESS" && roundMode === "PIT"){
+                window.location.href = `/game/quickPlay/${idGame}/${idRound}/pit`;
+            } else if (status === "IN_PROGRESS" && roundMode === "INFERNAL_TOWER"){
+                window.location.href = `/game/quickPlay/${idGame}/${idRound}/it`;
             }
         } catch (error) {
             console.error('Error en la función gameButton:', error);
@@ -141,9 +160,11 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{color: "white"}} tag={Link} to="/gameHistory"> Game History</NavLink>
                 </NavItem>
-                <NavItem>
-                    <NavLink style={{color: "white"}} tag={Link} to="#" onClick={() => myGameButton(username)}> My Game</NavLink>
-                </NavItem>
+                {hasGame && (
+                    <NavItem>
+                        <NavLink style={{color: "white"}} tag={Link} to="#" onClick={() => myGameButton()}> My Game</NavLink>
+                    </NavItem>
+                )}
                 </>
             )
         } 
