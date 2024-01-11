@@ -13,6 +13,7 @@ public class ChatMessageRepositoryTest {
 
     private static final Integer GAME_ID = 1; 
 
+
     @Autowired
     ChatMessageRepository chatMessageRepository;
     @Test

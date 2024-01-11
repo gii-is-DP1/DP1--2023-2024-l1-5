@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.chat;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ class ChatMessageControllerTest {
     private static final String BASE_URL = "/api/v1/chatMessages";
     private static final int TEST_CHAT_MESSAGE_ID = 1;
     private static final int TEST_GAME_ID = 1;
+
 
     @MockBean
     private GameService gameService;
@@ -76,5 +78,6 @@ class ChatMessageControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.size()").value(1))
                .andExpect(jsonPath("$[0].id").value(TEST_CHAT_MESSAGE_ID));
+
     }
 }

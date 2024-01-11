@@ -74,27 +74,27 @@ public class InvitationServiceTests {
     }
 
     @Test
-    public void testgetPendigInvitationsSent(){
+    public void testgetPendingInvitationsSent(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findPendigInvitation("Alvaro2")).thenReturn(invitations);
+        when(invitationRepository.findPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsSent("Alvaro2");
+        List<Invitation> result = invitationService.getPendingInvitationsSent("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findPendigInvitation("Alvaro2");
+        verify(invitationRepository, times(1)).findPendingInvitation("lucantdel");
     }
 
     @Test
-    public void testgetPendigInvitationsReceived(){
+    public void testgetPendingInvitationsReceived(){
         invitationService = new InvitationService(invitationRepository);
         List<Invitation> invitations = new ArrayList<>();
-        when(invitationRepository.findAlreadyPendigInvitation("Alvaro2")).thenReturn(invitations);
+        when(invitationRepository.findAlreadyPendingInvitation("lucantdel")).thenReturn(invitations);
         
-        List<Invitation> result = invitationService.getPendigInvitationsReceived("Alvaro2");
+        List<Invitation> result = invitationService.getPendingInvitationsReceived("lucantdel");
         assertNotNull(result);
         assertEquals(invitations, result);
-        verify(invitationRepository, times(1)).findAlreadyPendigInvitation("Alvaro2");
+        verify(invitationRepository, times(1)).findAlreadyPendingInvitation("lucantdel");
     }
 
     @Test
@@ -117,8 +117,8 @@ public class InvitationServiceTests {
         Invitation invitation = new Invitation();
         Game game = new Game();
         invitation.setId(10);
-        invitation.setSource_user("Alvaro2");
-        invitation.setDestination_user("Guille8");
+        invitation.setSource_user("lucantdel");
+        invitation.setDestination_user("guigomorm");
         invitation.setGame(game);
         return invitation;
     }
