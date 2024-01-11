@@ -109,7 +109,7 @@ public class InvitationControllerTest {
     @Test
     @WithMockUser(username = "lucas", authorities = "PLAYER")
     public void testGetPendingInvitations() throws Exception {
-        when(invitationService.getPendigInvitationsReceived("lucas")).thenReturn(List.of(testInvitation));
+        when(invitationService.getPendingInvitationsReceived("lucas")).thenReturn(List.of(testInvitation));
 
         mvc.perform(get(BASE_URL + "/lucas"))
             .andExpect(status().isOk())
