@@ -4,18 +4,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.exceptions.FriendshipExistsException;
-import org.springframework.samples.petclinic.player.PlayerRepository;
+import org.springframework.samples.petclinic.player.PlayerService;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = FriendshipService.class))
+@SpringBootTest
 public class FrienshipServiceTest {
     @Autowired
-    FriendshipService fs;
+    PlayerService playerService;
+
     @Autowired
-    PlayerRepository pr;
+    FriendshipService fs;
 
     @Test
     public void saveFriendship(){
@@ -30,15 +29,17 @@ public class FrienshipServiceTest {
     @Test
     public void saveFriendshipExistent(){
         Friendship f = createValidFriendship();
-        f.setUser_dst(pr.findById(18).get());
+        f.setUser_dst(playerService.getPlayerById(1).get());
+        f.setUser_source(playerService.getPlayerById(3).get());
         assertThrows(FriendshipExistsException.class, () -> fs.saveFriendship(f,"POST"));
     }
 
     private Friendship createValidFriendship(){
         Friendship friendship = new Friendship();
-        friendship.setId(20);
-        friendship.setUser_source(pr.findById(19).get());
-        friendship.setUser_dst(pr.findById(14).get());
+        friendship.setId(31);
+        friendship.setUser_source(playerService.getPlayerById(12).get());
+        friendship.setUser_dst(playerService.getPlayerById(11).get());
+        friendship.setStatus(FriendshipStatus.WAITING);
         return friendship;
     }
     

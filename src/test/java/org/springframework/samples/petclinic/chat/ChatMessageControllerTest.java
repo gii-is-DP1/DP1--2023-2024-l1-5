@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.chat;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,7 @@ import java.util.List;
 public class ChatMessageControllerTest {
 
     private static final String BASE_URL = "/api/v1/chatMessages";
-    private static final Integer GAME_ID = 2;
+    private static final Integer GAME_ID = 1;
 
     @Autowired
     private WebApplicationContext context;
@@ -68,7 +67,4 @@ public class ChatMessageControllerTest {
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$.size()").value(2));
     }
-
-    // Aquí puedes agregar más tests para otros métodos en tu ChatMessageController
-    // ...
 }

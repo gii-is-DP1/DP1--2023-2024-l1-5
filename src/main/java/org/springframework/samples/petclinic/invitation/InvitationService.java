@@ -30,20 +30,20 @@ public class InvitationService {
     }
 
     @Transactional(readOnly = true)
-    public List<Invitation> getPendigInvitationsSent(String playerUsername){
-         return invitationRepository.findPendigInvitation(playerUsername);
+    public List<Invitation> getPendingInvitationsSent(String playerUsername){
+         return invitationRepository.findPendingInvitation(playerUsername);
     }
 
     @Transactional(readOnly = true)
-    public List<Invitation> getPendigInvitationsReceived(String playerUsername){
-        return invitationRepository.findAlreadyPendigInvitation(playerUsername);
+    public List<Invitation> getPendingInvitationsReceived(String playerUsername){
+        return invitationRepository.findAlreadyPendingInvitation(playerUsername);
     }
 
     @Transactional(rollbackFor = {InvitationAlreadySent.class})
     public Invitation saveInvitation(Invitation invitation, String type){
         String playerSource = invitation.getSource_user();
         String playerDst = invitation.getDestination_user();
-        List<Invitation> invitations = invitationRepository.findPendigInvitation(playerSource);
+        List<Invitation> invitations = invitationRepository.findPendingInvitation(playerSource);
         if(type=="POST"){
             for (Invitation i : invitations) {
                 if (i.getDestination_user() == playerDst) {

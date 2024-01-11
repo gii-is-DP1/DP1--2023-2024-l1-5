@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.Console;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest
 public class ChatMessageRepositoryTest {
 
-    private static final Integer GAME_ID = 2; // Asume un ID de juego para testing
+    private static final Integer GAME_ID = 1; // Asume un ID de juego para testing
 
     @Autowired
     ChatMessageRepository chatMessageRepository;
@@ -29,13 +28,9 @@ public class ChatMessageRepositoryTest {
     @Test
     public void testFindChatMessagesByGameId() {
         List<ChatMessage> chatMessages = chatMessageRepository.findChatMessagesByGameId(GAME_ID);
-        assertNotNull(chatMessages); // Asegúrate de que la lista no sea nula
-        assertFalse(chatMessages.isEmpty()); // Asegúrate de que la lista no esté vacía
-
-        // Si conoces los datos esperados, puedes realizar aserciones específicas
-        // Por ejemplo, si sabes que debería haber un mensaje de un usuario específico:
-        assertTrue(chatMessages.stream().anyMatch(message -> "Hola Buenos Dias".equals(message.getContent())));
-        // Otras aserciones pueden ser sobre el contenido del mensaje, fecha, etc.
+        assertNotNull(chatMessages);
+        assertFalse(chatMessages.isEmpty());
+        assertTrue(chatMessages.stream().anyMatch(message -> "Que tal? Eres bueno?".equals(message.getContent())));
     }
 
 }
