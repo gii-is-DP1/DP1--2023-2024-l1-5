@@ -87,30 +87,6 @@ INSERT INTO achievements(id, name, description, image_url, threshold, metric) VA
 (8, 'Dedicated Gamer', 'A minute of pure dedication!', 'https://i.imgur.com/cJoiO2z.png', 60, 'TOTAL_PLAY_TIME'),
 (9, 'Master of Time', '2 minutes of epic gaming journey!', 'https://i.imgur.com/kGbAaSC.png', 120, 'TOTAL_PLAY_TIME');
 
--- -- Logros de player 1
--- INSERT INTO player_achievements(player_id, achievement_id) VALUES
--- (1, 1),
--- (1, 2),
--- (1, 4),
--- (1, 5),
--- -- Logros de player 2
--- (2, 1),
--- -- Logros de player 3 (tiene todos los logros)
--- (3, 1),
--- (3, 2),
--- (3, 3),
--- (3, 4),
--- (3, 5),
--- (3, 6),
--- (3, 7),
--- (3, 8),
--- (3, 9),
--- -- Logros de player 4
--- (4, 1),
--- (4, 4),
--- (4, 7);
--- -- Players 5, 6, 7, 9 no tienen logros
-
 
 -- CARTAS
  INSERT INTO cards(id, image) VALUES 
