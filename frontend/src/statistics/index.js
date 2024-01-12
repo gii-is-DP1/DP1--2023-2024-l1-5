@@ -235,13 +235,13 @@ export default function Statistics() {
                     </div>
                     <div>
                         <h3>Your position in the Ranking</h3>
-                        <ol>
+                        <ul>
                             {stats.myRank === 0 ? (
-                                <li>You must play to appear in the ranking</li>
+                                <li>You need to win a game to appear in the ranking</li>
                             ) : (
                                 <li>myRank: {stats.myRank}</li>
                             )}
-                        </ol>
+                        </ul>
                     </div>
                 </div>
             </div>

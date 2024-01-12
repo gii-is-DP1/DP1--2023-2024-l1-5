@@ -426,7 +426,7 @@ INSERT INTO hands_cards(cards_id, hand_id) VALUES
 
  -- Partida 5 (THE PIT finalizada)
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES 
-(5,'QUICK_PLAY',5,5,5,100,'FINALIZED');
+(5,'QUICK_PLAY',5,203,5,100,'FINALIZED');
 
 -- Información
 INSERT INTO games_info(id, game_mode,num_players,winner_id,creator_id,game_time,game_status,game_id) VALUES 
@@ -446,7 +446,7 @@ INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES
 
 -- Partida 6 (INFERNAL TOWER finalizada)
 INSERT INTO games(id,game_mode,num_players,winner_id,creator_id,game_time,game_status) VALUES 
-(6,'QUICK_PLAY',5,6,6,120,'FINALIZED');
+(6,'QUICK_PLAY',5,206,6,120,'FINALIZED');
 
 -- Información
 INSERT INTO games_info(id, game_mode,num_players,winner_id,creator_id,game_time,game_status,game_id) VALUES 
@@ -462,4 +462,4 @@ INSERT INTO player_games(player_id, game_id) VALUES
 
 -- Rondas
 INSERT INTO rounds(id,winner_id,loser_id,round_time,round_mode,game_id) VALUES 
-(6,6,10,null,'INFERNAL_TOWER',6);
+(6,6,10,120,'INFERNAL_TOWER',6);
