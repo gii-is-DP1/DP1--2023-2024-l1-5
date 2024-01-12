@@ -61,7 +61,7 @@ public class Game extends BaseEntity{
     // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
   
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "player_id"), uniqueConstraints = {
             @UniqueConstraint(columnNames = { "game_id", "player_id" }) })
     private List<Player> players;
