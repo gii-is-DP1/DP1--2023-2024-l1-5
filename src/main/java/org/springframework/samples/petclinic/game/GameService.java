@@ -3,7 +3,14 @@ package org.springframework.samples.petclinic.game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
+import org.hibernate.internal.util.type.PrimitiveWrapperHelper.IntegerDescriptor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -180,6 +187,92 @@ public class GameService {
     @Transactional
     public List<Game> getPlayerGamesWaiting(Integer id){
         return gameRepository.findPlayerGamesWaiting(id);
+    }
+
+    @Transactional
+    public List<Game> getGamesByPlayerId(Integer id){
+        return gameRepository.findGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getNumGamesByPlayerId(Integer id){
+        return gameRepository.findNumGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getNumGamesWinByPlayerId(Integer id){
+        return gameRepository.findNumGamesWinByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getTimesGamesWinByPlayerId(Integer id){
+        return gameRepository.findTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getMaxTimeGamesByPlayerId(Integer id){
+        return gameRepository.findMaxTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getMinTimeGamesByPlayerId(Integer id){
+        return gameRepository.findMinTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Double getAvgTimeGamesByPlayerId(Integer id){
+        return gameRepository.findAvgTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Map<String, Integer> getRanking() {
+        Map<String, Integer> completeRanking = rank();
+
+        Map<String, Integer> top5Ranking = completeRanking.entrySet()
+                .stream()
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        return top5Ranking;
+    }
+
+    public Map<String, Integer> rank() {
+        List<Player> players = playerService.getAllPlayers();
+
+        List<Player> filteredPlayers = players.stream()
+                .filter(player -> getNumGamesWinByPlayerId(player.getUser().getId()) > 0)
+                .collect(Collectors.toList());
+
+        Map<String, Integer> ranking = filteredPlayers.stream()
+                .collect(Collectors.toMap(
+                        player -> player.getUser().getUsername(),
+                        player -> getNumGamesWinByPlayerId(player.getUser().getId())
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        return ranking;
+    }
+
+    @Transactional
+    public Integer myRank(Integer playerId){
+        Map<String, Integer> ranking = rank();
+        Integer myRank = 0;
+        for(Map.Entry<String, Integer> entry : ranking.entrySet()){
+            myRank++;
+            if(entry.getKey().equals(playerService.getPlayerById(playerId).get().getUser().getUsername())){
+                return myRank;
+            }
+        }
+        return 0;
     }
 }
     

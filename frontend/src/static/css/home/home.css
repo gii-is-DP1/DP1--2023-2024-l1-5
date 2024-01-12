@@ -36,3 +36,12 @@
 .hero-div h3{
     text-align: center;
 }
+
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.chart {
+    margin-right: 20px;
+}

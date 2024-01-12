@@ -160,6 +160,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{color: "white"}} tag={Link} to="/gameHistory"> Game History</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink style={{color: "white"}} tag={Link} to="/statistics"> My Statistics</NavLink>
+                </NavItem>
                 {hasGame && (
                     <NavItem>
                         <NavLink style={{color: "white"}} tag={Link} to="#" onClick={() => myGameButton()}> My Game</NavLink>
