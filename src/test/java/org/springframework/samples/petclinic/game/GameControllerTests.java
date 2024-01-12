@@ -212,16 +212,43 @@ public class GameControllerTests {
             .andExpect(status().isOk());
     }
 
-    // @Test
-    // @WithMockUser(username = "player3", authorities = { "PLAYER" })
-    // public void testJoinQuickPlay() throws Exception {
-       
-    //     mockMvc.perform(put(BASE_URL+"/quick/joinRandom")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content("1")) 
-    //             .andExpect(status().isOk());
-    //     verify(gameService, times(1)).getRandomGame("QUICK_PLAY");
-    // }
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testGetWinner() throws Exception {
+        Integer gameId = 13;
+        Integer winnerId = 10;
+        Game game = new Game();
+        game.setId(gameId);
+        game.setWinner(winnerId);
+
+        when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
+
+        mockMvc.perform(get(BASE_URL + "/winner/" + gameId))
+                .andExpect(status().isOk())
+                .andExpect(content().string(winnerId.toString()));
+
+        verify(gameService, times(1)).getGameById(gameId);
+    }
+
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testUpdateWinner() throws Exception {
+        Integer gameId = 1;
+        Integer playerId = 10;
+        Game game = new Game();
+        game.setId(gameId);
+        game.setWinner(playerId);
+
+        when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
+        doNothing().when(gameService).save(any(Game.class));
+
+        mockMvc.perform(put(BASE_URL + "/winner/" + gameId + "/" + playerId)
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        verify(gameService, times(1)).getGameById(gameId);
+        verify(gameService, times(1)).save(any(Game.class));
+    }
 
     private static String asJsonString(final Object obj) {
         try {
