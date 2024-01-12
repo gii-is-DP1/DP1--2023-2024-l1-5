@@ -42,19 +42,19 @@ public class InvitationController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/api/v1/invitations")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Invitation>> getAllInvitations(){
         return new ResponseEntity<>(invitationService.getAllInvitations(), HttpStatus.OK);
     }
-    @GetMapping("/api/v1/invitations/{username}")
+    @GetMapping("{username}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Invitation>> getPendingInitations(@PathVariable("username") String username){
         Player player = playerService.getPlayerByUsername(username);
         return new ResponseEntity<>(invitationService.getPendingInvitationsReceived(player.getPlayerUsername()), HttpStatus.OK);
     }
     
-    @PostMapping("/api/v1/games/{game_id}/invitations/{username}")
+    @PostMapping("{game_id}/{username}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Invitation> createInvitation(@PathVariable("username") String username, @PathVariable("game_id") Integer game_id){
         User user = userService.findCurrentUser();
@@ -74,7 +74,7 @@ public class InvitationController {
     }
  
 
-    @PutMapping("/api/v1/invitations/acceptRequest/{invitationId}")
+    @PutMapping("/acceptRequest/{invitationId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Invitation> acceptInvitation(@PathVariable("invitationId") Integer invitationId){
         User user = userService.findCurrentUser();
@@ -88,7 +88,7 @@ public class InvitationController {
         }
     }
 
-    @PutMapping("/api/v1/invitations/refusededRequest/{invitationId}")
+    @PutMapping("/refusededRequest/{invitationId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Invitation> refuseInvitation(@PathVariable("invitationId") Integer invitationId){
         User user = userService.findCurrentUser();

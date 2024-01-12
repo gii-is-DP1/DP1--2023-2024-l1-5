@@ -71,7 +71,8 @@ INSERT INTO friendship (id, user_dst_id, user_source_id, status) VALUES
 (27, 7, 10, 'WAITING'),
 (28, 8, 9, 'ACCEPTED'),
 (29, 8, 10, 'WAITING'),
-(30, 9, 10, 'ACCEPTED');
+(30, 9, 10, 'ACCEPTED'),
+(31, 10, 12, 'ACCEPTED');
 
 
 -- LOGROS

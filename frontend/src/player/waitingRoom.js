@@ -181,7 +181,7 @@ export default function WaitingRoom(){
         try {
             const gameId = id;
             const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-            const response = await fetch(`/api/v1/games/${gameId}/invitations/${friendUsername}`, {
+            const response = await fetch(`/api/v1/invitations/${gameId}/${friendUsername}`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -268,15 +268,6 @@ export default function WaitingRoom(){
         }
     };
 
-    // useEffect(() => {
-    //     fetchData();
-    //     const intervalId = setInterval(() => {
-    //         fetchData();
-    //     }, 10000);
-
-    //     return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente desmonte
-
-    // }, [id]);
 
     const shuffle = async() =>{
             try{
