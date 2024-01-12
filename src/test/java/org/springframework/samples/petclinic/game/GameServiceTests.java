@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.game;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,6 +58,28 @@ public class GameServiceTests {
     //     when(userService.findCurrentUser()).thenReturn(newUser);
     //     when(playerRepository.findByUser(any())).thenReturn(Optional.of(newPlayer));
     //     Game savedGame = gameService.saveGame(gameToSave,newPlayer);
+    // @Test
+    // public void testUpdatePlayer() {
+    //     Player existingPlayer = new Player();
+    //     existingPlayer.setId(PLAYER_ID);
+    //     existingPlayer.setPlayerUsername("OriginalUsername");
+
+    //     Player updateInfo = new Player();
+    //     updateInfo.setPlayerUsername("UpdatedUsername");
+
+    //     when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(existingPlayer));
+    //     when(playerRepository.save(any(Player.class))).thenReturn(existingPlayer);
+
+    //     Player updatedPlayer = playerService.updatePlayer(updateInfo, PLAYER_ID);
+
+    //     assertNotNull(updatedPlayer);
+    //     assertEquals("UpdatedUsername", updatedPlayer.getPlayerUsername());
+    //     verify(playerRepository, times(1)).save(any(Player.class));
+    // }
+    private static final Integer PLAYER_ID = 2;
+    private static final Integer GAME_ID = 100;
+
+
 
 
     @Test
@@ -128,29 +148,29 @@ public class GameServiceTests {
     public void testHasActiveGame() {
         gameService = new GameService(gameRepository, userService, playerService);
         Player player = new Player();
-        Integer playerId = 1;
+        Integer playerId = 3;
         player.setId(playerId);
 
-        List<Game> playerGames = new ArrayList<>();
-
         //Case 1: Check that there is an active game
-        playerGames.add(createGame(GameStatus.WAITING));
-        playerGames.add(createGame(GameStatus.IN_PROGRESS));
-        when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);
+        when(gameRepository.findWaitingPlayerGame(playerId)).thenReturn(createGame(GameStatus.WAITING));
+        when(gameRepository.findInProgressPlayerGame(playerId)).thenReturn(createGame(GameStatus.IN_PROGRESS));
         assertTrue(gameService.hasActiveGame(player));
 
         //Case 2: Check that there is no active game
-        playerGames.clear();
-        playerGames.add(createGame(GameStatus.FINALIZED));
-        when(gameRepository.findPlayerCreatedGames(playerId)).thenReturn(playerGames);
+
+        when(gameRepository.findWaitingPlayerGame(playerId)).thenReturn(null);
+        when(gameRepository.findInProgressPlayerGame(playerId)).thenReturn(null);
         assertFalse(gameService.hasActiveGame(player));
     }
 
     private Game createGame(GameStatus status) {
         Game game = new Game();
+        game.setId(1000);
         game.setStatus(status);
         return game;
     }
+
+    
 
     @Test
     public void testGetNoRandomGame() {

@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.friendship;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;

@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@RequestMapping("/api/v1/invitations")
 @Tag(name = "Invitation", description = "The Invitations management API")
 @SecurityRequirement(name = "bearerAuth")
 public class InvitationController {
@@ -50,7 +51,7 @@ public class InvitationController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Invitation>> getPendingInitations(@PathVariable("username") String username){
         Player player = playerService.getPlayerByUsername(username);
-        return new ResponseEntity<>(invitationService.getPendigInvitationsReceived(player.getPlayerUsername()), HttpStatus.OK);
+        return new ResponseEntity<>(invitationService.getPendingInvitationsReceived(player.getPlayerUsername()), HttpStatus.OK);
     }
     
     @PostMapping("/api/v1/games/{game_id}/invitations/{username}")

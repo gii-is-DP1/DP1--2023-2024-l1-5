@@ -8,10 +8,14 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +30,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.friendship.Friendship;
-import org.springframework.samples.petclinic.friendship.FriendshipService;
-import org.springframework.samples.petclinic.friendship.FriendshipStatus;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
+import org.springframework.samples.petclinic.card.Card;
+import org.springframework.samples.petclinic.card.CardService;
+import org.springframework.samples.petclinic.deck.Deck;
+import org.springframework.samples.petclinic.deck.DeckService;
+import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.samples.petclinic.game.GameStatus;
+import org.springframework.samples.petclinic.hand.Hand;
+import org.springframework.samples.petclinic.hand.HandService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.player.State;
@@ -39,43 +48,36 @@ import org.springframework.samples.petclinic.symbol.Symbol;
 import org.springframework.samples.petclinic.user.Authorities;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.hand.Hand;
-import org.springframework.samples.petclinic.hand.HandService;
-import org.springframework.samples.petclinic.card.Card;
-import org.springframework.samples.petclinic.card.CardService;
-import org.springframework.samples.petclinic.deck.DeckService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-@WebMvcTest(value = { RoundController.class}, 
+@WebMvcTest(value = { RoundController.class }, 
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
 public class RoundControllerTest {
 
     @MockBean
-    PlayerService ps;
+    RoundService roundService;
 
     @MockBean
-    UserService us;
+    UserService userService;
 
     @MockBean
-    RoundService rs;
+    GameService gameService;
 
     @MockBean
-    GameService gs;
+    PlayerService playerService;
 
     @MockBean
-    CardService cs;
+    DeckService deckService;
 
     @MockBean
-    DeckService ds;
+    CardService cardService;
 
     @MockBean
-    HandService hs;
+    HandService handService;
 
-    @MockBean
-    FriendshipService fs;
+    @Autowired
+	private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -85,19 +87,27 @@ public class RoundControllerTest {
 
     private Player lucas;
     private Player guille;
-//    private Game game;
     private Round round;
     private Authorities auth;
     private User userLucas;
     private User userGuille;
-    private Friendship testFriendship;
+    private Round testRound;
+    private Card card;
+    private Card card2;
+    private Card card3;
+    private Symbol symbol;
+    private Deck deck;
+    private Hand hand;
+    private static final String BASE_URL = "/api/v1/rounds";
+    private Game testGame;
+    private static final Integer ROUND_ID = 1;
     private static final Integer TEST_PLAYER_ID_LUCAS= 51;
     private static final Integer TEST_PLAYER_ID_GUILLE= 52;
     private static final Integer TEST_USER_ID_LUCAS= 251;
     private static final Integer TEST_USER_ID_GUILLE= 252;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
@@ -133,33 +143,107 @@ public class RoundControllerTest {
         userGuille.setPassword("guille");
         guille.setUser(userGuille);
 
-        testFriendship = new Friendship();
-        testFriendship.setId(1);
-        testFriendship.setUser_source(lucas);
-        testFriendship.setUser_dst(guille);
-        testFriendship.setStatus(FriendshipStatus.ACCEPTED);
+        testGame = new Game();
+        testGame.setId(1);
+        testGame.setGameMode(GameMode.COMPETITIVE);
+        testGame.setNumPlayers(2);
+        testGame.setCreator(lucas);
+        testGame.setGameTime(0);
+        testGame.setStatus(GameStatus.WAITING);
+        testGame.setWinner(null);
+        testGame.setRounds(null);
 
-        round = new Round();
-        round.setId(1);
-        round.setRoundMode(RoundMode.PIT);
-    
-        Game game = new Game();
-        game.setId(1);
-        game.setGameMode(GameMode.QUICK_PLAY);
         List<Player> ls = new ArrayList<>();
         ls.add(guille);
         ls.add(lucas);
-        game.setPlayers(ls);
-    
-        round.setGame(game);
+        testGame.setPlayers(ls);
+
+        symbol = new Symbol();
+        symbol.setName(Name.APPLE);
+
+        card = new Card();
+        card.setId(1);
+        card.setImage("image");
+        card.setSymbols(java.util.List.of(symbol));
+
+        card2 = new Card();
+        card2.setId(2);
+        card2.setImage("image");
+        card2.setSymbols(java.util.List.of(symbol));
+
+        card3 = new Card();
+        card3.setId(3);
+        card3.setImage("image");
+        card3.setSymbols(java.util.List.of(symbol));
+
+        testRound = new Round();
+        testRound.setId(1);
+        testRound.setGame(testGame);
+        testRound.setRoundMode(RoundMode.INFERNAL_TOWER);
+        testRound.setWinner(null);
+
+        deck = new Deck();
+        deck.setId(1);
+        deck.setNumberOfCards(16);
+        deck.setRound(testRound);
+        deck.setCards(java.util.List.of(card, card2));
+
+        hand = new Hand();
+        hand.setId(1);
+        hand.setCards(java.util.List.of(card3));
+        hand.setNumCartas(1);
+        hand.setPlayer(lucas);
+        hand.setRound(testRound);
+
 
     }
-    
+
+    @Test
+    @WithMockUser(username = "lucas", authorities = "PLAYER")
+    public void testGetAllRounds() throws Exception {
+        when(roundService.getAllRounds()).thenReturn(java.util.List.of(testRound));
+
+        mvc.perform(get(BASE_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.size()").value(1));
+    }
+
+    @Test
+    @WithMockUser(username = "lucas", authorities = "PLAYER")
+    public void testGetRoundById() throws Exception {
+        when(this.roundService.getRoundById(ROUND_ID)).thenReturn(java.util.Optional.of(testRound));
+        mvc.perform(get(BASE_URL+"/"+ROUND_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    @WithMockUser(username = "lucas", authorities = "PLAYER")
+    public void testCreateRound() throws Exception{
+        RoundRequest roundRequest = new RoundRequest();
+        roundRequest.setRoundMode(RoundMode.INFERNAL_TOWER);
+
+        when(userService.findCurrentUser()).thenReturn(userLucas);
+        when(playerService.findPlayerByUser(userLucas)).thenReturn(lucas);
+        when(gameService.getWaitingGame(any(Player.class))).thenReturn(java.util.Optional.of(testGame));
+        when(roundService.saveRound(any(Round.class), any(Game.class))).thenReturn(testRound);
+
+        mvc.perform(post(BASE_URL).with(csrf())
+        
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(roundRequest)))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.id").value(1));
+
+    }
+
     @Test
     @WithMockUser(username = "lucas", authorities = {"PLAYER"})
     public void testShuffle() throws Exception {
-        when(rs.getRoundById(1)).thenReturn(Optional.of(round));
-        when(us.findCurrentUser()).thenReturn(userLucas);
+        when(roundService.getRoundById(1)).thenReturn(Optional.of(testRound));
+        when(userService.findCurrentUser()).thenReturn(userLucas);
 
         mvc.perform(put("/api/v1/rounds/shuffle")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -167,8 +251,8 @@ public class RoundControllerTest {
                 .with(csrf()))
                 .andExpect(status().isOk());
 
-        verify(us, times(1)).findCurrentUser();
-        verify(rs, times(1)).getRoundById(1);
+        verify(userService, times(1)).findCurrentUser();
+        verify(roundService, times(1)).getRoundById(1);
     }
-}
 
+}

@@ -1,74 +1,83 @@
 package org.springframework.samples.petclinic.chat;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ChatMessageControllerTest {
+@WebMvcTest(controllers = ChatMessageController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+class ChatMessageControllerTest {
 
     private static final String BASE_URL = "/api/v1/chatMessages";
-    private static final Integer GAME_ID = 2;
+    private static final int TEST_CHAT_MESSAGE_ID = 1;
+    private static final int TEST_GAME_ID = 1;
 
-    @Autowired
-    private WebApplicationContext context;
 
-    private MockMvc mockMvc;
+    @MockBean
+    private GameService gameService;
 
-    @Mock
+    @MockBean
     private ChatMessageService chatMessageService;
 
-    @InjectMocks
-    private ChatMessageController chatMessageController;
+    @Autowired
+    private MockMvc mockMvc;
+
+    private Game game;
+    private ChatMessage chatMessage;
 
     @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
+    void setup() {
+
+        game = new Game();
+        game.setId(TEST_GAME_ID);
+
+        chatMessage = new ChatMessage();
+        chatMessage.setId(TEST_CHAT_MESSAGE_ID);
+        chatMessage.setGame(game);
+        chatMessage.setSource_user("player");
+        chatMessage.setContent("message");
+        chatMessage.setMessage_date(LocalDateTime.now());
     }
 
     @Test
-    @WithMockUser(username = "player2", authorities = {"PLAYER"})
-    public void testGetAllChatMessages() throws Exception {
-        List<ChatMessage> mockMessages = new ArrayList<>();
-        when(chatMessageService.getChatMessages()).thenReturn(mockMessages);
+    @WithMockUser(username = "admin", authorities = "ADMIN")
+    void shouldFindAllChatMessages() throws Exception {
+
+        when(this.chatMessageService.getChatMessages()).thenReturn(List.of(chatMessage));
 
         mockMvc.perform(get(BASE_URL))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$.size()").value(2));;
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.size()").value(1))
+               .andExpect(jsonPath("$[0].content").value("message"));
     }
 
     @Test
-    @WithMockUser(username = "player2", authorities = {"PLAYER"})
-    public void testGetChatMessagesByGameId() throws Exception {
-        List<ChatMessage> mockMessages = new ArrayList<>();
-        when(chatMessageService.getChatMessagesByGameId(GAME_ID)).thenReturn(mockMessages);
+    @WithMockUser(username = "admin", authorities = "ADMIN")
+    void shouldFindChatMessagesByGameId() throws Exception {
 
-        mockMvc.perform(get(BASE_URL + "/{gameId}", GAME_ID))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$.size()").value(2));
+        when(this.chatMessageService.getChatMessagesByGameId(TEST_GAME_ID)).thenReturn(List.of(chatMessage));
+
+        mockMvc.perform(get(BASE_URL + "/{gameId}", TEST_GAME_ID))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.size()").value(1))
+               .andExpect(jsonPath("$[0].id").value(TEST_CHAT_MESSAGE_ID));
+
     }
-
-    // Aquí puedes agregar más tests para otros métodos en tu ChatMessageController
-    // ...
 }

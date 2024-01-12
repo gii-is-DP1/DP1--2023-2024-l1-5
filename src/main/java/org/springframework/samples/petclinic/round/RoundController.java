@@ -79,6 +79,7 @@ public class RoundController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Round> createRound(@Valid @RequestBody RoundRequest roundRequest) throws DataAccessException {
         // POR AHORA NO SE TIENE EN CUENTA SI ES COMPETITIVO O NO
 
@@ -122,7 +123,7 @@ public class RoundController {
     // }
 
     @PutMapping("/shuffle")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid int roundId) throws Exception {
 
         User user = userService.findCurrentUser();

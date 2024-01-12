@@ -55,7 +55,7 @@ export default function Register() {
             const data = await loginResponse.json();
             tokenService.setUser(data);
             tokenService.updateLocalAccessToken(data.token);
-            window.location.href = "/dashboard";
+            window.location.href = "/";
           } else {
             // Login failed
             const loginErrorData = await loginResponse.json();
