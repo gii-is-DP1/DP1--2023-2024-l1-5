@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoun
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.invitation.InvitationService;
 import org.springframework.samples.petclinic.user.User;
 
 
@@ -42,52 +43,21 @@ public class GameServiceTests {
     @Mock
     private UserService userService;
 
+    @Mock
+    private InvitationService invitationService;
+
     @Mock   
     private PlayerService playerService;
 
     @InjectMocks
     private GameService gameService;
 
-    // @Test
-    // public void testSaveGame() {
-    //     gameService = new GameService(gameRepository, playerRepository, userService, playerService);
-    //     Game gameToSave = new Game();
-    //     Player newPlayer = new Player();
-    //     User newUser = new User();
-    //     int pid = 1;
-    //     newPlayer.setId(pid);
-        
-    //     when(gameRepository.save(any(Game.class))).thenReturn(gameToSave);
-    //     when(userService.findCurrentUser()).thenReturn(newUser);
-    //     when(playerRepository.findByUser(any())).thenReturn(Optional.of(newPlayer));
-    //     Game savedGame = gameService.saveGame(gameToSave,newPlayer);
-    // @Test
-    // public void testUpdatePlayer() {
-    //     Player existingPlayer = new Player();
-    //     existingPlayer.setId(PLAYER_ID);
-    //     existingPlayer.setPlayerUsername("OriginalUsername");
-
-    //     Player updateInfo = new Player();
-    //     updateInfo.setPlayerUsername("UpdatedUsername");
-
-    //     when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(existingPlayer));
-    //     when(playerRepository.save(any(Player.class))).thenReturn(existingPlayer);
-
-    //     Player updatedPlayer = playerService.updatePlayer(updateInfo, PLAYER_ID);
-
-    //     assertNotNull(updatedPlayer);
-    //     assertEquals("UpdatedUsername", updatedPlayer.getPlayerUsername());
-    //     verify(playerRepository, times(1)).save(any(Player.class));
-    // }
     private static final Integer PLAYER_ID = 2;
     private static final Integer GAME_ID = 100;
 
-
-
-
     @Test
     public void testGetAllGames() {
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         List<Game> games = new ArrayList<>();
         when(gameRepository.findAll()).thenReturn(games);
 
@@ -100,7 +70,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetInProgressGames(){
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         List<Game> ipGames = new ArrayList<>();
         when(gameRepository.findInProgressGames()).thenReturn(ipGames);
         List<Game> result = gameService.getInProgressGames();
@@ -112,7 +82,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetWaitingGames(){
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         List<Game> wGames = new ArrayList<>();
         when(gameRepository.findWaitingGames()).thenReturn(wGames);
         List<Game> result = gameService.getWaitingGames();
@@ -123,7 +93,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetFinalizedGames(){
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         List<Game> fGames = new ArrayList<>();
         when(gameRepository.findFinalizedGames()).thenReturn(fGames);
         List<Game> result = gameService.getFinalizedGames();
@@ -134,7 +104,7 @@ public class GameServiceTests {
     
     @Test
     public void testGetGameById() {
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         Integer gameId = 1;
         Game game = new Game();
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
@@ -149,7 +119,7 @@ public class GameServiceTests {
 
     @Test
     public void testHasActiveGame() {
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         Player player = new Player();
         Integer playerId = 3;
         player.setId(playerId);
@@ -177,7 +147,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetNoRandomGame() {
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         GameMode gm = GameMode.QUICK_PLAY;
         WaitingGamesNotFoundException exception = assertThrows(WaitingGamesNotFoundException.class, () -> {
             gameService.getRandomGame(gm.toString());
@@ -207,7 +177,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetNoWaitingGame(){
-        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository);
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
          Player player = new Player();
           Optional<Game> result = gameService.getWaitingGame(player);
           assertNull(result);

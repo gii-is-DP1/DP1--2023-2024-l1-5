@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
+import org.springframework.samples.petclinic.invitation.Invitation;
+import org.springframework.samples.petclinic.invitation.InvitationService;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
@@ -32,14 +34,16 @@ public class GameService {
     UserService userService;
     PlayerService playerService;
     GameInfoRepository gameInfoRepository;
+    InvitationService invitationService;
 
 	@Autowired
 	public GameService(GameRepository gameRepository, UserService userService, 
-                        PlayerService playerService,GameInfoRepository gameInfoRepository) {
+                        PlayerService playerService,GameInfoRepository gameInfoRepository, InvitationService invitationService) {
 		this.gameRepository = gameRepository;
         this.userService = userService;
         this.playerService = playerService;
         this.gameInfoRepository = gameInfoRepository;
+        this.invitationService = invitationService;
     }
 
 	@Transactional
@@ -169,6 +173,10 @@ public class GameService {
 
     @Transactional
 	public void deleteGame(int id) throws DataAccessException {
+        List<Invitation> allInvitations = invitationService.getAllInvitationsByGameId(id);
+        for (Invitation i: allInvitations){
+            invitationService.deleteInvitation(i);
+        }
         GameInfo gameInf = gameInfoRepository.findByGameId(id);
         gameInfoRepository.delete(gameInf);		
         Game toDelete = getGameById(id).orElse(null);

@@ -22,5 +22,7 @@ public interface InvitationRepository extends CrudRepository<Invitation, Integer
     @Query("SELECT i FROM Invitation i WHERE (i.destination_user = :playerUsername ) AND i.invitation_state = 'ACCEPTED'")
     List<Invitation> findAcceptedInvitation(String playerUsername) throws DataAccessException;
 
+    @Query("SELECT i FROM Invitation i WHERE i.game.id = :gameId")
+    List<Invitation> findAllByGameId(Integer gameId) throws DataAccessException;
 
 } 
