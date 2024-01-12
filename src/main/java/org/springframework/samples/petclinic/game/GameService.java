@@ -171,8 +171,6 @@ public class GameService {
 		gameRepository.delete(toDelete);
 	}
 
-
-
     @Transactional
     public void deletePlayerFromGame(Integer gameId, Integer currentUserId) {
         Game game = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));

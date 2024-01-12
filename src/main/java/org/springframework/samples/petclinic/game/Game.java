@@ -43,7 +43,7 @@ public class Game extends BaseEntity{
     @Column(name = "winner_id")
     private Integer winner;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
     private Player creator;
