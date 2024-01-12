@@ -43,28 +43,6 @@ public class HandController {
     public ResponseEntity<List<Hand>> getAllHands() {
     return new ResponseEntity<>(handService.getAllHands(), HttpStatus.OK);
     }
-    // @GetMapping
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<List<HandDTO>> getAllHands() {
-    //     List<Hand> hands = handService.getAllHands(); // Obtener la lista de objetos Hand
-    //     List<HandDTO> handDTOs = new ArrayList<>(); // Crear una lista de objetos HandDTO
-    //     for (Hand hand : hands) { // Recorrer la lista de objetos Hand
-    //         List<Card> cards = cardService.getCardsByHandId(hand.getId()); // Obtener la lista de objetos Card
-    //         handDTOs.add(new HandDTO(hand, cards)); // Agregar un objeto HandDTO a la lista de objetos HandDTO
-    //     }
-    //     return new ResponseEntity<>(handDTOs, HttpStatus.OK);
-    // }
-
-    // @GetMapping("/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<HandDTO> getHandById(@PathVariable("id") Integer id) {
-    //     Optional<Hand> hand = handService.getHandById(id);
-    //     if (!hand.isPresent()) {
-    //         throw new ResourceNotFoundException("Hand", "id", id);
-    //     }
-    //     List<Card> cards = cardService.getCardsByHandId(id);
-    //     return new ResponseEntity<>(new HandDTO(hand.get(), cards), HttpStatus.OK);
-    // }
 
     @GetMapping("/detail/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -118,45 +96,4 @@ public class HandController {
         return new ResponseEntity<>(handDTOs, HttpStatus.OK);
     }
 
-
-    // @PutMapping("/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<HandDTO> putHand(@PathVariable("id") int id,
-    //         @RequestBody List<Integer> cardIds,
-    //         @RequestParam("round") int roundId) {
-
-    //     HandDTO handDTO = new HandDTO();
-    //     handDTO.setId(id);
-    //     handDTO.setNumCartas(cardIds.size());
-    //     handDTO.setCards(cardIds);
-    //     handDTO.setRound(roundId);
-    //     // System.out.println("cards: " + cardIds);
-    //     System.out.println("round: " + roundId);
-    //     // Integer id = handDTO.getId();
-    //     Hand oldHand = RestPreconditions.checkNotNull(handService.getHandById(id).get(), "hand",
-    //             "id", id);
-    //     User user = userService.findCurrentUser();
-    //     Player player = playerService.findPlayerByUser(user);
-    //     handDTO.setPlayer(player.getId());
-    //     if (user.hasAnyAuthority(PLAYER_AUTH).equals(true)) {
-    //         Hand hand = handService.getHandById(id).get();
-    //         hand.setNumCartas(handDTO.getNumCartas());
-    //         List<Card> cards = new ArrayList<Card>();
-    //         for (Integer i : handDTO.getCards()) {
-    //             cards.add(cardService.getCardById(i));
-    //         }
-    //         hand.setCards(cards);
-    //         Optional<Round> newRound = roundService.getRoundById(handDTO.getRound());
-    //         if (newRound.isPresent()) {
-    //             hand.setRound(newRound.get());
-    //         } else {
-    //             throw new ResourceNotFoundException("Round", "id", handDTO.getRound());
-    //         }
-    //         Hand result = this.handService.updateHand(hand, id);
-    //         return new ResponseEntity<>(new HandDTO(result), HttpStatus.OK);
-    //     } else {
-    //         Hand result = this.handService.updateHand(oldHand, id);
-    //         return new ResponseEntity<>(new HandDTO(result), HttpStatus.OK);
-    //     }
-    // }
 }
