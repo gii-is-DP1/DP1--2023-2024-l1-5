@@ -31,13 +31,15 @@ public class GameService {
     GameRepository gameRepository;
     UserService userService;
     PlayerService playerService;
+    GameInfoRepository gameInfoRepository;
 
 	@Autowired
 	public GameService(GameRepository gameRepository, UserService userService, 
-                        PlayerService playerService) {
+                        PlayerService playerService,GameInfoRepository gameInfoRepository) {
 		this.gameRepository = gameRepository;
         this.userService = userService;
         this.playerService = playerService;
+        this.gameInfoRepository = gameInfoRepository;
     }
 
 	@Transactional
@@ -167,7 +169,9 @@ public class GameService {
 
     @Transactional
 	public void deleteGame(int id) throws DataAccessException {
-		Game toDelete = getGameById(id).orElse(null);
+        GameInfo gameInf = gameInfoRepository.findByGameId(id);
+        gameInfoRepository.delete(gameInf);		
+        Game toDelete = getGameById(id).orElse(null);
 		gameRepository.delete(toDelete);
 	}
 
@@ -180,7 +184,7 @@ public class GameService {
         if (numPl == 1){
             deleteGame(gameId);
         }else{
-            if(creatorId == currentUserId){
+            if(creatorId.equals(currentUserId)){
                 numPl-=1;
                 game.setNumPlayers(numPl);
 

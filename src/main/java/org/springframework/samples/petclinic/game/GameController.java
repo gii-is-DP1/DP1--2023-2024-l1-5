@@ -367,6 +367,12 @@ public class GameController {
         return new ResponseEntity<>(savedGame, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{gameId}")
+    public ResponseEntity<MessageResponse> deleteGame(@PathVariable("gameId") Integer gameId) {
+        gameService.deleteGame(gameId);
+        return new ResponseEntity<>(new MessageResponse("Game Deleted!"), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{gameId}/players/{currentUserId}")
     public ResponseEntity<MessageResponse> deletePlayerFromGame(@PathVariable("gameId") Integer gameId,@PathVariable("currentUserId") Integer currentUserId) {
         gameService.deletePlayerFromGame(gameId, currentUserId);

@@ -43,7 +43,7 @@ public class Game extends BaseEntity{
     @Column(name = "winner_id")
     private Integer winner;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne   
     @JoinColumn(name = "creator_id", referencedColumnName = "id")
     @NotNull
     private Player creator;
@@ -58,7 +58,6 @@ public class Game extends BaseEntity{
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Size(min = 1, max = 5)
-    // @JsonIgnore // PARA EVITAR LA RECUSIVIDAD INFINITA EN SWAGGER
     private List<Round> rounds;
   
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
