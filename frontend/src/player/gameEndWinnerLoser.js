@@ -18,22 +18,22 @@ export default function GameEnd() {
 
     const WinnerEnd = () => (
         <div className="container">
-            <h1>👑¡Felicidades, has ganado!👑</h1>
-            <h4>¿Qué te gustaría hacer a continuación?</h4>
+            <h1>👑Congratulations, you have won!👑</h1>
+            <h4>What would you like to do next?</h4>
             <div className="botones-container">
-                <button className="boton_left_winner" onClick={goToMainMenu}>Volver al Menú Principal</button>
-                <button className="boton_rigth_winner" onClick={startNewGame}>Iniciar Nueva Partida</button>
+                <button className="boton_left_winner" onClick={goToMainMenu}>Back to Main Menu</button>
+                <button className="boton_rigth_winner" onClick={startNewGame}>Start New Game</button>
             </div>
         </div>
     );
 
     const LosserEnd = () => (
         <div className="container">
-            <h1>❌¡Lo siento, has perdido!❌</h1>
-            <h4>¿Qué te gustaría hacer a continuación?</h4>
+            <h1>❌Sorry, you lost!❌</h1>
+            <h4>What would you like to do next?</h4>
             <div className="botones-container">
-                <button className="boton_left_losser" onClick={goToMainMenu}>Volver al Menú Principal</button>
-                <button className="boton_rigth_losser" onClick={startNewGame}>Iniciar Nueva Partida</button>
+                <button className="boton_left_losser" onClick={goToMainMenu}>Back to Main Menu</button>
+                <button className="boton_rigth_losser" onClick={startNewGame}>Start New Game</button>
             </div>
         </div>
     );

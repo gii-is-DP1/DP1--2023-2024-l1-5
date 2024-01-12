@@ -255,7 +255,7 @@ function App() {
   }, [isInactive, showModal]);
 
   // Renderizar el componente modal
-  const inactivityModal = getErrorModal(() => setShowModal(false), showModal, "Has estado inactivo durante un tiempo. ¿Sigues ahí?");
+  const inactivityModal = getErrorModal(() => setShowModal(false), showModal, "You've been inactive for a while. You still there?");
 
   return (
     <div>
