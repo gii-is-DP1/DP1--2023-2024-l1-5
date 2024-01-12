@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
+import org.springframework.samples.petclinic.invitation.Invitation;
+import org.springframework.samples.petclinic.invitation.InvitationService;
+import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
@@ -30,13 +33,17 @@ public class GameService {
     GameRepository gameRepository;
     UserService userService;
     PlayerService playerService;
+    GameInfoRepository gameInfoRepository;
+    InvitationService invitationService;
 
 	@Autowired
 	public GameService(GameRepository gameRepository, UserService userService, 
-                        PlayerService playerService) {
+                        PlayerService playerService,GameInfoRepository gameInfoRepository, InvitationService invitationService) {
 		this.gameRepository = gameRepository;
         this.userService = userService;
         this.playerService = playerService;
+        this.gameInfoRepository = gameInfoRepository;
+        this.invitationService = invitationService;
     }
 
 	@Transactional
@@ -165,18 +172,49 @@ public class GameService {
     }
 
     @Transactional
+	public void deleteGame(int id) throws DataAccessException {
+        List<Invitation> allInvitations = invitationService.getAllInvitationsByGameId(id);
+        for (Invitation i: allInvitations){
+            invitationService.deleteInvitation(i);
+        }
+        GameInfo gameInf = gameInfoRepository.findByGameId(id);
+        gameInfoRepository.delete(gameInf);		
+        Game toDelete = getGameById(id).orElse(null);
+		gameRepository.delete(toDelete);
+	}
+
+    @Transactional
     public void deletePlayerFromGame(Integer gameId, Integer currentUserId) {
         Game game = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));
-
         Integer numPl = game.getNumPlayers();
-        numPl-=1;
-        game.setNumPlayers(numPl);
+        Integer creatorId = game.getCreator().getUser().getId();
 
-        List<Player> players = game.getPlayers();
-        players.removeIf(p -> p.getUser().getId().equals(currentUserId));
-        game.setPlayers(players);
+        if (numPl == 1){
+            deleteGame(gameId);
+        }else{
+            if(creatorId.equals(currentUserId)){
+                numPl-=1;
+                game.setNumPlayers(numPl);
 
-        gameRepository.save(game);
+                List<Player> players = game.getPlayers();
+                players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+
+                Player newCreator = players.get(0);
+                game.setCreator(newCreator);
+                game.setPlayers(players);
+
+                gameRepository.save(game);
+            }else{
+                numPl-=1;
+                game.setNumPlayers(numPl);
+
+                List<Player> players = game.getPlayers();
+                players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+                game.setPlayers(players);
+
+                gameRepository.save(game);
+            }
+        }
     }
 
     @Transactional
