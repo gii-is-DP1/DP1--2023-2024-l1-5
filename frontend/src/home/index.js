@@ -67,7 +67,7 @@ export default function Home(){
         };
         
         getInvitations();
-        const intervalId = setInterval(getInvitations, 10000);
+        const intervalId = setInterval(getInvitations, 2000);
         return () => clearInterval(intervalId);
     }, [])
 
