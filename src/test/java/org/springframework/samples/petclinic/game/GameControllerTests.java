@@ -368,18 +368,16 @@ public class GameControllerTests {
         Game game = new Game();
         game.setId(gameId);
         game.setWinner(playerId);
-
+    
         when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
-        doNothing().when(gameService).save(any(Game.class));
-
         mockMvc.perform(put(BASE_URL + "/winner/" + gameId + "/" + playerId)
                 .with(csrf()))
                 .andExpect(status().isOk());
-
+    
         verify(gameService, times(1)).getGameById(gameId);
-        verify(gameService, times(1)).save(any(Game.class));
+        verify(gameService, times(1)).save(game);
     }
-
+    
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
