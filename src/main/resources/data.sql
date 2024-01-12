@@ -78,38 +78,38 @@ INSERT INTO friendship (id, user_dst_id, user_source_id, status) VALUES
 -- LOGROS
 INSERT INTO achievements(id, name, description, image_url, threshold, metric) VALUES
 (1, 'Rookie Player', 'Embark on your gaming journey!', 'https://i.imgur.com/lu5S0c2.png', 1, 'GAMES_PLAYED'),
-(2, 'Gaming Veteran', '5 games down, many more to go!', 'https://i.imgur.com/FKUugkt.png', 5, 'GAMES_PLAYED'),
-(3, 'Gaming Enthusiast', '20 games played! A true enthusiast!', 'https://i.imgur.com/qgK74bt.png', 20, 'GAMES_PLAYED'),
+(2, 'Gaming Veteran', '3 games down, many more to go!', 'https://i.imgur.com/FKUugkt.png', 3, 'GAMES_PLAYED'),
+(3, 'Gaming Enthusiast', '5 games played! A true enthusiast!', 'https://i.imgur.com/qgK74bt.png', 5, 'GAMES_PLAYED'),
 (4, 'First Victory', 'Celebrate your very first win!', 'https://i.imgur.com/tBHOUtS.png', 1, 'VICTORIES'),
-(5, 'Established Competitor', 'Dominating with 5 wins!', 'https://i.imgur.com/WKMLUT2.png', 5, 'VICTORIES'),
-(6, 'Undisputed Champion', '10 wins! The pinnacle of victory!', 'https://i.imgur.com/LQp4Eje.png', 10, 'VICTORIES'),
-(7, 'Time Well Spent', 'A quick 10 minutes of gaming mastery!', 'https://i.imgur.com/ion4RaK.png', 10, 'TOTAL_PLAY_TIME'),
-(8, 'Dedicated Gamer', 'Half an hour of pure dedication!', 'https://i.imgur.com/cJoiO2z.png', 30, 'TOTAL_PLAY_TIME'),
-(9, 'Master of Time', '90 minutes of epic gaming journey!', 'https://i.imgur.com/kGbAaSC.png', 90, 'TOTAL_PLAY_TIME');
+(5, 'Established Competitor', 'Dominating with 2 wins!', 'https://i.imgur.com/WKMLUT2.png', 2, 'VICTORIES'),
+(6, 'Undisputed Champion', '3 wins! The pinnacle of victory!', 'https://i.imgur.com/LQp4Eje.png', 3, 'VICTORIES'),
+(7, 'Time Well Spent', 'A quick 30 seconds of gaming mastery!', 'https://i.imgur.com/ion4RaK.png', 30, 'TOTAL_PLAY_TIME'),
+(8, 'Dedicated Gamer', 'A minute of pure dedication!', 'https://i.imgur.com/cJoiO2z.png', 60, 'TOTAL_PLAY_TIME'),
+(9, 'Master of Time', '2 minutes of epic gaming journey!', 'https://i.imgur.com/kGbAaSC.png', 120, 'TOTAL_PLAY_TIME');
 
--- Logros de player 1
-INSERT INTO player_achievements(player_id, achievement_id) VALUES
-(1, 1),
-(1, 2),
-(1, 4),
-(1, 5),
--- Logros de player 2
-(2, 1),
--- Logros de player 3 (tiene todos los logros)
-(3, 1),
-(3, 2),
-(3, 3),
-(3, 4),
-(3, 5),
-(3, 6),
-(3, 7),
-(3, 8),
-(3, 9),
--- Logros de player 4
-(4, 1),
-(4, 4),
-(4, 7);
--- Players 5, 6, 7, 9 no tienen logros
+-- -- Logros de player 1
+-- INSERT INTO player_achievements(player_id, achievement_id) VALUES
+-- (1, 1),
+-- (1, 2),
+-- (1, 4),
+-- (1, 5),
+-- -- Logros de player 2
+-- (2, 1),
+-- -- Logros de player 3 (tiene todos los logros)
+-- (3, 1),
+-- (3, 2),
+-- (3, 3),
+-- (3, 4),
+-- (3, 5),
+-- (3, 6),
+-- (3, 7),
+-- (3, 8),
+-- (3, 9),
+-- -- Logros de player 4
+-- (4, 1),
+-- (4, 4),
+-- (4, 7);
+-- -- Players 5, 6, 7, 9 no tienen logros
 
 
 -- CARTAS

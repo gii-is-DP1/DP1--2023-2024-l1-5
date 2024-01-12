@@ -20,6 +20,5 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
     @Query("SELECT a FROM Achievement a WHERE a NOT IN (SELECT a FROM Achievement a JOIN a.players p WHERE p.id = :playerId)")
     List<Achievement> findLockedAchievementsByPlayerId(@Param("playerId") Integer id);
 
-
 }
 

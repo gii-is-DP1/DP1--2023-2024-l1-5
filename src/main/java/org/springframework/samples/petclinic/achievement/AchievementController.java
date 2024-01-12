@@ -42,9 +42,7 @@ public class AchievementController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Achievement> findAchievement(@PathVariable("id") int id){
-		Achievement achievementToGet=achievementService.getById(id);
-		if(achievementToGet==null)
-			throw new ResourceNotFoundException("Achievement with id "+id+" not found!");
+		Achievement achievementToGet=achievementService.getAchievementById(id);
 		return new ResponseEntity<Achievement>(achievementToGet, HttpStatus.OK);
 	}
 
@@ -88,4 +86,11 @@ public class AchievementController {
 	public ResponseEntity<List<Achievement>> findLockedAchievementsByPlayerId(@PathVariable("playerId") Integer id){
 		return new ResponseEntity<>(achievementService.getLockedAchievementsByPlayerId(id), HttpStatus.OK);
 	}
+
+	@PutMapping("/check/{playerId}")
+	public ResponseEntity<Void> checkAndAssignAchievements(@PathVariable("playerId") Integer playerId){
+		achievementService.checkAndAssignAchievements(playerId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }
