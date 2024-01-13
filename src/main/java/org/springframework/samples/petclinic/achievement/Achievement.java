@@ -43,19 +43,10 @@ public class Achievement extends NamedEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     Metric metric;
-    /*
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    Status status;
-    */
 
     @ManyToMany
     @JoinTable(name = "player_achievements", joinColumns = @JoinColumn(name = "achievement_id"), inverseJoinColumns = @JoinColumn(name = "player_id"), uniqueConstraints = {
     @UniqueConstraint(columnNames = { "player_id","achievement_id" }) })
     @JsonIgnore
     private List<Player> players;
-
-    public String getActualDescription(){
-        return description.replace("<THRESHOLD>",String.valueOf(threshold));
-    }
 }

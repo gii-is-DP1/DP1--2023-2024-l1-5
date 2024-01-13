@@ -4,7 +4,10 @@ package org.springframework.samples.petclinic.invitation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.exceptions.InvitationAlreadySent;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,18 @@ public class InvitationService {
     public List<Invitation> getPendingInvitationsReceived(String playerUsername){
         return invitationRepository.findAlreadyPendingInvitation(playerUsername);
     }
+
+    @Transactional(readOnly = true)
+    public List<Invitation> getAllInvitationsByGameId(Integer gameId){
+        return invitationRepository.findAllByGameId(gameId);
+    }
+
+    @Transactional
+	public void deleteInvitation(Invitation i) throws DataAccessException {	
+		invitationRepository.delete(i);
+	}
+
+
 
     @Transactional(rollbackFor = {InvitationAlreadySent.class})
     public Invitation saveInvitation(Invitation invitation, String type){

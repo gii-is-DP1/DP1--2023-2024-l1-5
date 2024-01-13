@@ -20,6 +20,17 @@ export default function PitGameView() {
     const [prevDeckImg, setPrevDeckImg] = useState(null);
     const[winnerId, setWinnerId] = useState(null);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [timer, setTimer] = useState(0);
+
+    useEffect(() => {
+        // Iniciar el temporizador al cargar la vista
+        const interval = setInterval(() => {
+            // Incrementar el contador del temporizador
+            setTimer(prevTimer => prevTimer + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [isGameOver]);
 
     async function setUp() {
         const jwt = JSON.parse(window.localStorage.getItem("jwt"));
@@ -137,7 +148,7 @@ export default function PitGameView() {
         try{
             if(!isGameOver){
                 const jwt = JSON.parse(window.localStorage.getItem("jwt"));
-                const response = await fetch(`/api/v1/games/winner/${id}/${user.id}`,
+                const response = await fetch(`/api/v1/games/winner/${id}/${user.id}?time=${timer}`,
                 {
                     method: 'PUT',
                     headers: {

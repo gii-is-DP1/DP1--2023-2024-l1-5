@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.game;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import org.springframework.samples.petclinic.player.PlayerRepository;
 
 @DataJpaTest()
 public class GameRepositoryTests {
+
+    private static final int TEST_PLAYER_ID = 1;
+    private static final int TEST_PLAYER_ID_12 = 12;
 
     @Autowired
     GameRepository gameRepository;
@@ -103,5 +107,88 @@ public class GameRepositoryTests {
         }
         return true;
     }
-    
+
+    @Test
+    public void findGamesByPlayerIdTest() {
+        List<Game> games = gameRepository.findGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(games.size() == 1);
+    }
+
+    @Test
+    public void findGamesByPlayerIdTestNegative() {
+        List<Game> games = gameRepository.findGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertTrue(games.size() == 0);
+    }
+
+    @Test
+    public void findNumGamesByPlayerIdTest() {
+        Integer numGames = gameRepository.findNumGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(numGames == 1);
+    }
+
+    @Test
+    public void findNumGamesByPlayerIdTestNegative() {
+        Integer numGames = gameRepository.findNumGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertTrue(numGames == 0);
+    }
+
+    @Test
+    public void findNumGamesWinByPlayerIdTest() {
+        Integer numGamesWin = gameRepository.findNumGamesWinByPlayerId(TEST_PLAYER_ID);
+        assertTrue(numGamesWin == 0);
+    }
+
+    @Test
+    public void findNumGamesWinByPlayerIdTestNegative() {
+        Integer numGamesWin = gameRepository.findNumGamesWinByPlayerId(TEST_PLAYER_ID_12);
+        assertTrue(numGamesWin == 0);
+    }
+
+    @Test
+    public void findTimeGamesByPlayerIdTest() {
+        Integer timeGames = gameRepository.findTimeGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(timeGames == 100);
+    }
+
+    @Test
+    public void findTimeGamesByPlayerIdTestNegative() {
+        Integer timeGames = gameRepository.findTimeGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertEquals(timeGames, null);
+    }
+
+    @Test
+    public void findMaxTimeGamesByPlayerIdTest() {
+        Integer maxTimeGames = gameRepository.findMaxTimeGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(maxTimeGames == 100);
+    }
+
+    @Test
+    public void findMaxTimeGamesByPlayerIdTestNegative() {
+        Integer maxTimeGames = gameRepository.findMaxTimeGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertEquals(maxTimeGames, null);
+    }
+
+    @Test
+    public void findMinTimeGamesByPlayerIdTest() {
+        Integer minTimeGames = gameRepository.findMinTimeGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(minTimeGames == 100);
+    }
+
+    @Test
+    public void findMinTimeGamesByPlayerIdTestNegative() {
+        Integer minTimeGames = gameRepository.findMinTimeGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertEquals(minTimeGames, null);
+    }
+
+    @Test
+    public void findAvgTimeGamesByPlayerIdTest() {
+        Double avgTimeGames = gameRepository.findAvgTimeGamesByPlayerId(TEST_PLAYER_ID);
+        assertTrue(avgTimeGames == 100);
+    }
+
+    @Test
+    public void findAvgTimeGamesByPlayerIdTestNegative() {
+        Double avgTimeGames = gameRepository.findAvgTimeGamesByPlayerId(TEST_PLAYER_ID_12);
+        assertEquals(avgTimeGames, null);
+    }
 }

@@ -3,12 +3,22 @@ package org.springframework.samples.petclinic.game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
+import org.hibernate.internal.util.type.PrimitiveWrapperHelper.IntegerDescriptor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.exceptions.ActiveGameException;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
+import org.springframework.samples.petclinic.invitation.Invitation;
+import org.springframework.samples.petclinic.invitation.InvitationService;
+import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
@@ -23,13 +33,17 @@ public class GameService {
     GameRepository gameRepository;
     UserService userService;
     PlayerService playerService;
+    GameInfoRepository gameInfoRepository;
+    InvitationService invitationService;
 
 	@Autowired
 	public GameService(GameRepository gameRepository, UserService userService, 
-                        PlayerService playerService) {
+                        PlayerService playerService,GameInfoRepository gameInfoRepository, InvitationService invitationService) {
 		this.gameRepository = gameRepository;
         this.userService = userService;
         this.playerService = playerService;
+        this.gameInfoRepository = gameInfoRepository;
+        this.invitationService = invitationService;
     }
 
 	@Transactional
@@ -158,18 +172,49 @@ public class GameService {
     }
 
     @Transactional
+	public void deleteGame(int id) throws DataAccessException {
+        List<Invitation> allInvitations = invitationService.getAllInvitationsByGameId(id);
+        for (Invitation i: allInvitations){
+            invitationService.deleteInvitation(i);
+        }
+        GameInfo gameInf = gameInfoRepository.findByGameId(id);
+        gameInfoRepository.delete(gameInf);		
+        Game toDelete = getGameById(id).orElse(null);
+		gameRepository.delete(toDelete);
+	}
+
+    @Transactional
     public void deletePlayerFromGame(Integer gameId, Integer currentUserId) {
         Game game = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));
-
         Integer numPl = game.getNumPlayers();
-        numPl-=1;
-        game.setNumPlayers(numPl);
+        Integer creatorId = game.getCreator().getUser().getId();
 
-        List<Player> players = game.getPlayers();
-        players.removeIf(p -> p.getUser().getId().equals(currentUserId));
-        game.setPlayers(players);
+        if (numPl == 1){
+            deleteGame(gameId);
+        }else{
+            if(creatorId.equals(currentUserId)){
+                numPl-=1;
+                game.setNumPlayers(numPl);
 
-        gameRepository.save(game);
+                List<Player> players = game.getPlayers();
+                players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+
+                Player newCreator = players.get(0);
+                game.setCreator(newCreator);
+                game.setPlayers(players);
+
+                gameRepository.save(game);
+            }else{
+                numPl-=1;
+                game.setNumPlayers(numPl);
+
+                List<Player> players = game.getPlayers();
+                players.removeIf(p -> p.getUser().getId().equals(currentUserId));
+                game.setPlayers(players);
+
+                gameRepository.save(game);
+            }
+        }
     }
 
     @Transactional
@@ -180,6 +225,96 @@ public class GameService {
     @Transactional
     public List<Game> getPlayerGamesWaiting(Integer id){
         return gameRepository.findPlayerGamesWaiting(id);
+    }
+
+    @Transactional
+    public List<Game> getGamesByPlayerId(Integer id){
+        return gameRepository.findGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getNumGamesByPlayerId(Integer id){
+        return gameRepository.findNumGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getNumGamesWinByPlayerId(Integer id){
+        return gameRepository.findNumGamesWinByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getTimesGamesWinByPlayerId(Integer id){
+        return gameRepository.findTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getMaxTimeGamesByPlayerId(Integer id){
+        return gameRepository.findMaxTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Integer getMinTimeGamesByPlayerId(Integer id){
+        return gameRepository.findMinTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Double getAvgTimeGamesByPlayerId(Integer id){
+        return gameRepository.findAvgTimeGamesByPlayerId(id);
+    }
+
+    @Transactional
+    public Map<String, Integer> getRanking() {
+        Map<String, Integer> completeRanking = rank();
+
+        Map<String, Integer> top5Ranking = completeRanking.entrySet()
+                .stream()
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        return top5Ranking;
+    }
+
+    public Map<String, Integer> rank() {
+        List<Player> players = playerService.getAllPlayers();
+
+        List<Player> filteredPlayers = players.stream()
+                .filter(player -> getNumGamesWinByPlayerId(player.getUser().getId()) > 0)
+                .collect(Collectors.toList());
+
+        Map<String, Integer> ranking = filteredPlayers.stream()
+                .collect(Collectors.toMap(
+                        player -> player.getUser().getUsername(),
+                        player -> getNumGamesWinByPlayerId(player.getUser().getId())
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        return ranking;
+    }
+
+    @Transactional
+    public Integer myRank(Integer playerId){
+        Map<String, Integer> ranking = rank();
+        Map<String, Integer> sortedMap = ranking.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+        Integer myRank = 0;
+        for(Map.Entry<String, Integer> entry : sortedMap.entrySet()){
+            myRank++;
+            if(entry.getKey().equals(playerService.getPlayerById(playerId).get().getUser().getUsername())){
+                return myRank;
+            }
+        }
+        return 0;
     }
 }
     

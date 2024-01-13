@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import tokenService from '../../services/token.service';
 import getErrorModal from '../../util/getErrorModal';
@@ -18,6 +17,7 @@ export default function Profile() {
     const jwt = tokenService.getLocalAccessToken();
     const rol = String(user.roles).toLowerCase() + 's';
 
+    
     useEffect(() => {
         const setUp = async () => {
             try {
@@ -35,6 +35,16 @@ export default function Profile() {
 
                 const currentUser = data.find((x) => x.user.id === user.id);
                 if (currentUser) {
+                    // Realiza la comprobación de logros antes de obtenerlos
+                    await fetch(`/api/v1/achievements/check/${currentUser.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    // Obtiene los logros después de la verificación
                     fetchAchievements(currentUser.id);
                 }
             } catch (error) {
@@ -91,7 +101,8 @@ export default function Profile() {
                             to={"/profile/edit"} 
                             className="purple-button"
                             style={{ textDecoration: 'none' }}
-                            >Edit</Link>
+                            >Edit
+                        </Link>
                     </div>
                 </div>
                 <div className="section">

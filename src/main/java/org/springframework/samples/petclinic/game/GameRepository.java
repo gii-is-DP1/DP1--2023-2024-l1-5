@@ -43,6 +43,25 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'WAITING'")
     List<Game> findPlayerGamesWaiting(@Param("playerId") Integer playerId) throws DataAccessException;
 
+    @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    List<Game> findGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
 
+    @Query("SELECT COUNT(g) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    Integer findNumGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
+
+    @Query("SELECT COUNT(g) FROM Game g JOIN g.players p WHERE p.user.id = :playerId AND g.status = 'FINALIZED' AND g.winner = :playerId")
+    Integer findNumGamesWinByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
+
+    @Query("SELECT SUM(g.gameTime) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    Integer findTimeGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
+
+    @Query("SELECT MAX(g.gameTime) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    Integer findMaxTimeGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
+
+    @Query("SELECT MIN(g.gameTime) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    Integer findMinTimeGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
+
+    @Query("SELECT AVG(g.gameTime) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
+    Double findAvgTimeGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
 
 }
