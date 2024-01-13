@@ -12,15 +12,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
-import java.util.HashSet;
 
 @Getter
 @Setter
@@ -46,11 +43,4 @@ public class Player extends Person {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
-
-	// @JsonIgnore
-	// @ManyToMany(fetch = FetchType.EAGER)
-	// @JoinTable(name = "player_games", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "game_id"), uniqueConstraints = {
-	// 		@UniqueConstraint(columnNames = { "player_id", "game_id" }) })
-	// private List<Game> game_list;
-
 }

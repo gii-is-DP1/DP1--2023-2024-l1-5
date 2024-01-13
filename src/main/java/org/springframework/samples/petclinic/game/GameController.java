@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -191,6 +192,7 @@ public class GameController {
         for (Map.Entry<String, Integer> entry : ranking.entrySet()) {
             rankingDTO.add(new RankingDTO(entry.getKey(), entry.getValue()));
         }
+        rankingDTO.sort(Comparator.comparing(RankingDTO::getNumGames).reversed());
         return new ResponseEntity<>(rankingDTO, HttpStatus.OK);
     }
 

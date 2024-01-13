@@ -88,7 +88,7 @@ public class AchievementControllerTest {
         testing.setName("New hobby");
         testing.setMetric(Metric.TOTAL_PLAY_TIME);
 
-		when(this.achievementService.getById(TEST_ACHIEVEMENT_ID_TESTING)).thenReturn(testing);
+		when(this.achievementService.getAchievementById(TEST_ACHIEVEMENT_ID_TESTING)).thenReturn(testing);
 
 		mockMvc.perform(get(BASE_URL + "/{id}", TEST_ACHIEVEMENT_ID_TESTING)).andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(TEST_ACHIEVEMENT_ID_TESTING))

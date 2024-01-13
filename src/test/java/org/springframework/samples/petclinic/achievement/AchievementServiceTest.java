@@ -60,7 +60,7 @@ public class AchievementServiceTest {
         Achievement achievement = new Achievement();
         when(achievementRepository.findById(achievementId)).thenReturn(Optional.of(achievement));
 
-        Achievement result = achievementService.getById(achievementId);
+        Achievement result = achievementService.getAchievementById(achievementId);
 
         assertEquals(achievement, result);
         verify(achievementRepository, times(1)).findById(achievementId);

@@ -291,7 +291,7 @@ public class GameService {
                 ))
                 .entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
@@ -303,8 +303,12 @@ public class GameService {
     @Transactional
     public Integer myRank(Integer playerId){
         Map<String, Integer> ranking = rank();
+        Map<String, Integer> sortedMap = ranking.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
         Integer myRank = 0;
-        for(Map.Entry<String, Integer> entry : ranking.entrySet()){
+        for(Map.Entry<String, Integer> entry : sortedMap.entrySet()){
             myRank++;
             if(entry.getKey().equals(playerService.getPlayerById(playerId).get().getUser().getUsername())){
                 return myRank;
