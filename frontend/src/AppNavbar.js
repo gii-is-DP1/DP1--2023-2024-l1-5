@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, NavLink, NavItem, Nav, NavbarText, NavbarToggler, Collapse } from 'reactstrap';
+import { Navbar, NavbarBrand, NavLink, NavItem, Nav, NavbarToggler, Collapse } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import tokenService from './services/token.service';
 import jwt_decode from "jwt-decode";
 import logo from './static/images/dobble_logo.png' 
 import friendsLogo from './static/images/friends.png'
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {checkIfUserHasGame } from './MyGame';
 
 function AppNavbar() {
@@ -14,7 +14,6 @@ function AppNavbar() {
     const jwt = tokenService.getLocalAccessToken();
     const [collapsed, setCollapsed] = useState(true);
     const user = tokenService.getUser();
-    const navigate = useNavigate();
     const [hasGame, setHasGame] = useState(false);
     const [idGame, setIdGame] = useState(null);
     const [idRound, setIdRound] = useState(null);
@@ -76,7 +75,6 @@ function AppNavbar() {
 
     let adminLinks = <></>;
     let ownerLinks = <></>;
-    let userLinks = <></>;
     let userLogout = <></>;
     let publicLinks = <></>;
     let friendLogoLink = <></>;
@@ -85,24 +83,6 @@ function AppNavbar() {
         if (role === "ADMIN") {
             adminLinks = (
                 <>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/owners">Owners</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/pets">Pets</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/vets">Vets</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/consultations">Consultations</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/clinicOwners">Clinic Owners</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/clinics">Clinics</NavLink>
-                    </NavItem>
                     <NavItem>
                         <NavLink style={{ color: "white" }} tag={Link} to="/users">Users</NavLink>
                     </NavItem>
@@ -115,34 +95,6 @@ function AppNavbar() {
                 </>
             )
         }
-        if (role === "OWNER") {
-            ownerLinks = (
-                <>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/myPets">My Pets</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/consultations">Consultations</NavLink>
-                    </NavItem>
-                    <NavItem>
-                    <NavLink style={{ color: "white" }} id="plans" tag={Link} to="/plans">Pricing Plans</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/plan">Plan</NavLink>
-                    </NavItem>
-                </>
-            )
-        }
-        if (role === "VET") {
-            ownerLinks = (
-                <>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/consultations">Consultations</NavLink>
-                    </NavItem>
-                </>
-            )
-        }
-
         if( role === "PLAYER"){
             friendLogoLink = (
                 <NavbarBrand tag={Link} to="/friendsList">
@@ -170,25 +122,6 @@ function AppNavbar() {
                 )}
                 </>
             )
-        } 
-
-        if (role === "CLINIC_OWNER") {
-            ownerLinks = (
-                <>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/clinics">Clinics</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/owners">Owners</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/consultations">Consultations</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/vets">Vets</NavLink>
-                    </NavItem>
-                </>
-            )
         }
     })
 
@@ -208,13 +141,6 @@ function AppNavbar() {
             </>
         )
     } else {
-        userLinks = (
-            <>
-                <NavItem>
-                    <NavLink style={{ color: "white" }} tag={Link} to="/dashboard">Dashboard</NavLink>
-                </NavItem>
-            </>
-        )
         userLogout = (
             <>
                 <NavItem>
@@ -241,7 +167,6 @@ function AppNavbar() {
                 <NavbarToggler onClick={toggleNavbar} className="ms-2" />
                 <Collapse isOpen={!collapsed} navbar>
                     <Nav className="me-auto mb-2 mb-lg-0" navbar>
-                        {userLinks}
                         {adminLinks}
                         {ownerLinks}
                     </Nav>
