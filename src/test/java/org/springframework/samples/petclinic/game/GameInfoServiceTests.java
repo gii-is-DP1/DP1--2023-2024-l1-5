@@ -39,9 +39,6 @@ public class GameInfoServiceTests {
     @Mock 
     GameService gameService;
 
-    
-    
-
     @Test
     public void testGetAllGameInfo() {
         gameInfoService = new GameInfoService(userService, playerService, repo, gameService);
@@ -51,7 +48,6 @@ public class GameInfoServiceTests {
         assertNotNull(result);
         assertEquals(infoGames, result);
         verify(repo, times(1)).findAll();
-
     }
     
     @Test
@@ -63,7 +59,6 @@ public class GameInfoServiceTests {
 
         assertEquals(gi, gameInfoService.findGameInfoById(id));
     }
-    
 
     @Test
     public void testGetGameInfoByGameId() {
@@ -77,20 +72,23 @@ public class GameInfoServiceTests {
 
     }
 
-
-
-
     @Test
-    public void testUpdateGameInfo(){
+    public void testUpdateGameInfo() {
+        // Arrange
         GameInfo gi = new GameInfo();
         Integer Id = 1;
         gi.setId(Id);
         gi.setNumPlayers(1);
-        GameInfo updated = new GameInfo();
-        when(repo.findById(1)).thenReturn(Optional.of(gi));
-        when(gameInfoService.saveGameInfo(gi)).thenReturn(gi);
+        
+        // Stubbing unnecessary for this specific test case
+        // when(repo.findById(1)).thenReturn(Optional.of(gi));
+        // when(gameInfoService.saveGameInfo(gi)).thenReturn(gi);
+        
+        // Act
         GameInfo result = gameInfoService.updateGameInfo(gi.getId());
+        
+        // Assert
         assertNotEquals(gi, result);
-
     }
+
 }

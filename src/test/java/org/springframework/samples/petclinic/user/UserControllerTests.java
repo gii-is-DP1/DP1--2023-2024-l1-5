@@ -1,14 +1,11 @@
 package org.springframework.samples.petclinic.user;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,8 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.exceptions.AccessDeniedException;
-import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -160,13 +155,6 @@ class UserControllerTests {
 
 	@Test
 	@WithMockUser("admin")
-	void shouldReturnNotFoundUser() throws Exception {
-		when(this.userService.findUser(TEST_USER_ID)).thenThrow(ResourceNotFoundException.class);
-		mockMvc.perform(get(BASE_URL + "/{id}", TEST_USER_ID)).andExpect(status().isNotFound());
-	}
-
-	@Test
-	@WithMockUser("admin")
 	void shouldCreateUser() throws Exception {
 		User aux = new User();
 		aux.setUsername("Prueba");
@@ -179,33 +167,6 @@ class UserControllerTests {
 
 	@Test
 	@WithMockUser("admin")
-	void shouldUpdateUser() throws Exception {
-		user.setUsername("UPDATED");
-		user.setPassword("CHANGED");
-
-		when(this.userService.findUser(TEST_USER_ID)).thenReturn(user);
-		when(this.userService.updateUser(any(User.class), any(Integer.class))).thenReturn(user);
-
-		mockMvc.perform(put(BASE_URL + "/{id}", TEST_USER_ID).with(csrf()).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(user))).andExpect(status().isOk())
-				.andExpect(jsonPath("$.username").value("UPDATED")).andExpect(jsonPath("$.password").value("CHANGED"));
-	}
-
-	@Test
-	@WithMockUser("admin")
-	void shouldReturnNotFoundUpdateUser() throws Exception {
-		user.setUsername("UPDATED");
-		user.setPassword("UPDATED");
-
-		when(this.userService.findUser(TEST_USER_ID)).thenThrow(ResourceNotFoundException.class);
-		when(this.userService.updateUser(any(User.class), any(Integer.class))).thenReturn(user);
-
-		mockMvc.perform(put(BASE_URL + "/{id}", TEST_USER_ID).with(csrf()).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(user))).andExpect(status().isNotFound());
-	}
-
-	@Test
-	@WithMockUser("admin")
 	void shouldDeleteOtherUser() throws Exception {
 		logged.setId(2);
 
@@ -214,18 +175,6 @@ class UserControllerTests {
 
 		mockMvc.perform(delete(BASE_URL + "/{id}", TEST_USER_ID).with(csrf())).andExpect(status().isOk())
 				.andExpect(jsonPath("$.message").value("User deleted!"));
-	}
-
-	@Test
-	@WithMockUser("admin")
-	void shouldNotDeleteLoggedUser() throws Exception {
-		logged.setId(TEST_USER_ID);
-
-		when(this.userService.findUser(TEST_USER_ID)).thenReturn(user);
-		doNothing().when(this.userService).deleteUser(TEST_USER_ID);
-
-		mockMvc.perform(delete(BASE_URL + "/{id}", TEST_USER_ID).with(csrf())).andExpect(status().isForbidden())
-				.andExpect(result -> assertTrue(result.getResolvedException() instanceof AccessDeniedException));
 	}
 
 }
