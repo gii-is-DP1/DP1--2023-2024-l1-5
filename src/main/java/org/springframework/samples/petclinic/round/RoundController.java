@@ -109,18 +109,6 @@ public class RoundController {
         return new ResponseEntity<>(savedRound, HttpStatus.CREATED);
     }
 
-    // @PutMapping("/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<Round> updateRound(@PathVariable("id") Integer id, @Valid @RequestBody RoundRequestPUT roundRequest) {
-    //     Optional<Round> r = roundService.getRoundById(id);
-    //     if (!r.isPresent())
-    //         throw new ResourceNotFoundException("Round", "id", id);
-    //     Round round = r.get();
-    //     BeanUtils.copyProperties(roundRequest, round, "id");
-    //     Round savedRound = this.roundService.saveRound(round, round.getGame());
-        
-    //     return new ResponseEntity<>(savedRound, HttpStatus.OK);
-    // }
 
     @PutMapping("/shuffle")
     @ResponseStatus(HttpStatus.CREATED)
@@ -155,6 +143,7 @@ public class RoundController {
                         deck0.setRound(round);
                         deck0.setCards(deckCards);
                         deckService.saveDeck(deck0);
+
                     } else {
                         Integer pId = key;
                         Player player = playerService.getPlayerById(pId).get();

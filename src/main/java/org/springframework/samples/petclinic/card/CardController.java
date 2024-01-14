@@ -54,12 +54,6 @@ public class CardController {
         return new ResponseEntity<>(newCard, HttpStatus.CREATED);
     }
 
-    // @PutMapping("/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ResponseEntity<Card> updateCard(Integer id,Integer hId) {
-    //     return new ResponseEntity<>(cardService.updateCard(id,hId), HttpStatus.OK);
-    // }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCard(@PathVariable("id") Integer id) {

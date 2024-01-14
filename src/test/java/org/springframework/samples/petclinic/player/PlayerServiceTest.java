@@ -14,7 +14,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -24,7 +23,7 @@ public class PlayerServiceTest {
     @Mock
     private PlayerRepository playerRepository;
 
-    @InjectMocks
+    @Mock
     private PlayerService playerService;
 
     private static final Integer PLAYER_ID = 2;
@@ -32,6 +31,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testSavePlayer() {
+        playerService = new PlayerService(playerRepository);
         Player player = new Player();
         when(playerRepository.save(any(Player.class))).thenReturn(player);
 
@@ -43,6 +43,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetAllPlayers() {
+        playerService = new PlayerService(playerRepository);
         when(playerRepository.findAll()).thenReturn(new ArrayList<>());
 
         List<Player> players = playerService.getAllPlayers();
@@ -52,6 +53,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetPlayerById() {
+        playerService = new PlayerService(playerRepository);
         when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(new Player()));
 
         Optional<Player> result = playerService.getPlayerById(PLAYER_ID);
@@ -62,6 +64,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetPlayerByUserId() {
+        playerService = new PlayerService(playerRepository);
         Player expectedPlayer = new Player();
         expectedPlayer.setId(1);
         expectedPlayer.setPlayerUsername("TestUsername");
@@ -77,6 +80,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testUpdatePlayer() {
+        playerService = new PlayerService(playerRepository);
         Player existingPlayer = new Player();
         existingPlayer.setId(PLAYER_ID);
         existingPlayer.setPlayerUsername("OriginalUsername");
@@ -95,32 +99,4 @@ public class PlayerServiceTest {
     }
 
 
-    /*@Test
-    public void testDeletePlayer() {
-        Integer firstCount = playerService.getAllPlayers().size();
-
-        Player player = new Player();
-        player.setId(USER_ID);
-        player.setPlayerUsername("OriginalUsername");
-        playerService.savePlayer(player);
-
-        Integer secondCount = playerService.getAllPlayers().size();
-        assertEquals(firstCount + 1, secondCount);
-
-        playerService.deletePlayer(player.getId());
-        Integer lastCount = playerService.getAllPlayers().size();
-		assertEquals(firstCount, lastCount);
-	}*/
 }
-
-    /*@Test
-    public void testGetPlayerByUserId() {
-        Integer userId = 200;
-        Player Player = new Player();
-        when(playerService.getPlayerByUserId(userId)).thenReturn(Player);
-
-        Player result = playerService.getPlayerByUserId(userId);
-
-        assertEquals(Player, result);
-        verify(playerRepository, times(1)).findByUserId(userId);
-    }*/

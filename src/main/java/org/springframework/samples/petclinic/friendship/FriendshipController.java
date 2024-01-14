@@ -32,7 +32,6 @@ public class FriendshipController {
     private static final String PLAYER_AUTH = "PLAYER";
     private static final String stateALL = "ALL";
     private static final String statePLAYING = "PLAYING";
-    private static final String stateNOTPLAYING = "NOTPLAYING";
     private static final String stateACTIVE = "ACTIVE";
 
     @Autowired

@@ -46,6 +46,9 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
     List<Game> findGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
 
+    @Query("SELECT DISTINCT g FROM Game g JOIN g.players p WHERE p.id = :playerId")
+    List<Game> findGamesByPlayerIdAll(@Param("playerId") Integer playerId) throws DataAccessException;
+
     @Query("SELECT COUNT(g) FROM Game g JOIN g.players p WHERE p.id = :playerId AND g.status = 'FINALIZED'")
     Integer findNumGamesByPlayerId(@Param("playerId") Integer playerId) throws DataAccessException;
 
