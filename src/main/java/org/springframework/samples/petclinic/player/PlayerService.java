@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.deck.Deck;
+import org.springframework.samples.petclinic.deck.DeckRepository;
 import org.springframework.samples.petclinic.exceptions.PlayerNotFoundException;
 import org.springframework.samples.petclinic.exceptions.ResourceNotFoundException;
 import org.springframework.samples.petclinic.friendship.Friendship;
@@ -15,6 +17,7 @@ import org.springframework.samples.petclinic.game.GameInfo;
 import org.springframework.samples.petclinic.game.GameInfoRepository;
 import org.springframework.samples.petclinic.invitation.Invitation;
 import org.springframework.samples.petclinic.invitation.InvitationService;
+import org.springframework.samples.petclinic.round.Round;
 import org.springframework.samples.petclinic.game.GameRepository;
 import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.hand.HandRepository;
@@ -39,10 +42,12 @@ public class PlayerService {
     InvitationService invitationService;
 
     HandRepository handRepository;
+
+    DeckRepository deckRepository;
     
     
     @Autowired
-	public PlayerService(PlayerRepository playerRepository, FriendshipRepository friendshipRepository, GameRepository gameRepository, UserService userService, GameInfoRepository gameInfoRepository,InvitationService invitationService,HandRepository handRepository) {
+	public PlayerService(PlayerRepository playerRepository, FriendshipRepository friendshipRepository, GameRepository gameRepository, UserService userService, GameInfoRepository gameInfoRepository,InvitationService invitationService,HandRepository handRepository,DeckRepository deckRepository) {
         this.userService = userService;
         this.gameRepository = gameRepository;
 		this.playerRepository = playerRepository;
@@ -50,6 +55,7 @@ public class PlayerService {
         this.gameInfoRepository = gameInfoRepository;
         this.invitationService = invitationService;
         this.handRepository = handRepository;
+        this.deckRepository = deckRepository;
 	}
 	@Transactional
     public Player savePlayer(Player player) {
@@ -92,6 +98,7 @@ public class PlayerService {
 
     @Transactional
 	public void deleteGame(int id) throws DataAccessException {
+
         List<Invitation> allInvitations = invitationService.getAllInvitationsByGameId(id);
         for (Invitation i: allInvitations){
             invitationService.deleteInvitation(i);
@@ -99,6 +106,17 @@ public class PlayerService {
         GameInfo gameInf = gameInfoRepository.findByGameId(id);
         gameInfoRepository.delete(gameInf);		
         Game toDelete = gameRepository.findById(id).orElse(null);
+        List<Round> rondas = toDelete.getRounds();
+        for(Round r: rondas){
+            Deck deckToDelete = deckRepository.findByRoundId(r.getId()).orElse(null);
+            if(deckToDelete != null){
+                deckRepository.delete(deckToDelete);
+            }
+            List<Hand> handsToDelete =  handRepository.findByRoundId(r.getId());
+            for(Hand h :handsToDelete){ 
+                handRepository.delete(h);
+            }
+        }
 		gameRepository.delete(toDelete);
 	}
 

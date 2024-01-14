@@ -29,7 +29,7 @@ public class Deck extends BaseEntity {
     @NotNull
     private Integer numberOfCards;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
 	@JoinColumn(name = "round_id", referencedColumnName = "id")
     @JsonIgnore
     private Round round; 
