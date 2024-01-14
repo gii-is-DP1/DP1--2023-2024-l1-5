@@ -132,5 +132,4 @@ public class FriendshipService {
 
         return playerDetails2;
     }
-
 }

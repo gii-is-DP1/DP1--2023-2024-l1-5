@@ -119,11 +119,14 @@ public class PlayerController {
     }
 
     
-	@DeleteMapping(value = "{playerId}")
+	@DeleteMapping("/{playerId}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<MessageResponse> delete(@PathVariable("playerId") int id) {
-		RestPreconditions.checkNotNull(playerService.getPlayerByUserId(id), "Player", "ID", id);
-		playerService.deletePlayer(id);
-		return new ResponseEntity<>(new MessageResponse("Player deleted!"), HttpStatus.OK);
+	public ResponseEntity<MessageResponse> delete(@PathVariable("playerId") Integer id) {
+		if (!playerService.getPlayerById(id).isPresent())
+            throw new ResourceNotFoundException("Player", "ID", id);
+        else{
+            playerService.deletePlayer(id);
+            return new ResponseEntity<>(new MessageResponse("Player deleted!"), HttpStatus.OK);
+        }
 	}
 }
