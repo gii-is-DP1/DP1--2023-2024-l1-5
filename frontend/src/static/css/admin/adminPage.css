@@ -75,3 +75,29 @@
 .user-list {
   align-self: flex-start;
 }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin-top: 10px; /* Adjust as needed */
+}
+
+.pagination li {
+  display: inline-block;
+  margin-right: 5px; /* Adjust as needed */
+}
+
+.pagination a {
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 45px;
+  color: #333;
+  cursor: pointer;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
