@@ -8,6 +8,7 @@ import org.springframework.samples.petclinic.round.Round;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -28,7 +29,7 @@ public class Deck extends BaseEntity {
     @NotNull
     private Integer numberOfCards;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "round_id", referencedColumnName = "id")
     @JsonIgnore
     private Round round; 

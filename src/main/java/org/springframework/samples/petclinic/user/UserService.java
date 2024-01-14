@@ -143,4 +143,9 @@ public class UserService {
 
 	}
 
+	@Transactional
+	public void deleteByUserId(Integer userId) {
+		userRepository.deleteById(String.valueOf(userId));
+	}
+
 }

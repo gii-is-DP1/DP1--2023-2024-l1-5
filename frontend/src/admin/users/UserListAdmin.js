@@ -22,6 +22,113 @@ export default function UserListAdmin() {
   );
   const [alerts, setAlerts] = useState([]);
 
+
+  async function getPlayer(userId){
+    try {
+      const response = await fetch(`/api/v1/players/user/${userId}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if(response.ok){
+        const player = await response.json();
+        return player;
+      } else {
+        console.error("Error al obtener el jugador");
+        return null;
+      }
+    }catch(error){
+      console.error("Error en la solicitud:", error);
+      return null;
+    }
+  }
+  async function deletePlayerFromGames(playerId, userId){
+    try {
+      const response = await fetch(`/api/v1/games/player/${playerId}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if(response.ok){
+        const games = await response.json();
+        for(const game of games){
+          const deleted = await deletePlayerFromGame(game.id, userId);
+          if(!deleted){
+            console.log("Error al borrar el jugador del juego");
+          }
+        }
+      } else {
+        console.error("Error al obtener los juegos");
+        return null;
+      }
+    }catch(error){
+      console.error("Error en la solicitud:", error);
+      return null;
+    }
+  }
+
+  async function deletePlayerFromGame(gameId, userId){
+    try {
+      const response = await fetch(`/api/v1/games/${gameId}/players/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if(response.ok){
+        return true;
+      } else {
+        console.error("Error al borrar el jugador del juego");
+        return false;
+      }
+    }catch(error){
+      console.error("Error en la solicitud:", error);
+      return false;
+    }
+  }
+
+  async function deletePlayer(playerId){
+    try {
+      const response = await fetch(`/api/v1/players/${playerId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if(response.ok){
+        return true;
+      } else {
+        console.error("Error al borrar el jugador");
+        return false;
+      }
+    }catch(error){
+      console.error("Error en la solicitud:", error);
+      return false;
+    }
+  }
+
+  async function deletePlayerFromList(userId){
+    const player = await getPlayer(userId);
+    if(player){
+      // const deletedFromGames = await deletePlayerFromGames(player.id, userId);
+      // if(deletedFromGames){
+      //   const deleted = await deletePlayer(player.id);
+      //   if(deleted){
+      //     deleteFromList(setUsers, users, userId);
+      //   } else {
+      //     console.log("Error al borrar el jugador");
+      //   }
+      // }
+      const deleted = await deletePlayer(player.id);
+    }
+  };
+
   const userList = users.map((user) => {
     return (
       <tr key={user.id}>
@@ -43,14 +150,7 @@ export default function UserListAdmin() {
               color="danger"
               aria-label={"delete-" + user.id}
               onClick={() =>
-                deleteFromList(
-                  `/api/v1/users/${user.id}`,
-                  user.id,
-                  [users, setUsers],
-                  [alerts, setAlerts],
-                  setMessage,
-                  setVisible
-                )
+                deletePlayerFromList(user.id)
               }
             >
               Delete
