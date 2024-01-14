@@ -3,10 +3,13 @@ package org.springframework.samples.petclinic.game;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -335,6 +338,51 @@ public class GameControllerTests {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE)) 
-            .andExpect(jsonPath("$.message").value("Player deleted from the Game!"));}
+            .andExpect(jsonPath("$.message").value("Player deleted from the Game!"));
+    }
+
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testGetWinner() throws Exception {
+        Integer gameId = 13;
+        Integer winnerId = 10;
+        Game game = new Game();
+        game.setId(gameId);
+        game.setWinner(winnerId);
+
+        when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
+
+        mockMvc.perform(get(BASE_URL + "/winner/" + gameId))
+                .andExpect(status().isOk())
+                .andExpect(content().string(winnerId.toString()));
+
+        verify(gameService, times(1)).getGameById(gameId);
+    }
+
+    @Test
+    @WithMockUser(username = "player1", authorities = {"PLAYER"})
+    public void testUpdateWinner() throws Exception {
+        Integer gameId = 1;
+        Integer playerId = 10;
+        Game game = new Game();
+        game.setId(gameId);
+        game.setWinner(playerId);
+    
+        when(gameService.getGameById(gameId)).thenReturn(Optional.of(game));
+        mockMvc.perform(put(BASE_URL + "/winner/" + gameId + "/" + playerId)
+                .with(csrf()))
+                .andExpect(status().isOk());
+    
+        verify(gameService, times(1)).getGameById(gameId);
+        verify(gameService, times(1)).save(game);
+    }
+    
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

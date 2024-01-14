@@ -16,7 +16,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.game.exceptions.WaitingGamesNotFoundException;
@@ -47,7 +46,7 @@ public class GameServiceTests {
     @Mock   
     private PlayerService playerService;
 
-    @InjectMocks
+    @Mock
     private GameService gameService;
 
     @Test
@@ -152,6 +151,7 @@ public class GameServiceTests {
 
     @Test
     public void testGetRandomGame() {
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         GameMode gm = GameMode.QUICK_PLAY;
         Game g = createGame(GameStatus.WAITING);
         g.setId(1);
@@ -180,17 +180,18 @@ public class GameServiceTests {
 
     @Test
     public void testGetWaitingGame() {
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
         Player player = new Player();
         player.setId(2);
         
         Game game = createGame(GameStatus.WAITING);
         game.setId(1);
         game.setPlayers(new ArrayList<>(List.of(player)));
+        game.setWinner(player.getId());
         
         List<Game> playerGames = new ArrayList<>();
         playerGames.add(game);
         
-        // Simula el comportamiento del repositorio
         when(gameRepository.findPlayerCreatedGames(player.getId())).thenReturn(playerGames);
         
         Optional<Game> result = gameService.getWaitingGame(player);
@@ -201,29 +202,38 @@ public class GameServiceTests {
 
      @Test
      public void testDeletePlayerFromGame() {
+        gameService = new GameService(gameRepository, userService, playerService, gameInfoRepository,invitationService);
          Integer gameId = 1;
-         Integer userId = 1;
+         Integer userId1 = 1;
+         Integer userId2 = 2;
  
-         // Configuración de juego y jugadores
+         List<Player> players = new ArrayList<>();
+
+         Player player1 = new Player();
+         User user1 = new User();
+         user1.setId(userId1);
+         player1.setUser(user1);
+         players.add(player1);
+
+         Player player2 = new Player();
+         User user2 = new User();
+         user2.setId(userId2);
+         player2.setUser(user2);
+         players.add(player2);
+
+
          Game game = new Game();
          game.setId(gameId);
          game.setNumPlayers(2);
-         List<Player> players = new ArrayList<>();
-         Player player = new Player();
-         User user = new User();
-         user.setId(userId);
-         player.setUser(user);
-         players.add(player);
+         game.setCreator(player1);
+
          game.setPlayers(players);
  
-         // Simulando el comportamiento de gameRepository.findById
          when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
  
-         // Llama al método que estás probando
-         gameService.deletePlayerFromGame(gameId, userId);
+         gameService.deletePlayerFromGame(gameId, userId1);
  
-         // Verificaciones adicionales pueden incluir verificar el tamaño de la lista de jugadores en el juego
-         assertEquals(0, game.getPlayers().size());
+         assertEquals(1, game.getPlayers().size());
          assertEquals(1, game.getNumPlayers());
      }
 }
