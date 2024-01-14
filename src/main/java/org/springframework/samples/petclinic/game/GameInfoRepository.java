@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.game;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.CrudRepository;

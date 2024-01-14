@@ -1,20 +1,14 @@
 package org.springframework.samples.petclinic.game;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,7 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 // TEST MIRADO EN TUTORIA DIA 11 DEL 1 ERRROR RANDOM
@@ -55,8 +48,6 @@ public class GameInfoControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -69,7 +60,6 @@ public class GameInfoControllerTest {
     private static final String BASE_URL= "/api/v1/gameInfo";
     private static final Integer TEST_PLAYER_ID_LUCAS= 51;
     private static final Integer TEST_USER_ID_LUCAS= 251;
-    private static final Integer TEST_GAMEINFO_ID = 1;
     private static final Integer GAME_ID = 1;
 
 
