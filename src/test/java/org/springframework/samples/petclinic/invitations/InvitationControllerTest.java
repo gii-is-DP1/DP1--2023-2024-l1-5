@@ -1,13 +1,13 @@
 package org.springframework.samples.petclinic.invitations;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ import org.springframework.samples.petclinic.invitation.InvitationController;
 import org.springframework.samples.petclinic.invitation.InvitationService;
 import org.springframework.samples.petclinic.invitation.InvitationState;
 import org.springframework.samples.petclinic.player.Player;
-import org.springframework.samples.petclinic.player.State;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.player.State;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
 
 @WebMvcTest(value = {InvitationController.class},
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
@@ -51,8 +50,6 @@ public class InvitationControllerTest {
     @MockBean
     private GameService gameService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -66,7 +63,6 @@ public class InvitationControllerTest {
     private static final String BASE_URL = "/api/v1/invitations";
     private static final Integer TEST_PLAYER_ID_LUCAS = 51;
     private static final Integer TEST_USER_ID_LUCAS = 251;
-    private static final Integer TEST_GAME_ID = 1;
     private static final Integer TEST_INVITATION_ID = 1;
 
     @BeforeEach

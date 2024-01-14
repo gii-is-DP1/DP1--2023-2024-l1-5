@@ -60,17 +60,6 @@ public class CardService {
         return saveCard(toUpdate);
     }
 
-
-    // @Transactional
-    // public List<Card> getCardsByDeckId(Integer deckId) {
-    //     return cardRepository.findByDeckId(deckId);
-    // }
-
-    // @Transactional
-    // public List<Card> getCardsByHandId(Integer handId) {
-    //     return cardRepository.findByHandId(handId);
-    // }
-
     @Transactional
     public void deleteCard(Integer id) {
         cardRepository.deleteById(id);

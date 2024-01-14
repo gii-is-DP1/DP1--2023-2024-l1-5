@@ -37,7 +37,6 @@ public class Hand extends BaseEntity {
     @JoinColumn(name = "player_id", referencedColumnName = "id")  
     private Player player;
 
-    // @JsonIgnore
     @OneToMany()
     private List<Card> cards;
 }

@@ -34,7 +34,6 @@ public class Deck extends BaseEntity {
     private Round round; 
 
 
-    //@JsonIgnore
     @OneToMany()
     private List<Card> cards;
 }

@@ -17,7 +17,6 @@ public class PlayerDTO {
     String firstName;
     String image;
     User user;
-    //Integer hand;//esto tmb
 
     public PlayerDTO(){}
 
@@ -30,7 +29,6 @@ public class PlayerDTO {
         this.firstName = p.getFirstName();
         this.image = p.getImage();
         this.user = p.getUser();
-         //this.hand = p.getHand().getId();
     }
     
 }

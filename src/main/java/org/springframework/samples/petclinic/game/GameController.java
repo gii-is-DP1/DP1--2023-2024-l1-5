@@ -333,10 +333,6 @@ public class GameController {
         Game game = g.get();
 
         BeanUtils.copyProperties(gameRequest, game, "id", "rounds", "players");
-        // BeanUtils.copyProperties(gameRequest, game, "id", "status", "rounds",
-        // "players" );
-        // game.setStatus(getGameStatusFromString(gameRequest.getStatus(),game));
-
         List<Round> lsRounds = new ArrayList<Round>();
         for (Integer roundId : gameRequest.getRounds()) {
             if (!(roundId == 0)) {

@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.game;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 
