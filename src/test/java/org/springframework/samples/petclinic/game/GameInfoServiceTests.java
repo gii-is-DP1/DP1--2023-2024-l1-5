@@ -71,20 +71,13 @@ public class GameInfoServiceTests {
 
     @Test
     public void testUpdateGameInfo() {
-        // Arrange
         GameInfo gi = new GameInfo();
         Integer Id = 1;
         gi.setId(Id);
         gi.setNumPlayers(1);
-        
-        // Stubbing unnecessary for this specific test case
-        // when(repo.findById(1)).thenReturn(Optional.of(gi));
-        // when(gameInfoService.saveGameInfo(gi)).thenReturn(gi);
-        
-        // Act
+
         GameInfo result = gameInfoService.updateGameInfo(gi.getId());
         
-        // Assert
         assertNotEquals(gi, result);
     }
 

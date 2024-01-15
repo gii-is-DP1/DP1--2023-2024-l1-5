@@ -97,10 +97,6 @@ public class InvitationServiceTests {
         verify(invitationRepository, times(1)).findAlreadyPendingInvitation("lucantdel");
     }
 
-    @Test
-    public void testsaveInvitation(){
-
-    }
 
     @Test
     public void saveFriendship(){
