@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -60,6 +62,11 @@ public class GameController {
         this.userService = userService;
         this.roundService = roundService;
         this.gameInfoService = gameInfoService;
+    }
+
+    @InitBinder("game")
+    public void initGameBinder(WebDataBinder dataBinder) {
+        dataBinder.setValidator(new GameValidator());
     }
 
     @GetMapping
