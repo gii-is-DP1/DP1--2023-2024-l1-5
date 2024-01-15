@@ -16,6 +16,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.samples.petclinic.deck.DeckRepository;
+import org.springframework.samples.petclinic.friendship.FriendshipRepository;
+import org.springframework.samples.petclinic.game.GameInfoRepository;
+import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.hand.HandRepository;
+import org.springframework.samples.petclinic.invitation.InvitationService;
+import org.springframework.samples.petclinic.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class PlayerServiceTest {
@@ -26,12 +33,35 @@ public class PlayerServiceTest {
     @Mock
     private PlayerService playerService;
 
+    @Mock
+    private FriendshipRepository friendshipRepository;
+
+    @Mock
+    private GameRepository gameRepository;
+
+    @Mock
+    private GameInfoRepository gameInfoRepository;
+
+    @Mock
+    private InvitationService invitationService;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private HandRepository handRepository;
+
+    @Mock
+    private DeckRepository deckRepository;
+
+    
+
     private static final Integer PLAYER_ID = 2;
     private static final Integer USER_ID = 202;
 
     @Test
     public void testSavePlayer() {
-        playerService = new PlayerService(playerRepository);
+        playerService = new PlayerService(playerRepository, friendshipRepository, gameRepository, userService, gameInfoRepository, invitationService, handRepository, deckRepository);
         Player player = new Player();
         when(playerRepository.save(any(Player.class))).thenReturn(player);
 
@@ -43,7 +73,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetAllPlayers() {
-        playerService = new PlayerService(playerRepository);
+        playerService = new PlayerService(playerRepository, friendshipRepository, gameRepository, userService, gameInfoRepository, invitationService, handRepository, deckRepository);
         when(playerRepository.findAll()).thenReturn(new ArrayList<>());
 
         List<Player> players = playerService.getAllPlayers();
@@ -53,7 +83,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetPlayerById() {
-        playerService = new PlayerService(playerRepository);
+        playerService = new PlayerService(playerRepository, friendshipRepository, gameRepository, userService, gameInfoRepository, invitationService, handRepository, deckRepository);
         when(playerRepository.findById(PLAYER_ID)).thenReturn(Optional.of(new Player()));
 
         Optional<Player> result = playerService.getPlayerById(PLAYER_ID);
@@ -64,7 +94,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testGetPlayerByUserId() {
-        playerService = new PlayerService(playerRepository);
+        playerService = new PlayerService(playerRepository, friendshipRepository, gameRepository, userService, gameInfoRepository, invitationService, handRepository, deckRepository);
         Player expectedPlayer = new Player();
         expectedPlayer.setId(1);
         expectedPlayer.setPlayerUsername("TestUsername");
@@ -80,7 +110,7 @@ public class PlayerServiceTest {
 
     @Test
     public void testUpdatePlayer() {
-        playerService = new PlayerService(playerRepository);
+        playerService = new PlayerService(playerRepository, friendshipRepository, gameRepository, userService, gameInfoRepository, invitationService, handRepository, deckRepository);
         Player existingPlayer = new Player();
         existingPlayer.setId(PLAYER_ID);
         existingPlayer.setPlayerUsername("OriginalUsername");
