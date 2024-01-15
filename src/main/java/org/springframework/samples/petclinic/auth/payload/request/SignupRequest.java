@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.auth.payload.request;
 import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.samples.petclinic.clinic.Clinic;
+import org.springframework.samples.petclinic.player.State;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,11 +29,12 @@ public class SignupRequest {
 	@NotBlank
 	private String lastName;
 	
-	@NotBlank
-	private String city;
-	//Owner
+	private String playerUsername;
+	private String image;
+	private State state;
 
 	private String address;
+	private String city;
 	private String telephone;
 	private Clinic clinic;
 

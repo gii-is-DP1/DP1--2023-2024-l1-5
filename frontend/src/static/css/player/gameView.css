@@ -1,0 +1,105 @@
+.contenedor{
+    width: 1000px;
+}
+.boton2{
+    background-color: rgba(0, 0, 0, 0.357);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(245, 245, 245);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+    
+}
+.filas {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.columnas {
+    flex: 1;
+    text-align: center;
+  }
+.filas2 {
+    display: flex;
+    justify-content: space-between;
+  }
+
+.red{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(215, 30, 30);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.green{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(30, 215, 30);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.yellow{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(215, 215, 30);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.blue{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(30, 30, 215);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.purple{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(215, 30, 215);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.orange{
+    background-color: rgba(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(215, 100, 30);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.black{
+    background-color: rgb(252, 251, 251);
+    padding:10px 20px; 
+    border-radius: 200px;
+    border:none;
+    color:rgb(0, 0, 0);
+    cursor: pointer;
+    margin: 30px;
+    text-decoration: none;
+}
+.circle{
+    border-radius: 50%;
+    border: 3px solid black;
+    box-sizing: border-box; 
+    width: 90%;
+}
+

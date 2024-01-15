@@ -1,0 +1,36 @@
+.error {
+    color: red;
+    font-size: 12pt;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.social {
+    display: flex;
+    flex-direction: column; /* Cambiar el ancho según sea necesario */
+    gap: 20px;
+    align-self: flex-end;
+}
+
+.friendsPlaying,
+.friendsToInvite {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.friendsToInvite h5,
+.friendsPlaying h5 {
+    text-align: center;
+}
+
+
+/* Responsive adjustments */
+@media screen and (min-width: 1440px) {
+
+    .social{
+        width: 350px;
+        justify-content: center;
+    }
+
+}

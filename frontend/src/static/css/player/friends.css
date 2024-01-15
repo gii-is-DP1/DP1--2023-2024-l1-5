@@ -1,0 +1,8 @@
+/* Estilo para el input */
+input[type="text"] {
+    width: 40%; /* Anchura reducida */
+    padding: 8px; /* Ajusta el relleno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    display: block; /* Para centrar el input */
+    margin: 0 auto; /* Centrar el input */
+}

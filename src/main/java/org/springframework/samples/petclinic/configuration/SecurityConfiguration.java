@@ -43,6 +43,7 @@ public class SecurityConfiguration {
 
 	private static final String ADMIN = "ADMIN";
 	private static final String CLINIC_OWNER = "CLINIC_OWNER";
+	private static final String PLAYER = "PLAYER";
 	
 
 	@Bean
@@ -59,8 +60,10 @@ public class SecurityConfiguration {
 			.requestMatchers("/resources/**", "/webjars/**", "/static/**", "/swagger-resources/**").permitAll()			
 			.requestMatchers( "/api/v1/clinics","/", "/oups","/api/v1/auth/**","/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()												
 			.requestMatchers("/api/v1/developers").permitAll()
+			.requestMatchers("/ws/**").permitAll()
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/players/**")).authenticated()
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/users/**")).authenticated()
 			.requestMatchers("/api/v1/plan").hasAuthority("OWNER")
-			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/users/**")).hasAuthority(ADMIN)
 			.requestMatchers("/api/v1/clinicOwners/all").hasAuthority(ADMIN)
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/clinicOwners/**")).hasAnyAuthority(ADMIN, CLINIC_OWNER)
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/consultations/**")).hasAuthority(ADMIN)
@@ -71,9 +74,20 @@ public class SecurityConfiguration {
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/pets/**")).authenticated()
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/clinics/**")).hasAnyAuthority(CLINIC_OWNER, ADMIN)
 			.requestMatchers(HttpMethod.GET, "/api/v1/vets/stats").hasAuthority(ADMIN)
+			// GAME REQUEST MATCHERS
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/games/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/gameInfo/**")).hasAnyAuthority(ADMIN, PLAYER)
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/vets/**")).authenticated()
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/vets/**")).hasAnyAuthority(ADMIN, "VET", CLINIC_OWNER) 
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/cards")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/hands/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/cards/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/rounds/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/friendship/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/invitations/**")).hasAnyAuthority(ADMIN, PLAYER)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/chatMessages/**")).hasAnyAuthority(ADMIN, PLAYER)
+
 			.anyRequest().authenticated())					
 			
 			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);		

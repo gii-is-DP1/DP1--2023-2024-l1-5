@@ -1,15 +1,17 @@
-.home-page-container{
+.home-page-container {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: -1;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../images/dobble_bg.jpeg');
     background-size: cover;
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; 
 }
 
 .hero-div{
@@ -33,4 +35,13 @@
 
 .hero-div h3{
     text-align: center;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.chart {
+    margin-right: 20px;
 }

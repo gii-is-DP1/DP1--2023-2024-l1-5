@@ -1,0 +1,21 @@
+.image-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 50px;
+}
+
+.image {
+  width: auto;
+  height: 43vh;
+  border-radius: 50%;
+  border: 2px solid rgba(120, 40, 150, 0.7);
+}

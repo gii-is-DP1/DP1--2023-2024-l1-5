@@ -1,10 +1,12 @@
 import "../../static/css/auth/authButton.css";
 import "../../static/css/auth/authPage.css";
+import "../../static/css/main.css";
 import tokenService from "../../services/token.service";
 import FormGenerator from "../../components/formGenerator/formGenerator";
 import { registerFormOwnerInputs } from "./form/registerFormOwnerInputs";
 import { registerFormVetInputs } from "./form/registerFormVetInputs";
 import { registerFormClinicOwnerInputs } from "./form/registerFormClinicOwnerInputs";
+import { registerFormPlayerInputs } from "./form/registerFormPlayerInputs";
 import { useEffect, useRef, useState } from "react";
 
 export default function Register() {
@@ -23,57 +25,53 @@ export default function Register() {
   }
 
   function handleSubmit({ values }) {
-
-    if(!registerFormRef.current.validate()) return;
-
+    if (!registerFormRef.current.validate()) return;
+  
     const request = values;
-    request.clinic = clinics.filter((clinic) => clinic.name === request.clinic)[0];
-    request["authority"] = authority;
-    let state = "";
-
+    request.clinic = clinics.find((clinic) => clinic.name === request.clinic);
+    request.authority = authority;
+  
     fetch("/api/v1/auth/signup", {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: JSON.stringify(request),
     })
-      .then(function (response) {
-        if (response.status === 200) {
+      .then(async (response) => {
+        if (response.ok) {
+          // Signup successful, proceed with login
           const loginRequest = {
             username: request.username,
             password: request.password,
           };
-
-          fetch("/api/v1/auth/signin", {
+  
+          const loginResponse = await fetch("/api/v1/auth/signin", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify(loginRequest),
-          })
-            .then(function (response) {
-              if (response.status === 200) {
-                state = "200";
-                return response.json();
-              } else {
-                state = "";
-                return response.json();
-              }
-            })
-            .then(function (data) {
-              if (state !== "200") alert(data.message);
-              else {
-                tokenService.setUser(data);
-                tokenService.updateLocalAccessToken(data.token);
-                window.location.href = "/dashboard";
-              }
-            })
-            .catch((message) => {
-              alert(message);
-            });
+          });
+  
+          if (loginResponse.ok) {
+            // Login successful
+            const data = await loginResponse.json();
+            tokenService.setUser(data);
+            tokenService.updateLocalAccessToken(data.token);
+            window.location.href = "/";
+          } else {
+            // Login failed
+            const loginErrorData = await loginResponse.json();
+            alert(loginErrorData.message);
+          }
+        } else {
+          // Signup failed
+          const signupErrorData = await response.json();
+          alert(signupErrorData.message);
         }
       })
-      .catch((message) => {
-        alert(message);
+      .catch((error) => {
+        alert(error.message || "An error occurred during signup");
       });
   }
+  
 
   useEffect(() => {
     if (type === "Owner" || type === "Vet") {
@@ -92,7 +90,6 @@ export default function Register() {
             let clinicNames = data.map((clinic) => {
               return clinic.name;
             });
-
             registerFormOwnerInputs[5].values = ["None", ...clinicNames];
           }
         })
@@ -105,56 +102,40 @@ export default function Register() {
 
   if (type) {
     return (
-      <div className="auth-page-container">
-        <h1>Register</h1>
-        <div className="auth-form-container">
-          <FormGenerator
-            ref={registerFormRef}
-            inputs={
-              type === "Owner" ? registerFormOwnerInputs 
-              : type === "Vet" ? registerFormVetInputs
-              : registerFormClinicOwnerInputs
-            }
-            onSubmit={handleSubmit}
-            numberOfColumns={1}
-            listenEnterKey
-            buttonText="Save"
-            buttonClassName="auth-button"
-          />
+      <div className="wallpaper">
+        <div className="section">
+        <h1 className="text-center">Register</h1>
+          <div className="auth-form-container">
+            <FormGenerator
+              ref={registerFormRef}
+              inputs={registerFormPlayerInputs}
+              onSubmit={handleSubmit}
+              numberOfColumns={1}
+              listenEnterKey
+              buttonText="Save"
+              buttonClassName="purple-button"
+            />
+          </div>
         </div>
       </div>
     );
   } else {
     return (
-      <div className="auth-page-container">
-        <div className="auth-form-container">
-          <h1>Register</h1>
-          <h2 className="text-center text-md">
-            What type of user will you be?
-          </h2>
-          <div className="options-row">
-            <button
-              className="auth-button"
-              value="Owner"
-              onClick={handleButtonClick}
-            >
-              Owner
-            </button>
-            <button
-              className="auth-button"
-              value="Vet"
-              onClick={handleButtonClick}
-            >
-              Vet
-            </button>
-            <button
-              className="auth-button"
-              value="Clinic Owner"
-              onClick={handleButtonClick}
-            >
-              Clinic Owner
-            </button>
-          </div>
+      <div className="wallpaper">
+        <div className="section">
+            <h1 className="text-center">Register</h1>
+            <h2 className="text-center mt-3">
+              What type of user will you be?
+            </h2>
+            <div className="button-group mt-4">
+              <button
+                className="purple-button"
+                value="Player"
+                onClick={handleButtonClick}
+              >
+                Player
+              </button>
+            </div>
         </div>
       </div>
     );
