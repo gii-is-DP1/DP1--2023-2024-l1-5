@@ -90,7 +90,6 @@ export default function Register() {
             let clinicNames = data.map((clinic) => {
               return clinic.name;
             });
-
             registerFormOwnerInputs[5].values = ["None", ...clinicNames];
           }
         })
@@ -109,12 +108,7 @@ export default function Register() {
           <div className="auth-form-container">
             <FormGenerator
               ref={registerFormRef}
-              inputs={
-                type === "Owner" ? registerFormOwnerInputs 
-                : type === "Vet" ? registerFormVetInputs
-                : type === "Player" ? registerFormPlayerInputs
-                : registerFormClinicOwnerInputs
-              }
+              inputs={registerFormPlayerInputs}
               onSubmit={handleSubmit}
               numberOfColumns={1}
               listenEnterKey
@@ -134,27 +128,6 @@ export default function Register() {
               What type of user will you be?
             </h2>
             <div className="button-group mt-4">
-              <button
-                className="purple-button"
-                value="Owner"
-                onClick={handleButtonClick}
-              >
-                Owner
-              </button>
-              <button
-                className="purple-button"
-                value="Vet"
-                onClick={handleButtonClick}
-              >
-                Vet
-              </button>
-              <button
-                className="purple-button"
-                value="Clinic Owner"
-                onClick={handleButtonClick}
-              >
-                Clinic Owner
-              </button>
               <button
                 className="purple-button"
                 value="Player"
