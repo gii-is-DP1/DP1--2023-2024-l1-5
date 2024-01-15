@@ -74,7 +74,7 @@ const sendLogoutRequest = async () => {
         tokenService.removeUser();
         window.location.href = "/";
       } else {
-        if(user.roles === "ADMIN"){
+        if(user.roles == "ADMIN"){
           tokenService.removeUser();
           window.location.href = "/";
         }else{
