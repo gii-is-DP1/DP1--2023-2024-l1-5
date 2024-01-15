@@ -1,108 +1,91 @@
 package org.springframework.samples.petclinic.achievement;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class AchievementServiceTest {
 
-    private static final Integer PLAYER_ID = 1;
+    private static final Integer TEST_ACHIEVEMENT_ID = 1;
+    private static final Integer TEST_PLAYER_ID = 3;
 
-    @Mock
-    private AchievementRepository achievementRepository;
-
-    @InjectMocks
+    @Autowired
     private AchievementService achievementService;
 
     @Test
-    public void testSaveAchievements() {
-        Achievement achievementToSave = new Achievement();
-        when(achievementRepository.save(any(Achievement.class))).thenReturn(achievementToSave);
-
-        Achievement savedAchievement = achievementService.saveAchievement(achievementToSave);
-
-        assertNotNull(savedAchievement);
-        assertEquals(achievementToSave, savedAchievement);
-        verify(achievementRepository, times(1)).save(any(Achievement.class));
-    }
-
-    @Test
     public void testGetAllAchievements() {
-        List<Achievement> achievements = new ArrayList<>();
-        when(achievementRepository.findAll()).thenReturn(achievements);
+        List<Achievement> achievements = achievementService.getAchievements();
 
-        List<Achievement> result = achievementService.getAchievements();
-
-        assertNotNull(result);
-        assertEquals(achievements, result);
-        verify(achievementRepository, times(1)).findAll();
+        assertNotNull(achievements);
+        assertTrue(achievements.size()>0);
     }
 
     @Test
     public void testGetAchievementById() {
-        Integer achievementId = 1;
+        Achievement achievement = achievementService.getAchievementById(TEST_ACHIEVEMENT_ID);
+
+        assertNotNull(achievement);
+        assertEquals("Rookie Player", achievement.getName());
+    }
+
+    @Test
+    public void testSaveAchievements() {
+        Achievement achievementToSave = createValidAchievement();
+        Achievement savedAchievement = achievementService.saveAchievement(achievementToSave);
+
+        assertNotNull(savedAchievement);
+        assertEquals(achievementToSave.getName(), savedAchievement.getName());
+    }
+
+    private Achievement createValidAchievement() {
         Achievement achievement = new Achievement();
-        when(achievementRepository.findById(achievementId)).thenReturn(Optional.of(achievement));
-
-        Achievement result = achievementService.getAchievementById(achievementId);
-
-        assertEquals(achievement, result);
-        verify(achievementRepository, times(1)).findById(achievementId);
+        achievement.setId(100);
+        achievement.setName("Test Achievement");
+        achievement.setDescription("Test Description");
+        achievement.setImageUrl("Test Image URL");
+        achievement.setMetric(Metric.VICTORIES);
+        achievement.setThreshold(10);
+        return achievement;
     }
 
     @Test
     public void testGetUnlockedAchievementsByPlayerId() {
-        List<Achievement> mockAchievements = new ArrayList<>();
-        when(achievementRepository.findUnlockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+        achievementService.checkAndAssignAchievements(TEST_PLAYER_ID);
+        List<Achievement> unlockedAchievements = achievementService.getUnlockedAchievementsByPlayerId(TEST_PLAYER_ID);
 
-        List<Achievement> result = achievementService.getUnlockedAchievementsByPlayerId(PLAYER_ID);
-
-        assertNotNull(result);
-        verify(achievementRepository, times(1)).findUnlockedAchievementsByPlayerId(PLAYER_ID);
+        assertNotNull(unlockedAchievements);
+        assertNotEquals(0, unlockedAchievements.size());
     }
 
     @Test
     public void testGetLockedAchievementsByPlayerId() {
-        List<Achievement> mockAchievements = new ArrayList<>();
-        when(achievementRepository.findLockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockAchievements);
+        achievementService.checkAndAssignAchievements(TEST_PLAYER_ID);
+        List<Achievement> lockedAchievements = achievementService.getLockedAchievementsByPlayerId(TEST_PLAYER_ID);
 
-        List<Achievement> result = achievementService.getLockedAchievementsByPlayerId(PLAYER_ID);
-
-        assertNotNull(result);
-        verify(achievementRepository, times(1)).findLockedAchievementsByPlayerId(PLAYER_ID);
+        assertNotNull(lockedAchievements);
+        assertNotEquals(0, lockedAchievements.size());
     }
 
     @Test
     public void testUnlockedAndLockedAchievementsAreDistinct() {
-        List<Achievement> mockUnlockedAchievements = new ArrayList<>();
-        List<Achievement> mockLockedAchievements = new ArrayList<>();
+        achievementService.checkAndAssignAchievements(TEST_PLAYER_ID);
 
-        when(achievementRepository.findUnlockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockUnlockedAchievements);
-        when(achievementRepository.findLockedAchievementsByPlayerId(PLAYER_ID)).thenReturn(mockLockedAchievements);
+        List<Achievement> unlockedAchievements = achievementService.getUnlockedAchievementsByPlayerId(TEST_PLAYER_ID);
+        List<Achievement> lockedAchievements = achievementService.getLockedAchievementsByPlayerId(TEST_PLAYER_ID);
 
-        List<Achievement> unlockedResult = achievementService.getUnlockedAchievementsByPlayerId(PLAYER_ID);
-        List<Achievement> lockedResult = achievementService.getLockedAchievementsByPlayerId(PLAYER_ID);
+        assertNotNull(unlockedAchievements);
+        assertNotNull(lockedAchievements);
 
-        assertNotNull(unlockedResult);
-        assertNotNull(lockedResult);
-
-        assertTrue(Collections.disjoint(unlockedResult, lockedResult));
-}
+        assertTrue(Collections.disjoint(unlockedAchievements, lockedAchievements));
+    }
     
 }
