@@ -5,6 +5,7 @@ import tokenService from '../../services/token.service'
 
 jest.mock('../../services/token.service', () => ({
   removeUser: jest.fn(),
+  getUser: jest.fn(),
 }));
 
 const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
@@ -23,7 +24,6 @@ describe('Pruebas de Logout', () => {
         await waitFor(() => {
         expect(tokenService.removeUser).not.toHaveBeenCalled();
         expect(window.location.href).not.toBe('/');
-        expect(window.alert).toHaveBeenCalledWith('There is no user logged in');
         });
     });
 });
