@@ -28,14 +28,14 @@ describe('Pruebas de las reglas de juego', () => {
     render(<GameRules />);
 
     const expectedURLs = [
-      'https://i.imgur.com/P5d3qbK.jpeg',
-      'https://i.imgur.com/xg0Ip2C.jpeg',
-      'https://i.imgur.com/poq7e8a.jpeg',
-      'https://i.imgur.com/doqI44d.jpeg',
-      'https://i.imgur.com/SPyjIzq.jpeg',
-      'https://i.imgur.com/FM0lzzV.jpeg',
-      'https://i.imgur.com/dnbylbJ.jpeg',
-      'https://i.imgur.com/ENbj5D3.jpeg',
+      'https://i.imgur.com/P5d3qbK.jpeg', // 1
+      'https://i.imgur.com/poq7e8a.jpeg', // 3
+      'https://i.imgur.com/SPyjIzq.jpeg', // 5
+      'https://i.imgur.com/dnbylbJ.jpeg', // 7
+      'https://i.imgur.com/xg0Ip2C.jpeg', // 2
+      'https://i.imgur.com/doqI44d.jpeg', // 4
+      'https://i.imgur.com/FM0lzzV.jpeg', // 6
+      'https://i.imgur.com/ENbj5D3.jpeg', // 8
     ];
 
     // Verifica que las imágenes tengan las URLs correctas
